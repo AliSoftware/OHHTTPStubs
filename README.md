@@ -4,7 +4,7 @@ OHHTTPStubs
 A class to stub network requests easily: test your apps with fake network data (stubbed from file) and custom response time
 Original idea: https://github.com/InfiniteLoopDK/ILTesting
 
-### Basic Usage
+## Basic Usage
 
 This is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to
 return data from a file instead.
@@ -19,6 +19,8 @@ This is the most simple way to use it:
 This will return the NSData corresponding to the content of the "response.json" file (that must be in your bundle)
 with a "Content-Type" header of "text/json" in the HTTP response, after 2 seconds
 
+### The OHHTTPStubsResponse object
+
 Each time a network request is done by your application
  (whatever the framework used, NSURLConnection, AFNetworking, or whatever)
 this requestHandler will be called, allowing you to return an `OHHTTPStubsResponse` object
@@ -32,9 +34,9 @@ The `OHHTTPStubsResponse` class exposes multiple initializers:
 * `+(id)responseWithError:(NSError*)error;` to respond with an error instead of a success (e.g. `[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]`)
 
 
-### Advanced Usage
+## Advanced Usage
 
-## Return quickly when onlyCheck=YES
+### Return quickly when onlyCheck=YES
 
 If the `onlyCheck` parameter is `YES, then it means that the handler is called only to check if
    you will be able to return a stubbed response or if it has to do the standard request.
@@ -46,14 +48,14 @@ So in such cases (`onlyCheck=YES`), you can simply return nil if you don't want 
 There is a macro for that purpose, called `OHHTTPStubsResponseUseStub` to allow you to return
    quickly in such cases without the burden of building an actual OHHTTPStubsResponse object.
 
-## Return a response depending on the request
+### Return a response depending on the request
 
 Of course, and that's the main reason this is implemented with blocks,
 you can do whatever you need in the block implementation. This includes
 checking the request URL to see if you want to return a stub or not,
 and pick the right file according to the requested URL.
 
-## Using download speed instead of responseTime
+### Using download speed instead of responseTime
 
 When building the `OHHTTPStubsResponse` object, you can specify a response time (in seconds) so
 that the sending of the fake response will be postponed (using GCD's dispatch_after function).
@@ -88,7 +90,7 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
      }];
 
 
-### ARC Support
+## ARC Support
 
 This classes are not using ARC.
 
@@ -96,7 +98,8 @@ If you want to use it in an ARC-enabled project, you must add the "-fobjc-arc" c
 to OHHTTPStubs.m and OHHTTPStubsResponse.m in Target Settings > Build Phases > Compile Sources.
 
 
-### Credits
+## Credits
 
 This project is brought to you by Olivier Halligon.
+
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/)
