@@ -1,0 +1,252 @@
+/***********************************************************************************
+ *
+ * Copyright (c) 2012 Olivier Halligon
+ *
+ * Original idea: https://github.com/InfiniteLoopDK/ILTesting
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * 
+ ***********************************************************************************
+ *
+ * Any comment or suggestion welcome. Referencing this project in your AboutBox is appreciated.
+ * Please tell me if you use this class so we can cross-reference our projects.
+ *
+ ***********************************************************************************/
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Imports
+
+#import "OHHTTPStubs.h"
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Types
+
+@interface OHHTTPStubsProtocol : NSURLProtocol @end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Globals
+
+static OHHTTPStubs *sharedInstance = nil;
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Private Interface
+
+@interface OHHTTPStubs()
+@property(nonatomic, retain) NSMutableArray* requestHandlers;
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Implementation
+
+@implementation OHHTTPStubs
+@synthesize requestHandlers = _requestHandlers;
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Singleton methods
+
++ (OHHTTPStubs*)sharedInstance
+{
+    if (sharedInstance == nil) {
+        sharedInstance = [[super allocWithZone:NULL] init];
+    }
+    return sharedInstance;
+}
+ 
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [[self sharedInstance] retain];
+}
+ 
+- (id)copyWithZone:(NSZone *)zone { return self; }
+- (id)retain { return self; }
+- (NSUInteger)retainCount { return NSUIntegerMax; } // denotes an object that cannot be released
+- (oneway void)release { /* do nothing */ }
+- (id)autorelease { return self; }
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Class Methods
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Setup & Teardown
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        self.requestHandlers = [NSMutableArray array];
+        [[self class] setEnabled:YES];
+    }
+    return self;
+}
+
+- (void)dealloc
+{   
+    [[self class] setEnabled:NO];
+    self.requestHandlers = nil;
+    [super dealloc];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public class methods
+
+// Commodity methods
++(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler
+{
+    [[self sharedInstance] addRequestHandler:handler];
+}
++(void)removeAllHandlers
+{
+    [[self sharedInstance] removeAllHandlers];
+}
+
++(void)setEnabled:(BOOL)enabled
+{
+    if (enabled)
+    {
+        [NSURLProtocol registerClass:[OHHTTPStubsProtocol class]];
+    }
+    else
+    {
+        [NSURLProtocol unregisterClass:[OHHTTPStubsProtocol class]];
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public instance methods
+
+-(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler
+{
+    [self.requestHandlers addObject:[[handler copy] autorelease]];
+}
+
+-(void)removeAllHandlers
+{
+    [self.requestHandlers removeAllObjects];
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Private Protocol Class
+
+// Undocumented initializer obtained by class-dump
+// Don't use this in production code destined for the App Store
+@interface NSHTTPURLResponse(UndocumentedInitializer)
+- (id)initWithURL:(NSURL*)URL
+       statusCode:(NSInteger)statusCode
+     headerFields:(NSDictionary*)headerFields
+      requestTime:(double)requestTime;
+@end
+
+@implementation OHHTTPStubsProtocol
+
++ (BOOL)canInitWithRequest:(NSURLRequest *)request
+{
+    NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
+    id response = nil;
+    for(OHHTTPStubsResponseHandler handler in requestHandlers)
+    {
+        response = handler(request, YES);
+        if (response) break;
+    }
+    return (response != nil);
+}
+
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
+{
+	return request;
+}
+
+- (NSCachedURLResponse *)cachedResponse
+{
+	return nil;
+}
+
+- (void)startLoading
+{
+    NSURLRequest* request = [self request];
+	id<NSURLProtocolClient> client = [self client];
+    
+    OHHTTPStubsResponse* responseStub = nil;
+    NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
+    for(OHHTTPStubsResponseHandler handler in requestHandlers)
+    {
+        responseStub = handler(request, NO);
+        if (responseStub) break;
+    }
+    
+    if (responseStub.error == nil)
+    {
+        // Send the fake data
+        
+        NSTimeInterval canonicalResponseTime = responseStub.responseTime;
+        if (canonicalResponseTime<0)
+        {
+            // Interpret it as a bandwidth in KB/s ( -2 => 2KB/s )
+            double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
+            canonicalResponseTime = responseStub.responseData.length / bandwidth;
+        }
+        NSTimeInterval requestTime = canonicalResponseTime * 0.1;
+        NSTimeInterval responseTime = canonicalResponseTime - requestTime;
+        
+        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
+                                                                  statusCode:responseStub.statusCode
+                                                                headerFields:responseStub.httpHeaders 
+                                                                 requestTime:requestTime];
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            //NSLog(@"[OHHTTPStubs] Stub Response for %@ received", [request URL]);
+            [client URLProtocol:self didReceiveResponse:urlResponse
+             cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseTime*NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+                //NSLog(@"[OHHTTPStubs] Stub Data for %@ received", [request URL]);
+                [client URLProtocol:self didLoadData:responseStub.responseData];
+                [client URLProtocolDidFinishLoading:self];
+            });
+        });
+        
+        [urlResponse autorelease];
+    } else {
+        // Send the canned error
+        [client URLProtocol:self didFailWithError:responseStub.error];
+    }
+}
+
+- (void)stopLoading
+{
+}
+
+@end
