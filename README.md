@@ -96,6 +96,22 @@ order that they have been added, and the first non-nil OHHTTPStubsResponse retur
          return [OHHTTPStubsResponse responseWithFile:file contentType:@"text/json"
                                          responseTime:OHHTTPStubsDownloadSpeedEDGE];
      }];
+     
+     ...
+     
+     // Then this call (sending a request using the AFNetworking framework) will actually
+     // receive a fake response issued from the file "file1.json"
+	 NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com/file1"]];
+     AFJSONRequestOperation* req =
+     [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+     {
+        ...
+     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+     {
+        ...
+     }];
+     [req start];
+
 
 
 ## ARC Support
