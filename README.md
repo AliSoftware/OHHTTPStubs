@@ -2,7 +2,6 @@ OHHTTPStubs
 ===========
 
 A class to stub network requests easily: test your apps with fake network data (stubbed from file) and custom response time
-Original idea: https://github.com/InfiniteLoopDK/ILTesting
 
 ## Basic Usage
 
@@ -13,40 +12,45 @@ This is the most simple way to use it:
 
     [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
      {
-         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:0.0];
+         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
      }];
 
-This will return the `NSData` corresponding to the content of the "`response.json" file (that must be in your bundle)
+This will return the `NSData` corresponding to the content of the "`response.json`" file (that must be in your bundle)
 with a "`Content-Type`" header of "`text/json`" in the HTTP response, after 2 seconds.
 
-### The OHHTTPStubsResponse object
+## The OHHTTPStubsResponse object
 
 Each time a network request is done by your application
- (whatever the framework used, `NSURLConnection`, [AFNetworking](https://github.com/AFNetworking/AFNetworking/), or whatever)
+ (whatever the framework used, `NSURLConnection`, [AFNetworking](https://github.com/AFNetworking/AFNetworking/), or anything else)
 this requestHandler block will be called, allowing you to return an `OHHTTPStubsResponse` object
 describing the response to return. If you return a non-nil `OHHTTPStubsResponse`, it will automatically
 build a NSURLResponse and behave exactly like if you received the response from the network.
+_If your return `nil`, the normal request will be sent_
 
 The `OHHTTPStubsResponse` class exposes multiple initializers:
-* `+(id)responseWithData:(NSData*)data statusCode:(int)statusCode responseTime:(NSTimeInterval)responseTime headers:(NSDictionary*)httpHeaders;` : the designed intializer
-* `+(id)responseWithFile:(NSString*)fileName statusCode:(int)statusCode responseTime:(NSTimeInterval)responseTime headers:(NSDictionary*)httpHeaders;` : commodity initializer to load data from a file in your bundle
-* `+(id)responseWithFile:(NSString*)fileName contentType:(NSString*)contentType responseTime:(NSTimeInterval)responseTime;` : useful short-form initializer to load data from a file in your bundle, using the specified "Content-Type" header
-* `+(id)responseWithError:(NSError*)error;` : to respond with an error instead of a success (e.g. `[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]`)
+
+##### The designed intializer
+    +(id)responseWithData:(NSData*)data
+               statusCode:(int)statusCode
+             responseTime:(NSTimeInterval)responseTime
+                  headers:(NSDictionary*)httpHeaders;
+
+##### Commodity initializer to load data from a file in your bundle
+    +(id)responseWithFile:(NSString*)fileName
+               statusCode:(int)statusCode
+             responseTime:(NSTimeInterval)responseTime
+                  headers:(NSDictionary*)httpHeaders;
+
+##### Useful short-form initializer to load data from a file in your bundle, using the specified "Content-Type" header
+    +(id)responseWithFile:(NSString*)fileName
+              contentType:(NSString*)contentType
+             responseTime:(NSTimeInterval)responseTime;
+             
+##### To respond with an error instead of a success (e.g. `[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]`)
+    +(id)responseWithError:(NSError*)error;
 
 
 ## Advanced Usage
-
-### Return quickly when onlyCheck=YES
-
-If the `onlyCheck` parameter is `YES`, then it means that the handler is called only to check if
-   you will be able to return a stubbed response or if it has to do the standard request.
-   In this scenario, the response will not actually be used but will only be compared to nil.
-   The handler will be called later again (with `onlyCheck=NO`) to fetch the actual OHHTTPStubsResponse object.
-   
-So in such cases (`onlyCheck=YES`), you can simply return `nil if you don't want to provide a stubbed response,
-   and _any_ non-nil value to indicate that you will provide a stubbed response later.
-There is a macro for that purpose, called `OHHTTPStubsResponseUseStub` to allow you to return
-   quickly in such cases without the burden of building an actual `OHHTTPStubsResponse` object.
 
 ### Return a response depending on the request
 
@@ -73,12 +77,34 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 * `OHHTTPStubsDownloadSpeed3GPlus` :  7200 kbps (900 KB/s)
 * `OHHTTPStubsDownloadSpeedWifi`   : 12000 kbps (1500 KB/s)
 
+### Return quickly when onlyCheck=YES
+
+If the `onlyCheck` parameter of the requestHandler block is `YES`, then it means that the handler is called
+   only to check if you will be able to return a stubbed response or if it has to do the standard request.
+In this scenario, the response will not actually be used but will only be compared to `nil` to check if it has to be stubbed later.
+   _The handler will be called later again (with `onlyCheck=NO`) to fetch the actual OHHTTPStubsResponse object._
+   
+So in such cases (`onlyCheck==YES`), you can simply return `nil` if you don't want to provide a stubbed response,
+   and **_any_ non-nil value** to indicate that you will provide a stubbed response later.
+
+This may be useful if you intend to do some no-so-fast work to build your real `OHHTTPStubsResponse`
+  (like reading some large file for example): in that case you can quickly return a dummy value when `onlyCheck==YES`
+  without the burden of building the actual `OHHTTPStubsResponse` object.
+You will obviously return the real `OHHTTPStubsResponse` in the later call when `onlyCheck==NO`.
+
+There is a macro `OHHTTPStubsResponseUseStub` provided in the header that you can use as a dummy return value
+  for that purpose _(it actually evaluates to `(OHHTTPStubsReponse*)1`)_
+
+
 ### Stack multiple responseHandlers
 
-Note that you can call `+addResponseHandler` multiple times.
+You can call `+addResponseHandler` multiple times.
 It will just add the response handlers in an internal list of handler.
-When a network request is performed by the system, the response handler are called in the same
-order that they have been added, and the first non-nil OHHTTPStubsResponse returned is used to reply to the request.
+
+When a network request is performed by the system, the response handlers are called in the same
+  order that they have been added, and the first non-nil OHHTTPStubsResponse returned is used to reply to the request.
+
+_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application._
 
 
 ## Complete example
@@ -89,8 +115,8 @@ order that they have been added, and the first non-nil OHHTTPStubsResponse retur
      {
          NSString* basename = [request.URL.absoluteString lastPathComponent];
          if (onlyCheck) {
-         	return ([stubs containsObject:basename] ? OHHTTPStubsResponseUseStub : nil);
-		 }
+             return ([stubs containsObject:basename] ? OHHTTPStubsResponseUseStub : nil);
+         }
          
          NSString* file = [basename stringByAppendingPathExtension:@"json"];
          return [OHHTTPStubsResponse responseWithFile:file contentType:@"text/json"
@@ -99,18 +125,18 @@ order that they have been added, and the first non-nil OHHTTPStubsResponse retur
      
      ...
      
-     // Then this call (sending a request using the AFNetworking framework) will actually
-     // receive a fake response issued from the file "file1.json"
-	 NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com/file1"]];
-     AFJSONRequestOperation* req =
-     [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+    // Then this call (sending a request using the AFNetworking framework) will actually
+    // receive a fake response issued from the file "file1.json"
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com/file1"]];
+    AFJSONRequestOperation* req =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
      {
         ...
      } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
      {
         ...
      }];
-     [req start];
+    [req start];
 
 
 
@@ -127,3 +153,5 @@ to `OHHTTPStubs.m` and `OHHTTPStubsResponse.m` in Target Settings > Build Phases
 This project is brought to you by Olivier Halligon.
 
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/)
+_(See also his [GitHub repository](https://github.com/InfiniteLoopDK/ILTesting))_
+
