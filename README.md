@@ -25,7 +25,7 @@ This is the most simple way to use it:
 
     [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
      {
-         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
+       return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
      }];
 
 This will return the `NSData` corresponding to the content of the "`response.json`" file (that must be in your bundle)
@@ -59,8 +59,9 @@ The `OHHTTPStubsResponse` class exposes multiple initializers:
               contentType:(NSString*)contentType
              responseTime:(NSTimeInterval)responseTime;
              
-##### To respond with an error instead of a success (e.g. `[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]`)
+##### To respond with an error instead of a success
     +(id)responseWithError:(NSError*)error;
+_(e.g. you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]`)_
 
 
 ## Advanced Usage
@@ -71,6 +72,19 @@ Of course, and that's the main reason this is implemented with blocks,
 you can do whatever you need in the block implementation. This includes
 checking the request URL to see if you want to return a stub or not,
 and pick the right file according to the requested URL.
+
+Example:
+
+    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
+     {
+       if ([request.URL.absoluteString hasPrefix:@".json"]) {
+         NSString* basename = [request.URL.absoluteString lastPathComponent]
+         return [OHHTTPStubsResponse responseWithFile:basename contentType:@"text/json" responseTime:2.0];
+       } else {
+         return nil; // Don't stub
+       }
+     }];
+
 
 ### Using download speed instead of responseTime
 
