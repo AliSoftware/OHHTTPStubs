@@ -3,6 +3,19 @@ OHHTTPStubs
 
 A class to stub network requests easily: test your apps with fake network data (stubbed from file) and custom response time
 
+* [Basic Usage](#basic-usage)
+* [The OHHTTPStubsResponse object](#the-ohhttpstubsresponse-object)
+* [Advanced Usage](#advanced-usage)
+ * [Return a response depending on the request](#return-a-response-depending-on-the-request)
+ * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
+ * [Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)
+ * [Stack multiple responseHandlers](#stack-multiple-responsehandlers)
+* [Complete Example](#complete-example)
+* [ARC Support](#arc-support)
+* [Credits](#credits)
+
+----
+
 ## Basic Usage
 
 This is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to
@@ -77,7 +90,7 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 * `OHHTTPStubsDownloadSpeed3GPlus` :  7200 kbps (900 KB/s)
 * `OHHTTPStubsDownloadSpeedWifi`   : 12000 kbps (1500 KB/s)
 
-### Return quickly when onlyCheck=YES
+### Return quickly when `onlyCheck=YES`
 
 If the `onlyCheck` parameter of the requestHandler block is `YES`, then it means that the handler is called
    only to check if you will be able to return a stubbed response or if it has to do the standard request.
