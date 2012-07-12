@@ -29,6 +29,7 @@
  *
  ***********************************************************************************/
 
+#pragma warning This file does not support ARC.
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
@@ -92,7 +93,9 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
     self.responseData = nil;
     self.responseTime = 0;
     self.error = nil;
+#if ! __has_feature(objc_arc)
     [super dealloc];
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,10 +106,15 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
          responseTime:(NSTimeInterval)responseTime
               headers:(NSDictionary*)httpHeaders
 {
-    return [[[[self class] alloc] initWithData:data
-                                    statusCode:statusCode
-                                  responseTime:responseTime
-                                       headers:httpHeaders] autorelease];
+    id obj = [[[self class] alloc] initWithData:data
+                                     statusCode:statusCode
+                                   responseTime:responseTime
+                                        headers:httpHeaders];
+#if __has_feature(objc_arc)
+    return obj;
+#else
+    return [obj autorelease];
+#endif
 }
 
 +(id)responseWithFile:(NSString*)fileName
@@ -132,7 +140,12 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
 
 +(id)responseWithError:(NSError*)error
 {
-    return [[[[self class] alloc] initWithError:error] autorelease];
+    id obj = [[[self class] alloc] initWithError:error];
+#if __has_feature(objc_arc)
+    return obj;
+#else
+    return [obj autorelease];
+#endif
 }
 
 

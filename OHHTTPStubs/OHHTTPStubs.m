@@ -69,17 +69,23 @@ static OHHTTPStubs *sharedInstance = nil;
     }
     return sharedInstance;
 }
- 
+
+
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self sharedInstance] retain];
-}
- 
+#if ! __has_feature(objc_arc)
+    return [[self sharedInstance] retain]; // no-op "retain" but to avoid clang warning
+#else
+    return [self sharedInstance];
+#endif
+} 
 - (id)copyWithZone:(NSZone *)zone { return self; }
+#if ! __has_feature(objc_arc)
 - (id)retain { return self; }
 - (NSUInteger)retainCount { return NSUIntegerMax; } // denotes an object that cannot be released
 - (oneway void)release { /* do nothing */ }
 - (id)autorelease { return self; }
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +109,9 @@ static OHHTTPStubs *sharedInstance = nil;
 {   
     [[self class] setEnabled:NO];
     self.requestHandlers = nil;
+#if ! __has_feature(objc_arc)
     [super dealloc];
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +144,11 @@ static OHHTTPStubs *sharedInstance = nil;
 
 -(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler
 {
-    [self.requestHandlers addObject:[[handler copy] autorelease]];
+    OHHTTPStubsResponseHandler handlerCopy = [handler copy];
+    [self.requestHandlers addObject:handlerCopy];
+#if ! __has_feature(objc_arc)
+    [handlerCopy autorelease];
+#endif
 }
 
 -(void)removeAllHandlers
@@ -237,8 +249,9 @@ static OHHTTPStubs *sharedInstance = nil;
                 [client URLProtocolDidFinishLoading:self];
             });
         });
-        
+#if ! __has_feature(objc_arc)
         [urlResponse autorelease];
+#endif
     } else {
         // Send the canned error
         [client URLProtocol:self didFailWithError:responseStub.error];

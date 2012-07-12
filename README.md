@@ -142,10 +142,7 @@ _This may be useful to install different stubs in different classes (say differe
 
 ## ARC Support
 
-This classes are not using ARC.
-
-If you want to use it in an ARC-enabled project, you must add the `-fobjc-arc` compiler flag
-to `OHHTTPStubs.m` and `OHHTTPStubsResponse.m` in Target Settings > Build Phases > Compile Sources.
+This classes now support both ARC and non-ARC projects :)
 
 
 ## Credits
