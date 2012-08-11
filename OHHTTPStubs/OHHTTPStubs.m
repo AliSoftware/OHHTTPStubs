@@ -3,17 +3,17 @@
  * Copyright (c) 2012 Olivier Halligon
  *
  * Original idea: https://github.com/InfiniteLoopDK/ILTesting
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,11 +21,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
- ***********************************************************************************
- *
- * Any comment or suggestion welcome. Referencing this project in your AboutBox is appreciated.
- * Please tell me if you use this class so we can cross-reference our projects.
  *
  ***********************************************************************************/
 
@@ -61,7 +56,7 @@
 + (OHHTTPStubs*)sharedInstance
 {
     static OHHTTPStubs *sharedInstance = nil;
- 
+    
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedInstance = [[self alloc] init];
@@ -85,7 +80,7 @@
 }
 
 - (void)dealloc
-{   
+{
     [[self class] setEnabled:NO];
     self.requestHandlers = nil;
 #if ! __has_feature(objc_arc)
@@ -211,16 +206,16 @@
         NSTimeInterval responseTime = canonicalResponseTime - requestTime;
         
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
-                                                                  statusCode:responseStub.statusCode
-                                                                headerFields:responseStub.httpHeaders 
-                                                                 requestTime:requestTime];
+                                                                     statusCode:responseStub.statusCode
+                                                                   headerFields:responseStub.httpHeaders
+                                                                    requestTime:requestTime];
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             //NSLog(@"[OHHTTPStubs] Stub Response for %@ received", [request URL]);
             [client URLProtocol:self didReceiveResponse:urlResponse
              cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-
+            
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseTime*NSEC_PER_SEC);
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
                 //NSLog(@"[OHHTTPStubs] Stub Data for %@ received", [request URL]);
