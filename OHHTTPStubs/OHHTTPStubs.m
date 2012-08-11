@@ -41,10 +41,6 @@
 
 @interface OHHTTPStubsProtocol : NSURLProtocol @end
 
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Globals
-
-static OHHTTPStubs *sharedInstance = nil;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Interface
@@ -64,32 +60,15 @@ static OHHTTPStubs *sharedInstance = nil;
 
 + (OHHTTPStubs*)sharedInstance
 {
-    if (sharedInstance == nil) {
-        sharedInstance = [[super allocWithZone:NULL] init];
-    }
+    static OHHTTPStubs *sharedInstance = nil;
+ 
+    static dispatch_once_t predicate;
+    dispatch_once(&predicate, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    
     return sharedInstance;
 }
-
-
-+ (id)allocWithZone:(NSZone *)zone
-{
-#if ! __has_feature(objc_arc)
-    return [[self sharedInstance] retain]; // no-op "retain" but to avoid clang warning
-#else
-    return [self sharedInstance];
-#endif
-} 
-- (id)copyWithZone:(NSZone *)zone { return self; }
-#if ! __has_feature(objc_arc)
-- (id)retain { return self; }
-- (NSUInteger)retainCount { return NSUIntegerMax; } // denotes an object that cannot be released
-- (oneway void)release { /* do nothing */ }
-- (id)autorelease { return self; }
-#endif
-
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Class Methods
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
