@@ -34,7 +34,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
-typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseHandler)(NSURLRequest* request, BOOL onlyCheck);
+typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck);
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
@@ -50,16 +50,18 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseHandler)(NSURLRequest* request,
 #pragma mark - Class Methods
 
 //! Commmodity method: calls instance method on sharedInstance directly
-+(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler;
-+(void)removeLastHandler;
-+(void)removeAllHandlers;
++(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
++(BOOL)removeRequestHandler:(id)handler;
++(void)removeLastRequestHandler;
++(void)removeAllRequestHandlers;
 +(void)setEnabled:(BOOL)enabled;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Instance Methods
 
--(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler;
--(void)removeLastHandler;
--(void)removeAllHandlers;
+-(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
+-(BOOL)removeRequestHandler:(id)handler;
+-(void)removeLastRequestHandler;
+-(void)removeAllRequestHandlers;
 
 @end
