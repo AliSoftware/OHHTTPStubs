@@ -51,13 +51,15 @@
 
 - (void)dealloc
 {
+    dispatch_release(downloadQueue);
+#if ! __has_feature(objc_arc)
     [_textView release];
     [_imageView release];
-    dispatch_release(downloadQueue);
     [_delaySwitch release];
     [_installTextStubSwitch release];
     [_installImageStubSwitch release];
     [super dealloc];
+#endif
 }
 
 - (void)viewDidLoad
@@ -96,7 +98,11 @@
         NSData* downloadedData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
         dispatch_sync(dispatch_get_main_queue(), ^{
             sender.enabled = YES;
-            self.textView.text = [[[NSString alloc] initWithData:downloadedData encoding:NSASCIIStringEncoding] autorelease];
+            NSString* receivedText = [[NSString alloc] initWithData:downloadedData encoding:NSASCIIStringEncoding];
+            self.textView.text = receivedText;
+#if ! __has_feature(objc_arc)
+      [receivedText autorelease];
+#endif
         });
     });
 }
