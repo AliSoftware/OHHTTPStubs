@@ -9,7 +9,7 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Return a response depending on the request](#return-a-response-depending-on-the-request)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
  * [Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)
- * [Stack multiple responseHandlers](#stack-multiple-responsehandlers)
+ * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Example](#complete-example)
 * [ARC Support](#arc-support)
 * [Credits](#credits)
@@ -123,7 +123,7 @@ There is a macro `OHHTTPStubsResponseUseStub` provided in the header that you ca
   for that purpose _(it actually evaluates to `(OHHTTPStubsReponse*)1`)_
 
 
-### Stack multiple responseHandlers
+### Stack multiple requestHandlers
 
 You can call `+addRequestHandler:` multiple times.
 It will just add the response handlers in an internal list of handler.

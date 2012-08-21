@@ -11,8 +11,6 @@
 
 @interface MainViewController(/* Private Interface */) {
     dispatch_queue_t downloadQueue;
-    id _textHandler;
-    id _imageHandler;
 }
 - (void)configureStubs;
 @end
@@ -109,10 +107,11 @@
 
 - (IBAction)installTextStub:(UISwitch *)sender
 {
+    static id textHandler = nil;
     if (sender.on)
     {
         // Install
-        _textHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+        textHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
                         {
                             NSString* ext = request.URL.absoluteString.pathExtension;
                             if ([ext isEqualToString:@"txt"])
@@ -130,7 +129,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeRequestHandler:_textHandler];
+        [OHHTTPStubs removeRequestHandler:textHandler];
     }
 }
 
@@ -153,10 +152,11 @@
 
 - (IBAction)installImageStub:(UISwitch *)sender
 {
+    static id imageHandler = nil;
     if (sender.on)
     {
         // Install
-        _imageHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+        imageHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
                          {
                              NSString* ext = request.URL.absoluteString.pathExtension;
                              if ([ext isEqualToString:@"jpg"])
@@ -174,7 +174,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeRequestHandler:_imageHandler];
+        [OHHTTPStubs removeRequestHandler:imageHandler];
     }
 }
 
