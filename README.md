@@ -38,7 +38,7 @@ Each time a network request is done by your application
 this requestHandler block will be called, allowing you to return an `OHHTTPStubsResponse` object
 describing the response to return. If you return a non-nil `OHHTTPStubsResponse`, it will automatically
 build a NSURLResponse and behave exactly like if you received the response from the network.
-_If your return `nil`, the normal request will be sent_
+_If your return `nil`, the normal request will be sent._
 
 The `OHHTTPStubsResponse` class exposes multiple initializers:
 
@@ -125,7 +125,7 @@ There is a macro `OHHTTPStubsResponseUseStub` provided in the header that you ca
 
 ### Stack multiple responseHandlers
 
-You can call `+addResponseHandler` multiple times.
+You can call `+addRequestHandler:` multiple times.
 It will just add the response handlers in an internal list of handler.
 
 When a network request is performed by the system, the response handlers are called in the reverse
@@ -134,7 +134,9 @@ When a network request is performed by the system, the response handlers are cal
 
 _This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application._
 
-You can remove the latest added handler with the `removeLastHandler` method.
+You can remove the latest added handler with the `removeLastRequestHandler` method.
+
+You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by OHHTTPStubs, so you may keep it in a `__weak` variable._
 
 ## Complete example
 

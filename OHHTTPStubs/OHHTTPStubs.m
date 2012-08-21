@@ -92,17 +92,21 @@
 #pragma mark - Public class methods
 
 // Commodity methods
-+(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler
++(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
-    [[self sharedInstance] addRequestHandler:handler];
+    return [[self sharedInstance] addRequestHandler:handler];
 }
-+(void)removeLastHandler
++(BOOL)removeRequestHandler:(id)handler
 {
-    [[self sharedInstance] removeLastHandler];
+    return [[self sharedInstance] removeRequestHandler:handler];
 }
-+(void)removeAllHandlers
++(void)removeLastRequestHandler
 {
-    [[self sharedInstance] removeAllHandlers];
+    [[self sharedInstance] removeLastRequestHandler];
+}
++(void)removeAllRequestHandlers
+{
+    [[self sharedInstance] removeAllRequestHandlers];
 }
 
 +(void)setEnabled:(BOOL)enabled
@@ -120,21 +124,28 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public instance methods
 
--(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler
+-(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
-    OHHTTPStubsResponseHandler handlerCopy = [handler copy];
+    OHHTTPStubsRequestHandler handlerCopy = [handler copy];
     [self.requestHandlers addObject:handlerCopy];
 #if ! __has_feature(objc_arc)
     [handlerCopy autorelease];
 #endif
+    return handlerCopy;
 }
 
--(void)removeLastHandler
+-(BOOL)removeRequestHandler:(id)handler
+{
+    BOOL handlerFound = [self.requestHandlers containsObject:handler];
+    [self.requestHandlers removeObject:handler];
+    return handlerFound;
+}
+-(void)removeLastRequestHandler
 {
     [self.requestHandlers removeLastObject];
 }
 
--(void)removeAllHandlers
+-(void)removeAllRequestHandlers
 {
     [self.requestHandlers removeAllObjects];
 }
@@ -169,7 +180,7 @@
 {
     NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
     id response = nil;
-    for(OHHTTPStubsResponseHandler handler in [requestHandlers reverseObjectEnumerator])
+    for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
     {
         response = handler(request, YES);
         if (response) break;
@@ -194,7 +205,7 @@
     
     OHHTTPStubsResponse* responseStub = nil;
     NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
-    for(OHHTTPStubsResponseHandler handler in [requestHandlers reverseObjectEnumerator])
+    for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
     {
         responseStub = handler(request, NO);
         if (responseStub) break;
