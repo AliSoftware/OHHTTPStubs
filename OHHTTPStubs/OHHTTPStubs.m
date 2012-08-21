@@ -96,6 +96,10 @@
 {
     [[self sharedInstance] addRequestHandler:handler];
 }
++(void)removeLastHandler
+{
+    [[self sharedInstance] removeLastHandler];
+}
 +(void)removeAllHandlers
 {
     [[self sharedInstance] removeAllHandlers];
@@ -123,6 +127,11 @@
 #if ! __has_feature(objc_arc)
     [handlerCopy autorelease];
 #endif
+}
+
+-(void)removeLastHandler
+{
+    [self.requestHandlers removeLastObject];
 }
 
 -(void)removeAllHandlers
@@ -160,7 +169,7 @@
 {
     NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
     id response = nil;
-    for(OHHTTPStubsResponseHandler handler in requestHandlers)
+    for(OHHTTPStubsResponseHandler handler in [requestHandlers reverseObjectEnumerator])
     {
         response = handler(request, YES);
         if (response) break;
@@ -185,7 +194,7 @@
     
     OHHTTPStubsResponse* responseStub = nil;
     NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
-    for(OHHTTPStubsResponseHandler handler in requestHandlers)
+    for(OHHTTPStubsResponseHandler handler in [requestHandlers reverseObjectEnumerator])
     {
         responseStub = handler(request, NO);
         if (responseStub) break;
