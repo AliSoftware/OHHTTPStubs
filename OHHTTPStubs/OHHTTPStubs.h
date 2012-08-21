@@ -51,6 +51,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseHandler)(NSURLRequest* request,
 
 //! Commmodity method: calls instance method on sharedInstance directly
 +(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler;
++(void)removeLastHandler;
 +(void)removeAllHandlers;
 +(void)setEnabled:(BOOL)enabled;
 
@@ -58,6 +59,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseHandler)(NSURLRequest* request,
 #pragma mark - Instance Methods
 
 -(void)addRequestHandler:(OHHTTPStubsResponseHandler)handler;
+-(void)removeLastHandler;
 -(void)removeAllHandlers;
 
 @end

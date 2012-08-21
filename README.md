@@ -128,11 +128,13 @@ There is a macro `OHHTTPStubsResponseUseStub` provided in the header that you ca
 You can call `+addResponseHandler` multiple times.
 It will just add the response handlers in an internal list of handler.
 
-When a network request is performed by the system, the response handlers are called in the same
-  order that they have been added, and the first non-nil OHHTTPStubsResponse returned is used to reply to the request.
+When a network request is performed by the system, the response handlers are called in the reverse
+  order that they have been added, the last added handler having priority over the first added ones.
+  The first non-nil OHHTTPStubsResponse returned is used to reply to the request.
 
 _This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application._
 
+You can remove the latest added handler with the `removeLastHandler` method.
 
 ## Complete example
 

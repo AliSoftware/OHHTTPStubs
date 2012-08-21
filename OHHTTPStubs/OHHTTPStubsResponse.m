@@ -56,10 +56,10 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
 
--(id)initWithData:(NSData*)data
-       statusCode:(int)statusCode
-     responseTime:(NSTimeInterval)responseTime
-          headers:(NSDictionary*)httpHeaders
+-(OHHTTPStubsResponse*)initWithData:(NSData*)data
+                         statusCode:(int)statusCode
+                       responseTime:(NSTimeInterval)responseTime
+                            headers:(NSDictionary*)httpHeaders
 {
     self = [super init];
     if (self) {
@@ -71,7 +71,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
     return self;
 }
 
--(id)initWithError:(NSError*)error
+-(OHHTTPStubsResponse*)initWithError:(NSError*)error
 {
     self = [super init];
     if (self) {
@@ -80,6 +80,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
     return self;
 }
 
+#if ! __has_feature(objc_arc)
 -(void)dealloc
 {
     self.httpHeaders = nil;
@@ -87,34 +88,32 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
     self.responseData = nil;
     self.responseTime = 0;
     self.error = nil;
-#if ! __has_feature(objc_arc)
     [super dealloc];
-#endif
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
-+(id)responseWithData:(NSData*)data
-           statusCode:(int)statusCode
-         responseTime:(NSTimeInterval)responseTime
-              headers:(NSDictionary*)httpHeaders
++(OHHTTPStubsResponse*)responseWithData:(NSData*)data
+                             statusCode:(int)statusCode
+                           responseTime:(NSTimeInterval)responseTime
+                                headers:(NSDictionary*)httpHeaders
 {
-    id obj = [[[self class] alloc] initWithData:data
-                                     statusCode:statusCode
-                                   responseTime:responseTime
-                                        headers:httpHeaders];
-#if __has_feature(objc_arc)
-    return obj;
-#else
-    return [obj autorelease];
+    OHHTTPStubsResponse* response = [[self alloc] initWithData:data
+                                                    statusCode:statusCode
+                                                  responseTime:responseTime
+                                                       headers:httpHeaders];
+#if ! __has_feature(objc_arc)
+    [response autorelease];
 #endif
+    return response;
 }
 
-+(id)responseWithFile:(NSString*)fileName
-           statusCode:(int)statusCode
-         responseTime:(NSTimeInterval)responseTime
-              headers:(NSDictionary*)httpHeaders
++(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
+                             statusCode:(int)statusCode
+                           responseTime:(NSTimeInterval)responseTime
+                                headers:(NSDictionary*)httpHeaders
 {
     NSString* basename = [fileName stringByDeletingPathExtension];
     NSString* extension = [fileName pathExtension];
@@ -123,23 +122,22 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
     return [self responseWithData:data statusCode:statusCode responseTime:responseTime headers:httpHeaders];
 }
 
-+(id)responseWithFile:(NSString*)fileName
-          contentType:(NSString*)contentType
-         responseTime:(NSTimeInterval)responseTime
++(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
+                            contentType:(NSString*)contentType
+                           responseTime:(NSTimeInterval)responseTime
 {
     NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
     return [self responseWithFile:fileName statusCode:200 responseTime:responseTime headers:headers];
 }
 
 
-+(id)responseWithError:(NSError*)error
++(OHHTTPStubsResponse*)responseWithError:(NSError*)error
 {
-    id obj = [[[self class] alloc] initWithError:error];
-#if __has_feature(objc_arc)
-    return obj;
-#else
-    return [obj autorelease];
+    OHHTTPStubsResponse* response = [[self  alloc] initWithError:error];
+#if ! __has_feature(objc_arc)
+    [response release];
 #endif
+    return response;
 }
 
 

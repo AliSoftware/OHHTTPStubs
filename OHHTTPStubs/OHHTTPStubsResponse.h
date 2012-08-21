@@ -63,26 +63,26 @@ OHHTTPStubsDownloadSpeedWifi;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
-+(id)responseWithData:(NSData*)data
-           statusCode:(int)statusCode
-         responseTime:(NSTimeInterval)responseTime
-              headers:(NSDictionary*)httpHeaders;
-+(id)responseWithFile:(NSString*)fileName
-           statusCode:(int)statusCode
-         responseTime:(NSTimeInterval)responseTime
-              headers:(NSDictionary*)httpHeaders;
-+(id)responseWithFile:(NSString*)fileName
-          contentType:(NSString*)contentType
-         responseTime:(NSTimeInterval)responseTime;
-+(id)responseWithError:(NSError*)error;
++(OHHTTPStubsResponse*)responseWithData:(NSData*)data
+                             statusCode:(int)statusCode
+                           responseTime:(NSTimeInterval)responseTime
+                                headers:(NSDictionary*)httpHeaders;
++(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
+                             statusCode:(int)statusCode
+                           responseTime:(NSTimeInterval)responseTime
+                                headers:(NSDictionary*)httpHeaders;
++(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
+                            contentType:(NSString*)contentType
+                           responseTime:(NSTimeInterval)responseTime;
++(OHHTTPStubsResponse*)responseWithError:(NSError*)error;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Instance Methods
 
--(id)initWithData:(NSData*)data
-       statusCode:(int)statusCode
-     responseTime:(NSTimeInterval)responseTime
-          headers:(NSDictionary*)httpHeaders;
--(id)initWithError:(NSError*)error;
+-(OHHTTPStubsResponse*)initWithData:(NSData*)data
+                         statusCode:(int)statusCode
+                       responseTime:(NSTimeInterval)responseTime
+                            headers:(NSDictionary*)httpHeaders;
+-(OHHTTPStubsResponse*)initWithError:(NSError*)error;
 
 @end
