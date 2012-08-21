@@ -11,6 +11,8 @@
 
 @interface MainViewController(/* Private Interface */) {
     dispatch_queue_t downloadQueue;
+    id _textHandler;
+    id _imageHandler;
 }
 - (void)configureStubs;
 @end
@@ -21,6 +23,8 @@
 @implementation MainViewController
 @synthesize delaySwitch = _delaySwitch;
 @synthesize textView = _textView;
+@synthesize installTextStubSwitch = _installTextStubSwitch;
+@synthesize installImageStubSwitch = _installImageStubSwitch;
 @synthesize imageView = _imageView;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,26 +32,8 @@
 
 - (void)configureStubs
 {
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
-     {
-         NSString* ext = request.URL.absoluteString.pathExtension;
-         if ([ext isEqualToString:@"txt"])
-         {
-             return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
-                                              contentType:@"text/plain"
-                                             responseTime:self.delaySwitch.on ? 2.f: 0.f];
-         }
-         else if ([ext isEqualToString:@"jpg"])
-         {
-             return [OHHTTPStubsResponse responseWithFile:@"stub.jpg"
-                                              contentType:@"image/jpeg"
-                                             responseTime:self.delaySwitch.on ? 2.f: 0.f];
-         }
-         else
-         {
-             return OHHTTPStubsResponseDontUseStub;
-         }
-     }];
+    [self installTextStub:self.installTextStubSwitch];
+    [self installImageStub:self.installImageStubSwitch];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,9 +45,6 @@
     if (self)
     {
         downloadQueue = dispatch_queue_create("OHHTTPStubs.example.download", NULL);
-        
-        // Configure your stubs
-        [self configureStubs];
     }
     return self;
 }
@@ -72,9 +55,16 @@
     [_imageView release];
     dispatch_release(downloadQueue);
     [_delaySwitch release];
+    [_installTextStubSwitch release];
+    [_installImageStubSwitch release];
     [super dealloc];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self configureStubs];
+}
 - (void)viewDidUnload
 {
     [self setTextView:nil];
@@ -90,7 +80,11 @@
 {
     [OHHTTPStubs setEnabled:sender.on];
     self.delaySwitch.enabled = sender.on;
+    self.installTextStubSwitch.enabled = sender.on;
+    self.installImageStubSwitch.enabled = sender.on;
 }
+
+
 
 - (IBAction)downloadText:(UIButton*)sender
 {
@@ -107,6 +101,35 @@
     });
 }
 
+- (IBAction)installTextStub:(UISwitch *)sender
+{
+    if (sender.on)
+    {
+        // Install
+        _textHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+                        {
+                            NSString* ext = request.URL.absoluteString.pathExtension;
+                            if ([ext isEqualToString:@"txt"])
+                            {
+                                return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
+                                                                 contentType:@"text/plain"
+                                                                responseTime:self.delaySwitch.on ? 2.f: 0.f];
+                            }
+                            else
+                            {
+                                return OHHTTPStubsResponseDontUseStub;
+                            }
+                        }];
+    }
+    else
+    {
+        // Uninstall
+        [OHHTTPStubs removeRequestHandler:_textHandler];
+    }
+}
+
+
+
 - (IBAction)downloadImage:(UIButton*)sender
 {
     NSString* urlString = @"http://images.apple.com/iphone/ios/images/ios_business_2x.jpg";
@@ -120,6 +143,33 @@
             self.imageView.image = [UIImage imageWithData:downloadedData];
         });
     });
+}
+
+- (IBAction)installImageStub:(UISwitch *)sender
+{
+    if (sender.on)
+    {
+        // Install
+        _imageHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+                         {
+                             NSString* ext = request.URL.absoluteString.pathExtension;
+                             if ([ext isEqualToString:@"jpg"])
+                             {
+                                 return [OHHTTPStubsResponse responseWithFile:@"stub.jpg"
+                                                                  contentType:@"image/jpeg"
+                                                                 responseTime:self.delaySwitch.on ? 2.f: 0.f];
+                             }
+                             else
+                             {
+                                 return OHHTTPStubsResponseDontUseStub;
+                             }
+                         }];
+    }
+    else
+    {
+        // Uninstall
+        [OHHTTPStubs removeRequestHandler:_imageHandler];
+    }
 }
 
 - (IBAction)clearResults
