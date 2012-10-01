@@ -117,7 +117,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
 {
     NSString* basename = [fileName stringByDeletingPathExtension];
     NSString* extension = [fileName pathExtension];
-    NSString* filePath = [[NSBundle mainBundle] pathForResource:basename ofType:extension];
+	NSString* filePath = [[NSBundle bundleForClass:[self class]] pathForResource:basename ofType:extension];
     NSData* data = [NSData dataWithContentsOfFile:filePath];
     return [self responseWithData:data statusCode:statusCode responseTime:responseTime headers:httpHeaders];
 }
