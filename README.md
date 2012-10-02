@@ -11,8 +11,9 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Example](#complete-example)
+* [Change Log](#change-log)
 * [ARC Support](#arc-support)
-* [Credits](#credits)
+* [License and Credits](#license-and-credits)
 
 ----
 
@@ -171,14 +172,17 @@ You can also remove any given handler with the `removeRequestHandler:` method. T
 
 
 
+## Change Log
+
+The changelog is available [here in the dedicated wiki page](https://github.com/AliSoftware/OHHTTPStubs/wiki/ChangeLog).
+
 ## ARC Support
 
 This classes now support both ARC and non-ARC projects :)
 
+## License and Credits
 
-## Credits
-
-This project is brought to you by Olivier Halligon.
+This project is brought to you by Olivier Halligon and is under MIT License
 
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/)
 _(See also his [GitHub repository](https://github.com/InfiniteLoopDK/ILTesting))_
