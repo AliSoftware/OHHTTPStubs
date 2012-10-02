@@ -187,9 +187,6 @@ _Note: due to a bug in Xcode4, you will have to ensure that the `libOHHTTPStubs.
 has its path referenced as "Relative to Build Products" as it should.
 If it is not the case, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
 
-_Note: you may also drag the `.h` & `.m` files of `OHHTTPStubs` directly in your own project instead, but this generally is less cleaner to nicely manage your projects later._
-
-
 ## Change Log
 
 The changelog is available [here in the dedicated wiki page](https://github.com/AliSoftware/OHHTTPStubs/wiki/ChangeLog).
