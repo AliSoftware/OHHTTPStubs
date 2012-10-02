@@ -182,20 +182,12 @@ The `OHHTTPStubs` project is provided as a Xcode project that generates a static
 So even if you can drag & drop the `.h` & `.m` files of `OHHTTPStubs` in your own project, a cleaner way to integrate it would be using an Xcode4 workspace:
 
 * Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
-* Link `libOHHTTPStubs.a` with your application project:
-  * Select your application project in the Project Navigator, then select your target in which you want to use `OHHTTPStubs`
-     (for example your Tests target if you will only use `OHHTTPStubs`in your Unit Tests)
-  * Go to the "Build Phase" tab and open the "Link Binary With Libraries" phase
-  * Use the "+" button to add the `libOHHTTPStubs.a` library to the libraries linked with your project
+* Link `libOHHTTPStubs.a` with your application project
 * When you need to use `OHHTTPStubs` classes, import the headers using square brackets: `#import <OHHTTPStubs/OHHTTPStubs.h>`
 
-_Note: due to a bug in Xcode4, the `libOHHTTPStubs.a` file reference that will be added in your project once you added the
- library to the above build phase has sometimes its path **not** referenced "Relative to Build Products" as it should.
- In such case, select the `libOHHTTPStubs.a` file in your Project Navigator and change the "Location" dropdown menu
- in the Identity Inspector to "Relative to Build Products" and ensure that the relative path is only `libOHHTTPStubs.a`
- (without any garbage "../../../" subpath). In case you have this bug, you may also need to remove the strange
- "Library Search Path" (that contains the DerivedData subpath) that Xcode may just have added automatically too.
- Fixing this ensure that the project dependencies are detected correctly by Xcode. Hopefully this bug will be fixed in a future version of Xcode4._
+_Note: due to a bug in Xcode4, you will have to ensure that the `libOHHTTPStubs.a` file reference added in your project
+has its path referenced as "Relative to Build Products" as it should.
+If it is not the case, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction).
 
 ## Change Log
 
