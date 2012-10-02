@@ -10,9 +10,9 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
  * [Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
-* [Complete Example](#complete-example)
+* [Complete Examples](#complete-examples)
+* [Using in your projects](#using-in-your-projects)
 * [Change Log](#change-log)
-* [ARC Support](#arc-support)
 * [License and Credits](#license-and-credits)
 
 ----
@@ -115,7 +115,7 @@ In this scenario, the response will not actually be used but will only be compar
 So in such cases (`onlyCheck==YES`), you can simply return `nil` if you don't want to provide a stubbed response,
    and **_any_ non-nil value** to indicate that you will provide a stubbed response later.
 
-This may be useful if you intend to do some no-so-fast work to build your real `OHHTTPStubsResponse`
+This may be useful if you intend to do some not-so-fast work to build your real `OHHTTPStubsResponse`
   (like reading some large file for example): in that case you can quickly return a dummy value when `onlyCheck==YES`
   without the burden of building the actual `OHHTTPStubsResponse` object.
 You will obviously return the real `OHHTTPStubsResponse` in the later call when `onlyCheck==NO`.
@@ -139,7 +139,11 @@ You can remove the latest added handler with the `removeLastRequestHandler` meth
 
 You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by OHHTTPStubs, so you may keep it in a `__weak` variable._
 
-## Complete example
+## Complete examples
+
+Here is another example code below that uses the various techniques explained above.
+For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in the repository.
+
 
     NSArray* stubs = [NSArray arrayWithObjects:@"file1", @"file2", nil];
                            
@@ -171,14 +175,32 @@ You can also remove any given handler with the `removeRequestHandler:` method. T
     [req start];
 
 
+## Using in your projects
+
+The `OHHTTPStubs` project is provided as a Xcode project that generates a static library, to easily integrate it with your project.
+
+So even if you can drag & drop the `.h` & `.m` files of `OHHTTPStubs` in your own project, a cleaner way to integrate it would be using an Xcode4 workspace:
+
+* Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
+* Link `libOHHTTPStubs.a` with your application project:
+  * Select your application project in the Project Navigator, then select your target in which you want to use `OHHTTPStubs`
+     (for example your Tests target if you will only use `OHHTTPStubs`in your Unit Tests)
+  * Go to the "Build Phase" tab and open the "Link Binary With Libraries" phase
+  * Use the "+" button to add the `libOHHTTPStubs.a` library to the libraries linked with your project
+* When you need to use `OHHTTPStubs` classes, import the headers using square brackets: `#import <OHHTTPStubs/OHHTTPStubs.h>`
+
+_Note: due to a bug in Xcode4, the `libOHHTTPStubs.a` file reference that will be added in your project once you added the
+ library to the above build phase has sometimes its path **not** referenced "Relative to Build Products" as it should.
+ In such case, select the `libOHHTTPStubs.a` file in your Project Navigator and change the "Location" dropdown menu
+ in the Identity Inspector to "Relative to Build Products" and ensure that the relative path is only `libOHHTTPStubs.a`
+ (without any garbage "../../../" subpath). In case you have this bug, you may also need to remove the strange
+ "Library Search Path" (that contains the DerivedData subpath) that Xcode may just have added automatically too.
+ Fixing this ensure that the project dependencies are detected correctly by Xcode. Hopefully this bug will be fixed in a future version of Xcode4._
 
 ## Change Log
 
 The changelog is available [here in the dedicated wiki page](https://github.com/AliSoftware/OHHTTPStubs/wiki/ChangeLog).
 
-## ARC Support
-
-This classes now support both ARC and non-ARC projects :)
 
 ## License and Credits
 

@@ -7,49 +7,23 @@
 //
 
 #import "MainViewController.h"
-#import "OHHTTPStubs.h"
-
-@interface MainViewController(/* Private Interface */) {
-    dispatch_queue_t downloadQueue;
-}
-- (void)configureStubs;
-@end
-
-
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 
 @implementation MainViewController
+// IBOutlets
 @synthesize delaySwitch = _delaySwitch;
 @synthesize textView = _textView;
 @synthesize installTextStubSwitch = _installTextStubSwitch;
 @synthesize installImageStubSwitch = _installImageStubSwitch;
 @synthesize imageView = _imageView;
 
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Private Methods
-
-- (void)configureStubs
-{
-    [self installTextStub:self.installTextStubSwitch];
-    [self installImageStub:self.installImageStubSwitch];
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Init & Dealloc
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        downloadQueue = dispatch_queue_create("OHHTTPStubs.example.download", NULL);
-    }
-    return self;
-}
-
 - (void)dealloc
 {
-    dispatch_release(downloadQueue);
 #if ! __has_feature(objc_arc)
     [_textView release];
     [_imageView release];
@@ -63,7 +37,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureStubs];
+    
+    [self installTextStub:self.installTextStubSwitch];
+    [self installImageStub:self.installImageStubSwitch];
 }
 - (void)viewDidUnload
 {
@@ -74,7 +50,7 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Actions
+#pragma mark - Global stubs activation
 
 - (IBAction)toggleStubs:(UISwitch *)sender
 {
@@ -86,45 +62,54 @@
 
 
 
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Text Download and Stub
+
+
 - (IBAction)downloadText:(UIButton*)sender
 {
-    NSString* urlString = @"http://www.loremipsum.de/downloads/version3.txt";
-    // Quick & Dirty way to download data without bothering with delegate implementation and such (and compatible with iOS <5.0)
     sender.enabled = NO;
-    dispatch_async(downloadQueue, ^{
-        NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-        NSData* downloadedData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            sender.enabled = YES;
-            NSString* receivedText = [[NSString alloc] initWithData:downloadedData encoding:NSASCIIStringEncoding];
-            self.textView.text = receivedText;
+
+    NSString* urlString = @"http://www.loremipsum.de/downloads/version3.txt";
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    // This is a very handy way to send an asynchronous method, but only available in iOS5+
+    [NSURLConnection sendAsynchronousRequest:req queue:nil completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         sender.enabled = YES;
+         NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+         self.textView.text = receivedText;
 #if ! __has_feature(objc_arc)
-      [receivedText autorelease];
+         [receivedText release];
 #endif
-        });
-    });
+     }];
 }
+
+
+
 
 - (IBAction)installTextStub:(UISwitch *)sender
 {
-    static id textHandler = nil;
+    static id textHandler = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
+    
     if (sender.on)
     {
         // Install
         textHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
-                        {
-                            NSString* ext = request.URL.absoluteString.pathExtension;
-                            if ([ext isEqualToString:@"txt"])
-                            {
-                                return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
-                                                                 contentType:@"text/plain"
-                                                                responseTime:self.delaySwitch.on ? 2.f: 0.f];
-                            }
-                            else
-                            {
-                                return OHHTTPStubsResponseDontUseStub;
-                            }
-                        }];
+                       {
+                           NSString* ext = request.URL.absoluteString.pathExtension;
+                           if ([ext isEqualToString:@"txt"])
+                           {
+                               return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
+                                                                contentType:@"text/plain"
+                                                               responseTime:self.delaySwitch.on ? 2.f: 0.f];
+                           }
+                           else
+                           {
+                               return OHHTTPStubsResponseDontUseStub;
+                           }
+                       }];
     }
     else
     {
@@ -134,25 +119,27 @@
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Image Download and Stub
 
 - (IBAction)downloadImage:(UIButton*)sender
 {
-    NSString* urlString = @"http://images.apple.com/iphone/ios/images/ios_business_2x.jpg";
-    // Quick & Dirty way to download data without bothering with delegate implementation and such (and compatible with iOS <5.0)
     sender.enabled = NO;
-    dispatch_async(downloadQueue, ^{
-        NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-        NSData* downloadedData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            sender.enabled = YES;
-            self.imageView.image = [UIImage imageWithData:downloadedData];
-        });
-    });
+    
+    NSString* urlString = @"http://images.apple.com/iphone/ios/images/ios_business_2x.jpg";
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    // This is a very handy way to send an asynchronous method, but only available in iOS5+
+    [NSURLConnection sendAsynchronousRequest:req queue:nil completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         sender.enabled = YES;
+         self.imageView.image = [UIImage imageWithData:data];
+     }];
 }
 
 - (IBAction)installImageStub:(UISwitch *)sender
 {
-    static id imageHandler = nil;
+    static id imageHandler = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
     if (sender.on)
     {
         // Install
@@ -177,6 +164,9 @@
         [OHHTTPStubs removeRequestHandler:imageHandler];
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Cleaning
 
 - (IBAction)clearResults
 {
