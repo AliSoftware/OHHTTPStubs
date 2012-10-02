@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		097935A2161B654E006DB5D5 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 097935A1161B654E006DB5D5 /* libOHHTTPStubs.a */; };
 		098FBDD415D704E800623941 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098FBDD315D704E800623941 /* UIKit.framework */; };
 		098FBDD615D704E800623941 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098FBDD515D704E800623941 /* Foundation.framework */; };
 		098FBDD815D704E800623941 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098FBDD715D704E800623941 /* CoreGraphics.framework */; };
 		098FBDE015D704E800623941 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 098FBDDF15D704E800623941 /* main.m */; };
 		098FBDED15D7056200623941 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 098FBDEB15D7056200623941 /* MainViewController.m */; };
 		098FBDEE15D7056200623941 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDEC15D7056200623941 /* MainViewController.xib */; };
-		098FBDF415D705E900623941 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 098FBDF115D705E900623941 /* OHHTTPStubs.m */; };
-		098FBDF515D705E900623941 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 098FBDF315D705E900623941 /* OHHTTPStubsResponse.m */; };
 		098FBDF815D70E2600623941 /* stub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDF615D70E2600623941 /* stub.jpg */; };
 		098FBDF915D70E2600623941 /* stub.txt in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDF715D70E2600623941 /* stub.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		097935A1161B654E006DB5D5 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		098FBDCF15D704E800623941 /* OHHTTPStubsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OHHTTPStubsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		098FBDD315D704E800623941 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		098FBDD515D704E800623941 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -30,10 +30,6 @@
 		098FBDEA15D7056200623941 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		098FBDEB15D7056200623941 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		098FBDEC15D7056200623941 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
-		098FBDF015D705E900623941 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
-		098FBDF115D705E900623941 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
-		098FBDF215D705E900623941 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
-		098FBDF315D705E900623941 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
 		098FBDF615D70E2600623941 /* stub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stub.jpg; sourceTree = "<group>"; };
 		098FBDF715D70E2600623941 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				097935A2161B654E006DB5D5 /* libOHHTTPStubs.a in Frameworks */,
 				098FBDD415D704E800623941 /* UIKit.framework in Frameworks */,
 				098FBDD615D704E800623941 /* Foundation.framework in Frameworks */,
 				098FBDD815D704E800623941 /* CoreGraphics.framework in Frameworks */,
@@ -55,7 +52,6 @@
 		098FBDC415D704E800623941 = {
 			isa = PBXGroup;
 			children = (
-				098FBDEF15D705E900623941 /* OHHTTPStubs */,
 				098FBDD915D704E800623941 /* OHHTTPStubsDemo */,
 				098FBDD215D704E800623941 /* Frameworks */,
 				098FBDD015D704E800623941 /* Products */,
@@ -86,10 +82,10 @@
 				098FBDEA15D7056200623941 /* MainViewController.h */,
 				098FBDEB15D7056200623941 /* MainViewController.m */,
 				098FBDEC15D7056200623941 /* MainViewController.xib */,
-				098FBDFA15D70E2F00623941 /* Stub Data */,
+				098FBDFA15D70E2F00623941 /* Stubs */,
 				098FBDDA15D704E800623941 /* Supporting Files */,
 			);
-			path = OHHTTPStubsDemo;
+			name = OHHTTPStubsDemo;
 			sourceTree = "<group>";
 		};
 		098FBDDA15D704E800623941 /* Supporting Files */ = {
@@ -102,25 +98,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		098FBDEF15D705E900623941 /* OHHTTPStubs */ = {
+		098FBDFA15D70E2F00623941 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
-				098FBDF015D705E900623941 /* OHHTTPStubs.h */,
-				098FBDF115D705E900623941 /* OHHTTPStubs.m */,
-				098FBDF215D705E900623941 /* OHHTTPStubsResponse.h */,
-				098FBDF315D705E900623941 /* OHHTTPStubsResponse.m */,
-			);
-			name = OHHTTPStubs;
-			path = ../OHHTTPStubs;
-			sourceTree = "<group>";
-		};
-		098FBDFA15D70E2F00623941 /* Stub Data */ = {
-			isa = PBXGroup;
-			children = (
+				097935A1161B654E006DB5D5 /* libOHHTTPStubs.a */,
 				098FBDF615D70E2600623941 /* stub.jpg */,
 				098FBDF715D70E2600623941 /* stub.txt */,
 			);
-			name = "Stub Data";
+			name = Stubs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,8 +174,6 @@
 			files = (
 				098FBDE015D704E800623941 /* main.m in Sources */,
 				098FBDED15D7056200623941 /* MainViewController.m in Sources */,
-				098FBDF415D705E900623941 /* OHHTTPStubs.m in Sources */,
-				098FBDF515D705E900623941 /* OHHTTPStubsResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,9 +231,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OHHTTPStubsDemo/OHHTTPStubsDemo-Prefix.pch";
-				INFOPLIST_FILE = "OHHTTPStubsDemo/OHHTTPStubsDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				GCC_PREFIX_HEADER = "OHHTTPStubsDemo-Prefix.pch";
+				INFOPLIST_FILE = "OHHTTPStubsDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -260,9 +243,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OHHTTPStubsDemo/OHHTTPStubsDemo-Prefix.pch";
-				INFOPLIST_FILE = "OHHTTPStubsDemo/OHHTTPStubsDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				GCC_PREFIX_HEADER = "OHHTTPStubsDemo-Prefix.pch";
+				INFOPLIST_FILE = "OHHTTPStubsDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -287,6 +270,7 @@
 				098FBDE915D704E800623941 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

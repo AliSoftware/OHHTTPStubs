@@ -1,0 +1,19 @@
+//
+// PortableLibrary.xcconfig
+// http://mrox.net/blog/2011/06/19/framework-like-static-libraries/
+//
+// Global configuration settings to generate a portable static library that will
+//  - Compile gracefully in both Build and in Archive processes
+//  - Reduce at its maximum the integration in the client application
+//
+// To integrate the library in your client application
+//  - Add the library xcodeproj to your application's workspace
+//  - Add the library to the "Link Binary With Libraries" section of the "Build Phase" tab of your application project
+//  - use #import <LibraryName/Header.h> in your client files
+//
+
+PUBLIC_HEADERS_FOLDER_PATH = include/$(PROJECT_NAME)
+INSTALL_PATH               = /../BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/
+OTHER_LDFLAGS              = -ObjC
+
+// NOTE: be sure to configure SKIP_INSTALL to YES in Debug and NO in Release in this library project
