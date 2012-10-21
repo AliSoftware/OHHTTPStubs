@@ -75,7 +75,9 @@
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
-    [NSURLConnection sendAsynchronousRequest:req queue:nil completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          sender.enabled = YES;
          NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
@@ -130,7 +132,9 @@
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
-    [NSURLConnection sendAsynchronousRequest:req queue:nil completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          sender.enabled = YES;
          self.imageView.image = [UIImage imageWithData:data];
