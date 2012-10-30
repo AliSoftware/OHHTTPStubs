@@ -39,7 +39,8 @@ Each time a network request is done by your application
 this requestHandler block will be called, allowing you to return an `OHHTTPStubsResponse` object
 describing the response to return.
 
-* If you return a non-nil `OHHTTPStubsResponse`, it will automatically build a `NSURLResponse` and behave exactly like if you received the response from the network.
+* If you return a non-nil `OHHTTPStubsResponse`, it will automatically build a `NSURLResponse` with your stubbed data,
+  and behave exactly like if you received this response data from the network (this is transparent for the rest of the code).
 * If your return `nil`, the normal request will be sent (no stubbing).
 
 The `OHHTTPStubsResponse` class exposes multiple initializers:
