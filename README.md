@@ -29,17 +29,18 @@ This is the most simple way to use it:
        return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
      }];
 
-This will return the `NSData` corresponding to the content of the "`response.json`" file (that must be in your bundle)
-with a "`Content-Type`" header of "`text/json`" in the HTTP response, after 2 seconds.
+This will return the `NSData` corresponding to the content of the `"response.json"` file (that must be in your bundle)
+with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 seconds.
 
 ## The OHHTTPStubsResponse object
 
 Each time a network request is done by your application
  (whatever the framework used, `NSURLConnection`, [AFNetworking](https://github.com/AFNetworking/AFNetworking/), or anything else)
 this requestHandler block will be called, allowing you to return an `OHHTTPStubsResponse` object
-describing the response to return. If you return a non-nil `OHHTTPStubsResponse`, it will automatically
-build a NSURLResponse and behave exactly like if you received the response from the network.
-_If your return `nil`, the normal request will be sent._
+describing the response to return.
+
+* If you return a non-nil `OHHTTPStubsResponse`, it will automatically build a `NSURLResponse` and behave exactly like if you received the response from the network.
+* If your return `nil`, the normal request will be sent (no stubbing).
 
 The `OHHTTPStubsResponse` class exposes multiple initializers:
 
