@@ -4,7 +4,7 @@ OHHTTPStubs
 A class to stub network requests easily: test your apps with fake network data (stubbed from file) and custom response time
 
 * [Basic Usage](#basic-usage)
-* [The OHHTTPStubsResponse object](#the-ohhttpstubsresponse-object)
+* [The `OHHTTPStubsResponse` object](#the-ohhttpstubsresponse-object)
 * [Advanced Usage](#advanced-usage)
  * [Return a response depending on the request](#return-a-response-depending-on-the-request)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
@@ -32,7 +32,7 @@ This is the most simple way to use it:
 This will return the `NSData` corresponding to the content of the `"response.json"` file (that must be in your bundle)
 with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 seconds.
 
-## The OHHTTPStubsResponse object
+## The `OHHTTPStubsResponse` object
 
 Each time a network request is done by your application
  (whatever the framework used, `NSURLConnection`, [AFNetworking](https://github.com/AFNetworking/AFNetworking/), or anything else)
@@ -112,7 +112,7 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 If the `onlyCheck` parameter of the requestHandler block is `YES`, then it means that the handler is called
    only to check if you will be able to return a stubbed response or if it has to do the standard request.
 In this scenario, the response will not actually be used but will only be compared to `nil` to check if it has to be stubbed later.
-   _The handler will be called later again (with `onlyCheck=NO`) to fetch the actual OHHTTPStubsResponse object._
+   _The handler will be called later again (with `onlyCheck=NO`) to fetch the actual `OHHTTPStubsResponse` object._
    
 So in such cases (`onlyCheck==YES`), you can simply return `nil` if you don't want to provide a stubbed response,
    and **_any_ non-nil value** to indicate that you will provide a stubbed response later.
@@ -133,13 +133,13 @@ It will just add the response handlers in an internal list of handler.
 
 When a network request is performed by the system, the response handlers are called in the reverse
   order that they have been added, the last added handler having priority over the first added ones.
-  The first non-nil OHHTTPStubsResponse returned is used to reply to the request.
+  The first non-nil `OHHTTPStubsResponse` returned is used to reply to the request.
 
 _This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application._
 
 You can remove the latest added handler with the `removeLastRequestHandler` method.
 
-You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by OHHTTPStubs, so you may keep it in a `__weak` variable._
+You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by `OHHTTPStubs`, so you may keep it in a `__weak` variable._
 
 ## Complete examples
 
