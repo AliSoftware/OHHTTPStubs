@@ -33,7 +33,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
 
-#define OHHTTPStubsResponseUseStub (OHHTTPStubsResponse*)1
+#define OHHTTPStubsResponseUseStub (OHHTTPStubsResponse*)@"DummyStub"
 #define OHHTTPStubsResponseDontUseStub (OHHTTPStubsResponse*)nil
 
 // Standard download speeds.
