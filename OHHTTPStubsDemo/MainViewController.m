@@ -103,6 +103,7 @@
                            NSString* ext = request.URL.absoluteString.pathExtension;
                            if ([ext isEqualToString:@"txt"])
                            {
+                               if (onlyCheck) return OHHTTPStubsResponseUseStub;
                                return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
                                                                 contentType:@"text/plain"
                                                                responseTime:self.delaySwitch.on ? 2.f: 0.f];
@@ -152,6 +153,7 @@
                              NSString* ext = request.URL.absoluteString.pathExtension;
                              if ([ext isEqualToString:@"jpg"])
                              {
+                                 if (onlyCheck) return OHHTTPStubsResponseUseStub;
                                  return [OHHTTPStubsResponse responseWithFile:@"stub.jpg"
                                                                   contentType:@"image/jpeg"
                                                                  responseTime:self.delaySwitch.on ? 2.f: 0.f];

@@ -33,11 +33,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
 
-const double OHHTTPStubsDownloadSpeedGPRS   =-    56 / 8; // kbps -> Ko/s
-const double OHHTTPStubsDownloadSpeedEDGE   =-   128 / 8; // kbps -> Ko/s
-const double OHHTTPStubsDownloadSpeed3G     =-  3200 / 8; // kbps -> Ko/s
-const double OHHTTPStubsDownloadSpeed3GPlus =-  7200 / 8; // kbps -> Ko/s
-const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> Ko/s
+const double OHHTTPStubsDownloadSpeedGPRS   =-    56 / 8; // kbps -> KB/s
+const double OHHTTPStubsDownloadSpeedEDGE   =-   128 / 8; // kbps -> KB/s
+const double OHHTTPStubsDownloadSpeed3G     =-  3200 / 8; // kbps -> KB/s
+const double OHHTTPStubsDownloadSpeed3GPlus =-  7200 / 8; // kbps -> KB/s
+const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Implementation
