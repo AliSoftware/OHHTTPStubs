@@ -135,7 +135,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 {
     OHHTTPStubsResponse* response = [[self  alloc] initWithError:error];
 #if ! __has_feature(objc_arc)
-    [response release];
+    [response autorelease];
 #endif
     return response;
 }
