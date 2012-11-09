@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		097935A2161B654E006DB5D5 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 097935A1161B654E006DB5D5 /* libOHHTTPStubs.a */; };
 		098FBDD415D704E800623941 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098FBDD315D704E800623941 /* UIKit.framework */; };
 		098FBDD615D704E800623941 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098FBDD515D704E800623941 /* Foundation.framework */; };
 		098FBDD815D704E800623941 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098FBDD715D704E800623941 /* CoreGraphics.framework */; };
@@ -16,6 +15,8 @@
 		098FBDEE15D7056200623941 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDEC15D7056200623941 /* MainViewController.xib */; };
 		098FBDF815D70E2600623941 /* stub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDF615D70E2600623941 /* stub.jpg */; };
 		098FBDF915D70E2600623941 /* stub.txt in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDF715D70E2600623941 /* stub.txt */; };
+		F6DDA04D164C5A070044ECAE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F6DDA04C164C5A070044ECAE /* Default-568h@2x.png */; };
+		F6DDA050164C5AA80044ECAE /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F6DDA04F164C5AA80044ECAE /* libOHHTTPStubs.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		098FBDEC15D7056200623941 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		098FBDF615D70E2600623941 /* stub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stub.jpg; sourceTree = "<group>"; };
 		098FBDF715D70E2600623941 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
+		F6DDA04C164C5A070044ECAE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F6DDA04F164C5AA80044ECAE /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libOHHTTPStubs.a; path = "../OHHTTPStubs/build/Release-iphoneos/libOHHTTPStubs.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				097935A2161B654E006DB5D5 /* libOHHTTPStubs.a in Frameworks */,
+				F6DDA050164C5AA80044ECAE /* libOHHTTPStubs.a in Frameworks */,
 				098FBDD415D704E800623941 /* UIKit.framework in Frameworks */,
 				098FBDD615D704E800623941 /* Foundation.framework in Frameworks */,
 				098FBDD815D704E800623941 /* CoreGraphics.framework in Frameworks */,
@@ -52,6 +55,8 @@
 		098FBDC415D704E800623941 = {
 			isa = PBXGroup;
 			children = (
+				F6DDA04F164C5AA80044ECAE /* libOHHTTPStubs.a */,
+				F6DDA04C164C5A070044ECAE /* Default-568h@2x.png */,
 				098FBDD915D704E800623941 /* OHHTTPStubsDemo */,
 				098FBDD215D704E800623941 /* Frameworks */,
 				098FBDD015D704E800623941 /* Products */,
@@ -162,6 +167,7 @@
 				098FBDEE15D7056200623941 /* MainViewController.xib in Resources */,
 				098FBDF815D70E2600623941 /* stub.jpg in Resources */,
 				098FBDF915D70E2600623941 /* stub.txt in Resources */,
+				F6DDA04D164C5A070044ECAE /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

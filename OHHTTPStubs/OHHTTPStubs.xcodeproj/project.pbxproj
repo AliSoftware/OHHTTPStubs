@@ -12,6 +12,11 @@
 		0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */; };
 		0979359E161B62EF006DB5D5 /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793597161B62C0006DB5D5 /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0979359F161B62EF006DB5D5 /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6DDA02A164C4E070044ECAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6DDA029164C4E070044ECAE /* Cocoa.framework */; };
+		F6DDA03D164C4E440044ECAE /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
+		F6DDA03F164C4E440044ECAE /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */; };
+		F6DDA040164C4E5B0044ECAE /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793597161B62C0006DB5D5 /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6DDA041164C4E5F0044ECAE /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,12 @@
 		09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
 		097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PortableLibrary.xcconfig; sourceTree = "<group>"; };
+		F6DDA028164C4E070044ECAE /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6DDA029164C4E070044ECAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		F6DDA02C164C4E070044ECAE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		F6DDA02D164C4E070044ECAE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		F6DDA02E164C4E070044ECAE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F6DDA042164C4F380044ECAE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,12 +44,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F6DDA024164C4E070044ECAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6DDA02A164C4E070044ECAE /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0979356E161B6251006DB5D5 = {
 			isa = PBXGroup;
 			children = (
+				F6DDA042164C4F380044ECAE /* Info.plist */,
 				097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */,
 				0979357E161B6251006DB5D5 /* OHHTTPStubs */,
 				0979357B161B6251006DB5D5 /* Frameworks */,
@@ -50,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				09793579161B6251006DB5D5 /* libOHHTTPStubs.a */,
+				F6DDA028164C4E070044ECAE /* OHHTTPStubs.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				0979357C161B6251006DB5D5 /* Foundation.framework */,
+				F6DDA029164C4E070044ECAE /* Cocoa.framework */,
+				F6DDA02B164C4E070044ECAE /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -73,6 +96,16 @@
 			name = OHHTTPStubs;
 			sourceTree = SOURCE_ROOT;
 		};
+		F6DDA02B164C4E070044ECAE /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F6DDA02C164C4E070044ECAE /* AppKit.framework */,
+				F6DDA02D164C4E070044ECAE /* CoreData.framework */,
+				F6DDA02E164C4E070044ECAE /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -85,12 +118,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F6DDA025164C4E070044ECAE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6DDA040164C4E5B0044ECAE /* OHHTTPStubs.h in Headers */,
+				F6DDA041164C4E5F0044ECAE /* OHHTTPStubsResponse.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		09793578161B6251006DB5D5 /* OHHTTPStubs */ = {
+		09793578161B6251006DB5D5 /* OHHTTPStubs-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */;
+			buildConfigurationList = 09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs-iOS" */;
 			buildPhases = (
 				09793575161B6251006DB5D5 /* Sources */,
 				09793576161B6251006DB5D5 /* Frameworks */,
@@ -100,10 +142,28 @@
 			);
 			dependencies = (
 			);
-			name = OHHTTPStubs;
+			name = "OHHTTPStubs-iOS";
 			productName = OHHTTPStubs;
 			productReference = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		F6DDA027164C4E070044ECAE /* OHHTTPStubs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F6DDA039164C4E070044ECAE /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */;
+			buildPhases = (
+				F6DDA023164C4E070044ECAE /* Sources */,
+				F6DDA024164C4E070044ECAE /* Frameworks */,
+				F6DDA025164C4E070044ECAE /* Headers */,
+				F6DDA026164C4E070044ECAE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OHHTTPStubs;
+			productName = OHHTTPStubs;
+			productReference = F6DDA028164C4E070044ECAE /* OHHTTPStubs.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -126,10 +186,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				09793578161B6251006DB5D5 /* OHHTTPStubs */,
+				09793578161B6251006DB5D5 /* OHHTTPStubs-iOS */,
+				F6DDA027164C4E070044ECAE /* OHHTTPStubs */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F6DDA026164C4E070044ECAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		09793575161B6251006DB5D5 /* Sources */ = {
@@ -138,6 +209,15 @@
 			files = (
 				0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */,
 				0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6DDA023164C4E070044ECAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6DDA03D164C4E440044ECAE /* OHHTTPStubs.m in Sources */,
+				F6DDA03F164C4E440044ECAE /* OHHTTPStubsResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,7 +275,7 @@
 				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -207,8 +287,58 @@
 				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = NO;
+			};
+			name = Release;
+		};
+		F6DDA03A164C4E070044ECAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		F6DDA03B164C4E070044ECAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
@@ -224,11 +354,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */ = {
+		09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				09793588161B6251006DB5D5 /* Debug */,
 				09793589161B6251006DB5D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F6DDA039164C4E070044ECAE /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6DDA03A164C4E070044ECAE /* Debug */,
+				F6DDA03B164C4E070044ECAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
