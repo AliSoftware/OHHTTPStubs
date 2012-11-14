@@ -67,11 +67,18 @@ OHHTTPStubsDownloadSpeedWifi;
                              statusCode:(int)statusCode
                            responseTime:(NSTimeInterval)responseTime
                                 headers:(NSDictionary*)httpHeaders;
++(OHHTTPStubsResponse*)responseWithFileURL:(NSURL*)fileURL
+								statusCode:(int)statusCode
+							  responseTime:(NSTimeInterval)responseTime
+								   headers:(NSDictionary*)httpHeaders;
 +(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
                              statusCode:(int)statusCode
                            responseTime:(NSTimeInterval)responseTime
                                 headers:(NSDictionary*)httpHeaders;
 +(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
+                            contentType:(NSString*)contentType
+                           responseTime:(NSTimeInterval)responseTime;
++(OHHTTPStubsResponse*)responseWithFileURL:(NSURL*)fileURL
                             contentType:(NSString*)contentType
                            responseTime:(NSTimeInterval)responseTime;
 +(OHHTTPStubsResponse*)responseWithError:(NSError*)error;

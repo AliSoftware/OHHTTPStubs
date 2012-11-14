@@ -110,6 +110,15 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
++(OHHTTPStubsResponse*)responseWithFileURL:(NSURL*)fileURL
+								statusCode:(int)statusCode
+							  responseTime:(NSTimeInterval)responseTime
+								   headers:(NSDictionary*)httpHeaders
+{
+    NSData* data = [NSData dataWithContentsOfURL:fileURL];
+    return [self responseWithData:data statusCode:statusCode responseTime:responseTime headers:httpHeaders];
+}
+
 +(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
                              statusCode:(int)statusCode
                            responseTime:(NSTimeInterval)responseTime
@@ -117,9 +126,8 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 {
     NSString* basename = [fileName stringByDeletingPathExtension];
     NSString* extension = [fileName pathExtension];
-	NSString* filePath = [[NSBundle bundleForClass:[self class]] pathForResource:basename ofType:extension];
-    NSData* data = [NSData dataWithContentsOfFile:filePath];
-    return [self responseWithData:data statusCode:statusCode responseTime:responseTime headers:httpHeaders];
+	NSURL* fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:basename withExtension:extension];
+    return [self responseWithFileURL:fileURL statusCode:statusCode responseTime:responseTime headers:httpHeaders];
 }
 
 +(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
@@ -128,6 +136,14 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 {
     NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
     return [self responseWithFile:fileName statusCode:200 responseTime:responseTime headers:headers];
+}
+
++(OHHTTPStubsResponse*)responseWithFileURL:(NSURL*)fileURL
+                            contentType:(NSString*)contentType
+                           responseTime:(NSTimeInterval)responseTime
+{
+    NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
+    return [self responseWithFileURL:fileURL statusCode:200 responseTime:responseTime headers:headers];
 }
 
 
