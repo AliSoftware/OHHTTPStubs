@@ -181,13 +181,24 @@ For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in th
 
 The `OHHTTPStubs` project is provided as a Xcode project that generates a static library, to easily integrate it with your project.
 
-* Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
-* Link `libOHHTTPStubs.a` with your application project
-* When you need to use `OHHTTPStubs` classes, import the headers using square brackets: `#import <OHHTTPStubs/OHHTTPStubs.h>`
+1. Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
+2. Link `libOHHTTPStubs.a` with your application project:
+  * Select your application project in the Project Navigator, then select your target in which you want to use `OHHTTPStubs`
+     (for example **your Tests target** if you will only use `OHHTTPStubs` in your Unit Tests)
+  * Go to the "Build Phase" tab and open the "Link Binary With Libraries" phase
+  * Use the "+" button to add the `libOHHTTPStubs.a` library to the libraries linked with your project
+3. When you need to use `OHHTTPStubs` classes, import the headers using square brackets: `#import <OHHTTPStubs/OHHTTPStubs.h>`
 
 _Note: due to a bug in Xcode4, you will have to ensure that the `libOHHTTPStubs.a` file reference added in your project
 has its path referenced as "Relative to Build Products" as it should.
 If it is not the case, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
+
+> **Important Note**: `OHHTTPStubs` is designed to be used **in test/debug code only**.
+**Don't link with it in production code when you compile your final application for the AppStore**.
+
+> _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
+So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
+
 
 ## Change Log
 
