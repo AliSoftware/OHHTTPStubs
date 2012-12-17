@@ -80,8 +80,8 @@ Example:
 
     [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
      {
-       if ([request.URL.absoluteString hasPrefix:@".json"]) {
-         NSString* basename = [request.URL.absoluteString lastPathComponent]
+       NSString* basename = request.URL.absoluteString.lastPathComponent;
+       if ([basename.pathExtension isEqualToString:@"json"]) {
          return [OHHTTPStubsResponse responseWithFile:basename contentType:@"text/json" responseTime:2.0];
        } else {
          return nil; // Don't stub
