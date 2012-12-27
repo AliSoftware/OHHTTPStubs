@@ -231,13 +231,13 @@
                                                                     requestTime:requestTime];
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        dispatch_after(popTime, dispatch_get_current_queue(), ^(void) {
             //NSLog(@"[OHHTTPStubs] Stub Response for %@ received", [request URL]);
             [client URLProtocol:self didReceiveResponse:urlResponse
              cacheStoragePolicy:NSURLCacheStorageNotAllowed];
             
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseTime*NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            dispatch_after(popTime, dispatch_get_current_queue(), ^(void) {
                 //NSLog(@"[OHHTTPStubs] Stub Data for %@ received", [request URL]);
                 [client URLProtocol:self didLoadData:responseStub.responseData];
                 [client URLProtocolDidFinishLoading:self];
