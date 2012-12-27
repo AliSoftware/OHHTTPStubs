@@ -167,6 +167,10 @@
 
 // Undocumented initializer obtained by class-dump
 // Don't use this in production code destined for the App Store
+#if ! DEBUG
+#warning This code uses a private method: use only for you app testing. Don't use OHHTTPStubs when publishing your app on the App Store.
+#endif
+
 @interface NSHTTPURLResponse(UndocumentedInitializer)
 - (id)initWithURL:(NSURL*)URL
        statusCode:(NSInteger)statusCode
