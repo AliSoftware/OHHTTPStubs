@@ -235,14 +235,14 @@
                                                                     requestTime:requestTime];
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
+        // TODO: get rid of the deprecated dispatch_get_current_queue()
         dispatch_after(popTime, dispatch_get_current_queue(), ^(void) {
-            //NSLog(@"[OHHTTPStubs] Stub Response for %@ received", [request URL]);
             [client URLProtocol:self didReceiveResponse:urlResponse
              cacheStoragePolicy:NSURLCacheStorageNotAllowed];
             
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseTime*NSEC_PER_SEC);
+            // TODO: get rid of the deprecated dispatch_get_current_queue()
             dispatch_after(popTime, dispatch_get_current_queue(), ^(void) {
-                //NSLog(@"[OHHTTPStubs] Stub Data for %@ received", [request URL]);
                 [client URLProtocol:self didLoadData:responseStub.responseData];
                 [client URLProtocolDidFinishLoading:self];
             });
@@ -252,12 +252,17 @@
 #endif
     } else {
         // Send the canned error
-        [client URLProtocol:self didFailWithError:responseStub.error];
+        // TODO: get rid of the deprecated dispatch_get_current_queue()
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseStub.responseTime * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_current_queue(), ^(void){
+            [client URLProtocol:self didFailWithError:responseStub.error];
+        });
     }
 }
 
 - (void)stopLoading
 {
+    // TODO: cancel the fake request
 }
 
 @end

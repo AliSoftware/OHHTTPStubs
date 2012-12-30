@@ -55,8 +55,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
     
     STAssertEqualObjects(data, testData, @"Invalid data response");
-    STAssertTrue( fabs(kResponseTime+[startDate timeIntervalSinceNow]) < kResponseTimeTolerence,
-                 @"The response time was not respected (expected: %d, got: %d)", kResponseTime, -[startDate timeIntervalSinceNow]);
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
 }
 
 -(void)test_NSURLConnection_sendSyncronousRequest_parallelQueue
@@ -91,8 +90,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          STAssertEqualObjects(data, testData, @"Invalid data response");
-         STAssertTrue( fabs(kResponseTime+[startDate timeIntervalSinceNow]) < kResponseTimeTolerence,
-                      @"The response time was not respected (expected: %d, got: %d)", kResponseTime, -[startDate timeIntervalSinceNow]);
+         STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
          
          [self notifyAsyncOperationDone];
      }];
@@ -142,8 +140,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
          {
              [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
              STAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
-             STAssertTrue( fabs(responseTime+[startDate timeIntervalSinceNow]) < kResponseTimeTolerence,
-                          @"The response time was not respected (expected: %d, got: %d)", responseTime, -[startDate timeIntervalSinceNow]);
+             STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], responseTime, kResponseTimeTolerence, @"Invalid response time");
              
              [self notifyAsyncOperationDone];
          }];
