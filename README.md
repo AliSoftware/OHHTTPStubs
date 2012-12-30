@@ -193,12 +193,23 @@ _Note: due to a bug in Xcode4, you will have to ensure that the `libOHHTTPStubs.
 has its path referenced as "Relative to Build Products" as it should.
 If it is not the case, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
 
-> **Important Note**: `OHHTTPStubs` is designed to be used **in test/debug code only**.
+> ### **Important Note**
+`OHHTTPStubs` is designed to be used **in test/debug code only**.
 **Don't link with it in production code when you compile your final application for the AppStore**.
 
 > _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
 So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
 
+### Information about OHHTTPStubs Unit Tests
+
+Note that `OHHTTPStubs` *Unit Tests* includes `AFNetworking` as a _GIT submodule_.
+This means that if you want to be able to run `OHHTTPStubs`' Unit Tests,
+  you need to include submodules when cloning, by using the `--recursive` option:
+  `git clone --recursive <this_repo_url> <destination_folder>`.
+
+_This is only needed if you intend to run the `OHHTTPStubs` Unit Tests, to check the correct behavior of `OHHTTPStubs`
+in conjunction with `AFNetworking`. If you only intend to directly use the `OHHTTPStubs`'s
+produced library and will never run the `OHHTTPStubs` Unit Tests, the `AFNetworking` submodule is not needed._
 
 ## Change Log
 
