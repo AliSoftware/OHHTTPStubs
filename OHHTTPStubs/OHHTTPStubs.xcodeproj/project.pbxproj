@@ -7,14 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09739F2B16900E81009851EF /* AFNetworkingTests.m */; };
 		0979357D161B6251006DB5D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
 		0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
 		0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */; };
 		0979359E161B62EF006DB5D5 /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793597161B62C0006DB5D5 /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0979359F161B62EF006DB5D5 /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		098368D0168FC7920082B1A4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098368CF168FC7920082B1A4 /* SenTestingKit.framework */; };
+		098368D3168FC7920082B1A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
+		098368DC168FC7920082B1A4 /* AsyncSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368DB168FC7920082B1A4 /* AsyncSenTestCase.m */; };
+		098368E4168FD0E50082B1A4 /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E3168FD0E50082B1A4 /* NSURLConnectionTests.m */; };
+		098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */; };
+		098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */; };
+		098368EC169000340082B1A4 /* NetworkSynchronousConstructorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368EB169000340082B1A4 /* NetworkSynchronousConstructorsTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09739F2B16900E81009851EF /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTests.m; sourceTree = "<group>"; };
 		09793579161B6251006DB5D5 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0979357C161B6251006DB5D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09793597161B62C0006DB5D5 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
@@ -22,6 +31,15 @@
 		09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
 		097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PortableLibrary.xcconfig; sourceTree = "<group>"; };
+		098368CE168FC7920082B1A4 /* OHHTTPStubs Unit Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "OHHTTPStubs Unit Tests.octest"; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		098368CF168FC7920082B1A4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		098368D6168FC7920082B1A4 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
+		098368DA168FC7920082B1A4 /* AsyncSenTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncSenTestCase.h; sourceTree = "<group>"; };
+		098368DB168FC7920082B1A4 /* AsyncSenTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AsyncSenTestCase.m; sourceTree = "<group>"; };
+		098368DD168FC7920082B1A4 /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
+		098368E3168FD0E50082B1A4 /* NSURLConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionTests.m; sourceTree = "<group>"; };
+		098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionDelegateTests.m; sourceTree = "<group>"; };
+		098368EB169000340082B1A4 /* NetworkSynchronousConstructorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkSynchronousConstructorsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +51,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		098368CA168FC7920082B1A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */,
+				098368D0168FC7920082B1A4 /* SenTestingKit.framework in Frameworks */,
+				098368D3168FC7920082B1A4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -41,6 +69,7 @@
 			children = (
 				097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */,
 				0979357E161B6251006DB5D5 /* OHHTTPStubs */,
+				098368D4168FC7920082B1A4 /* UnitTests */,
 				0979357B161B6251006DB5D5 /* Frameworks */,
 				0979357A161B6251006DB5D5 /* Products */,
 			);
@@ -50,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				09793579161B6251006DB5D5 /* libOHHTTPStubs.a */,
+				098368CE168FC7920082B1A4 /* OHHTTPStubs Unit Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				0979357C161B6251006DB5D5 /* Foundation.framework */,
+				098368CF168FC7920082B1A4 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -72,6 +103,37 @@
 			);
 			name = OHHTTPStubs;
 			sourceTree = SOURCE_ROOT;
+		};
+		098368D4168FC7920082B1A4 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				098368E5168FD0FF0082B1A4 /* Test Suites */,
+				098368DA168FC7920082B1A4 /* AsyncSenTestCase.h */,
+				098368DB168FC7920082B1A4 /* AsyncSenTestCase.m */,
+				098368D5168FC7920082B1A4 /* Supporting Files */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		098368D5168FC7920082B1A4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				098368D6168FC7920082B1A4 /* UnitTests-Info.plist */,
+				098368DD168FC7920082B1A4 /* UnitTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		098368E5168FD0FF0082B1A4 /* Test Suites */ = {
+			isa = PBXGroup;
+			children = (
+				098368E3168FD0E50082B1A4 /* NSURLConnectionTests.m */,
+				098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */,
+				098368EB169000340082B1A4 /* NetworkSynchronousConstructorsTests.m */,
+				09739F2B16900E81009851EF /* AFNetworkingTests.m */,
+			);
+			path = "Test Suites";
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -105,6 +167,24 @@
 			productReference = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		098368CD168FC7920082B1A4 /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				098368C9168FC7920082B1A4 /* Sources */,
+				098368CA168FC7920082B1A4 /* Frameworks */,
+				098368CB168FC7920082B1A4 /* Resources */,
+				098368CC168FC7920082B1A4 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = "OHHTTPStubs Unit Tests";
+			productReference = 098368CE168FC7920082B1A4 /* OHHTTPStubs Unit Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -127,9 +207,36 @@
 			projectRoot = "";
 			targets = (
 				09793578161B6251006DB5D5 /* OHHTTPStubs */,
+				098368CD168FC7920082B1A4 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		098368CB168FC7920082B1A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		098368CC168FC7920082B1A4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		09793575161B6251006DB5D5 /* Sources */ = {
@@ -138,6 +245,18 @@
 			files = (
 				0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */,
 				0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		098368C9168FC7920082B1A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				098368DC168FC7920082B1A4 /* AsyncSenTestCase.m in Sources */,
+				098368E4168FD0E50082B1A4 /* NSURLConnectionTests.m in Sources */,
+				098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */,
+				098368EC169000340082B1A4 /* NetworkSynchronousConstructorsTests.m in Sources */,
+				09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,7 +283,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -182,7 +301,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -194,7 +313,6 @@
 			buildSettings = {
 				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -207,10 +325,40 @@
 			buildSettings = {
 				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
+			};
+			name = Release;
+		};
+		098368DE168FC7920082B1A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		098368DF168FC7920082B1A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -231,6 +379,15 @@
 			buildConfigurations = (
 				09793588161B6251006DB5D5 /* Debug */,
 				09793589161B6251006DB5D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				098368DE168FC7920082B1A4 /* Debug */,
+				098368DF168FC7920082B1A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

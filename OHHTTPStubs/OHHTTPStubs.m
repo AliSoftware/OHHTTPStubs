@@ -2,8 +2,6 @@
  *
  * Copyright (c) 2012 Olivier Halligon
  *
- * Original idea: https://github.com/InfiniteLoopDK/ILTesting
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -117,6 +115,8 @@
     }
     else
     {
+        // Force instanciate sharedInstance to avoid it being created later and this turning setEnabled to YES again
+        (void)[self sharedInstance]; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
         [NSURLProtocol unregisterClass:[OHHTTPStubsProtocol class]];
     }
 }
