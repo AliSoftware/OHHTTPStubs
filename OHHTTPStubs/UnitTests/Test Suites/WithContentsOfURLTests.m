@@ -53,7 +53,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     
     NSDate* startDate = [NSDate date];
     
-    NSString* string = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.apple.com"]
+    NSString* string = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]
                                             encoding:NSUTF8StringEncoding
                                                error:NULL];
     
@@ -88,7 +88,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     
     NSDate* startDate = [NSDate date];
     
-    NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     
     STAssertEqualObjects(data, testData, @"Invalid returned string");
     STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
