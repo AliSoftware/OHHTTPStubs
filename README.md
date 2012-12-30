@@ -12,6 +12,7 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Examples](#complete-examples)
 * [Using in your projects](#using-in-your-projects)
+* [Information about OHHTTPStubs Unit Tests](#information-about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
 * [License and Credits](#license-and-credits)
 
@@ -200,7 +201,7 @@ If it is not the case, please read the [detailed instructions here](http://githu
 > _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
 So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
 
-### Information about OHHTTPStubs Unit Tests
+## Information about OHHTTPStubs Unit Tests
 
 Note that `OHHTTPStubs` *Unit Tests* includes `AFNetworking` as a _GIT submodule_.
 This means that if you want to be able to run `OHHTTPStubs`' Unit Tests,
