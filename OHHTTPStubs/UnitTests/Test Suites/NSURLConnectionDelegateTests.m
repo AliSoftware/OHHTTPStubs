@@ -38,6 +38,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)setUp
 {
+    [super setUp];
     _data = [[NSMutableData alloc] init];
 }
 
@@ -45,6 +46,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 {
     [_data release];
     [_error release];
+    [super tearDown];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +65,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
                                              headers:nil];
     }];
         
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
     
     [NSURLConnection connectionWithRequest:req delegate:self];
@@ -86,7 +88,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
         return resp;
     }];
     
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
     
     [NSURLConnection connectionWithRequest:req delegate:self];
@@ -139,7 +141,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
                                              headers:nil];
     }];
     
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cancellableRequest = [NSURLConnection connectionWithRequest:req delegate:self];
     
     [self waitForTimeout:2.0];

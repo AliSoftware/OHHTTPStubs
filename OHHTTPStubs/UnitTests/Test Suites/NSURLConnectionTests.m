@@ -49,7 +49,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
                                              headers:nil];
     }];
         
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
     
     NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
@@ -84,7 +84,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     }];
     
     
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
     
     [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)

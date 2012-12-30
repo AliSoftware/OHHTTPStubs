@@ -24,7 +24,6 @@
 
 
 #import "AsyncSenTestCase.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
 
 @interface AsyncSenTestCase()
 @property(atomic, assign) NSUInteger asyncTestCaseSignaledCount;
