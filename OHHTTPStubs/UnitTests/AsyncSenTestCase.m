@@ -40,7 +40,7 @@
 
 -(void)waitForAsyncOperations:(NSUInteger)count withTimeout:(NSTimeInterval)timeout
 {
-    static const NSTimeInterval kSamplingInterval = 0.5;
+    static const NSTimeInterval kSamplingInterval = 0.05;
     
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while ((self.asyncTestCaseSignaledCount < count) && ([timeoutDate timeIntervalSinceNow]>0))
@@ -56,6 +56,21 @@
     {
         // now is after timeoutDate, we timed out
         STFail(@"Timed out while waiting for Async Operations to finish.");
+    }
+}
+
+-(void)waitForTimeout:(NSTimeInterval)timeout
+{
+    static const NSTimeInterval kSamplingInterval = 0.05;
+    
+    NSDate* waitEndDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while ([waitEndDate timeIntervalSinceNow]>0)
+    {
+        if (![[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:kSamplingInterval]])
+        {
+            // If the RunLoop cannot be started (or there is no runloop installed in the current thread), sleep for some time (to avoid 100% CPU polling)
+            [NSThread sleepForTimeInterval:kSamplingInterval];
+        }
     }
 }
 
