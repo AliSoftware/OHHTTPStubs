@@ -93,8 +93,7 @@ Example:
 ### Using download speed instead of responseTime
 
 When building the `OHHTTPStubsResponse` object, you can specify a response time (in seconds) so
-that the sending of the fake response will be postponed (using GCD's `dispatch_after function`).
-This allows you to simulate a slow network for example.
+that the sending of the fake response will be postponed. This allows you to simulate a slow network for example.
 
 If you specify a negative value for the responseTime parameter, instead of being interpreted as
 a time in seconds, it will be interpreted as a download speed in KBytes/s.
