@@ -24,14 +24,36 @@
 
 
 #import "AsyncSenTestCase.h"
+#import "AFHTTPRequestOperation.h"
+#import "OHHTTPStubs.h"
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
 
 @implementation AFNetworkingTests
 
-//-(void)test_TODO
-//{
-//
-//}
+-(void)test_AFHTTPRequestOperation
+{
+    static const NSTimeInterval kResponseTime = 2.0;
+    NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+        return [OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 responseTime:kResponseTime headers:nil];
+    }];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    AFHTTPRequestOperation* op = [[[AFHTTPRequestOperation alloc] initWithRequest:req] autorelease];
+    __block id response = nil;
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        response = [[responseObject retain] autorelease];
+        [self notifyAsyncOperationDone];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        STFail(@"Unexpected network failure");
+        [self notifyAsyncOperationDone];
+    }];
+    [op start];
+    
+    [self waitForAsyncOperationWithTimeout:kResponseTime+1];
+    
+    STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
+}
 
 @end
