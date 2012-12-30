@@ -234,15 +234,10 @@
                                                                    headerFields:responseStub.httpHeaders
                                                                     requestTime:requestTime];
         
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
-        // TODO: get rid of the deprecated dispatch_get_current_queue()
-        dispatch_after(popTime, dispatch_get_current_queue(), ^(void) {
-            [client URLProtocol:self didReceiveResponse:urlResponse
-             cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        execute_after(requestTime,^{
+            [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
             
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseTime*NSEC_PER_SEC);
-            // TODO: get rid of the deprecated dispatch_get_current_queue()
-            dispatch_after(popTime, dispatch_get_current_queue(), ^(void) {
+            execute_after(responseTime,^{
                 [client URLProtocol:self didLoadData:responseStub.responseData];
                 [client URLProtocolDidFinishLoading:self];
             });
@@ -252,9 +247,7 @@
 #endif
     } else {
         // Send the canned error
-        // TODO: get rid of the deprecated dispatch_get_current_queue()
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseStub.responseTime * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_current_queue(), ^(void){
+        execute_after(responseStub.responseTime, ^{
             [client URLProtocol:self didFailWithError:responseStub.error];
         });
     }
@@ -262,7 +255,20 @@
 
 - (void)stopLoading
 {
-    // TODO: cancel the fake request
+
+}
+
+/////////////////////////////////////////////
+// Delayed execution utility methods
+/////////////////////////////////////////////
+
+//! execute the block on the current NSRunLoop after a given amount of seconds
+void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
+{
+    /* We know that -[NSURLProtocol startLoading] is called on a dedicated thread that has a runloop, so that there is no problem firing a timer here
+       @note We use the '-invoke' method (private API) because it is handy and OHHTTPStubs will never be used in production code anyway
+     */
+    [NSTimer scheduledTimerWithTimeInterval:delayInSeconds target:[[block copy] autorelease] selector:@selector(invoke) userInfo:nil repeats:NO];
 }
 
 @end
