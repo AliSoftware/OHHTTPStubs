@@ -26,7 +26,9 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 @interface AsyncSenTestCase : SenTestCase
+/** @note All the waitFor… methods run the current runloop while waiting to let other threads and operations to continue running **/
 -(void)waitForAsyncOperationWithTimeout:(NSTimeInterval)timeout; //!< Wait for one async operation
--(void)waitForAsyncOperations:(NSUInteger)count withTimeout:(NSTimeInterval)timeout; //!< wait for multiple async operations
+-(void)waitForAsyncOperations:(NSUInteger)count withTimeout:(NSTimeInterval)timeout; //!< Wait for multiple async operations
+-(void)waitForTimeout:(NSTimeInterval)timeout; //!< Wait for a fixed amount of time
 -(void)notifyAsyncOperationDone; //!< notify any waiter that the async op is done
 @end

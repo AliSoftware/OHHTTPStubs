@@ -93,7 +93,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     
     [self waitForAsyncOperationWithTimeout:kResponseTime+1];
     
-    STAssertTrue(_data.length == 0, @"Received unexpected network data %@", _data);
+    STAssertEquals(_data.length, 0U, @"Received unexpected network data %@", _data);
     STAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
     STAssertEquals(_error.code, expectedError.code, @"Invalid error response code");
     STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
@@ -123,6 +123,31 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [self notifyAsyncOperationDone];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
+#pragma mark Cancel requests
+///////////////////////////////////////////////////////////////////////////////////
+
+-(void)test_NSURLConnection_cancel
+{
+    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+        return [OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
+                                          statusCode:500
+                                        responseTime:3.0
+                                             headers:nil];
+    }];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];    
+    NSURLConnection* cancellableRequest = [NSURLConnection connectionWithRequest:req delegate:self];
+    
+    [self waitForTimeout:2.0];
+    [cancellableRequest cancel];
+    [self waitForTimeout:2.0];
+    
+    STAssertEquals(_data.length, 0U, @"Received unexpected data but the request should have been cancelled");
+    STAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
 }
 
 @end

@@ -26,11 +26,13 @@
 #import "AsyncSenTestCase.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
-@interface NetworkSynchronousConstructorsTests : AsyncSenTestCase @end
+@interface WithContentsOfURLTests : AsyncSenTestCase @end
 
 static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
-@implementation NetworkSynchronousConstructorsTests
+@implementation WithContentsOfURLTests
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////
