@@ -24,7 +24,7 @@
 
 
 #import "AsyncSenTestCase.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "OHHTTPStubs.h"
 
 @interface NSURLConnectionDelegateTests : AsyncSenTestCase <NSURLConnectionDataDelegate> @end
 

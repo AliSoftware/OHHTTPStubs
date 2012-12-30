@@ -24,7 +24,7 @@
 
 
 #import "AsyncSenTestCase.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "OHHTTPStubs.h"
 
 @interface WithContentsOfURLTests : AsyncSenTestCase @end
 
