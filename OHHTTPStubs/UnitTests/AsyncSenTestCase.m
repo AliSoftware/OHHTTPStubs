@@ -26,10 +26,12 @@
 #import "AsyncSenTestCase.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
+@interface AsyncSenTestCase()
+@property(atomic, assign) NSUInteger asyncTestCaseSignaledCount;
+@end
+
 @implementation AsyncSenTestCase
-{
-    NSUInteger _asyncTestCaseSignaledCount;
-}
+@synthesize asyncTestCaseSignaledCount = _asyncTestCaseSignaledCount;
 
 -(void)waitForAsyncOperationWithTimeout:(NSTimeInterval)timeout
 {
@@ -41,7 +43,7 @@
     static const NSTimeInterval kSamplingInterval = 0.5;
     
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while ((_asyncTestCaseSignaledCount < count) && ([timeoutDate timeIntervalSinceNow]>0))
+    while ((self.asyncTestCaseSignaledCount < count) && ([timeoutDate timeIntervalSinceNow]>0))
     {
         if (![[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:kSamplingInterval]])
         {
@@ -61,7 +63,7 @@
 {
     @synchronized(self)
     {
-        ++_asyncTestCaseSignaledCount;
+        self.asyncTestCaseSignaledCount = self.asyncTestCaseSignaledCount+1;
     }
 }
 
