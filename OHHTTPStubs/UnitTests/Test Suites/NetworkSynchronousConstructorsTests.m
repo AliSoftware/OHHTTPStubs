@@ -56,8 +56,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
                                                error:NULL];
     
     STAssertEqualObjects(string, testString, @"Invalid returned string");
-    STAssertTrue( fabs(kResponseTime+[startDate timeIntervalSinceNow]) < kResponseTimeTolerence,
-                 @"The response time was not respected (expected: %d, got: %d)", kResponseTime, -[startDate timeIntervalSinceNow]);
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
 }
 
 -(void)test_NSString_stringWithContentsOfURL_parallelQueue
@@ -90,8 +89,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.apple.com"]];
     
     STAssertEqualObjects(data, testData, @"Invalid returned string");
-    STAssertTrue( fabs(kResponseTime+[startDate timeIntervalSinceNow]) < kResponseTimeTolerence,
-                 @"The response time was not respected (expected: %d, got: %d)", kResponseTime, -[startDate timeIntervalSinceNow]);
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
 }
 
 -(void)test_NSData_dataWithContentsOfURL_parallelQueue

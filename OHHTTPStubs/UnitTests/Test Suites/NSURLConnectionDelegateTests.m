@@ -33,13 +33,25 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 @implementation NSURLConnectionDelegateTests
 {
     NSMutableData* _data;
+    NSError* _error;
+}
+
+-(void)setUp
+{
+    _data = [[NSMutableData alloc] init];
+}
+
+-(void)tearDown
+{
+    [_data release];
+    [_error release];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSURLConnection + Delegate
 ///////////////////////////////////////////////////////////////////////////////////
 
--(void)test_NSURLConnectionDelegate
+-(void)test_NSURLConnectionDelegate_success
 {
     static const NSTimeInterval kResponseTime = 2.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
@@ -54,19 +66,43 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
     NSDate* startDate = [NSDate date];
     
-    if ([NSURLConnection connectionWithRequest:req delegate:self])
-    {
-        _data = [[NSMutableData alloc] init];
-    }
+    [NSURLConnection connectionWithRequest:req delegate:self];
     
     [self waitForAsyncOperationWithTimeout:kResponseTime+1];
     
     STAssertEqualObjects(_data, testData, @"Invalid data response");
-    STAssertTrue( fabs(kResponseTime+[startDate timeIntervalSinceNow]) < kResponseTimeTolerence,
-                 @"The response time was not respected (expected: %d, got: %d)", kResponseTime, -[startDate timeIntervalSinceNow]);
-    
-    [_data release];
+    STAssertNil(_error, @"Received unexpected network error %@", _error);
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
 }
+
+-(void)test_NSURLConnectionDelegate_error
+{
+    static const NSTimeInterval kResponseTime = 2.0;
+    NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
+    
+    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+        OHHTTPStubsResponse* resp = [OHHTTPStubsResponse responseWithError:expectedError];
+        resp.responseTime = kResponseTime;
+        return resp;
+    }];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    NSDate* startDate = [NSDate date];
+    
+    [NSURLConnection connectionWithRequest:req delegate:self];
+    
+    [self waitForAsyncOperationWithTimeout:kResponseTime+1];
+    
+    STAssertTrue(_data.length == 0, @"Received unexpected network data %@", _data);
+    STAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
+    STAssertEquals(_error.code, expectedError.code, @"Invalid error response code");
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+#pragma mark NSURLConnectionDelegate implementation
+///////////////////////////////////////////////////////////////////////////////////
+
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -80,7 +116,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    STFail(@"Request failed with error %@", error);
+    _error = [error retain];
     [self notifyAsyncOperationDone];
 }
 
