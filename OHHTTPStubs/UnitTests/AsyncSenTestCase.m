@@ -44,12 +44,13 @@
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while ((self.asyncTestCaseSignaledCount < count) && ([timeoutDate timeIntervalSinceNow]>0))
     {
-        if (![[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:kSamplingInterval]])
-        {
-            // If the RunLoop cannot be started (or there is no runloop installed in the current thread), sleep for some time (to avoid 100% CPU polling)
-            [NSThread sleepForTimeInterval:kSamplingInterval];
-        }
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, kSamplingInterval, YES);
     }
+    
+    // Reset the counter for next time, in case we call this method again later
+    // (don't reset it at the beginning of the method because we should be able to call
+    // notifyAsyncOperationDone *before* this method if we wanted to)
+    self.asyncTestCaseSignaledCount = 0;
     
     if ([timeoutDate timeIntervalSinceNow]<0)
     {
@@ -65,11 +66,7 @@
     NSDate* waitEndDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while ([waitEndDate timeIntervalSinceNow]>0)
     {
-        if (![[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:kSamplingInterval]])
-        {
-            // If the RunLoop cannot be started (or there is no runloop installed in the current thread), sleep for some time (to avoid 100% CPU polling)
-            [NSThread sleepForTimeInterval:kSamplingInterval];
-        }
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, kSamplingInterval, YES);
     }
 }
 
