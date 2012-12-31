@@ -229,10 +229,17 @@
         NSTimeInterval requestTime = canonicalResponseTime * 0.1;
         NSTimeInterval responseTime = canonicalResponseTime - requestTime;
         
-        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
+        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
                                                                    headerFields:responseStub.httpHeaders
                                                                     requestTime:requestTime];
+        
+        // Cookies handling
+        if (request.HTTPShouldHandleCookies)
+        {
+            NSArray* cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:responseStub.httpHeaders forURL:request.URL];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:request.URL mainDocumentURL:nil];
+        }
         
         execute_after(requestTime,^{
             [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
