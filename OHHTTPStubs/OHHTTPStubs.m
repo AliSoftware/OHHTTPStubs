@@ -90,6 +90,23 @@
 #pragma mark - Public class methods
 
 // Commodity methods
++(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
+                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))requestHandler
+{
+    return [self addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+    {
+        BOOL shouldStub = shouldReturnStubForRequest ? shouldReturnStubForRequest(request) : YES;
+        if (onlyCheck)
+        {
+            return shouldStub ? OHHTTPStubsResponseUseStub : OHHTTPStubsResponseDontUseStub;
+        }
+        else
+        {
+            return (requestHandler && shouldStub) ? requestHandler(request) : nil;
+        }
+    }];
+}
+
 +(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
     return [[self sharedInstance] addRequestHandler:handler];
