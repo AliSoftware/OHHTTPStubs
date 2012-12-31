@@ -48,6 +48,11 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 #pragma mark - Class Methods
 
 //! Commmodity method: calls instance method on sharedInstance directly
+
+// same as addRequestHandler but process the checking and the building of the actual stub in separate blocks for performance
++(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
+                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))handler;
+
 +(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
 +(BOOL)removeRequestHandler:(id)handler;
 +(void)removeLastRequestHandler;
