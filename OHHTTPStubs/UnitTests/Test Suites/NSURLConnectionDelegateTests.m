@@ -44,7 +44,6 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 {
     [super setUp];
     _data = [[NSMutableData alloc] init];
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 }
 
 -(void)tearDown
@@ -186,15 +185,21 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
                                              headers:headers];
     }];
     
+    // Set the cookie accept policy to accept all cookies from the main document domain
+    // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
+    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSHTTPCookieAcceptPolicy previousAcceptPolicy = [cookieStorage cookieAcceptPolicy]; // keep it to restore later
+    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain];
     
+    // Send the request and wait for the response containing the Set-Cookie headers
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     [self waitForAsyncOperationWithTimeout:1.0];
     [cxn cancel]; // In case we timed out (test failed), cancel the request to avoid further delegate method calls
     
     
-    /* Check cookie proper storage */
-    NSArray* cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:req.URL];
+    /* Check that the cookie has been properly stored */
+    NSArray* cookies = [cookieStorage cookiesForURL:req.URL];
     BOOL cookieFound = NO;
     for (NSHTTPCookie* cookie in cookies)
     {
@@ -205,6 +210,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
         }
     }
     STAssertTrue(cookieFound, @"The cookie was not stored as expected");
+    
+
+    // As a courtesy, restore previous policy before leaving
+    [cookieStorage setCookieAcceptPolicy:previousAcceptPolicy];
+
 }
 
 @end
