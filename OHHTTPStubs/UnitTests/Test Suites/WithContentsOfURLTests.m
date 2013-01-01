@@ -41,10 +41,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)test_NSString_stringWithContentsOfURL_mainQueue
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSString* testString = NSStringFromSelector(_cmd);
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {        
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
                                           statusCode:200
                                         responseTime:kResponseTime
@@ -76,10 +78,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)test_NSData_dataWithContentsOfURL_mainQueue
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData
                                           statusCode:200
                                         responseTime:kResponseTime

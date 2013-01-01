@@ -87,10 +87,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)test_NSURLConnectionDelegate_success
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {        
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData
                                           statusCode:200
                                         responseTime:kResponseTime
@@ -102,7 +104,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+1];
+    [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
     
     STAssertEqualObjects(_data, testData, @"Invalid data response");
     STAssertNil(_error, @"Received unexpected network error %@", _error);
@@ -114,10 +116,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)test_NSURLConnectionDelegate_error
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         OHHTTPStubsResponse* resp = [OHHTTPStubsResponse responseWithError:expectedError];
         resp.responseTime = kResponseTime;
         return resp;
@@ -128,7 +132,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+1];
+    [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
     
     STAssertEquals(_data.length, 0U, @"Received unexpected network data %@", _data);
     STAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
@@ -146,19 +150,21 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)test_NSURLConnection_cancel
 {
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
                                           statusCode:500
-                                        responseTime:3.0
+                                        responseTime:1.5
                                              headers:nil];
     }];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForTimeout:2.0];
+    [self waitForTimeout:0.5];
     [cxn cancel];
-    [self waitForTimeout:2.0];
+    [self waitForTimeout:1.5];
     
     STAssertEquals(_data.length, 0U, @"Received unexpected data but the request should have been cancelled");
     STAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
@@ -176,7 +182,9 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 {
     NSString* const cookieName = @"SESSIONID";
     NSString* const cookieValue = [[NSProcessInfo processInfo] globallyUniqueString];
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* cookie = [NSString stringWithFormat:@"%@=%@;", cookieName, cookieValue];
         NSDictionary* headers = [NSDictionary dictionaryWithObject:cookie forKey:@"Set-Cookie"];
         return [OHHTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
@@ -194,7 +202,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     // Send the request and wait for the response containing the Set-Cookie headers
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    [self waitForAsyncOperationWithTimeout:1.0];
+    [self waitForAsyncOperationWithTimeout:kResponseTimeTolerence];
     [cxn cancel]; // In case we timed out (test failed), cancel the request to avoid further delegate method calls
     
     
