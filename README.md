@@ -12,7 +12,7 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Examples](#complete-examples)
 * [Using in your projects](#using-in-your-projects)
-* [Information about OHHTTPStubs Unit Tests](#information-about-ohhttpstubs-unit-tests)
+* [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
 * [License and Credits](#license-and-credits)
 
@@ -23,7 +23,7 @@ A class to stub network requests easily: test your apps with fake network data (
 This is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to
 return data from a file instead.
 
-This is the most simple way to use it:
+##### This is the most simple way to use it:
 
     [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck) {
         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
@@ -32,7 +32,7 @@ This is the most simple way to use it:
 This will return the `NSData` corresponding to the content of the `"response.json"` file (that must be in your bundle)
 with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 seconds.
 
-We can also conditionally stub only certain requests, like this:
+##### We can also conditionally stub only certain requests, like this:
 
     [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         // Only stub requests to "*.json" files
@@ -42,10 +42,10 @@ We can also conditionally stub only certain requests, like this:
         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
     }];
 
----
+##### Then each time a network request is done by your application
 
-Then each time a network request is done by your application (whatever the framework used,
-`NSURLConnection`, [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
+For every request sent, whatever the framework used (`NSURLConnection`,
+[`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
 
 * If you used `shouldStubRequestsPassingTest:withStubResponse:`
   * The block passed as first argument will be called to check if we need to stub this request.
@@ -239,7 +239,7 @@ If it is not the case, please read the [detailed instructions here](http://githu
 > _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
 So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
 
-## Information about OHHTTPStubs Unit Tests
+## About `OHHTTPStubs` Unit Tests
 
 `OHHTTPStubs` include some *Unit Tests*, and some of them test cases when using `OHHTTPStubs` with the [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/) framework.
 To implement those test cases, `AFNetworking` has been added as a _GIT submodule_ inside the "Unit Tests" folder.
