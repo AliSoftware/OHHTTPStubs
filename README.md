@@ -11,7 +11,7 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Examples](#complete-examples)
-* [Using in your projects](#using-in-your-projects)
+* [Installing in your projects](#installing-in-your-projects)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
 * [License and Credits](#license-and-credits)
@@ -177,13 +177,19 @@ It will just add the response handlers in an internal list of handlers.
 
 When a network request is performed by the system, the response handlers are called in the reverse
   order that they have been added, the last added handler having priority over the first added ones.
-  The first non-nil `OHHTTPStubsResponse` returned is used to reply to the request.
+  The first handler that returns a stub (non-nil response for `addRequestHandler:`,
+  or first block returning YES for `shouldStubRequestsPassingTest:withStubResponse:`) is then used to reply to the request.
 
-_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application._
+_This may be useful to install different stubs in different classes (say different UIViewControllers)
+and various places in your application, or to separate different stubs and stubbing conditions
+(like some stubs for images and other stubs for JSON files) more easily.
+See the `OHHTTPStubsDemo` project for a typical example._
 
 You can remove the latest added handler with the `removeLastRequestHandler` method.
 
 You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by `OHHTTPStubs`, so you may keep it in a `__weak` variable._
+
+
 
 ## Complete examples
 
@@ -216,7 +222,8 @@ For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in th
      }] start];
 
 
-## Using in your projects
+
+## Installing in your projects
 
 The `OHHTTPStubs` project is provided as a Xcode project that generates a static library, to easily integrate it with your project.
 
