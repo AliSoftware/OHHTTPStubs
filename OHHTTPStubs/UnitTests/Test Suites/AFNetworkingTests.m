@@ -33,9 +33,11 @@
 
 -(void)test_AFHTTPRequestOperation
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 responseTime:kResponseTime headers:nil];
     }];
     
@@ -51,7 +53,7 @@
     }];
     [op start];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+1];
+    [self waitForAsyncOperationWithTimeout:kResponseTime+0.5];
     
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }

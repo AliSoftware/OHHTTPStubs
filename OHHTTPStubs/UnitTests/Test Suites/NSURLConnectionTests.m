@@ -39,10 +39,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)test_NSURLConnection_sendSyncronousRequest_mainQueue
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {        
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData
                                           statusCode:200
                                         responseTime:kResponseTime
@@ -73,10 +75,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
 
 -(void)_test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:(NSOperationQueue*)queue
 {
-    static const NSTimeInterval kResponseTime = 2.0;
+    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData
                                           statusCode:200
                                         responseTime:kResponseTime
@@ -95,7 +99,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
          [self notifyAsyncOperationDone];
      }];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+1.0];
+    [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
 }
 
 
@@ -121,7 +125,9 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
         return [[NSString stringWithFormat:@"<Response for URL %@>",req.URL.absoluteString] dataUsingEncoding:NSUTF8StringEncoding];
     };
     
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck) {
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSData* retData = dataForRequest(request);
         NSTimeInterval responseTime = [request.URL.lastPathComponent doubleValue];
         return [OHHTTPStubsResponse responseWithData:retData
@@ -133,7 +139,8 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
     // Reusable code to send a request that will respond in the given response time
     void (^sendAsyncRequest)(NSTimeInterval) = ^(NSTimeInterval responseTime)
     {
-        NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dummyrequest/concurrent/time/%f",responseTime]]];
+        NSString* urlString = [NSString stringWithFormat:@"http://dummyrequest/concurrent/time/%f",responseTime];
+        NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
         [SenTestLog testLogWithFormat:@"== Sending request %@\n", req];
         NSDate* startDate = [NSDate date];
         [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
@@ -146,11 +153,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.05;
          }];
     };
 
-    sendAsyncRequest(3.0); // send this one first, should receive last
-    sendAsyncRequest(2.0); // send this one next, shoud receive 2nd
-    sendAsyncRequest(1.0); // send this one last, should receive first
+    sendAsyncRequest(1.5); // send this one first, should receive last
+    sendAsyncRequest(1.0); // send this one next, shoud receive 2nd
+    sendAsyncRequest(0.5); // send this one last, should receive first
 
-    [self waitForAsyncOperations:3 withTimeout:4.0]; // time out after 4s because the requests should run concurrently and all should be done in ~3s
+    [self waitForAsyncOperations:3 withTimeout:2.0]; // time out after 4s because the requests should run concurrently and all should be done in ~1.5s
 }
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_mainQueue
