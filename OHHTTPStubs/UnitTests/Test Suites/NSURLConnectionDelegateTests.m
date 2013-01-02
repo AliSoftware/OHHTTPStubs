@@ -28,7 +28,7 @@
 
 @interface NSURLConnectionDelegateTests : AsyncSenTestCase <NSURLConnectionDataDelegate> @end
 
-static const NSTimeInterval kResponseTimeTolerence = 0.05;
+static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 @implementation NSURLConnectionDelegateTests
 {
