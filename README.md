@@ -187,7 +187,10 @@ See the `OHHTTPStubsDemo` project for a typical example._
 
 You can remove the latest added handler with the `removeLastRequestHandler` method.
 
-You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by `OHHTTPStubs`, so you may keep it in a `__weak` variable._
+You can also remove any given handler with the `removeRequestHandler:` method.
+This method takes as a parameter the object returned by `addRequestHandler:` or `shouldStubRequestsPassingTest:withStubResponse:`.
+_Note that this returned object is already retained by `OHHTTPStubs` while the stub is installed,
+so you may keep it in a `__weak` variable (no need to keep a `__strong` reference)._
 
 
 
@@ -253,6 +256,8 @@ To implement those test cases, `AFNetworking` has been added as a _GIT submodule
 This means that if you want to be able to run `OHHTTPStubs`' Unit Tests,
   you need to include submodules when cloning, by using the `--recursive` option:
   `git clone --recursive <this_repo_url> <destination_folder>`.
+Alternatively if you didn't include the `--recursive` flag when cloning, you can use `git submodule init` and then `git submodule update`
+on your already cloned working copy to initialize and fetch/update the submodules.
 
 _This is only needed if you intend to run the `OHHTTPStubs` Unit Tests, to check the correct behavior of `OHHTTPStubs`
 in conjunction with `AFNetworking`. If you only intend to directly use the `OHHTTPStubs`'s
