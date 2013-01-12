@@ -242,19 +242,30 @@ The `OHHTTPStubs` project is provided as a Xcode project that generates a static
 5. Add the relative path to `OHHTTPStubs` headers (something like `"../OHHTTPStubs"` probably) to your "Header Search Path" Build Settings
 6. When you need to use `OHHTTPStubs` classes, import the headers as usual: `#import "OHHTTPStubs.h"`
 
-_Note: Steps 2 and 4 are needed due to a bug in Xcode4 that would otherwise not reference the library with the correct path and as a built product.
+### Xcode4 Dependencies bug
+
+Steps 2 and 4 are needed due to a bug in Xcode4 that would otherwise not reference the library with the correct path and as a built product.
+
 If the `libOHHTTPStubs.a` file is not referenced as "Relative to Build Products", Xcode4 won't be able to detect implicit dependencies and won't
 build the library before building your application, resulting in a linker error.
+
 If you encounter this issue, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
 
----
+### Private API Warning
 
-> ### **Important Note**
 `OHHTTPStubs` is designed to be used **in test/debug code only**.
 **Don't link with it in production code when you compile your final application for the AppStore**.
 
 > _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
 So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
+
+### CocoaPods
+
+`OHHTTPStubs` is referenced in `CocoaPods`, so if you use CocoaPods you can add `pod OHHTTPStubs` to your Podfile instead of following the above instructions.
+
+Be careful anyway to include it only in your test targets, or only use its symbols in `#if DEBUG` portions,
+so that its code (and the private API it uses) is not included in your release for the AppStore, as explained above.
+
 
 ## About `OHHTTPStubs` Unit Tests
 
