@@ -33,7 +33,6 @@
 		09793598161B62C0006DB5D5 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
 		09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
-		097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PortableLibrary.xcconfig; sourceTree = "<group>"; };
 		098368CE168FC7920082B1A4 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		098368CF168FC7920082B1A4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		098368D6168FC7920082B1A4 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
@@ -76,7 +75,6 @@
 		0979356E161B6251006DB5D5 = {
 			isa = PBXGroup;
 			children = (
-				097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */,
 				0979357E161B6251006DB5D5 /* OHHTTPStubs */,
 				098368D4168FC7920082B1A4 /* UnitTests */,
 				0979357B161B6251006DB5D5 /* Frameworks */,
@@ -308,6 +306,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 			};
@@ -326,6 +325,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -334,7 +334,6 @@
 		};
 		09793588161B6251006DB5D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -346,7 +345,6 @@
 		};
 		09793589161B6251006DB5D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 097935A0161B644E006DB5D5 /* PortableLibrary.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

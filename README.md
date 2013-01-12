@@ -231,16 +231,23 @@ For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in th
 The `OHHTTPStubs` project is provided as a Xcode project that generates a static library, to easily integrate it with your project.
 
 1. Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
-2. Link `libOHHTTPStubs.a` with your application project:
+2. Build the library at least once for the "iOS Device" destination _(if you don't do it, you will likely have the Xcode4 bug described below)_
+3. Link `libOHHTTPStubs.a` with your application project:
   * Select your application project in the Project Navigator, then select your target in which you want to use `OHHTTPStubs`
      (for example **your Tests target** if you will only use `OHHTTPStubs` in your Unit Tests)
   * Go to the "Build Phase" tab and open the "Link Binary With Libraries" phase
   * Use the "+" button to add the `libOHHTTPStubs.a` library to the libraries linked with your project
-3. When you need to use `OHHTTPStubs` classes, import the headers using square brackets: `#import <OHHTTPStubs/OHHTTPStubs.h>`
+4. Select the `libOHHTTPStubs.a` file reference that has been added to your application projet, and change the "Location" dropdown
+  (in the "File Inspector" pane) to "Relative to Build Products" if it is not already.
+5. Add the relative path to `OHHTTPStubs` headers (something like `"../OHHTTPStubs"` probably) to your "Header Search Path" Build Settings
+6. When you need to use `OHHTTPStubs` classes, import the headers as usual: `#import "OHHTTPStubs.h"`
 
-_Note: due to a bug in Xcode4, you will have to ensure that the `libOHHTTPStubs.a` file reference added in your project
-has its path referenced as "Relative to Build Products" as it should.
-If it is not the case, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
+_Note: Steps 2 and 4 are needed due to a bug in Xcode4 that would otherwise not reference the library with the correct path and as a built product.
+If the `libOHHTTPStubs.a` file is not referenced as "Relative to Build Products", Xcode4 won't be able to detect implicit dependencies and won't
+build the library before building your application, resulting in a linker error.
+If you encounter this issue, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
+
+---
 
 > ### **Important Note**
 `OHHTTPStubs` is designed to be used **in test/debug code only**.
