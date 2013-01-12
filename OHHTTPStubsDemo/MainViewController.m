@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "OHHTTPStubs.h"
 
 
 @implementation MainViewController
