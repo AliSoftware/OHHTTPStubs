@@ -12,6 +12,10 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Examples](#complete-examples)
 * [Installing in your projects](#installing-in-your-projects)
+ * [Detailed integration instructions](#detailed-integration-instructions)
+ * [Xcode4 Dependencies bug](#xcode4-dependencies-bug)
+ * [Private API Warning](#private-api-warning)
+ * [CocoaPods](#cocoapods)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
 * [License and Credits](#license-and-credits)
@@ -265,7 +269,7 @@ So you will probably only link it with your Unit Tests target, or inside some `#
 
 ### CocoaPods
 
-`OHHTTPStubs` is referenced in `CocoaPods`, so if you use CocoaPods you can add `pod OHHTTPStubs` to your Podfile instead of following the above instructions.
+`OHHTTPStubs` is referenced in [`CocoaPods`](https://github.com/CocoaPods/Specs/tree/master/OHHTTPStubs), so if you use [CocoaPods](http://cocoapods.org/) you can add `pod OHHTTPStubs` to your Podfile instead of following the above instructions.
 
 Be careful anyway to include it only in your test targets, or only use its symbols in `#if DEBUG` portions,
 so that its code (and the private API it uses) is not included in your release for the AppStore, as explained above.
