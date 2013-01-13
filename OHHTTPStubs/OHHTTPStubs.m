@@ -126,16 +126,18 @@
 
 +(void)setEnabled:(BOOL)enabled
 {
-    if (enabled)
+    static BOOL currentEnabledState = NO;
+    if (enabled && !currentEnabledState)
     {
         [NSURLProtocol registerClass:[OHHTTPStubsProtocol class]];
     }
-    else
+    else if (!enabled && currentEnabledState)
     {
         // Force instanciate sharedInstance to avoid it being created later and this turning setEnabled to YES again
         (void)[self sharedInstance]; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
         [NSURLProtocol unregisterClass:[OHHTTPStubsProtocol class]];
     }
+    currentEnabledState = enabled;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
