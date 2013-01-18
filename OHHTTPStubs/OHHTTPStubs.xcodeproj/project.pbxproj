@@ -11,8 +11,8 @@
 		0979357D161B6251006DB5D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
 		0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
 		0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */; };
-		0979359E161B62EF006DB5D5 /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793597161B62C0006DB5D5 /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0979359F161B62EF006DB5D5 /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		09804E4E16A8D60A00ADC660 /* OHHTTPStubs.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09793597161B62C0006DB5D5 /* OHHTTPStubs.h */; };
+		09804E4F16A8D60A00ADC660 /* OHHTTPStubsResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */; };
 		098368D0168FC7920082B1A4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098368CF168FC7920082B1A4 /* SenTestingKit.framework */; };
 		098368D3168FC7920082B1A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
 		098368DC168FC7920082B1A4 /* AsyncSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368DB168FC7920082B1A4 /* AsyncSenTestCase.m */; };
@@ -24,6 +24,20 @@
 		099C73551690397600239880 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73531690397600239880 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		09804E4D16A8D5F100ADC660 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				09804E4E16A8D60A00ADC660 /* OHHTTPStubs.h in CopyFiles */,
+				09804E4F16A8D60A00ADC660 /* OHHTTPStubsResponse.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		09739F2B16900E81009851EF /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTests.m; sourceTree = "<group>"; };
@@ -158,18 +172,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		0979359D161B62EA006DB5D5 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0979359E161B62EF006DB5D5 /* OHHTTPStubs.h in Headers */,
-				0979359F161B62EF006DB5D5 /* OHHTTPStubsResponse.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		09793578161B6251006DB5D5 /* OHHTTPStubs */ = {
 			isa = PBXNativeTarget;
@@ -177,7 +179,7 @@
 			buildPhases = (
 				09793575161B6251006DB5D5 /* Sources */,
 				09793576161B6251006DB5D5 /* Frameworks */,
-				0979359D161B62EA006DB5D5 /* Headers */,
+				09804E4D16A8D5F100ADC660 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -335,9 +337,7 @@
 		09793588161B6251006DB5D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -346,11 +346,9 @@
 		09793589161B6251006DB5D5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/OHHTTPStubs.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
