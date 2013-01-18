@@ -234,21 +234,20 @@ For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in th
 
 The `OHHTTPStubs` project is provided as a Xcode project that generates a static library, to easily integrate it with your project.
 
-You simply need to add its xcodeproj to your workspace, link your app against the `libOHHTTPStubs.a` library it produced, and fill the "Header Search Path" of your application project correctly.
+You simply need to add its xcodeproj to your workspace and link your app against the `libOHHTTPStubs.a` library.
 
 ### Detailed integration instructions
 
 1. Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
 2. Build the library once for the "iOS Device" destination _(if you skipt this, you will likely have the Xcode4 bug described below)_
-3. Link `libOHHTTPStubs.a` with your application project:
+3. Link `libOHHTTPStubs.a` with your application project. To do this:
   * Select your application project in the Project Navigator, then select your target in which you want to use `OHHTTPStubs`
      (for example **your Tests target** if you will only use `OHHTTPStubs` in your Unit Tests)
   * Go to the "Build Phase" tab and open the "Link Binary With Libraries" phase
   * Use the "+" button to add the `libOHHTTPStubs.a` library to the libraries linked with your project
 4. Select the `libOHHTTPStubs.a` file reference that has been added to your application projet, and change the "Location" dropdown
   (in the "File Inspector" pane) to "Relative to Build Products" if it is not already.
-5. Add the relative path to `OHHTTPStubs` headers (something like `"../OHHTTPStubs"` probably) to your "Header Search Path" Build Settings
-6. When you need to use `OHHTTPStubs` classes, import the headers as usual, using `#import "OHHTTPStubs.h"`
+6. When you need to use `OHHTTPStubs` classes, import the headers using `#import <OHHTTPStubs/OHHTTPStubs.h>`
 
 ### Xcode4 Dependencies bug
 
