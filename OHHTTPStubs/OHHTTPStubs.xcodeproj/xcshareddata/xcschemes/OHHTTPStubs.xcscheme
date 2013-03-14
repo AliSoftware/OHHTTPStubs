@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "09793578161B6251006DB5D5"
-               BuildableName = "libOHHTTPStubs.a"
-               BlueprintName = "OHHTTPStubs"
+               BuildableName = "libOHHTTPStubs-iOS.a"
+               BlueprintName = "OHHTTPStubs-iOS"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -1,3 +1,0 @@
-[submodule "OHHTTPStubs/UnitTests/AFNetworking"]
-	path = OHHTTPStubs/UnitTests/AFNetworking
-	url = http://github.com/AFNetworking/AFNetworking.git
