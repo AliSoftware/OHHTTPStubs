@@ -237,8 +237,8 @@
             double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
             canonicalResponseTime = responseStub.responseData.length / bandwidth;
         }
-        NSTimeInterval requestTime = ceil(fabs(canonicalResponseTime * 0.1));
-        NSTimeInterval responseTime = ceil(fabs(canonicalResponseTime - requestTime));
+        NSTimeInterval requestTime = fabs(canonicalResponseTime * 0.1);
+        NSTimeInterval responseTime = fabs(canonicalResponseTime - requestTime);
         
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
