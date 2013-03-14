@@ -29,8 +29,6 @@
 @property(atomic, assign) NSUInteger asyncTestCaseSignaledCount;
 @end
 
-static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
-
 
 
 @implementation AsyncSenTestCase
@@ -47,7 +45,7 @@ static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while ((self.asyncTestCaseSignaledCount < count) && ([timeoutDate timeIntervalSinceNow]>0))
     {
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, kRunLoopSamplingInterval, YES);
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, YES);
     }
     
     // Reset the counter for next time, in case we call this method again later
@@ -67,7 +65,7 @@ static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
     NSDate* waitEndDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while ([waitEndDate timeIntervalSinceNow]>0)
     {
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, kRunLoopSamplingInterval, YES);
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, YES);
     }
 }
 
