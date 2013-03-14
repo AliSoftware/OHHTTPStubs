@@ -157,7 +157,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     sendAsyncRequest(1.0); // send this one next, shoud receive 2nd
     sendAsyncRequest(0.5); // send this one last, should receive first
 
-    [self waitForAsyncOperations:3 withTimeout:2.0]; // time out after 4s because the requests should run concurrently and all should be done in ~1.5s
+    [self waitForAsyncOperations:3 withTimeout:4.0]; // time out after 4s because the requests should run concurrently and all should be done in ~1.5s
 }
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_mainQueue
