@@ -2,8 +2,6 @@
  *
  * Copyright (c) 2012 Olivier Halligon
  *
- * Original idea: https://github.com/InfiniteLoopDK/ILTesting
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -92,6 +90,23 @@
 #pragma mark - Public class methods
 
 // Commodity methods
++(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
+                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))requestHandler
+{
+    return [self addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+    {
+        BOOL shouldStub = shouldReturnStubForRequest ? shouldReturnStubForRequest(request) : YES;
+        if (onlyCheck)
+        {
+            return shouldStub ? OHHTTPStubsResponseUseStub : OHHTTPStubsResponseDontUseStub;
+        }
+        else
+        {
+            return (requestHandler && shouldStub) ? requestHandler(request) : nil;
+        }
+    }];
+}
+
 +(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
     return [[self sharedInstance] addRequestHandler:handler];
@@ -111,14 +126,18 @@
 
 +(void)setEnabled:(BOOL)enabled
 {
-    if (enabled)
+    static BOOL currentEnabledState = NO;
+    if (enabled && !currentEnabledState)
     {
         [NSURLProtocol registerClass:[OHHTTPStubsProtocol class]];
     }
-    else
+    else if (!enabled && currentEnabledState)
     {
+        // Force instanciate sharedInstance to avoid it being created later and this turning setEnabled to YES again
+        (void)[self sharedInstance]; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
         [NSURLProtocol unregisterClass:[OHHTTPStubsProtocol class]];
     }
+    currentEnabledState = enabled;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,23 +237,25 @@
             double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
             canonicalResponseTime = responseStub.responseData.length / bandwidth;
         }
-        NSTimeInterval requestTime = ceil(fabs(canonicalResponseTime * 0.1));
-        NSTimeInterval responseTime = ceil(fabs(canonicalResponseTime - requestTime));
+        NSTimeInterval requestTime = fabs(canonicalResponseTime * 0.1);
+        NSTimeInterval responseTime = fabs(canonicalResponseTime - requestTime);
         
-        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
+        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
                                                                     HTTPVersion:@"HTTP/1.1"
                                                                    headerFields:responseStub.httpHeaders];
         
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-            //NSLog(@"[OHHTTPStubs] Stub Response for %@ received", [request URL]);
-            [client URLProtocol:self didReceiveResponse:urlResponse
-             cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        // Cookies handling
+        if (request.HTTPShouldHandleCookies)
+        {
+            NSArray* cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:responseStub.httpHeaders forURL:request.URL];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
+        }
+        
+        execute_after(requestTime,^{
+            [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
             
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, responseTime*NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-                //NSLog(@"[OHHTTPStubs] Stub Data for %@ received", [request URL]);
+            execute_after(responseTime,^{
                 [client URLProtocol:self didLoadData:responseStub.responseData];
                 [client URLProtocolDidFinishLoading:self];
             });
@@ -244,12 +265,32 @@
 #endif
     } else {
         // Send the canned error
-        [client URLProtocol:self didFailWithError:responseStub.error];
+        execute_after(responseStub.responseTime, ^{
+            [client URLProtocol:self didFailWithError:responseStub.error];
+        });
     }
 }
 
 - (void)stopLoading
 {
+
+}
+
+/////////////////////////////////////////////
+// Delayed execution utility methods
+/////////////////////////////////////////////
+
+//! execute the block on the current NSRunLoop after a given amount of seconds
+void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
+{
+    /* We know that -[NSURLProtocol startLoading] is called on a dedicated thread that has a runloop, so that there is no problem firing a timer here
+       @note We use the '-invoke' method (private API) because it is handy and OHHTTPStubs will never be used in production code anyway
+     */
+    dispatch_block_t blockCopy = [block copy];
+    [NSTimer scheduledTimerWithTimeInterval:delayInSeconds target:blockCopy selector:@selector(invoke) userInfo:nil repeats:NO];
+#if ! __has_feature(objc_arc)
+    [blockCopy autorelease];
+#endif
 }
 
 @end
