@@ -165,15 +165,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Protocol Class
 
-// Undocumented initializer obtained by class-dump
-// Don't use this in production code destined for the App Store
-@interface NSHTTPURLResponse(UndocumentedInitializer)
-- (id)initWithURL:(NSURL*)URL
-       statusCode:(NSInteger)statusCode
-     headerFields:(NSDictionary*)headerFields
-      requestTime:(double)requestTime;
-@end
-
 @implementation OHHTTPStubsProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
@@ -186,6 +177,11 @@
         if (response) break;
     }
     return (response != nil);
+}
+
+- (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
+{
+    return [super initWithRequest:request cachedResponse:nil client:client];
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
@@ -222,13 +218,13 @@
             double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
             canonicalResponseTime = responseStub.responseData.length / bandwidth;
         }
-        NSTimeInterval requestTime = canonicalResponseTime * 0.1;
-        NSTimeInterval responseTime = canonicalResponseTime - requestTime;
+        NSTimeInterval requestTime = ceil(fabs(canonicalResponseTime * 0.1));
+        NSTimeInterval responseTime = ceil(fabs(canonicalResponseTime - requestTime));
         
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
                                                                      statusCode:responseStub.statusCode
-                                                                   headerFields:responseStub.httpHeaders
-                                                                    requestTime:requestTime];
+                                                                    HTTPVersion:@"HTTP/1.1"
+                                                                   headerFields:responseStub.httpHeaders];
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, requestTime*NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
