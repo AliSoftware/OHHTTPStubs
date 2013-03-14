@@ -98,21 +98,15 @@
     if (sender.on)
     {
         // Install
-        textHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
-                       {
-                           NSString* ext = request.URL.absoluteString.pathExtension;
-                           if ([ext isEqualToString:@"txt"])
-                           {
-                               if (onlyCheck) return OHHTTPStubsResponseUseStub;
-                               return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
-                                                                contentType:@"text/plain"
-                                                               responseTime:self.delaySwitch.on ? 2.f: 0.f];
-                           }
-                           else
-                           {
-                               return OHHTTPStubsResponseDontUseStub;
-                           }
-                       }];
+        textHandler = [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            // This handler will only configure stub requests for "*.txt" files
+            return [request.URL.absoluteString.pathExtension isEqualToString:@"txt"];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            // Stub txt files with this
+            return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
+                                             contentType:@"text/plain"
+                                            responseTime:self.delaySwitch.on ? 2.f: 0.f];
+        }];
     }
     else
     {
@@ -148,21 +142,15 @@
     if (sender.on)
     {
         // Install
-        imageHandler = [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
-                         {
-                             NSString* ext = request.URL.absoluteString.pathExtension;
-                             if ([ext isEqualToString:@"jpg"])
-                             {
-                                 if (onlyCheck) return OHHTTPStubsResponseUseStub;
-                                 return [OHHTTPStubsResponse responseWithFile:@"stub.jpg"
-                                                                  contentType:@"image/jpeg"
-                                                                 responseTime:self.delaySwitch.on ? 2.f: 0.f];
-                             }
-                             else
-                             {
-                                 return OHHTTPStubsResponseDontUseStub;
-                             }
-                         }];
+        imageHandler = [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            // This handler will only configure stub requests for "*.jpg" files
+            return [request.URL.absoluteString.pathExtension isEqualToString:@"jpg"];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            // Stub jpg files with this
+            return [OHHTTPStubsResponse responseWithFile:@"stub.jpg"
+                                             contentType:@"image/jpeg"
+                                            responseTime:self.delaySwitch.on ? 2.f: 0.f];
+        }];
     }
     else
     {

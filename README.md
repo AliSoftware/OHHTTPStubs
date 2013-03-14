@@ -11,7 +11,12 @@ A class to stub network requests easily: test your apps with fake network data (
  * [Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)
  * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
 * [Complete Examples](#complete-examples)
-* [Using in your projects](#using-in-your-projects)
+* [Installing in your projects](#installing-in-your-projects)
+ * [Detailed integration instructions](#detailed-integration-instructions)
+ * [Xcode4 Dependencies bug](#xcode4-dependencies-bug)
+ * [Private API Warning](#private-api-warning)
+ * [CocoaPods](#cocoapods)
+* [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
 * [License and Credits](#license-and-credits)
 
@@ -22,28 +27,43 @@ A class to stub network requests easily: test your apps with fake network data (
 This is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to
 return data from a file instead.
 
-This is the most simple way to use it:
+##### This is the most simple way to use it:
 
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
-     {
-       return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
-     }];
-
+    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck) {
+        return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
+    }];
+     
 This will return the `NSData` corresponding to the content of the `"response.json"` file (that must be in your bundle)
 with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 seconds.
 
+##### We can also conditionally stub only certain requests, like this:
+
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        // Only stub requests to "*.json" files
+        return [request.URL.absoluteString.lastPathComponent.pathExtension isEqualToString:@"json"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        // Stub it with our "response.json" stub file
+        return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
+    }];
+
+##### Then each time a network request is done by your application
+
+For every request sent, whatever the framework used (`NSURLConnection`,
+[`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
+
+* If you used `shouldStubRequestsPassingTest:withStubResponse:`
+  * The block passed as first argument will be called to check if we need to stub this request.
+  * If this block returned YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
+* If you used `addRequestHandler:`
+  * If you return a non-nil `OHHTTPStubsResponse`, the request will be stubbed by returning the corresponding fake response.
+  * If your return `nil`, the normal request will be sent (no stubbing).
+
+_(See also "[Return quickly when `onlyCheck=YES`](#return-quickly-when-onlycheckyes)" below)_
+
+
 ## The `OHHTTPStubsResponse` object
 
-Each time a network request is done by your application
- (whatever the framework used, `NSURLConnection`, [AFNetworking](https://github.com/AFNetworking/AFNetworking/), or anything else)
-this requestHandler block will be called, allowing you to return an `OHHTTPStubsResponse` object
-describing the response to return.
-
-* If you return a non-nil `OHHTTPStubsResponse`, it will automatically build a `NSURLResponse` with your stubbed data,
-  and behave exactly like if you received this response data from the network (this is transparent for the rest of the code).
-* If your return `nil`, the normal request will be sent (no stubbing).
-
-The `OHHTTPStubsResponse` class exposes multiple initializers:
+The `OHHTTPStubsResponse` class, describing the fake response to return, exposes multiple initializers:
 
 ##### The designed intializer
     +(id)responseWithData:(NSData*)data
@@ -76,12 +96,15 @@ you can do whatever you need in the block implementation. This includes
 checking the request URL to see if you want to return a stub or not,
 and pick the right file according to the requested URL.
 
+You can use either `addRequestHandler:` or `shouldStubRequestsPassingTest:withStubResponse:` to install a stubbed request.
+[See below](#return-quickly-when-onlycheckyes).
+
 Example:
 
     [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
      {
-       if ([request.URL.absoluteString hasPrefix:@".json"]) {
-         NSString* basename = [request.URL.absoluteString lastPathComponent]
+       NSString* basename = request.URL.absoluteString.lastPathComponent;
+       if ([basename.pathExtension isEqualToString:@"json"]) {
          return [OHHTTPStubsResponse responseWithFile:basename contentType:@"text/json" responseTime:2.0];
        } else {
          return nil; // Don't stub
@@ -92,8 +115,7 @@ Example:
 ### Using download speed instead of responseTime
 
 When building the `OHHTTPStubsResponse` object, you can specify a response time (in seconds) so
-that the sending of the fake response will be postponed (using GCD's `dispatch_after function`).
-This allows you to simulate a slow network for example.
+that the sending of the fake response will be postponed. This allows you to simulate a slow network for example.
 
 If you specify a negative value for the responseTime parameter, instead of being interpreted as
 a time in seconds, it will be interpreted as a download speed in KBytes/s.
@@ -109,7 +131,7 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 
 ### Return quickly when `onlyCheck=YES`
 
-If the `onlyCheck` parameter of the requestHandler block is `YES`, then it means that the handler is called
+When using `addRequestHandler:`, if the `onlyCheck` parameter of the requestHandler block is `YES`, then it means that the handler is called
    only to check if you will be able to return a stubbed response or if it has to do the standard request.
 In this scenario, the response will not actually be used but will only be compared to `nil` to check if it has to be stubbed later.
    _The handler will be called later again (with `onlyCheck=NO`) to fetch the actual `OHHTTPStubsResponse` object._
@@ -122,24 +144,59 @@ This may be useful if you intend to do some not-so-fast work to build your real 
   without the burden of building the actual `OHHTTPStubsResponse` object.
 You will obviously return the real `OHHTTPStubsResponse` in the later call when `onlyCheck==NO`.
 
-There is a macro `OHHTTPStubsResponseUseStub` provided in the header that you can use as a dummy return value
-  for that purpose _(it actually evaluates to `(OHHTTPStubsReponse*)1`)_
+_There is a macro `OHHTTPStubsResponseUseStub` provided in the header that you can use as a dummy return value for that purpose._
+
+---
+
+To avoid forgetting about quickly return if the handler is called only for checking the availability of a stub, you may
+prefer using the `shouldStubRequestsPassingTest:withStubResponse:` class method, which uses two distinct blocks: one to
+only quickly check that the request should be stubbed, and the other to build and return the actual stubbed response.
+
+Example:
+
+    [OHHTTPStubs shouldStubRequestPassingTest:^BOOL(NSURLRequest *request) {
+        NSString* basename = request.URL.absoluteString.lastPathComponent;
+        return [basename.pathExtension isEqualToString:@"json"]; // only stub requests for "*.json" files
+    } withStubResponse:^OHHTTPStubsResponse* (NSURLRequest* request))handler {
+        // This block will only be called if the previous one has returned YES (so only for "*.json" files)
+        NSString* basename = request.URL.absoluteString.lastPathComponent;
+        return [OHHTTPStubsResponse responseWithFile:basename contentType:@"text/json" responseTime:2.0];
+    }];
+
+> Note: in practice, this method calls `addResponseHandler:`, and pass it a new block that:
+> * calls the first block to check if we need to stub, and
+> * directly return `OHHTTPStubsResponseUseStub` or `OHHTTPStubsResponseDontUseStub` if `onlyCheck=YES`
+> * or call the second block to return the actual stub only if `onlyCheck=NO`.
+
+_Note that even if you want to stub all your requests unconditionally, it is still better to
+use `shouldStubRequestsPassingTest:withStubResponse:` with the first block always returning `YES`,
+because it will prevent building the whole stubbed response multiple times (once or more when only checking,
+and one final time when actually returning it)._
 
 
 ### Stack multiple requestHandlers
 
-You can call `+addRequestHandler:` multiple times.
-It will just add the response handlers in an internal list of handler.
+You can call `addRequestHandler:` or `shouldStubRequestsPassingTest:withStubResponse:` multiple times.
+It will just add the response handlers in an internal list of handlers.
 
 When a network request is performed by the system, the response handlers are called in the reverse
   order that they have been added, the last added handler having priority over the first added ones.
-  The first non-nil `OHHTTPStubsResponse` returned is used to reply to the request.
+  The first handler that returns a stub (non-nil response for `addRequestHandler:`,
+  or first block returning YES for `shouldStubRequestsPassingTest:withStubResponse:`) is then used to reply to the request.
 
-_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application._
+_This may be useful to install different stubs in different classes (say different UIViewControllers)
+and various places in your application, or to separate different stubs and stubbing conditions
+(like some stubs for images and other stubs for JSON files) more easily.
+See the `OHHTTPStubsDemo` project for a typical example._
 
 You can remove the latest added handler with the `removeLastRequestHandler` method.
 
-You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `addRequestHandler:`. _Note that this returned object is already retained by `OHHTTPStubs`, so you may keep it in a `__weak` variable._
+You can also remove any given handler with the `removeRequestHandler:` method.
+This method takes as a parameter the object returned by `addRequestHandler:` or `shouldStubRequestsPassingTest:withStubResponse:`.
+_Note that this returned object is already retained by `OHHTTPStubs` while the stub is installed,
+so you may keep it in a `__weak` variable (no need to keep a `__strong` reference)._
+
+
 
 ## Complete examples
 
@@ -149,45 +206,87 @@ For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in th
 
     NSArray* stubs = [NSArray arrayWithObjects:@"file1", @"file2", nil];
                            
-    [OHHTTPStubs addRequestHandler:^OHHTTPStubsResponse*(NSURLRequest *request, BOOL onlyCheck)
-     {
-         NSString* basename = [request.URL.absoluteString lastPathComponent];
-         if (onlyCheck) {
-             return ([stubs containsObject:basename] ? OHHTTPStubsResponseUseStub : nil);
-         }
-         
-         NSString* file = [basename stringByAppendingPathExtension:@"json"];
-         return [OHHTTPStubsResponse responseWithFile:file contentType:@"text/json"
+    [OHHTTPStubs shouldStubRequestPassingTest:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [stubs containsObject:request.URL.absoluteString.lastPathComponent];
+    } withStubResponse:^OHHTTPStubsResponse* (NSURLRequest* request))handler {
+        NSString* file = [request.URL.absoluteString.lastPathComponent
+                          stringByAppendingPathExtension:@"json"];
+        return [OHHTTPStubsResponse responseWithFile:file contentType:@"text/json"
                                          responseTime:OHHTTPStubsDownloadSpeedEDGE];
-     }];
+    }];
      
      ...
      
     // Then this call (sending a request using the AFNetworking framework) will actually
     // receive a fake response issued from the file "file1.json"
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com/file1"]];
-    AFJSONRequestOperation* req =
-    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+    [[AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
      {
         ...
      } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
      {
         ...
-     }];
-    [req start];
+     }] start];
 
 
-## Using in your projects
+
+## Installing in your projects
 
 The `OHHTTPStubs` project is provided as a Xcode project that generates a static library, to easily integrate it with your project.
 
-* Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
-* Link `libOHHTTPStubs.a` with your application project
-* When you need to use `OHHTTPStubs` classes, import the headers using square brackets: `#import <OHHTTPStubs/OHHTTPStubs.h>`
+You simply need to add its xcodeproj to your workspace and link your app against the `libOHHTTPStubs.a` library.
 
-_Note: due to a bug in Xcode4, you will have to ensure that the `libOHHTTPStubs.a` file reference added in your project
-has its path referenced as "Relative to Build Products" as it should.
-If it is not the case, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
+### Detailed integration instructions
+
+1. Add the `OHHTTPStubs.xcodeproj` project to your application workspace, next to your application project
+2. Build the library once for the "iOS Device" destination _(if you skipt this, you will likely have the Xcode4 bug described below)_
+3. Link `libOHHTTPStubs.a` with your application project. To do this:
+  * Select your application project in the Project Navigator, then select your target in which you want to use `OHHTTPStubs`
+     (for example **your Tests target** if you will only use `OHHTTPStubs` in your Unit Tests)
+  * Go to the "Build Phase" tab and open the "Link Binary With Libraries" phase
+  * Use the "+" button to add the `libOHHTTPStubs.a` library to the libraries linked with your project
+4. Select the `libOHHTTPStubs.a` file reference that has been added to your application projet, and change the "Location" dropdown
+  (in the "File Inspector" pane) to "Relative to Build Products" if it is not already.
+6. When you need to use `OHHTTPStubs` classes, import the headers using `#import <OHHTTPStubs/OHHTTPStubs.h>`
+
+### Xcode4 Dependencies bug
+
+Steps 2 and 4 are needed due to a bug in Xcode4 that would otherwise not reference the library with the correct path and as a built product.
+
+If the `libOHHTTPStubs.a` file is not referenced as "Relative to Build Products", Xcode4 won't be able to detect implicit dependencies and won't
+build the library before building your application, resulting in a linker error.
+
+If you encounter this issue, please read the [detailed instructions here](http://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction)._
+
+### Private API Warning
+
+`OHHTTPStubs` is designed to be used **in test/debug code only**.
+**Don't link with it in production code when you compile your final application for the AppStore**.
+
+> _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
+So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
+
+### CocoaPods
+
+`OHHTTPStubs` is referenced in [`CocoaPods`](https://github.com/CocoaPods/Specs/tree/master/OHHTTPStubs), so if you use [CocoaPods](http://cocoapods.org/) you can add `pod OHHTTPStubs` to your Podfile instead of following the above instructions.
+
+Be careful anyway to include it only in your test targets, or only use its symbols in `#if DEBUG` portions,
+so that its code (and the private API it uses) is not included in your release for the AppStore, as explained above.
+
+
+## About `OHHTTPStubs` Unit Tests
+
+`OHHTTPStubs` include some *Unit Tests*, and some of them test cases when using `OHHTTPStubs` with the [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/) framework.
+To implement those test cases, `AFNetworking` has been added as a _GIT submodule_ inside the "Unit Tests" folder.
+This means that if you want to be able to run `OHHTTPStubs`' Unit Tests,
+  you need to include submodules when cloning, by using the `--recursive` option:
+  `git clone --recursive <this_repo_url> <destination_folder>`.
+Alternatively if you didn't include the `--recursive` flag when cloning, you can use `git submodule init` and then `git submodule update`
+on your already cloned working copy to initialize and fetch/update the submodules.
+
+_This is only needed if you intend to run the `OHHTTPStubs` Unit Tests, to check the correct behavior of `OHHTTPStubs`
+in conjunction with `AFNetworking`. If you only intend to directly use the `OHHTTPStubs`'s
+produced library and will never run the `OHHTTPStubs` Unit Tests, the `AFNetworking` submodule is not needed at all._
 
 ## Change Log
 

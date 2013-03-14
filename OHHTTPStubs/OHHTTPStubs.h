@@ -2,8 +2,6 @@
  *
  * Copyright (c) 2012 Olivier Halligon
  *
- * Original idea: https://github.com/InfiniteLoopDK/ILTesting
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -50,6 +48,11 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 #pragma mark - Class Methods
 
 //! Commmodity method: calls instance method on sharedInstance directly
+
+// same as addRequestHandler but process the checking and the building of the actual stub in separate blocks for performance
++(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
+                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))handler;
+
 +(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
 +(BOOL)removeRequestHandler:(id)handler;
 +(void)removeLastRequestHandler;
