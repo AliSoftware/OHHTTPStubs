@@ -179,6 +179,11 @@
     return (response != nil);
 }
 
+- (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
+{
+    return [super initWithRequest:request cachedResponse:nil client:client];
+}
+
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
 {
 	return request;
