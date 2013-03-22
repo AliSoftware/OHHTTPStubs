@@ -280,7 +280,7 @@
 // Delayed execution utility methods
 /////////////////////////////////////////////
 
-//! execute the block on the current NSRunLoop after a given amount of seconds
+//! execute the block after a given amount of seconds
 void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
 {
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
