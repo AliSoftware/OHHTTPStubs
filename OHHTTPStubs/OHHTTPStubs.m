@@ -146,7 +146,9 @@
 -(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
     OHHTTPStubsRequestHandler handlerCopy = [handler copy];
-    [self.requestHandlers addObject:handlerCopy];
+    @synchronized(self) {
+        [self.requestHandlers addObject:handlerCopy];
+    }
 #if ! __has_feature(objc_arc)
     [handlerCopy autorelease];
 #endif
@@ -155,18 +157,26 @@
 
 -(BOOL)removeRequestHandler:(id)handler
 {
-    BOOL handlerFound = [self.requestHandlers containsObject:handler];
-    [self.requestHandlers removeObject:handler];
+    BOOL handlerFound = NO;
+    
+    @synchronized(self) {
+        [self.requestHandlers containsObject:handler];
+        [self.requestHandlers removeObject:handler];
+    }
     return handlerFound;
 }
 -(void)removeLastRequestHandler
 {
-    [self.requestHandlers removeLastObject];
+    @synchronized(self) {
+        [self.requestHandlers removeLastObject];
+    }
 }
 
 -(void)removeAllRequestHandlers
 {
-    [self.requestHandlers removeAllObjects];
+    @synchronized(self) {
+        [self.requestHandlers removeAllObjects];
+    }
 }
 
 @end
@@ -188,7 +198,7 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
+    NSArray* requestHandlers = [[OHHTTPStubs sharedInstance].requestHandlers copy];
     id response = nil;
     for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
     {
