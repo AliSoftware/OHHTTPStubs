@@ -198,7 +198,10 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    NSArray* requestHandlers = [[OHHTTPStubs sharedInstance].requestHandlers copy];
+    NSArray* requestHandlers = nil;
+    @synchronized(OHHTTPStubs.sharedInstance) {
+        requestHandlers = [OHHTTPStubs.sharedInstance.requestHandlers copy];
+    }
     id response = nil;
     for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
     {
