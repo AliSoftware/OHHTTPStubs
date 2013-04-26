@@ -48,7 +48,6 @@
 @implementation OHHTTPStubs {
     NSMutableArray *_requestHandlers;
 }
-@synthesize requestHandlers = _requestHandlers;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
