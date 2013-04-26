@@ -39,14 +39,15 @@
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
-@property(nonatomic, retain) NSMutableArray* requestHandlers;
+@property (atomic, readonly, copy) NSArray *requestHandlers;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Implementation
 
-@implementation OHHTTPStubs
-@synthesize requestHandlers = _requestHandlers;
+@implementation OHHTTPStubs {
+    NSMutableArray *_requestHandlers;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
@@ -71,7 +72,7 @@
     self = [super init];
     if (self)
     {
-        self.requestHandlers = [NSMutableArray array];
+        _requestHandlers = [NSMutableArray array];
         [[self class] setEnabled:YES];
     }
     return self;
@@ -80,7 +81,7 @@
 - (void)dealloc
 {
     [[self class] setEnabled:NO];
-    self.requestHandlers = nil;
+    _requestHandlers = nil;
 #if ! __has_feature(objc_arc)
     [super dealloc];
 #endif
@@ -146,7 +147,9 @@
 -(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
     OHHTTPStubsRequestHandler handlerCopy = [handler copy];
-    [self.requestHandlers addObject:handlerCopy];
+    @synchronized(self) {
+        [_requestHandlers addObject:handlerCopy];
+    }
 #if ! __has_feature(objc_arc)
     [handlerCopy autorelease];
 #endif
@@ -155,18 +158,34 @@
 
 -(BOOL)removeRequestHandler:(id)handler
 {
-    BOOL handlerFound = [self.requestHandlers containsObject:handler];
-    [self.requestHandlers removeObject:handler];
+    BOOL handlerFound = NO;
+    
+    @synchronized(self) {
+        handlerFound = [_requestHandlers containsObject:handler];
+        [_requestHandlers removeObject:handler];
+    }
     return handlerFound;
 }
 -(void)removeLastRequestHandler
 {
-    [self.requestHandlers removeLastObject];
+    @synchronized(self) {
+        [_requestHandlers removeLastObject];
+    }
 }
 
 -(void)removeAllRequestHandlers
 {
-    [self.requestHandlers removeAllObjects];
+    @synchronized(self) {
+        [_requestHandlers removeAllObjects];
+    }
+}
+
+- (NSArray *)requestHandlers {
+    NSArray *handlers = nil;
+    @synchronized(self) {
+        handlers = [_requestHandlers copy];
+    }
+    return handlers;
 }
 
 @end
