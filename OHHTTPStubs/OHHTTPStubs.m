@@ -39,7 +39,7 @@
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
-@property (nonatomic, readonly, copy) NSArray *requestHandlers;
+@property (atomic, readonly, copy) NSArray *requestHandlers;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
