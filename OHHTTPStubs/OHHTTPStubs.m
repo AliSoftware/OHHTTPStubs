@@ -39,13 +39,15 @@
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
-@property(atomic, retain) NSMutableArray* requestHandlers;
+@property (nonatomic, readonly, copy) NSArray *requestHandlers;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Implementation
 
-@implementation OHHTTPStubs
+@implementation OHHTTPStubs {
+    NSMutableArray *_requestHandlers;
+}
 @synthesize requestHandlers = _requestHandlers;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +73,7 @@
     self = [super init];
     if (self)
     {
-        self.requestHandlers = [NSMutableArray array];
+        _requestHandlers = [NSMutableArray array];
         [[self class] setEnabled:YES];
     }
     return self;
@@ -80,7 +82,7 @@
 - (void)dealloc
 {
     [[self class] setEnabled:NO];
-    self.requestHandlers = nil;
+    _requestHandlers = nil;
 #if ! __has_feature(objc_arc)
     [super dealloc];
 #endif
@@ -147,7 +149,7 @@
 {
     OHHTTPStubsRequestHandler handlerCopy = [handler copy];
     @synchronized(self) {
-        [self.requestHandlers addObject:handlerCopy];
+        [_requestHandlers addObject:handlerCopy];
     }
 #if ! __has_feature(objc_arc)
     [handlerCopy autorelease];
@@ -160,23 +162,31 @@
     BOOL handlerFound = NO;
     
     @synchronized(self) {
-        handlerFound = [self.requestHandlers containsObject:handler];
-        [self.requestHandlers removeObject:handler];
+        handlerFound = [_requestHandlers containsObject:handler];
+        [_requestHandlers removeObject:handler];
     }
     return handlerFound;
 }
 -(void)removeLastRequestHandler
 {
     @synchronized(self) {
-        [self.requestHandlers removeLastObject];
+        [_requestHandlers removeLastObject];
     }
 }
 
 -(void)removeAllRequestHandlers
 {
     @synchronized(self) {
-        [self.requestHandlers removeAllObjects];
+        [_requestHandlers removeAllObjects];
     }
+}
+
+- (NSArray *)requestHandlers {
+    NSArray *handlers = nil;
+    @synchronized(self) {
+        handlers = [_requestHandlers copy];
+    }
+    return handlers;
 }
 
 @end
@@ -198,10 +208,7 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    NSArray* requestHandlers = nil;
-    @synchronized(OHHTTPStubs.sharedInstance) {
-        requestHandlers = [OHHTTPStubs.sharedInstance.requestHandlers copy];
-    }
+    NSArray *requestHandlers = OHHTTPStubs.sharedInstance.requestHandlers;
     id response = nil;
     for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
     {
