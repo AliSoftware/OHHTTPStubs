@@ -160,7 +160,7 @@
     BOOL handlerFound = NO;
     
     @synchronized(self) {
-        [self.requestHandlers containsObject:handler];
+        handlerFound = [self.requestHandlers containsObject:handler];
         [self.requestHandlers removeObject:handler];
     }
     return handlerFound;
