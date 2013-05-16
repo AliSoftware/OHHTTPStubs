@@ -274,29 +274,66 @@
         if (((responseStub.statusCode/100)==3) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(responseTime, ^{
+            dispatch_block_t respondBlock = [^{
                 [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
-            });
+            } copy];
+#if ! __has_feature(objc_arc)
+            [respondBlock autorelease];
+#endif
+            if (responseStub.responder)
+            {
+                responseStub.responder(respondBlock);
+            }
+            else
+            {
+                execute_after(responseTime, respondBlock);
+            }
         }
         else
         {
-            execute_after(requestTime,^{
-                [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                
-                execute_after(responseTime,^{
+            if (responseStub.responder)
+            {
+                dispatch_block_t respondBlock = [^{
+                    [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
                     [client URLProtocol:self didLoadData:responseStub.responseData];
                     [client URLProtocolDidFinishLoading:self];
+                } copy];
+#if ! __has_feature(objc_arc)
+                [respondBlock autorelease];
+#endif
+                responseStub.responder(respondBlock);
+            }
+            else
+            {
+                execute_after(requestTime,^{
+                    [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                    
+                    execute_after(responseTime,^{
+                        [client URLProtocol:self didLoadData:responseStub.responseData];
+                        [client URLProtocolDidFinishLoading:self];
+                    });
                 });
-            });
+            }
 #if ! __has_feature(objc_arc)
             [urlResponse autorelease];
 #endif
         }
     } else {
-        // Send the canned error
-        execute_after(responseStub.responseTime, ^{
+        dispatch_block_t respondBlock = [^{
             [client URLProtocol:self didFailWithError:responseStub.error];
-        });
+        } copy];
+#if ! __has_feature(objc_arc)
+        [respondBlock autorelease];
+#endif
+        if (responseStub.responder)
+        {
+            responseStub.responder(respondBlock);
+        }
+        else
+        {
+            // Send the canned error
+            execute_after(responseStub.responseTime, respondBlock);
+        }
     }
 }
 

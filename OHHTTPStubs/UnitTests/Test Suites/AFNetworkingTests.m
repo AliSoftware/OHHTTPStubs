@@ -29,6 +29,8 @@
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
 
+static const NSTimeInterval kResponseTimeTolerence = 0.5;
+
 @implementation AFNetworkingTests
 
 -(void)test_AFHTTPRequestOperation
@@ -53,7 +55,46 @@
     }];
     [op start];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+0.5];
+    [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
+    
+    STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
+}
+
+-(void)test_AFHTTPRequestOperation_usingResponder
+{
+    NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 responseTime:0 headers:nil];
+        responseStub.responder = ^(dispatch_block_t respondBlock)
+        {
+            [self notifyAsyncOperationDoneWithObject:respondBlock];
+        };
+        return responseStub;
+    }];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    AFHTTPRequestOperation* op = [[[AFHTTPRequestOperation alloc] initWithRequest:req] autorelease];
+    __block id response = nil;
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        response = [[responseObject retain] autorelease];
+        [self notifyAsyncOperationDone];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        STFail(@"Unexpected network failure");
+        [self notifyAsyncOperationDone];
+    }];
+    [op start];
+    
+    dispatch_block_t respondBlock = [self waitForAsyncOperationObjectWithTimeout:kResponseTimeTolerence];
+    STAssertNotNil(respondBlock, @"Expected respondBlock");
+    if (respondBlock)
+    {
+        // STAssertNotNil doesn't stop execution, so guard against crashes
+        respondBlock();
+    }
+    
+    [self waitForAsyncOperationWithTimeout:kResponseTimeTolerence];
     
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
