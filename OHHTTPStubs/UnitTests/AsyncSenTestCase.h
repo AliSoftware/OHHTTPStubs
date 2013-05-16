@@ -30,5 +30,9 @@
 -(void)waitForAsyncOperationWithTimeout:(NSTimeInterval)timeout; //!< Wait for one async operation
 -(void)waitForAsyncOperations:(NSUInteger)count withTimeout:(NSTimeInterval)timeout; //!< Wait for multiple async operations
 -(void)waitForTimeout:(NSTimeInterval)timeout; //!< Wait for a fixed amount of time
+-(id)waitForAsyncOperationObjectWithTimeout:(NSTimeInterval)timeout; //!< Wait for one async operation that returns a value with notifyAsyncOperationDoneWithObject:
+-(NSDictionary *)waitForAsyncOperationObjects:(NSUInteger)count withTimeout:(NSTimeInterval)timeout; //!< Wait for multiple async operations that return a value with notifyAsyncOperationDoneWithObject:forKey:
 -(void)notifyAsyncOperationDone; //!< notify any waiter that the async op is done
+-(void)notifyAsyncOperationDoneWithObject:(id)object; //!< notify any waiter that the async op is done and returned the given value.
+-(void)notifyAsyncOperationDoneWithObject:(id)object forKey:(NSString *)key;  //!< notify any waiter that the async op is done and returned the given value for the given key.
 @end

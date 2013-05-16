@@ -114,6 +114,56 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [self _test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:[NSOperationQueue new]];
 }
 
+-(void)_test_NSURLConnection_sendAsyncronousRequest_andUseResponder_onOperationQueue:(NSOperationQueue*)queue
+{
+    NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse responseWithData:testData
+                                                                       statusCode:200
+                                                                     responseTime:0
+                                                                          headers:nil];
+        responseStub.responder = ^(dispatch_block_t respondBlock)
+        {
+            [self notifyAsyncOperationDoneWithObject:respondBlock];
+        };
+        return responseStub;
+    }];
+    
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    
+    [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         STAssertEqualObjects(data, testData, @"Invalid data response");
+         
+         [self notifyAsyncOperationDone];
+     }];
+    
+    dispatch_block_t respondBlock = [self waitForAsyncOperationObjectWithTimeout:kResponseTimeTolerence];
+    STAssertNotNil(respondBlock, @"Expected non-nil respondBlock");
+    if (respondBlock) {
+        // STAssert doesn't stop execution if it fails, so guard against failure to prevent a crash.
+        respondBlock();
+    }
+    [self waitForAsyncOperationWithTimeout:kResponseTimeTolerence];
+}
+
+
+-(void)test_NSURLConnection_sendAsyncronousRequest_andUseResponder_mainQueue
+{
+    [self _test_NSURLConnection_sendAsyncronousRequest_andUseResponder_onOperationQueue:[NSOperationQueue mainQueue]];
+}
+
+
+-(void)test_NSURLConnection_sendAsyncronousRequest_andUseResponder_parallelQueue
+{
+    [self _test_NSURLConnection_sendAsyncronousRequest_andUseResponder_onOperationQueue:[[NSOperationQueue alloc] init]];
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark Multiple Parallel [NSURLConnection sendAsynchronousRequest:queue:completionHandler:]
@@ -169,6 +219,5 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 {
     [self _test_NSURLConnection_sendMultipleAsyncronousRequestsOnOperationQueue:[NSOperationQueue new]];
 }
-
 
 @end
