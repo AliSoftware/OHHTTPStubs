@@ -197,7 +197,12 @@
       requestTime:(double)requestTime;
 @end
 
+@interface OHHTTPStubsProtocol()
+@property (nonatomic, assign) BOOL stopped;
+@end
+
 @implementation OHHTTPStubsProtocol
+@synthesize stopped = _stopped;
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
@@ -261,12 +266,18 @@
         }
         
         execute_after(requestTime,^{
-            [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-            
-            execute_after(responseTime,^{
-                [client URLProtocol:self didLoadData:responseStub.responseData];
-                [client URLProtocolDidFinishLoading:self];
-            });
+            if (!self.stopped)
+            {
+                [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                
+                execute_after(responseTime,^{
+                    if (!self.stopped)
+                    {
+                        [client URLProtocol:self didLoadData:responseStub.responseData];
+                        [client URLProtocolDidFinishLoading:self];
+                    }
+                });
+            }
         });
 #if ! __has_feature(objc_arc)
         [urlResponse autorelease];
@@ -274,14 +285,17 @@
     } else {
         // Send the canned error
         execute_after(responseStub.responseTime, ^{
-            [client URLProtocol:self didFailWithError:responseStub.error];
+            if (!self.stopped)
+            {
+                [client URLProtocol:self didFailWithError:responseStub.error];
+            }
         });
     }
 }
 
 - (void)stopLoading
 {
-
+    self.stopped = YES;
 }
 
 /////////////////////////////////////////////
