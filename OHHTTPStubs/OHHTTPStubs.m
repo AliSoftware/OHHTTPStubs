@@ -34,14 +34,6 @@
 
 @interface OHHTTPStubsProtocol : NSURLProtocol @end
 
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Private Interface
-
-@interface OHHTTPStubs()
-@property (atomic, readonly, copy) NSArray *requestHandlers;
-@end
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Implementation
 
@@ -81,10 +73,6 @@
 - (void)dealloc
 {
     [[self class] setEnabled:NO];
-    _requestHandlers = nil;
-#if ! __has_feature(objc_arc)
-    [super dealloc];
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,9 +138,6 @@
     @synchronized(self) {
         [_requestHandlers addObject:handlerCopy];
     }
-#if ! __has_feature(objc_arc)
-    [handlerCopy autorelease];
-#endif
     return handlerCopy;
 }
 
@@ -180,24 +165,17 @@
     }
 }
 
-- (NSArray *)requestHandlers {
-    NSArray *handlers = nil;
+- (void)enumerateRequestHandlersWithBlock:(void(^)(OHHTTPStubsRequestHandler handler, BOOL *stop))enumerationBlock {
+    NSCParameterAssert(enumerationBlock != nil);
+    
     @synchronized(self) {
-        handlers = [_requestHandlers copy];
+        [_requestHandlers enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            enumerationBlock(obj, stop);
+        }];
     }
-    return handlers;
 }
 
 @end
-
-
-
-
-
-
-
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -205,16 +183,14 @@
 
 @implementation OHHTTPStubsProtocol
 
-+ (BOOL)canInitWithRequest:(NSURLRequest *)request
-{
-    NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
-    id response = nil;
-    for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
-    {
-        response = handler(request, YES);
-        if (response) break;
-    }
-    return (response != nil);
++ (BOOL)canInitWithRequest:(NSURLRequest *)request {
+    __block BOOL canInitWithRequest = NO;
+    [OHHTTPStubs.sharedInstance enumerateRequestHandlersWithBlock:^ (OHHTTPStubsRequestHandler handler, BOOL *stop) {
+        id response = handler(request, YES);
+        canInitWithRequest = response != nil;
+        if (canInitWithRequest) *stop = YES;
+    }];
+    return canInitWithRequest;
 }
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
@@ -232,26 +208,22 @@
 	return nil;
 }
 
-- (void)startLoading
-{
+- (void)startLoading {
     NSURLRequest* request = [self request];
 	id<NSURLProtocolClient> client = [self client];
     
-    OHHTTPStubsResponse* responseStub = nil;
-    NSArray* requestHandlers = [OHHTTPStubs sharedInstance].requestHandlers;
-    for(OHHTTPStubsRequestHandler handler in [requestHandlers reverseObjectEnumerator])
-    {
-        responseStub = handler(request, NO);
-        if (responseStub) break;
-    }
+    __block OHHTTPStubsResponse *responseStub = nil;
     
-    if (responseStub.error == nil)
-    {
+    [OHHTTPStubs.sharedInstance enumerateRequestHandlersWithBlock:^(OHHTTPStubsRequestHandler handler, BOOL *stop) {
+        responseStub = handler(request, NO);
+        if (responseStub != nil) *stop = YES;
+    }];
+    
+    if (responseStub.error == nil) {
         // Send the fake data
         
         NSTimeInterval canonicalResponseTime = responseStub.responseTime;
-        if (canonicalResponseTime<0)
-        {
+        if (canonicalResponseTime < 0) {
             // Interpret it as a bandwidth in KB/s ( -2 => 2KB/s )
             double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
             canonicalResponseTime = responseStub.responseData.length / bandwidth;
@@ -259,14 +231,10 @@
         NSTimeInterval requestTime = fabs(canonicalResponseTime * 0.1);
         NSTimeInterval responseTime = fabs(canonicalResponseTime - requestTime);
         
-        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
-                                                                     statusCode:responseStub.statusCode
-                                                                    HTTPVersion:@"HTTP/1.1"
-                                                                   headerFields:responseStub.httpHeaders];
+        NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL statusCode:responseStub.statusCode HTTPVersion:@"HTTP/1.1" headerFields:responseStub.httpHeaders];
         
         // Cookies handling
-        if (request.HTTPShouldHandleCookies)
-        {
+        if (request.HTTPShouldHandleCookies) {
             NSArray* cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:responseStub.httpHeaders forURL:request.URL];
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
         }
@@ -279,9 +247,6 @@
                 [client URLProtocolDidFinishLoading:self];
             });
         });
-#if ! __has_feature(objc_arc)
-        [urlResponse autorelease];
-#endif
     } else {
         // Send the canned error
         execute_after(responseStub.responseTime, ^{

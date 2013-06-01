@@ -78,18 +78,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return self;
 }
 
-#if ! __has_feature(objc_arc)
--(void)dealloc
-{
-    self.httpHeaders = nil;
-    self.statusCode = 0;
-    self.responseData = nil;
-    self.responseTime = 0;
-    self.error = nil;
-    [super dealloc];
-}
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
@@ -102,9 +90,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                                                     statusCode:statusCode
                                                   responseTime:responseTime
                                                        headers:httpHeaders];
-#if ! __has_feature(objc_arc)
-    [response autorelease];
-#endif
     return response;
 }
 
@@ -148,9 +133,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 +(OHHTTPStubsResponse*)responseWithError:(NSError*)error
 {
     OHHTTPStubsResponse* response = [[self  alloc] initWithError:error];
-#if ! __has_feature(objc_arc)
-    [response autorelease];
-#endif
     return response;
 }
 
