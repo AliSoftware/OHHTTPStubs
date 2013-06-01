@@ -81,10 +81,6 @@
 - (void)dealloc
 {
     [[self class] setEnabled:NO];
-    _requestHandlers = nil;
-#if ! __has_feature(objc_arc)
-    [super dealloc];
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,9 +146,6 @@
     @synchronized(self) {
         [_requestHandlers addObject:handlerCopy];
     }
-#if ! __has_feature(objc_arc)
-    [handlerCopy autorelease];
-#endif
     return handlerCopy;
 }
 
@@ -279,9 +272,6 @@
                 [client URLProtocolDidFinishLoading:self];
             });
         });
-#if ! __has_feature(objc_arc)
-        [urlResponse autorelease];
-#endif
     } else {
         // Send the canned error
         execute_after(responseStub.responseTime, ^{
