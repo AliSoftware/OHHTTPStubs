@@ -81,6 +81,19 @@ The `OHHTTPStubsResponse` class, describing the fake response to return, exposes
     +(id)responseWithFile:(NSString*)fileName
               contentType:(NSString*)contentType
              responseTime:(NSTimeInterval)responseTime;
+
+##### Using a HTTP message to define a response
+    +(OHHTTPStubsResponse*)responseWithHTTPMessageData:(NSData*)responseData
+                                          responseTime:(NSTimeInterval)responseTime;
+
+You can dump entire responses using `curl -is [URL]` on the command line. These include all HTTP headers, the response status code and the response body in one file. Use this initializer to load them into a `OHHTTPStubsResponse` object.
+
+##### Conviniently loading HTTP messages
+    +(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
+                              fromBundle:(NSBundle*)bundle
+                            responseTime:(NSTimeInterval)responseTime;
+
+Add a bundle (e.g. `APIResponses.bundle`) to your test target and put all HTTP message dumps (using `curl -is [URL]`) of your responses in there and give them a `.response` extension. Using this method allows you to address them by name. You can also put your dumped responses in a directory structure and address them that way (e.g. using `users/me` as the response name would look for a file `me.response` inside the `users` folder in the bundle you passed in).
              
 ##### To respond with an error instead of a success
     +(id)responseWithError:(NSError*)error;
