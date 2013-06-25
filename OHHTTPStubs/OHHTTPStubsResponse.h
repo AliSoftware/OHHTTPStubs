@@ -72,6 +72,11 @@ OHHTTPStubsDownloadSpeedWifi;
 +(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
                             contentType:(NSString*)contentType
                            responseTime:(NSTimeInterval)responseTime;
++(OHHTTPStubsResponse*)responseWithHTTPMessageData:(NSData*)responseData
+                                      responseTime:(NSTimeInterval)responseTime;
++(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
+                          fromBundle:(NSBundle*)bundle
+                        responseTime:(NSTimeInterval)responseTime;
 +(OHHTTPStubsResponse*)responseWithError:(NSError*)error;
 
 ////////////////////////////////////////////////////////////////////////////////
