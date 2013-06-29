@@ -197,7 +197,12 @@
       requestTime:(double)requestTime;
 @end
 
+@interface OHHTTPStubsProtocol()
+@property (atomic, assign) BOOL stopped;
+@end
+
 @implementation OHHTTPStubsProtocol
+@synthesize stopped = _stopped;
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
@@ -260,7 +265,6 @@
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
         }
         
-        
         NSString* redirectLocation = [responseStub.httpHeaders objectForKey:@"Location"];
         NSURL* redirectLocationURL;
         if (redirectLocation)
@@ -274,35 +278,84 @@
         if (((responseStub.statusCode/100)==3) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(responseTime, ^{
+            dispatch_block_t respondBlock = [^{
                 [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
-            });
+            } copy];
+#if ! __has_feature(objc_arc)
+            [respondBlock autorelease];
+#endif
+            if (responseStub.responder)
+            {
+                responseStub.responder(respondBlock);
+            }
+            else
+            {
+                execute_after(responseTime, respondBlock);
+            }
         }
         else
         {
-            execute_after(requestTime,^{
-                [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                
-                execute_after(responseTime,^{
-                    [client URLProtocol:self didLoadData:responseStub.responseData];
-                    [client URLProtocolDidFinishLoading:self];
+            if (responseStub.responder)
+            {
+                dispatch_block_t respondBlock = [^{
+                    if (!self.stopped)
+                    {
+                        [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                        [client URLProtocol:self didLoadData:responseStub.responseData];
+                        [client URLProtocolDidFinishLoading:self];
+                    }
+                } copy];
+#if ! __has_feature(objc_arc)
+                [respondBlock autorelease];
+#endif
+                responseStub.responder(respondBlock);
+            }
+            else
+            {
+                execute_after(requestTime,^{
+                    if (!self.stopped)
+                    {
+                        [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                        
+                        execute_after(responseTime,^{
+                            if (!self.stopped)
+                            {
+                                [client URLProtocol:self didLoadData:responseStub.responseData];
+                                [client URLProtocolDidFinishLoading:self];
+                            }
+                        });
+                    }
                 });
-            });
+            }
 #if ! __has_feature(objc_arc)
             [urlResponse autorelease];
 #endif
         }
     } else {
-        // Send the canned error
-        execute_after(responseStub.responseTime, ^{
-            [client URLProtocol:self didFailWithError:responseStub.error];
-        });
+        dispatch_block_t respondBlock = [^{
+            if (!self.stopped)
+            {
+                [client URLProtocol:self didFailWithError:responseStub.error];
+            }
+        } copy];
+#if ! __has_feature(objc_arc)
+        [respondBlock autorelease];
+#endif
+        if (responseStub.responder)
+        {
+            responseStub.responder(respondBlock);
+        }
+        else
+        {
+            // Send the canned error
+            execute_after(responseStub.responseTime, respondBlock);
+        }
     }
 }
 
 - (void)stopLoading
 {
-
+    self.stopped = YES;
 }
 
 /////////////////////////////////////////////

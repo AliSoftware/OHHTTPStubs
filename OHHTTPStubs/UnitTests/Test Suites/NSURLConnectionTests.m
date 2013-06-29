@@ -114,6 +114,56 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [self _test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:[[[NSOperationQueue alloc] init] autorelease]];
 }
 
+-(void)_test_NSURLConnection_sendAsyncronousRequest_andUseResponder_onOperationQueue:(NSOperationQueue*)queue
+{
+    NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse responseWithData:testData
+                                                                       statusCode:200
+                                                                     responseTime:0
+                                                                          headers:nil];
+        responseStub.responder = ^(dispatch_block_t respondBlock)
+        {
+            [self notifyAsyncOperationDoneWithObject:respondBlock];
+        };
+        return responseStub;
+    }];
+    
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    
+    [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         STAssertEqualObjects(data, testData, @"Invalid data response");
+         
+         [self notifyAsyncOperationDone];
+     }];
+    
+    dispatch_block_t respondBlock = [self waitForAsyncOperationObjectWithTimeout:kResponseTimeTolerence];
+    STAssertNotNil(respondBlock, @"Expected non-nil respondBlock");
+    if (respondBlock) {
+        // STAssert doesn't stop execution if it fails, so guard against failure to prevent a crash.
+        respondBlock();
+    }
+    [self waitForAsyncOperationWithTimeout:kResponseTimeTolerence];
+}
+
+
+-(void)test_NSURLConnection_sendAsyncronousRequest_andUseResponder_mainQueue
+{
+    [self _test_NSURLConnection_sendAsyncronousRequest_andUseResponder_onOperationQueue:[NSOperationQueue mainQueue]];
+}
+
+
+-(void)test_NSURLConnection_sendAsyncronousRequest_andUseResponder_parallelQueue
+{
+    [self _test_NSURLConnection_sendAsyncronousRequest_andUseResponder_onOperationQueue:[[[NSOperationQueue alloc] init] autorelease]];
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark Multiple Parallel [NSURLConnection sendAsynchronousRequest:queue:completionHandler:]
@@ -168,6 +218,72 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_parallelQueue
 {
     [self _test_NSURLConnection_sendMultipleAsyncronousRequestsOnOperationQueue:[[[NSOperationQueue alloc] init] autorelease]];
+}
+
+-(void)_test_NSURLConnection_useResponderToSendMultipleAsyncronousRequestsOnOperationQueue:(NSOperationQueue*)queue
+{
+    NSData* (^dataForRequest)(NSURLRequest*) = ^(NSURLRequest* req) {
+        return [[NSString stringWithFormat:@"<Response for URL %@>",req.URL.absoluteString] dataUsingEncoding:NSUTF8StringEncoding];
+    };
+    
+    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        NSData* retData = dataForRequest(request);
+        NSString *key = request.URL.lastPathComponent;
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse responseWithData:retData
+                                                                       statusCode:200
+                                                                     responseTime:0
+                                                                          headers:nil];
+        responseStub.responder = ^(dispatch_block_t respondBlock)
+        {
+            [self notifyAsyncOperationDoneWithObject:respondBlock
+                                              forKey:key];
+        };
+        return responseStub;
+    }];
+    
+    // Reusable code to send a request that will respond in the given response time
+    void (^sendAsyncRequestWithKey)(NSString *) = ^(NSString *key)
+    {
+        NSString* urlString = [NSString stringWithFormat:@"http://dummyrequest/concurrent/time/%@",key];
+        NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+        [SenTestLog testLogWithFormat:@"== Sending request %@\n", req];
+        NSDate* startDate = [NSDate date];
+        [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+         {
+             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
+             STAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
+             STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], (NSTimeInterval)0, kResponseTimeTolerence, @"Invalid response time");
+             
+             [self notifyAsyncOperationDone];
+         }];
+    };
+
+    sendAsyncRequestWithKey(@"1");
+    sendAsyncRequestWithKey(@"2");
+    sendAsyncRequestWithKey(@"3");
+
+    NSDictionary *respondBlocksByKey = [self waitForAsyncOperationObjects:3 withTimeout:kResponseTimeTolerence]; // minimum timeout since this should be called immediately.
+    NSSet *actualRespondBlockKeys = [NSSet setWithArray:[respondBlocksByKey allKeys]];
+    NSSet *expectedRespondBlockKeys = [NSSet setWithObjects:@"1", @"2", @"3", nil];
+    STAssertEqualObjects(actualRespondBlockKeys, expectedRespondBlockKeys, @"Missing respondBlocks");
+    
+    for (dispatch_block_t respondBlock in [respondBlocksByKey allValues]) {
+        respondBlock();
+    }
+    
+    [self waitForAsyncOperations:3 withTimeout:kResponseTimeTolerence];  // minimum timeout since this should be called immediately.
+}
+
+-(void)test_NSURLConnection_useResponderToSendMultipleAsyncronousRequests_mainQueue
+{
+    [self _test_NSURLConnection_useResponderToSendMultipleAsyncronousRequestsOnOperationQueue:[NSOperationQueue mainQueue]];
+}
+
+-(void)test_NSURLConnection_useResponderToSendMultipleAsyncronousRequests_parallelQueue
+{
+    [self _test_NSURLConnection_useResponderToSendMultipleAsyncronousRequestsOnOperationQueue:[[[NSOperationQueue alloc] init] autorelease]];
 }
 
 @end
