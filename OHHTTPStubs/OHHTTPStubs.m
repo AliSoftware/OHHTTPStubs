@@ -184,19 +184,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Protocol Class
 
-// Undocumented initializer obtained by class-dump
-// Don't use this in production code destined for the App Store
-#if ! DEBUG
-#warning This code uses a private method: use only for you app testing. Don't use OHHTTPStubs when publishing your app on the App Store.
-#endif
-
-@interface NSHTTPURLResponse(UndocumentedInitializer)
-- (id)initWithURL:(NSURL*)URL
-       statusCode:(NSInteger)statusCode
-     headerFields:(NSDictionary*)headerFields
-      requestTime:(double)requestTime;
-@end
-
 @implementation OHHTTPStubsProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
@@ -250,8 +237,8 @@
         
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
-                                                                   headerFields:responseStub.httpHeaders
-                                                                    requestTime:requestTime];
+                                                                    HTTPVersion:@"HTTP/1.1"
+                                                                   headerFields:responseStub.httpHeaders];
         
         // Cookies handling
         if (request.HTTPShouldHandleCookies)
