@@ -128,6 +128,57 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return [self responseWithFile:fileName statusCode:200 responseTime:responseTime headers:headers];
 }
 
++(OHHTTPStubsResponse*)responseWithHTTPMessageData:(NSData*)responseData
+                                      responseTime:(NSTimeInterval)responseTime;
+{
+    NSData *data = [NSData data];
+    NSInteger statusCode = 200;
+    NSDictionary *headers = [NSDictionary dictionary];
+    
+    CFHTTPMessageRef httpMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
+    if (httpMessage) {
+        CFHTTPMessageAppendBytes(httpMessage, [responseData bytes], [responseData length]);
+        
+        data = responseData; // By default
+        
+        if (CFHTTPMessageIsHeaderComplete(httpMessage)) {
+            statusCode = (NSInteger)CFHTTPMessageGetResponseStatusCode(httpMessage);
+#if __has_feature(objc_arc)
+            headers = (__bridge_transfer NSDictionary *)CFHTTPMessageCopyAllHeaderFields(httpMessage);
+            data = (__bridge_transfer NSData *)CFHTTPMessageCopyBody(httpMessage);
+#else
+            headers = [(NSDictionary *)CFHTTPMessageCopyAllHeaderFields(httpMessage) autorelease];
+            data = [(NSData *)CFHTTPMessageCopyBody(httpMessage) autorelease];
+#endif
+        }
+        CFRelease(httpMessage);
+    }
+    
+    return [self responseWithData:data statusCode:(int)statusCode responseTime:responseTime headers:headers];
+}
+
++(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
+                          fromBundle:(NSBundle*)responsesBundle
+                        responseTime:(NSTimeInterval)responseTime
+{
+    if (!responsesBundle) {
+        responsesBundle = [NSBundle bundleForClass:[self class]];
+    }
+    
+    NSURL *responseURL = [responsesBundle URLForResource:responseName
+                                           withExtension:@"response"];
+    
+    NSData *responseData = [NSData dataWithContentsOfURL:responseURL];
+    
+    if (responseData == nil) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"Could not find HTTP response named '%@' in bundle '%@'",
+                                               responseName, responsesBundle]
+                                     userInfo:nil];
+    }
+    return [self responseWithHTTPMessageData:responseData
+                                responseTime:responseTime];
+}
 
 +(OHHTTPStubsResponse*)responseWithError:(NSError*)error
 {
