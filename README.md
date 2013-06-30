@@ -27,7 +27,7 @@ return data from a file instead.
 
 ##### This is the most simple way to use it:
 
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES; // Stub ALL requests without any condition
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         // Stub all those requests with our "response.json" stub file
@@ -39,7 +39,7 @@ with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 se
 
 ##### We can also conditionally stub only certain requests, like this:
 
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         // Only stub requests to "*.json" files
         return [request.URL.absoluteString.lastPathComponent.pathExtension isEqualToString:@"json"];
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
@@ -54,7 +54,7 @@ This code will only stub requests ending with ".json", and in such case return t
 For every request sent, whatever the framework used (`NSURLConnection`,
 [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
 
-* The block passed as first argument of `shouldStubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
+* The block passed as first argument of `stubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
 * If this block returned YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
 
 _(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtocol` to intercept the requests and stub them)_
@@ -114,7 +114,7 @@ Of course, and that's the main reason this is implemented with blocks, you can d
 
 Example:
 
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request)
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request)
      {
        NSString* basename = request.URL.absoluteString.lastPathComponent;
        return [basename.pathExtension isEqualToString:@"json"]; // Only stub requests to *.json files
@@ -142,18 +142,18 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 
 ### Stack multiple request handlers
 
-You can call `shouldStubRequestsPassingTest:withStubResponse:` multiple times.
+You can call `stubRequestsPassingTest:withStubResponse:` multiple times.
 It will just add the response handlers in an internal list of handlers.
 
 When a network request is performed by the system, the response handlers are called in the reverse order that they have been added, the last added handler having priority over the first added ones.
-The first handler that returns YES for the first parameter of `shouldStubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
+The first handler that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
 _This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application, or to separate different stubs and stubbing conditions (like some stubs for images and other stubs for JSON files) more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
 You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
 
 You can also remove any given handler with the `removeRequestHandler:` method.
-This method takes as a parameter the object returned by `shouldStubRequestsPassingTest:withStubResponse:`.
+This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:`.
 _Note that this returned object is already retained by `OHHTTPStubs` while the stub is installed, so you may keep it in a `__weak` variable (no need to keep a `__strong` reference)._
 
 
@@ -166,7 +166,7 @@ For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in th
 
     NSArray* stubs = [NSArray arrayWithObjects:@"file1", @"file2", nil];
                            
-    [OHHTTPStubs shouldStubRequestPassingTest:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestPassingTest:^OHHTTPStubsResponse*(NSURLRequest *request) {
         return [stubs containsObject:request.URL.absoluteString.lastPathComponent];
     } withStubResponse:^OHHTTPStubsResponse* (NSURLRequest* request))handler {
         NSString* file = [request.URL.absoluteString.lastPathComponent

@@ -112,7 +112,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData
@@ -141,7 +141,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     static const NSTimeInterval kResponseTime = 1.0;
     NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         OHHTTPStubsResponse* resp = [OHHTTPStubsResponse responseWithError:expectedError];
@@ -172,7 +172,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSURLConnection_cancel
 {
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
@@ -204,7 +204,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 {
     NSString* const cookieName = @"SESSIONID";
     NSString* const cookieValue = [[NSProcessInfo processInfo] globallyUniqueString];
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* cookie = [NSString stringWithFormat:@"%@=%@;", cookieName, cookieValue];
@@ -271,7 +271,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     NSString* endCookieValue = [[NSProcessInfo processInfo] globallyUniqueString];
     NSURL *endURL = [NSURL URLWithString:@"http://www.google.com/"];
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         if ([[request URL] isEqual:redirectURL]) {
