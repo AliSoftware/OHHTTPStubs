@@ -44,7 +44,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     static const NSTimeInterval kResponseTime = 1.0;
     NSString* testString = NSStringFromSelector(_cmd);
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
@@ -81,7 +81,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData

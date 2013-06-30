@@ -98,7 +98,7 @@
     if (sender.on)
     {
         // Install
-        textHandler = [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        textHandler = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             // This handler will only configure stub requests for "*.txt" files
             return [request.URL.absoluteString.pathExtension isEqualToString:@"txt"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -142,7 +142,7 @@
     if (sender.on)
     {
         // Install
-        imageHandler = [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        imageHandler = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             // This handler will only configure stub requests for "*.jpg" files
             return [request.URL.absoluteString.pathExtension isEqualToString:@"jpg"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {

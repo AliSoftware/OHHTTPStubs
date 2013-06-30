@@ -92,20 +92,19 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public class methods
 
-// Commodity methods
-+(id)shouldStubRequestsPassingTest:(OHHTTPStubsTestBlock)shouldReturnStubForRequest
-                  withStubResponse:(OHHTTPStubsResponseBlock)requestHandler
++(id)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
+            withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
     return [self.sharedInstance addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
     {
-        BOOL shouldStub = shouldReturnStubForRequest ? shouldReturnStubForRequest(request) : YES;
+        BOOL shouldStub = testBlock ? testBlock(request) : YES;
         if (onlyCheck)
         {
             return shouldStub ? (OHHTTPStubsResponse*)@"DummyStub" : (OHHTTPStubsResponse*)nil;
         }
         else
         {
-            return (requestHandler && shouldStub) ? requestHandler(request) : nil;
+            return (responseBlock && shouldStub) ? responseBlock(request) : nil;
         }
     }];
 }
