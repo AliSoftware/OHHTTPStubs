@@ -36,12 +36,16 @@
 #pragma mark - Types
 
 @interface OHHTTPStubsProtocol : NSURLProtocol @end
-
+typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck);
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
+-(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
+-(BOOL)removeRequestHandler:(id)handler;
+-(void)removeLastRequestHandler;
+-(void)removeAllRequestHandlers;
 @property(nonatomic, strong) NSMutableArray* requestHandlers;
 @end
 
@@ -53,7 +57,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
 
-+ (OHHTTPStubs*)sharedInstance
++ (instancetype)sharedInstance
 {
     static OHHTTPStubs *sharedInstance = nil;
     
@@ -89,10 +93,10 @@
 #pragma mark - Public class methods
 
 // Commodity methods
-+(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
-                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))requestHandler
++(id)shouldStubRequestsPassingTest:(OHHTTPStubsTestBlock)shouldReturnStubForRequest
+                  withStubResponse:(OHHTTPStubsResponseBlock)requestHandler
 {
-    return [self addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+    return [self.sharedInstance addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
     {
         BOOL shouldStub = shouldReturnStubForRequest ? shouldReturnStubForRequest(request) : YES;
         if (onlyCheck)
@@ -106,21 +110,21 @@
     }];
 }
 
-+(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
++(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler DEPRECATED_ATTRIBUTE
 {
-    return [[self sharedInstance] addRequestHandler:handler];
+    return [self.sharedInstance addRequestHandler:handler];
 }
 +(BOOL)removeRequestHandler:(id)handler
 {
-    return [[self sharedInstance] removeRequestHandler:handler];
+    return [self.sharedInstance removeRequestHandler:handler];
 }
 +(void)removeLastRequestHandler
 {
-    [[self sharedInstance] removeLastRequestHandler];
+    [self.sharedInstance removeLastRequestHandler];
 }
 +(void)removeAllRequestHandlers
 {
-    [[self sharedInstance] removeAllRequestHandlers];
+    [self.sharedInstance removeAllRequestHandlers];
 }
 
 +(void)setEnabled:(BOOL)enabled
@@ -209,19 +213,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Protocol Class
 
-// Undocumented initializer obtained by class-dump
-// Don't use this in production code destined for the App Store
-#if ! DEBUG
-#warning This code uses a private method: use only for you app testing. Don't use OHHTTPStubs when publishing your app on the App Store.
-#endif
-
-@interface NSHTTPURLResponse(UndocumentedInitializer)
-- (id)initWithURL:(NSURL*)URL
-       statusCode:(NSInteger)statusCode
-     headerFields:(NSDictionary*)headerFields
-      requestTime:(double)requestTime;
-@end
-
 @interface OHHTTPStubsProtocol()
 @property(nonatomic, assign) BOOL stopped;
 @end
@@ -231,6 +222,12 @@
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
     return ([[OHHTTPStubs sharedInstance] responseForRequest:request onlyCheck:YES] != nil);
+}
+
+- (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
+{
+    // Make super sure that we never use a cached response.
+    return [super initWithRequest:request cachedResponse:nil client:client];
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
@@ -266,8 +263,8 @@
         
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
-                                                                   headerFields:responseStub.httpHeaders
-                                                                    requestTime:requestTime];
+                                                                    HTTPVersion:@"HTTP/1.1"
+                                                                   headerFields:responseStub.httpHeaders];
         
         // Cookies handling
         if (request.HTTPShouldHandleCookies)

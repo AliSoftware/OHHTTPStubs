@@ -48,10 +48,10 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
 
--(OHHTTPStubsResponse*)initWithData:(NSData*)data
-                         statusCode:(int)statusCode
-                       responseTime:(NSTimeInterval)responseTime
-                            headers:(NSDictionary*)httpHeaders
+-(instancetype)initWithData:(NSData*)data
+                 statusCode:(int)statusCode
+               responseTime:(NSTimeInterval)responseTime
+                    headers:(NSDictionary*)httpHeaders
 {
     self = [super init];
     if (self) {
@@ -63,7 +63,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return self;
 }
 
--(OHHTTPStubsResponse*)initWithError:(NSError*)error
+-(instancetype)initWithError:(NSError*)error
 {
     self = [super init];
     if (self) {
@@ -75,10 +75,10 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
-+(OHHTTPStubsResponse*)responseWithData:(NSData*)data
-                             statusCode:(int)statusCode
-                           responseTime:(NSTimeInterval)responseTime
-                                headers:(NSDictionary*)httpHeaders
++(instancetype)responseWithData:(NSData*)data
+                     statusCode:(int)statusCode
+                   responseTime:(NSTimeInterval)responseTime
+                        headers:(NSDictionary*)httpHeaders
 {
     OHHTTPStubsResponse* response = [[self alloc] initWithData:data
                                                     statusCode:statusCode
@@ -87,10 +87,10 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
-+(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
-                             statusCode:(int)statusCode
-                           responseTime:(NSTimeInterval)responseTime
-                                headers:(NSDictionary*)httpHeaders
++(instancetype)responseWithFile:(NSString*)fileName
+                     statusCode:(int)statusCode
+                   responseTime:(NSTimeInterval)responseTime
+                        headers:(NSDictionary*)httpHeaders
 {
     NSString* basename = [fileName stringByDeletingPathExtension];
     NSString* extension = [fileName pathExtension];
@@ -99,16 +99,16 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return [self responseWithData:data statusCode:statusCode responseTime:responseTime headers:httpHeaders];
 }
 
-+(OHHTTPStubsResponse*)responseWithFile:(NSString*)fileName
-                            contentType:(NSString*)contentType
-                           responseTime:(NSTimeInterval)responseTime
++(instancetype)responseWithFile:(NSString*)fileName
+                    contentType:(NSString*)contentType
+                   responseTime:(NSTimeInterval)responseTime
 {
     NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
     return [self responseWithFile:fileName statusCode:200 responseTime:responseTime headers:headers];
 }
 
-+(OHHTTPStubsResponse*)responseWithHTTPMessageData:(NSData*)responseData
-                                      responseTime:(NSTimeInterval)responseTime;
++(instancetype)responseWithHTTPMessageData:(NSData*)responseData
+                              responseTime:(NSTimeInterval)responseTime;
 {
     NSData *data = [NSData data];
     NSInteger statusCode = 200;
@@ -131,9 +131,9 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return [self responseWithData:data statusCode:(int)statusCode responseTime:responseTime headers:headers];
 }
 
-+(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
-                          fromBundle:(NSBundle*)responsesBundle
-                        responseTime:(NSTimeInterval)responseTime
++(instancetype)responseNamed:(NSString*)responseName
+                  fromBundle:(NSBundle*)responsesBundle
+                responseTime:(NSTimeInterval)responseTime
 {
     if (!responsesBundle) {
         responsesBundle = [NSBundle bundleForClass:[self class]];
@@ -154,7 +154,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                                 responseTime:responseTime];
 }
 
-+(OHHTTPStubsResponse*)responseWithError:(NSError*)error
++(instancetype)responseWithError:(NSError*)error
 {
     OHHTTPStubsResponse* response = [[self  alloc] initWithError:error];
     return response;
