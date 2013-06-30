@@ -51,12 +51,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)tearDown
 {
-    [_data release];
     // in case the test timed out and finished before a running NSURLConnection ended,
     // we may continue receive delegate messages anyway if we forgot to cancel.
     // So avoid sending messages to deallocated object in this case by ensuring we reset it to nil
     _data = nil;
-    [_error release];
     _error = nil;
     [super tearDown];
 }
@@ -94,7 +92,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    _error = [error retain];
+    _error = error; // keep strong reference
     [self notifyAsyncOperationDone];
 }
 

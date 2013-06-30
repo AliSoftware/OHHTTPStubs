@@ -22,6 +22,9 @@
  *
  ***********************************************************************************/
 
+#if ! __has_feature(objc_arc)
+#error This file is expected to be compiled with ARC turned ON
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
@@ -81,9 +84,6 @@
 {
     [[self class] setEnabled:NO];
     self.requestHandlers = nil;
-#if ! __has_feature(objc_arc)
-    [super dealloc];
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,9 +147,6 @@
 {
     OHHTTPStubsRequestHandler handlerCopy = [handler copy];
     [self.requestHandlers addObject:handlerCopy];
-#if ! __has_feature(objc_arc)
-    [handlerCopy autorelease];
-#endif
     return handlerCopy;
 }
 
@@ -288,9 +285,6 @@
                     [client URLProtocolDidFinishLoading:self];
                 });
             });
-#if ! __has_feature(objc_arc)
-            [urlResponse autorelease];
-#endif
         }
     } else {
         // Send the canned error
@@ -317,9 +311,6 @@ void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
      */
     dispatch_block_t blockCopy = [block copy];
     [NSTimer scheduledTimerWithTimeInterval:delayInSeconds target:blockCopy selector:@selector(invoke) userInfo:nil repeats:NO];
-#if ! __has_feature(objc_arc)
-    [blockCopy autorelease];
-#endif
 }
 
 @end

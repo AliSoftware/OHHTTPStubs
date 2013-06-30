@@ -20,6 +20,7 @@
 		098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */; };
 		098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */; };
 		098368EC169000340082B1A4 /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368EB169000340082B1A4 /* WithContentsOfURLTests.m */; };
+		0984831717805538002A99FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
 		099C73541690397600239880 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73501690397600239880 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C73551690397600239880 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73531690397600239880 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
@@ -58,6 +59,7 @@
 		098368E3168FD0E50082B1A4 /* NSURLConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionTests.m; sourceTree = "<group>"; };
 		098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionDelegateTests.m; sourceTree = "<group>"; };
 		098368EB169000340082B1A4 /* WithContentsOfURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithContentsOfURLTests.m; sourceTree = "<group>"; };
+		0984831617805538002A99FF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		099C734F1690397600239880 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		099C73501690397600239880 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		099C73521690397600239880 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0984831717805538002A99FF /* CFNetwork.framework in Frameworks */,
 				099C735716903B9800239880 /* UIKit.framework in Frameworks */,
 				098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */,
 				098368D0168FC7920082B1A4 /* SenTestingKit.framework in Frameworks */,
@@ -112,6 +115,7 @@
 		0979357B161B6251006DB5D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0984831617805538002A99FF /* CFNetwork.framework */,
 				0979357C161B6251006DB5D5 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -298,6 +302,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -314,6 +319,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -324,6 +330,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
