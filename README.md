@@ -8,7 +8,7 @@ A class to stub network requests easily: test your apps with fake network data (
 * [Advanced Usage](#advanced-usage)
  * [Return a response depending on the request](#return-a-response-depending-on-the-request)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
- * [Stack multiple requestHandlers](#stack-multiple-requesthandlers)
+ * [Stack multiple request handlers](#stack-multiple-request-handlers)
 * [Complete Examples](#complete-examples)
 * [Installing in your projects](#installing-in-your-projects)
  * [Private API Warning](#private-api-warning)
@@ -34,7 +34,7 @@ return data from a file instead.
         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
     }];
      
-This will return the `NSData` corresponding to the content of the `"response.json"` file (that must be in your bundle)
+With this code, every network request will return a stubbed response containing the content of the `"response.json"` file (which must be in your bundle)
 with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 seconds.
 
 ##### We can also conditionally stub only certain requests, like this:
@@ -47,13 +47,17 @@ with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 se
         return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
     }];
 
-##### Then each time a network request is done by your application
+This code will only stub requests ending with ".json", and in such case return the content of the corresponding file in your bundle. Every other network request (not ending with ".json") will hit the real world.
+
+##### How it works
 
 For every request sent, whatever the framework used (`NSURLConnection`,
 [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
 
 * The block passed as first argument of `shouldStubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
 * If this block returned YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
+
+_(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtocol` to intercept the requests and stub them)_
 
 
 ## The `OHHTTPStubsResponse` object
@@ -87,7 +91,7 @@ The `OHHTTPStubsResponse` class, describing the fake response to return, exposes
 
 You can dump entire responses using `curl -is [URL]` on the command line. These include all HTTP headers, the response status code and the response body in one file. Use this initializer to load them into a `OHHTTPStubsResponse` object.
 
-##### Conviniently loading HTTP messages
+##### Conveniently loading HTTP messages
 
     +(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
                               fromBundle:(NSBundle*)bundle
@@ -136,7 +140,7 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 * `OHHTTPStubsDownloadSpeedWifi`   : 12000 kbps (1500 KB/s)
 
 
-### Stack multiple requestHandlers
+### Stack multiple request handlers
 
 You can call `shouldStubRequestsPassingTest:withStubResponse:` multiple times.
 It will just add the response handlers in an internal list of handlers.
@@ -144,10 +148,9 @@ It will just add the response handlers in an internal list of handlers.
 When a network request is performed by the system, the response handlers are called in the reverse order that they have been added, the last added handler having priority over the first added ones.
 The first handler that returns YES for the first parameter of `shouldStubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application, or to separate different stubs and stubbing conditions (like some stubs for images and other stubs for JSON files) more easily.
-See the `OHHTTPStubsDemo` project for a typical example._
+_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application, or to separate different stubs and stubbing conditions (like some stubs for images and other stubs for JSON files) more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
-You can remove the latest added handler with the `removeLastRequestHandler` method.
+You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
 
 You can also remove any given handler with the `removeRequestHandler:` method.
 This method takes as a parameter the object returned by `shouldStubRequestsPassingTest:withStubResponse:`.
