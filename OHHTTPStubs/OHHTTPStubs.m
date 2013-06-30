@@ -101,7 +101,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         BOOL shouldStub = shouldReturnStubForRequest ? shouldReturnStubForRequest(request) : YES;
         if (onlyCheck)
         {
-            return shouldStub ? OHHTTPStubsResponseUseStub : OHHTTPStubsResponseDontUseStub;
+            return shouldStub ? (OHHTTPStubsResponse*)@"DummyStub" : (OHHTTPStubsResponse*)nil;
         }
         else
         {

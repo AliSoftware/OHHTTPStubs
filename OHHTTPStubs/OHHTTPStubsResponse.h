@@ -31,9 +31,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
 
-#define OHHTTPStubsResponseUseStub (OHHTTPStubsResponse*)@"DummyStub"
-#define OHHTTPStubsResponseDontUseStub (OHHTTPStubsResponse*)nil
-
 // Standard download speeds.
 extern const double
 OHHTTPStubsDownloadSpeedGPRS,
@@ -46,6 +43,10 @@ OHHTTPStubsDownloadSpeedWifi;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
 
+/*! @header
+ Stubs Response. This describes a stubbed response to be returned by the URL Loading System, including its
+ HTTP headers, body, statusCode and response time.
+ */
 @interface OHHTTPStubsResponse : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +68,7 @@ OHHTTPStubsDownloadSpeedWifi;
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
  @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @param headers The HTTP Headers to return in the response
+ @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithData:(NSData*)data
@@ -79,7 +80,7 @@ OHHTTPStubsDownloadSpeedWifi;
  @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
  @param statusCode the HTTP Status Code to use in the response
  @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @param headers The HTTP Headers to return in the response
+ @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithFile:(NSString*)fileName
@@ -98,7 +99,7 @@ OHHTTPStubsDownloadSpeedWifi;
                     contentType:(NSString*)contentType
                    responseTime:(NSTimeInterval)responseTime;
 
-/*! Builds a response given a message data as returned by `curl -is <url>`, that is containing both the headers and the body.
+/*! Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
  This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
  @param responseData the NSData containing the whole HTTP response, including the headers and the body
  @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
@@ -133,7 +134,7 @@ OHHTTPStubsDownloadSpeedWifi;
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
  @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @param headers The HTTP Headers to return in the response
+ @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 -(instancetype)initWithData:(NSData*)data
