@@ -36,12 +36,16 @@
 #pragma mark - Types
 
 @interface OHHTTPStubsProtocol : NSURLProtocol @end
-
+typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck);
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
+-(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
+-(BOOL)removeRequestHandler:(id)handler;
+-(void)removeLastRequestHandler;
+-(void)removeAllRequestHandlers;
 @property(nonatomic, strong) NSMutableArray* requestHandlers;
 @end
 
@@ -53,7 +57,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
 
-+ (OHHTTPStubs*)sharedInstance
++ (instancetype)sharedInstance
 {
     static OHHTTPStubs *sharedInstance = nil;
     
@@ -89,10 +93,10 @@
 #pragma mark - Public class methods
 
 // Commodity methods
-+(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
-                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))requestHandler
++(id)shouldStubRequestsPassingTest:(OHHTTPStubsTestBlock)shouldReturnStubForRequest
+                  withStubResponse:(OHHTTPStubsResponseBlock)requestHandler
 {
-    return [self addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
+    return [self.sharedInstance addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
     {
         BOOL shouldStub = shouldReturnStubForRequest ? shouldReturnStubForRequest(request) : YES;
         if (onlyCheck)
@@ -106,21 +110,21 @@
     }];
 }
 
-+(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
++(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler DEPRECATED_ATTRIBUTE
 {
-    return [[self sharedInstance] addRequestHandler:handler];
+    return [self.sharedInstance addRequestHandler:handler];
 }
 +(BOOL)removeRequestHandler:(id)handler
 {
-    return [[self sharedInstance] removeRequestHandler:handler];
+    return [self.sharedInstance removeRequestHandler:handler];
 }
 +(void)removeLastRequestHandler
 {
-    [[self sharedInstance] removeLastRequestHandler];
+    [self.sharedInstance removeLastRequestHandler];
 }
 +(void)removeAllRequestHandlers
 {
-    [[self sharedInstance] removeAllRequestHandlers];
+    [self.sharedInstance removeAllRequestHandlers];
 }
 
 +(void)setEnabled:(BOOL)enabled

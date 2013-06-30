@@ -32,7 +32,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
-typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck);
+typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
+typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
+typedef id OHHTTPStubsRequestHandlerID;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
@@ -40,31 +42,42 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 @interface OHHTTPStubs : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Singleton methods
-
-+ (OHHTTPStubs*)sharedInstance;
-
-////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
-//! Commmodity method: calls instance method on sharedInstance directly
+/*! Dedicated method to add a request handler
+ @param shouldReturnStubForRequest Block that should return YES if the request passed as parameter should be stubbed with the handler block, NO if it should hit the real world (or be managed by another request handler).
+ @param handler Block that will return the OHHTTPStubsResponse to use for stubbing, corresponding to the given request
+ @return an opaque object that uniquely identifies the handler and can be later used to remove it with removeRequestHandler:
+ */
++(OHHTTPStubsRequestHandlerID)shouldStubRequestsPassingTest:(OHHTTPStubsTestBlock)shouldReturnStubForRequest
+                                           withStubResponse:(OHHTTPStubsResponseBlock)handler;
 
-// same as addRequestHandler but process the checking and the building of the actual stub in separate blocks for performance
-+(id)shouldStubRequestsPassingTest:(BOOL(^)(NSURLRequest* request))shouldReturnStubForRequest
-                  withStubResponse:(OHHTTPStubsResponse*(^)(NSURLRequest* request))handler;
+/*! Add a request handler to the stubs list
+ @param handler The request handler block to add to the stubs list. This block takes as parameters:
+    * a NSURLRequest for which the stub is called, to determine the appropriate response to return
+    * a boolean as a parameter to tell if this block is only called for checking we want to stub or not (in this case, you should return quickly)
+      or for the actual stubbing (in this case you should return the actual OHHTTPStubsResponse to use)
+ @return an opaque object that uniquely identifies the handler and can be later used to remove it with removeRequestHandler:
+ @note This method is deprecated: use `shouldStubRequestsPassingTest:withStubResponse:` instead
+ */
++(OHHTTPStubsRequestHandlerID)addRequestHandler:(OHHTTPStubsResponse*(^)(NSURLRequest* request, BOOL onlyCheck))handler DEPRECATED_ATTRIBUTE;
 
-+(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
-+(BOOL)removeRequestHandler:(id)handler;
+/*! Remove a request handler from the list of stubs
+ @param handlerID the opaque object that has been returned when adding the handler using `shouldStubRequestsPassingTest:withStubResponse:`
+   or using `addRequestHandler:`
+ @return YES if the request handler has been successfully removed, NO if the parameter was not a valid handler identifier
+ */
++(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handlerID;
+
+/*! Remove the last added request handler from the stubs list */
 +(void)removeLastRequestHandler;
+
+/*! Remove all the requests handlers from the stubs list. */
 +(void)removeAllRequestHandlers;
+
+/*! Enable or disable the stubs
+ @param enabled if YES, enables the stubs. If NO, disable all the stubs and let all the requests hit the real world.
+ */
 +(void)setEnabled:(BOOL)enabled;
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Instance Methods
-
--(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
--(BOOL)removeRequestHandler:(id)handler;
--(void)removeLastRequestHandler;
--(void)removeAllRequestHandlers;
 
 @end
