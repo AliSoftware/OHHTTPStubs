@@ -51,12 +51,12 @@ OHHTTPStubsDownloadSpeedWifi;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Properties
 
-@property(nonatomic, retain) NSDictionary* httpHeaders;
+@property(nonatomic, strong) NSDictionary* httpHeaders;
 @property(nonatomic, assign) int statusCode;
-@property(nonatomic, retain) NSData* responseData;
+@property(nonatomic, strong) NSData* responseData;
 //! @note if responseTime<0, it is interpreted as a download speed in KBps ( -200 => 200KB/s )
 @property(nonatomic, assign) NSTimeInterval responseTime;
-@property(nonatomic, retain) NSError* error;
+@property(nonatomic, strong) NSError* error;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
