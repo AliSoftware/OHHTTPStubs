@@ -22,6 +22,9 @@
  *
  ***********************************************************************************/
 
+#if ! __has_feature(objc_arc)
+#error This file is expected to be compiled with ARC turned ON
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
@@ -41,15 +44,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 #pragma mark - Implementation
 
 @implementation OHHTTPStubsResponse
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Synthesize
-
-@synthesize httpHeaders = httpHeaders_;
-@synthesize statusCode = statusCode_;
-@synthesize responseData = responseData_;
-@synthesize responseTime = _responseTime;
-@synthesize error = error_;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
@@ -78,18 +72,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return self;
 }
 
-#if ! __has_feature(objc_arc)
--(void)dealloc
-{
-    self.httpHeaders = nil;
-    self.statusCode = 0;
-    self.responseData = nil;
-    self.responseTime = 0;
-    self.error = nil;
-    [super dealloc];
-}
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
@@ -102,9 +84,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                                                     statusCode:statusCode
                                                   responseTime:responseTime
                                                        headers:httpHeaders];
-#if ! __has_feature(objc_arc)
-    [response autorelease];
-#endif
     return response;
 }
 
@@ -143,13 +122,8 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
         
         if (CFHTTPMessageIsHeaderComplete(httpMessage)) {
             statusCode = (NSInteger)CFHTTPMessageGetResponseStatusCode(httpMessage);
-#if __has_feature(objc_arc)
             headers = (__bridge_transfer NSDictionary *)CFHTTPMessageCopyAllHeaderFields(httpMessage);
             data = (__bridge_transfer NSData *)CFHTTPMessageCopyBody(httpMessage);
-#else
-            headers = [(NSDictionary *)CFHTTPMessageCopyAllHeaderFields(httpMessage) autorelease];
-            data = [(NSData *)CFHTTPMessageCopyBody(httpMessage) autorelease];
-#endif
         }
         CFRelease(httpMessage);
     }
@@ -183,9 +157,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 +(OHHTTPStubsResponse*)responseWithError:(NSError*)error
 {
     OHHTTPStubsResponse* response = [[self  alloc] initWithError:error];
-#if ! __has_feature(objc_arc)
-    [response autorelease];
-#endif
     return response;
 }
 

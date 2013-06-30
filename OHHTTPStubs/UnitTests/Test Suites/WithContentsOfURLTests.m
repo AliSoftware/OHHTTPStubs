@@ -65,7 +65,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSString_stringWithContentsOfURL_parallelQueue
 {
-    [[[[NSOperationQueue alloc] init] autorelease] addOperationWithBlock:^{
+    [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSString_stringWithContentsOfURL_mainQueue];
         [self notifyAsyncOperationDone];
     }];
@@ -100,7 +100,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSData_dataWithContentsOfURL_parallelQueue
 {
-    [[[[NSOperationQueue alloc] init] autorelease] addOperationWithBlock:^{
+    [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSData_dataWithContentsOfURL_mainQueue];
         [self notifyAsyncOperationDone];
     }];

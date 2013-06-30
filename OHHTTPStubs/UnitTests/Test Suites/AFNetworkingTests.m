@@ -42,10 +42,10 @@
     }];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    AFHTTPRequestOperation* op = [[[AFHTTPRequestOperation alloc] initWithRequest:req] autorelease];
-    __block id response = nil;
+    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+    __block __strong id response = nil;
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        response = [[responseObject retain] autorelease];
+        response = responseObject; // keep strong reference
         [self notifyAsyncOperationDone];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         STFail(@"Unexpected network failure");
