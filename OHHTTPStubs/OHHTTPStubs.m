@@ -222,6 +222,10 @@
       requestTime:(double)requestTime;
 @end
 
+@interface OHHTTPStubsProtocol()
+@property(nonatomic, assign) BOOL stopped;
+@end
+
 @implementation OHHTTPStubsProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
@@ -283,49 +287,57 @@
         {
             redirectLocationURL = nil;
         }
-        if (((responseStub.statusCode/100)==3) && redirectLocationURL)
+        if (((responseStub.statusCode >= 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
             execute_after(responseTime, ^{
-                [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
+                if (!self.stopped)
+                {
+                    [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
+                }
             });
         }
         else
         {
             execute_after(requestTime,^{
-                [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                
-                execute_after(responseTime,^{
-                    [client URLProtocol:self didLoadData:responseStub.responseData];
-                    [client URLProtocolDidFinishLoading:self];
-                });
+                if (!self.stopped)
+                {
+                    [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                    
+                    execute_after(responseTime,^{
+                        if (!self.stopped)
+                        {
+                            [client URLProtocol:self didLoadData:responseStub.responseData];
+                            [client URLProtocolDidFinishLoading:self];
+                        }
+                    });
+                }
             });
         }
     } else {
         // Send the canned error
         execute_after(responseStub.responseTime, ^{
-            [client URLProtocol:self didFailWithError:responseStub.error];
+            if (!self.stopped)
+            {
+                [client URLProtocol:self didFailWithError:responseStub.error];
+            }
         });
     }
 }
 
 - (void)stopLoading
 {
-
+    self.stopped = YES;
 }
 
 /////////////////////////////////////////////
 // Delayed execution utility methods
 /////////////////////////////////////////////
 
-//! execute the block on the current NSRunLoop after a given amount of seconds
 void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
 {
-    /* We know that -[NSURLProtocol startLoading] is called on a dedicated thread that has a runloop, so that there is no problem firing a timer here
-       @note We use the '-invoke' method (private API) because it is handy and OHHTTPStubs will never be used in production code anyway
-     */
-    dispatch_block_t blockCopy = [block copy];
-    [NSTimer scheduledTimerWithTimeInterval:delayInSeconds target:blockCopy selector:@selector(invoke) userInfo:nil repeats:NO];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), block);
 }
 
 @end
