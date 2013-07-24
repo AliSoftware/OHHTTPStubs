@@ -68,7 +68,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given raw data
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
@@ -80,7 +80,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given a file in the application bundle, the status code and headers.
  @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
  @param statusCode the HTTP Status Code to use in the response
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
@@ -92,7 +92,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given a file in the application bundle and a content type.
  @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
  @param contentType the value to use for the "Content-Type" HTTP header
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  @note HTTP Status Code 200 will be used in the response
  */
@@ -103,7 +103,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
  This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
  @param responseData the NSData containing the whole HTTP response, including the headers and the body
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithHTTPMessageData:(NSData*)responseData
@@ -114,7 +114,7 @@ OHHTTPStubsDownloadSpeedWifi;
  This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
  @param responseName the name of the "*.response" file (without extension) containing the whole HTTP response (including the headers and the body)
  @param bundle the bundle in which the "*.response" file is located. If `nil`, the `[NSBundle bundleForClass:self.class]` will be used.
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 +(instancetype)responseNamed:(NSString*)responseName
@@ -127,23 +127,59 @@ OHHTTPStubsDownloadSpeedWifi;
  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
 +(instancetype)responseWithError:(NSError*)error;
-
+/*! Builds a response given a file path, the status code and headers.
+ @param filePath The file path that contains the response body to return.
+ @param statusCode the HTTP Status Code to use in the response
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
+ @param httpHeaders The HTTP Headers to return in the response
+ @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
+ */
 +(instancetype)responseWithFilePath:(NSString *)filePath
                          statusCode:(int)statusCode
                        responseTime:(NSTimeInterval)responseTime
                             headers:(NSDictionary *)httpHeaders;
 
+/*! Builds a response given a file path and a content type.
+ @param filePath The file path that contains the response body to return.
+ @param contentType the value to use for the "Content-Type" HTTP header
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
+ @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @note HTTP Status Code 200 will be used in the response
+ */
 +(instancetype)responseWithFilePath:(NSString *)filePath
                         contentType:(NSString*)contentType
                        responseTime:(NSTimeInterval)responseTime;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Instance Methods
-
-/*! Designed initializer. Initialize a response with the given data, statusCode, responseTime and headers.
+/*! Designed initializer. Initialize a response with the given input stream, statusCode, dataSize, responseTime and headers.
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param dataSize the size of the data in the stream
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
+ @param httpHeaders The HTTP Headers to return in the response
+ @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
+ */
+-(instancetype)initWithInputStream:(NSInputStream*)inputStream
+                        statusCode:(int)statusCode
+                          dataSize:(unsigned long long)dataSize
+                      responseTime:(NSTimeInterval)responseTime
+                           headers:(NSDictionary*)httpHeaders;
+/*! Initialize a response with a given file path, statusCode, responseTime and headers.
+ @param filePath The file path of the data to return in the response
+ @param statusCode the HTTP Status Code to use in the response
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
+ @param httpHeaders The HTTP Headers to return in the response
+ @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
+ */
+-(instancetype)initWithFilePath:(NSString*)filePath
+                     statusCode:(int)statusCode
+                   responseTime:(NSTimeInterval)responseTime
+                        headers:(NSDictionary*)httpHeaders;
+/*! Initialize a response with the given data, statusCode, responseTime and headers.
+ @param data The raw data to return in the response
+ @param statusCode the HTTP Status Code to use in the response
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example). If this value is 0, it will be set to OHHTTPStubsDownloadSpeedWifi.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
