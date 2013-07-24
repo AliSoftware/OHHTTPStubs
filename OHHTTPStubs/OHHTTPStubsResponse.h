@@ -54,10 +54,11 @@ OHHTTPStubsDownloadSpeedWifi;
 
 @property(nonatomic, strong) NSDictionary* httpHeaders;
 @property(nonatomic, assign) int statusCode;
-@property(nonatomic, strong) NSData* responseData;
+@property(nonatomic, strong) NSInputStream* inputStream;
 //! @note if responseTime<0, it is interpreted as a download speed in KBps ( -200 => 200KB/s )
 @property(nonatomic, assign) NSTimeInterval responseTime;
 @property(nonatomic, strong) NSError* error;
+@property(nonatomic, assign) unsigned long long dataSize;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
@@ -83,10 +84,10 @@ OHHTTPStubsDownloadSpeedWifi;
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
-+(instancetype)responseWithFile:(NSString*)fileName
-                     statusCode:(int)statusCode
-                   responseTime:(NSTimeInterval)responseTime
-                        headers:(NSDictionary*)httpHeaders;
++(instancetype)responseWithFileInMainBundle:(NSString*)fileName
+                                 statusCode:(int)statusCode
+                               responseTime:(NSTimeInterval)responseTime
+                                    headers:(NSDictionary*)httpHeaders;
 
 /*! Builds a response given a file in the application bundle and a content type.
  @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
@@ -95,9 +96,9 @@ OHHTTPStubsDownloadSpeedWifi;
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  @note HTTP Status Code 200 will be used in the response
  */
-+(instancetype)responseWithFile:(NSString*)fileName
-                    contentType:(NSString*)contentType
-                   responseTime:(NSTimeInterval)responseTime;
++(instancetype)responseWithFileInMainBundle:(NSString*)fileName
+                                contentType:(NSString*)contentType
+                               responseTime:(NSTimeInterval)responseTime;
 
 /*! Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
  This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
@@ -126,6 +127,15 @@ OHHTTPStubsDownloadSpeedWifi;
  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
 +(instancetype)responseWithError:(NSError*)error;
+
++(instancetype)responseWithFilePath:(NSString *)filePath
+                         statusCode:(int)statusCode
+                       responseTime:(NSTimeInterval)responseTime
+                            headers:(NSDictionary *)httpHeaders;
+
++(instancetype)responseWithFilePath:(NSString *)filePath
+                        contentType:(NSString*)contentType
+                       responseTime:(NSTimeInterval)responseTime;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Instance Methods

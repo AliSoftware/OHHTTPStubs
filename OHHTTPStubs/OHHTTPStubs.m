@@ -255,7 +255,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         {
             // Interpret it as a bandwidth in KB/s ( -2 => 2KB/s )
             double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
-            canonicalResponseTime = responseStub.responseData.length / bandwidth;
+            canonicalResponseTime = responseStub.dataSize / bandwidth;
         }
         NSTimeInterval requestTime = canonicalResponseTime * 0.1;
         NSTimeInterval responseTime = canonicalResponseTime - requestTime;
@@ -299,14 +299,20 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
                 if (!self.stopped)
                 {
                     [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                    
-                    execute_after(responseTime,^{
-                        if (!self.stopped)
-                        {
-                            [client URLProtocol:self didLoadData:responseStub.responseData];
-                            [client URLProtocolDidFinishLoading:self];
-                        }
-                    });
+                    [self streamDataForClient:client
+                             withStubResponse:responseStub
+                                   completion:^(NSError * error) {
+                                       [responseStub.inputStream close];
+                                       if(error==nil)
+                                       {
+                                           [client URLProtocolDidFinishLoading:self];
+                                       }
+                                       else
+                                       {
+                                           NSLog(@"Stream Error: %@",error);
+                                           [client URLProtocol:self didFailWithError:responseStub.error];
+                                       }
+                                   }];
                 }
             });
         }
@@ -324,6 +330,54 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 - (void)stopLoading
 {
     self.stopped = YES;
+}
+
+- (void)streamDataForClient:(id<NSURLProtocolClient>)client
+           withStubResponse:(OHHTTPStubsResponse*)stubResponse
+                 completion:(void(^)(NSError * error))completion{
+    if(stubResponse.inputStream.streamStatus == NSStreamStatusNotOpen)
+    {
+        [stubResponse.inputStream open];
+        NSAssert(stubResponse.inputStream.streamStatus == NSStreamStatusOpen, @"Stream not open");
+    }
+    if(stubResponse.inputStream.hasBytesAvailable &&
+       !self.stopped)
+    {
+        NSUInteger chunkSizePerSlot;
+        NSTimeInterval slotTime = .25;
+        if(stubResponse.responseTime < 0)
+        {
+            chunkSizePerSlot = (fabs(stubResponse.responseTime) * 1000) * slotTime;
+        }
+        else
+        {
+            chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * slotTime);
+        }
+        uint8_t buffer[chunkSizePerSlot];
+        NSInteger bytesRead = [stubResponse.inputStream read:buffer maxLength:chunkSizePerSlot];
+        if(bytesRead > 0)
+        {
+            NSData * data = [NSData dataWithBytes:buffer length:bytesRead];
+            execute_after(((double)bytesRead/(double)chunkSizePerSlot)* slotTime, ^{
+                [client URLProtocol:self didLoadData:data];
+                [self streamDataForClient:client withStubResponse:stubResponse completion:completion];
+            });
+        }
+        else
+        {
+            if(completion)
+            {
+                completion([stubResponse.inputStream streamError]);
+            }
+        }
+    }
+    else
+    {
+        if(completion)
+        {
+            completion(nil);
+        }
+    }
 }
 
 /////////////////////////////////////////////
