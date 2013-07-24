@@ -257,8 +257,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
             double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
             canonicalResponseTime = responseStub.dataSize / bandwidth;
         }
-        NSTimeInterval requestTime = canonicalResponseTime * 0.1;
-        NSTimeInterval responseTime = canonicalResponseTime - requestTime;
+        NSTimeInterval requestTime = MIN(canonicalResponseTime * 0.1,1.0);
         
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
@@ -286,7 +285,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         if (((responseStub.statusCode >= 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(responseTime, ^{
+            execute_after(1.0, ^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
