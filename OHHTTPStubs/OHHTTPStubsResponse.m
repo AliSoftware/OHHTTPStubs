@@ -110,7 +110,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 -(void)setRequestTime:(NSTimeInterval)requestTime
 {
-    NSAssert(requestTime > 0, @"Invalid Request Time for OHHTTPStub: (%f). Request time must be greater than zero",requestTime);
+    NSAssert(requestTime >= 0, @"Invalid Request Time for OHHTTPStub: (%f). Request time must be greater than or equal to zero",requestTime);
     _requestTime = requestTime;
 }
 
@@ -159,6 +159,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 +(instancetype)responseWithFileInMainBundle:(NSString*)fileName
                                  statusCode:(int)statusCode
+                                requestTime:(NSTimeInterval)requestTime
                                responseTime:(NSTimeInterval)responseTime
                                     headers:(NSDictionary*)httpHeaders
 {
@@ -167,7 +168,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 	NSString* filePath = [[NSBundle bundleForClass:[self class]] pathForResource:basename ofType:extension];
     return [self responseWithFilePath:filePath
                            statusCode:statusCode
-                          requestTime:OHHTTPStubsDefaultRequestTime
+                          requestTime:requestTime
                          responseTime:responseTime
                               headers:httpHeaders];
 }
@@ -179,6 +180,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
     return [self responseWithFileInMainBundle:fileName
                                    statusCode:200
+                                  requestTime:OHHTTPStubsDefaultRequestTime
                                  responseTime:responseTime
                                       headers:headers];
 }
