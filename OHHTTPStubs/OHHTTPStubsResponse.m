@@ -104,13 +104,13 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 -(void)setResponseTime:(NSTimeInterval)responseTime
 {
-    NSAssert(responseTime!=0, @"Invalid Response Time for OHHTTPStub: (%f). Response time cannot be zero.",responseTime);
+    NSAssert(responseTime!=0, @"Invalid Response Time (%f) for OHHTTPStubResponse. Response time cannot be zero.",responseTime);
     _responseTime = responseTime;
 }
 
 -(void)setRequestTime:(NSTimeInterval)requestTime
 {
-    NSAssert(requestTime >= 0, @"Invalid Request Time for OHHTTPStub: (%f). Request time must be greater than or equal to zero",requestTime);
+    NSAssert(requestTime >= 0, @"Invalid Request Time (%f) for OHHTTPStubResponse. Request time must be greater than or equal to zero",requestTime);
     _requestTime = requestTime;
 }
 
