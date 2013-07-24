@@ -298,20 +298,20 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
                 if (!self.stopped)
                 {
                     [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                    [self streamDataForClient:client
-                             withStubResponse:responseStub
-                                   completion:^(NSError * error) {
-                                       [responseStub.inputStream close];
-                                       if(error==nil)
-                                       {
-                                           [client URLProtocolDidFinishLoading:self];
-                                       }
-                                       else
-                                       {
-                                           NSLog(@"Stream Error: %@",error);
-                                           [client URLProtocol:self didFailWithError:responseStub.error];
-                                       }
-                                   }];
+                    [self
+                     streamDataForClient:client
+                     withStubResponse:responseStub
+                     completion:^(NSError * error) {
+                         [responseStub.inputStream close];
+                         if(error==nil)
+                         {
+                             [client URLProtocolDidFinishLoading:self];
+                         }
+                         else
+                         {
+                             [client URLProtocol:self didFailWithError:responseStub.error];
+                         }
+                     }];
                 }
             });
         }
@@ -337,7 +337,6 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
     if(stubResponse.inputStream.streamStatus == NSStreamStatusNotOpen)
     {
         [stubResponse.inputStream open];
-        NSAssert(stubResponse.inputStream.streamStatus == NSStreamStatusOpen, @"Stream not open");
     }
     if(stubResponse.inputStream.hasBytesAvailable &&
        !self.stopped)

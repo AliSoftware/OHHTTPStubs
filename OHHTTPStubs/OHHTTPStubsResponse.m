@@ -41,12 +41,6 @@ const double OHHTTPStubsDownloadSpeed3GPlus =-  7200 / 8; // kbps -> KB/s
 const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Private Interface
-@interface OHHTTPStubsResponse ()
-
-@end
-
-////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Implementation
 
 @implementation OHHTTPStubsResponse
@@ -84,14 +78,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     NSInputStream* inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
     NSDictionary* attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
     unsigned long long fileSize = [[attributes valueForKey:NSFileSize] unsignedLongLongValue];
-    self = [self initWithInputStream:inputStream
-                          statusCode:statusCode
-                            dataSize:fileSize
-                        responseTime:responseTime
-                             headers:httpHeaders];
-    if(self){
-
-    }
+    self = [self initWithInputStream:inputStream statusCode:statusCode dataSize:fileSize responseTime:responseTime headers:httpHeaders];
     return self;
 }
 
@@ -101,14 +88,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                     headers:(NSDictionary*)httpHeaders
 {
     NSInputStream* inputStream = [NSInputStream inputStreamWithData:data];
-    self = [self initWithInputStream:inputStream
-                          statusCode:statusCode
-                            dataSize:[data length]
-                        responseTime:responseTime
-                             headers:httpHeaders];
-    if (self) {
-
-    }
+    self = [self initWithInputStream:inputStream statusCode:statusCode dataSize:[data length] responseTime:responseTime headers:httpHeaders];
     return self;
 }
 
