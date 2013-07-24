@@ -247,18 +247,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
     OHHTTPStubsResponse* responseStub = [[OHHTTPStubs sharedInstance] responseForRequest:request onlyCheck:NO];
     
     if (responseStub.error == nil)
-    {
-        // Send the fake data
-        
-        NSTimeInterval canonicalResponseTime = responseStub.responseTime;
-        if (canonicalResponseTime<0)
-        {
-            // Interpret it as a bandwidth in KB/s ( -2 => 2KB/s )
-            double bandwidth = -canonicalResponseTime * 1000.0; // in bytes per second
-            canonicalResponseTime = responseStub.dataSize / bandwidth;
-        }
-        NSTimeInterval requestTime = MIN(canonicalResponseTime * 0.1,1.0);
-        
+    {        
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
                                                                     HTTPVersion:@"HTTP/1.1"
@@ -285,7 +274,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         if (((responseStub.statusCode >= 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(1.0, ^{
+            execute_after(responseStub.requestTime*2.0, ^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
@@ -294,10 +283,14 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         }
         else
         {
-            execute_after(requestTime,^{
+            execute_after(responseStub.requestTime,^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                    if(responseStub.inputStream.streamStatus == NSStreamStatusNotOpen)
+                    {
+                        [responseStub.inputStream open];
+                    }
                     [self
                      streamDataForClient:client
                      withStubResponse:responseStub
@@ -334,10 +327,6 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 - (void)streamDataForClient:(id<NSURLProtocolClient>)client
            withStubResponse:(OHHTTPStubsResponse*)stubResponse
                  completion:(void(^)(NSError * error))completion{
-    if(stubResponse.inputStream.streamStatus == NSStreamStatusNotOpen)
-    {
-        [stubResponse.inputStream open];
-    }
     if(stubResponse.inputStream.hasBytesAvailable &&
        !self.stopped)
     {
