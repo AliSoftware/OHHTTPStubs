@@ -69,7 +69,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given raw data
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
- @param requestTime the time to wait before the response begins to send. This value must be greater than zero.
+ @param requestTime the time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime if positive, the amount of time to send the entire response. If negative, the rate in KB/s to send the response data (to simulate slow networks for example). This value cannot be zero.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
@@ -83,12 +83,14 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given a file in the application bundle, the status code and headers.
  @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
  @param statusCode the HTTP Status Code to use in the response
+ @param requestTime the time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime if positive, the amount of time to send the entire response. If negative, the rate in KB/s to send the response data (to simulate slow networks for example). This value cannot be zero.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithFileInMainBundle:(NSString*)fileName
                                  statusCode:(int)statusCode
+                                requestTime:(NSTimeInterval)requestTime
                                responseTime:(NSTimeInterval)responseTime
                                     headers:(NSDictionary*)httpHeaders;
 
@@ -133,7 +135,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given a file path, the status code and headers.
  @param filePath The file path that contains the response body to return.
  @param statusCode the HTTP Status Code to use in the response
- @param requestTime the time to wait before the response begins to send. This value must be greater than zero.
+ @param requestTime the time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime if positive, the amount of time to send the entire response. If negative, the rate in KB/s to send the response data (to simulate slow networks for example). This value cannot be zero.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
@@ -161,7 +163,7 @@ OHHTTPStubsDownloadSpeedWifi;
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
  @param dataSize the size of the data in the stream
- @param requestTime the time to wait before the response begins to send. This value must be greater than zero.
+ @param requestTime the time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime if positive, the amount of time to send the entire response. If negative, the rate in KB/s to send the response data (to simulate slow networks for example). This value cannot be zero.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
@@ -175,7 +177,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Initialize a response with a given file path, statusCode, responseTime and headers.
  @param filePath The file path of the data to return in the response
  @param statusCode the HTTP Status Code to use in the response
- @param requestTime the time to wait before the response begins to send. This value must be greater than zero.
+ @param requestTime the time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime if positive, the amount of time to send the entire response. If negative, the rate in KB/s to send the response data (to simulate slow networks for example). This value cannot be zero.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
@@ -188,7 +190,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Initialize a response with the given data, statusCode, responseTime and headers.
  @param data The raw data to return in the response
  @param statusCode the HTTP Status Code to use in the response
- @param requestTime the time to wait before the response begins to send. This value must be greater than zero.
+ @param requestTime the time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime if positive, the amount of time to send the entire response. If negative, the rate in KB/s to send the response data (to simulate slow networks for example). This value cannot be zero.
  @param httpHeaders The HTTP Headers to return in the response
  @return an OHHTTPStubsResponse describing the corresponding response to return by the stub

@@ -16,6 +16,7 @@
 - (IBAction)installImageStub:(UISwitch*)sender;
 - (IBAction)clearResults;
 
+@property (retain, nonatomic) IBOutlet UISwitch *delaySwitch;
 @property (retain, nonatomic) IBOutlet UITextView *textView;
 @property (retain, nonatomic) IBOutlet UISwitch *installTextStubSwitch;
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;

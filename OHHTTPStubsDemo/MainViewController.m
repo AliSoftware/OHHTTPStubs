@@ -12,6 +12,7 @@
 
 @implementation MainViewController
 // IBOutlets
+@synthesize delaySwitch = _delaySwitch;
 @synthesize textView = _textView;
 @synthesize installTextStubSwitch = _installTextStubSwitch;
 @synthesize installImageStubSwitch = _installImageStubSwitch;
@@ -26,6 +27,7 @@
 #if ! __has_feature(objc_arc)
     [_textView release];
     [_imageView release];
+    [_delaySwitch release];
     [_installTextStubSwitch release];
     [_installImageStubSwitch release];
     [super dealloc];
@@ -43,6 +45,7 @@
 {
     [self setTextView:nil];
     [self setImageView:nil];
+    [self setDelaySwitch:nil];
     [super viewDidUnload];
 }
 
@@ -52,6 +55,7 @@
 - (IBAction)toggleStubs:(UISwitch *)sender
 {
     [OHHTTPStubs setEnabled:sender.on];
+    self.delaySwitch.enabled = sender.on;
     self.installTextStubSwitch.enabled = sender.on;
     self.installImageStubSwitch.enabled = sender.on;
 }
@@ -66,6 +70,7 @@
 - (IBAction)downloadText:(UIButton*)sender
 {
     sender.enabled = NO;
+    self.textView.text = nil;
 
     NSString* urlString = @"http://www.loremipsum.de/downloads/version3.txt";
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
@@ -90,7 +95,6 @@
 - (IBAction)installTextStub:(UISwitch *)sender
 {
     static id textHandler = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
-    
     if (sender.on)
     {
         // Install
@@ -100,8 +104,10 @@
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub txt files with this
             return [OHHTTPStubsResponse responseWithFileInMainBundle:@"stub.txt"
-                                                         contentType:@"text/plain"
-                                                        responseTime:OHHTTPStubsDownloadSpeedWifi];
+                                                          statusCode:200
+                                                         requestTime:self.delaySwitch.on ? 2.f: 0.f
+                                                        responseTime:OHHTTPStubsDownloadSpeedWifi
+                                                             headers:@{@"Content-Type":@"text/plain"}];
         }];
     }
     else
@@ -118,7 +124,6 @@
 - (IBAction)downloadImage:(UIButton*)sender
 {
     sender.enabled = NO;
-    self.imageView.image = nil;
     
     NSString* urlString = @"http://images.apple.com/iphone/ios/images/ios_business_2x.jpg";
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
@@ -145,8 +150,10 @@
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub jpg files with this
             return [OHHTTPStubsResponse responseWithFileInMainBundle:@"stub.jpg"
-                                                         contentType:@"image/jpeg"
-                                                        responseTime:OHHTTPStubsDownloadSpeedWifi];
+                                                          statusCode:200
+                                                         requestTime:self.delaySwitch.on ? 2.f: 0.f
+                                                        responseTime:OHHTTPStubsDownloadSpeedWifi
+                                                             headers:@{@"Content-Type":@"image/jpeg"}];
         }];
     }
     else
