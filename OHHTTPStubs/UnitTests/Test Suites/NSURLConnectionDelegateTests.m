@@ -109,6 +109,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSURLConnectionDelegate_success
 {
+    static const NSTimeInterval kRequestTime = 1.0;
     static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -117,6 +118,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:testData
                                           statusCode:200
+                                         requestTime:kRequestTime 
                                         responseTime:kResponseTime
                                              headers:nil];
     }];
@@ -126,11 +128,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
     
     STAssertEqualObjects(_data, testData, @"Invalid data response");
     STAssertNil(_error, @"Received unexpected network error %@", _error);
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -177,6 +179,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
                                           statusCode:500
+                                         requestTime:0.0
                                         responseTime:1.5
                                              headers:nil];
     }];
@@ -211,7 +214,8 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         NSDictionary* headers = [NSDictionary dictionaryWithObject:cookie forKey:@"Set-Cookie"];
         return [OHHTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
                                           statusCode:200
-                                        responseTime:0
+                                         requestTime:0.0
+                                        responseTime:0.1
                                              headers:headers];
     }];
     
@@ -254,6 +258,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 - (void)test_NSURLConnection_redirected
 {
+    static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 1.0;
     NSData* redirectData = [[NSString stringWithFormat:@"%@ - redirect", NSStringFromSelector(_cmd)] dataUsingEncoding:NSUTF8StringEncoding];
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
@@ -282,6 +287,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
                                      nil];
             return [OHHTTPStubsResponse responseWithData:redirectData
                                               statusCode:311 // any 300-level request will do
+                                             requestTime:kRequestTime
                                             responseTime:kResponseTime
                                                  headers:headers];
         } else {
@@ -289,6 +295,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
             NSDictionary* headers = [NSDictionary dictionaryWithObject:endCookie forKey:@"Set-Cookie"];
             return [OHHTTPStubsResponse responseWithData:testData
                                               statusCode:200
+                                             requestTime:kRequestTime
                                             responseTime:kResponseTime
                                                  headers:headers];
         }
@@ -299,13 +306,13 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForAsyncOperationWithTimeout:2 * (kResponseTime+kResponseTimeTolerence)];
+    [self waitForAsyncOperationWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeTolerence)];
     
     STAssertEqualObjects(_redirectRequestURL, endURL, @"Invalid redirect request URL");
     STAssertEquals(_redirectResponseStatusCode, 311, @"Invalid redirect response status code");
     STAssertEqualObjects(_data, testData, @"Invalid data response");
     STAssertNil(_error, @"Received unexpected network error %@", _error);
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], 2 * kResponseTime, 2 * kResponseTimeTolerence, @"Invalid response time");
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, 2 * kResponseTimeTolerence, @"Invalid response time");
     
     /* Check that the redirect cookie has been properly stored */
     NSArray* redirectCookies = [cookieStorage cookiesForURL:req.URL];
