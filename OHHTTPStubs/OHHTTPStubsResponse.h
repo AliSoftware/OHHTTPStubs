@@ -127,6 +127,23 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 +(instancetype)responseWithError:(NSError*)error;
 
+/**
+ * Builds a response given a JSON object for the response body, status code, and headers.
+ *
+ * @param jsonObject object representing the response body.
+ *            Typically a `NSDictionary`; may be any object accepted by +[NSJSONSerialization dataWithJSONObject:options:error:]
+ * @param statusCode the HTTP statuc doe to use in the response
+ * @param responseTime the time to wait before the response is sent
+ * @param httpHeaders The HTTP headers to return in the response. 
+ *            If a Content-Type header is not included, "Content-Type: application/json" will be added.
+ *
+ * @return an OHHTTPStubsResponse describing the corresponding response to return by the stub
+ */
++ (instancetype)responseWithJSONObject:(id)jsonObject
+                            statusCode:(int)statusCode
+                          responseTime:(NSTimeInterval)responseTime
+                               headers:(NSDictionary*)httpHeaders;
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Instance Methods
 
