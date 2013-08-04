@@ -160,5 +160,23 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
++ (instancetype)responseWithJSONObject:(id)jsonObject
+                            statusCode:(int)statusCode
+                          responseTime:(NSTimeInterval)responseTime
+                               headers:(NSDictionary *)httpHeaders
+{
+    if (!httpHeaders[@"Content-Type"]) {
+        NSMutableDictionary *mutableHeaders = [httpHeaders mutableCopy];
+        mutableHeaders[@"Content-Type"] = @"application/json";
+        httpHeaders = mutableHeaders;
+    }
+
+    return [self responseWithData:[NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil]
+                       statusCode:statusCode
+                     responseTime:responseTime
+                          headers:httpHeaders
+            ];
+}
+
 
 @end
