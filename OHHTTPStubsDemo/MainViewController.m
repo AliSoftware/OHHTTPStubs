@@ -70,6 +70,7 @@
 - (IBAction)downloadText:(UIButton*)sender
 {
     sender.enabled = NO;
+    self.textView.text = nil;
 
     NSString* urlString = @"http://www.loremipsum.de/downloads/version3.txt";
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
@@ -94,7 +95,6 @@
 - (IBAction)installTextStub:(UISwitch *)sender
 {
     static id textHandler = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
-    
     if (sender.on)
     {
         // Install
@@ -103,9 +103,11 @@
             return [request.URL.absoluteString.pathExtension isEqualToString:@"txt"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub txt files with this
-            return [OHHTTPStubsResponse responseWithFile:@"stub.txt"
-                                             contentType:@"text/plain"
-                                            responseTime:self.delaySwitch.on ? 2.f: 0.f];
+            return [OHHTTPStubsResponse responseWithFileInMainBundle:@"stub.txt"
+                                                          statusCode:200
+                                                         requestTime:self.delaySwitch.on ? 2.f: 0.f
+                                                        responseTime:OHHTTPStubsDownloadSpeedWifi
+                                                             headers:@{@"Content-Type":@"text/plain"}];
         }];
     }
     else
@@ -147,9 +149,11 @@
             return [request.URL.absoluteString.pathExtension isEqualToString:@"jpg"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub jpg files with this
-            return [OHHTTPStubsResponse responseWithFile:@"stub.jpg"
-                                             contentType:@"image/jpeg"
-                                            responseTime:self.delaySwitch.on ? 2.f: 0.f];
+            return [OHHTTPStubsResponse responseWithFileInMainBundle:@"stub.jpg"
+                                                          statusCode:200
+                                                         requestTime:self.delaySwitch.on ? 2.f: 0.f
+                                                        responseTime:OHHTTPStubsDownloadSpeedWifi
+                                                             headers:@{@"Content-Type":@"image/jpeg"}];
         }];
     }
     else
