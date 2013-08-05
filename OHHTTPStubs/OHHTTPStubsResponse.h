@@ -171,6 +171,7 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 + (instancetype)responseWithJSONObject:(id)jsonObject
                             statusCode:(int)statusCode
+                           requestTime:(NSTimeInterval)requestTime
                           responseTime:(NSTimeInterval)responseTime
                                headers:(NSDictionary*)httpHeaders;
 
