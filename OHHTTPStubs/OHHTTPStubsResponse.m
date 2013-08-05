@@ -33,6 +33,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
+const NSTimeInterval OHHTTPStubsDefaultRequestTime = 1.0;
 
 const double OHHTTPStubsDownloadSpeedGPRS   =-    56 / 8; // kbps -> KB/s
 const double OHHTTPStubsDownloadSpeedEDGE   =-   128 / 8; // kbps -> KB/s
@@ -48,18 +49,47 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
 
+-(instancetype)initWithInputStream:(NSInputStream*)inputStream
+                        statusCode:(int)statusCode
+                          dataSize:(unsigned long long)dataSize
+                       requestTime:(NSTimeInterval)requestTime 
+                      responseTime:(NSTimeInterval)responseTime
+                           headers:(NSDictionary*)httpHeaders
+{
+    self = [super init];
+    if(self){
+        self.inputStream = inputStream;
+        self.dataSize = dataSize;
+        self.statusCode = statusCode;
+        self.requestTime = requestTime;
+        self.responseTime = responseTime;
+        NSMutableDictionary * headers = [NSMutableDictionary dictionaryWithDictionary:httpHeaders];
+        [headers setObject:[NSString stringWithFormat:@"%llu",self.dataSize] forKey:@"Content-Length"];
+        self.httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
+    }
+    return self;
+}
+
+-(instancetype)initWithFilePath:(NSString*)filePath
+                     statusCode:(int)statusCode
+                    requestTime:(NSTimeInterval)requestTime 
+                   responseTime:(NSTimeInterval)responseTime
+                        headers:(NSDictionary*)httpHeaders{
+    NSInputStream* inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+    NSDictionary* attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+    unsigned long long fileSize = [[attributes valueForKey:NSFileSize] unsignedLongLongValue];
+    self = [self initWithInputStream:inputStream statusCode:statusCode dataSize:fileSize requestTime:requestTime responseTime:responseTime headers:httpHeaders];
+    return self;
+}
+
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
+                requestTime:(NSTimeInterval)requestTime 
                responseTime:(NSTimeInterval)responseTime
                     headers:(NSDictionary*)httpHeaders
 {
-    self = [super init];
-    if (self) {
-        self.responseData = data;
-        self.statusCode = statusCode;
-        self.httpHeaders = httpHeaders;
-        self.responseTime = responseTime;
-    }
+    NSInputStream* inputStream = [NSInputStream inputStreamWithData:data];
+    self = [self initWithInputStream:inputStream statusCode:statusCode dataSize:[data length] requestTime:requestTime responseTime:responseTime headers:httpHeaders];
     return self;
 }
 
@@ -72,39 +102,87 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return self;
 }
 
+-(void)setResponseTime:(NSTimeInterval)responseTime
+{
+    NSAssert(responseTime!=0, @"Invalid Response Time (%f) for OHHTTPStubResponse. Response time cannot be zero.",responseTime);
+    _responseTime = responseTime;
+}
+
+-(void)setRequestTime:(NSTimeInterval)requestTime
+{
+    NSAssert(requestTime >= 0, @"Invalid Request Time (%f) for OHHTTPStubResponse. Request time must be greater than or equal to zero",requestTime);
+    _requestTime = requestTime;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
++(instancetype)responseWithFilePath:(NSString *)filePath
+                         statusCode:(int)statusCode
+                        requestTime:(NSTimeInterval)requestTime 
+                       responseTime:(NSTimeInterval)responseTime
+                            headers:(NSDictionary *)httpHeaders
+{
+    OHHTTPStubsResponse* response = [[self alloc] initWithFilePath:filePath
+                                                        statusCode:statusCode
+                                                       requestTime:requestTime
+                                                      responseTime:responseTime
+                                                           headers:httpHeaders];
+    return response;
+}
+
++(instancetype)responseWithFilePath:(NSString *)filePath
+                        contentType:(NSString*)contentType
+                       responseTime:(NSTimeInterval)responseTime
+{
+    NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
+    return [self responseWithFilePath:filePath
+                           statusCode:200
+                          requestTime:OHHTTPStubsDefaultRequestTime
+                         responseTime:responseTime
+                              headers:headers];
+}
+
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
+                    requestTime:(NSTimeInterval)requestTime 
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
 {
     OHHTTPStubsResponse* response = [[self alloc] initWithData:data
                                                     statusCode:statusCode
+                                                   requestTime:requestTime
                                                   responseTime:responseTime
                                                        headers:httpHeaders];
     return response;
 }
 
-+(instancetype)responseWithFile:(NSString*)fileName
-                     statusCode:(int)statusCode
-                   responseTime:(NSTimeInterval)responseTime
-                        headers:(NSDictionary*)httpHeaders
++(instancetype)responseWithFileInMainBundle:(NSString*)fileName
+                                 statusCode:(int)statusCode
+                                requestTime:(NSTimeInterval)requestTime
+                               responseTime:(NSTimeInterval)responseTime
+                                    headers:(NSDictionary*)httpHeaders
 {
     NSString* basename = [fileName stringByDeletingPathExtension];
     NSString* extension = [fileName pathExtension];
 	NSString* filePath = [[NSBundle bundleForClass:[self class]] pathForResource:basename ofType:extension];
-    NSData* data = [NSData dataWithContentsOfFile:filePath];
-    return [self responseWithData:data statusCode:statusCode responseTime:responseTime headers:httpHeaders];
+    return [self responseWithFilePath:filePath
+                           statusCode:statusCode
+                          requestTime:requestTime
+                         responseTime:responseTime
+                              headers:httpHeaders];
 }
 
-+(instancetype)responseWithFile:(NSString*)fileName
-                    contentType:(NSString*)contentType
-                   responseTime:(NSTimeInterval)responseTime
++(instancetype)responseWithFileInMainBundle:(NSString*)fileName
+                                contentType:(NSString*)contentType
+                               responseTime:(NSTimeInterval)responseTime
 {
     NSDictionary* headers = [NSDictionary dictionaryWithObject:contentType forKey:@"Content-Type"];
-    return [self responseWithFile:fileName statusCode:200 responseTime:responseTime headers:headers];
+    return [self responseWithFileInMainBundle:fileName
+                                   statusCode:200
+                                  requestTime:OHHTTPStubsDefaultRequestTime
+                                 responseTime:responseTime
+                                      headers:headers];
 }
 
 +(instancetype)responseWithHTTPMessageData:(NSData*)responseData
@@ -128,7 +206,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
         CFRelease(httpMessage);
     }
     
-    return [self responseWithData:data statusCode:(int)statusCode responseTime:responseTime headers:headers];
+    return [self responseWithData:data statusCode:(int)statusCode requestTime:OHHTTPStubsDefaultRequestTime responseTime:responseTime headers:headers];
 }
 
 +(instancetype)responseNamed:(NSString*)responseName
