@@ -274,7 +274,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         if (((responseStub.statusCode >= 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(responseStub.requestTime*2.0, ^{
+            execute_after(responseStub.requestTime, ^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
@@ -291,12 +291,12 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
                     {
                         [responseStub.inputStream open];
                     }
-                    [self
-                     streamDataForClient:client
-                     withStubResponse:responseStub
-                     completion:^(NSError * error) {
+                    [self streamDataForClient:client
+                             withStubResponse:responseStub
+                                   completion:^(NSError * error)
+                     {
                          [responseStub.inputStream close];
-                         if(error==nil)
+                         if (error==nil)
                          {
                              [client URLProtocolDidFinishLoading:self];
                          }
@@ -326,33 +326,44 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 
 - (void)streamDataForClient:(id<NSURLProtocolClient>)client
            withStubResponse:(OHHTTPStubsResponse*)stubResponse
-                 completion:(void(^)(NSError * error))completion{
-    if(stubResponse.inputStream.hasBytesAvailable &&
-       !self.stopped)
+                 completion:(void(^)(NSError * error))completion
+{
+    if (stubResponse.inputStream.hasBytesAvailable && !self.stopped)
     {
         NSUInteger chunkSizePerSlot;
-        NSTimeInterval slotTime = .25;
+        NSTimeInterval slotTime = .25; // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
         if(stubResponse.responseTime < 0)
         {
+            // Bytes send each 'slotTime' seconds = Speed in KB/s * 1000 * slotTime in seconds
             chunkSizePerSlot = (fabs(stubResponse.responseTime) * 1000) * slotTime;
+        }
+        else if (stubResponse.responseTime < slotTime) // includes case when responseTime == 0
+        {
+            // We want to send the whole data quicker than the slotTime, so send it all in one chunk.
+            chunkSizePerSlot = stubResponse.dataSize;
+            slotTime = stubResponse.responseTime;
         }
         else
         {
+            // Bytes send each 'slotTime' seconds = (Whole size in bytes / response time) * slotTime = speed in bps * slotTime in seconds
             chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * slotTime);
         }
+
         uint8_t buffer[chunkSizePerSlot];
         NSInteger bytesRead = [stubResponse.inputStream read:buffer maxLength:chunkSizePerSlot];
-        if(bytesRead > 0)
+        if (bytesRead > 0)
         {
             NSData * data = [NSData dataWithBytes:buffer length:bytesRead];
-            execute_after(((double)bytesRead/(double)chunkSizePerSlot)* slotTime, ^{
+            // Wait for 'slotTime' seconds before sending the chunk.
+            // If bytesRead < chunkSizePerSlot (because we are near the EOF), adjust slotTime proportionally to the bytes remaining
+            execute_after(((double)bytesRead/(double)chunkSizePerSlot)*slotTime, ^{
                 [client URLProtocol:self didLoadData:data];
                 [self streamDataForClient:client withStubResponse:stubResponse completion:completion];
             });
         }
         else
         {
-            if(completion)
+            if (completion)
             {
                 completion([stubResponse.inputStream streamError]);
             }
@@ -360,7 +371,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
     }
     else
     {
-        if(completion)
+        if (completion)
         {
             completion(nil);
         }

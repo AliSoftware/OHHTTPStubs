@@ -39,9 +39,7 @@ typedef id OHHTTPStubsRequestHandlerID;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
 
-/*! @header OHHTTPStubs
- Stubs Manager. Use this class to add and remove stubs and stub your network requests.
- */
+/*! Stubs Manager. Use this class to add and remove stubs and stub your network requests. */
 @interface OHHTTPStubs : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +47,7 @@ typedef id OHHTTPStubsRequestHandlerID;
 
 /*! Dedicated method to add a request handler
  @param testBlock Block that should return YES if the request passed as parameter should be stubbed with the handler block, NO if it should hit the real world (or be managed by another request handler).
- @param responseHandler Block that will return the OHHTTPStubsResponse to use for stubbing, corresponding to the given request
+ @param responseBlock Block that will return the OHHTTPStubsResponse to use for stubbing, corresponding to the given request
  @return an opaque object that uniquely identifies the handler and can be later used to remove it with removeRequestHandler:
  */
 +(OHHTTPStubsRequestHandlerID)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
