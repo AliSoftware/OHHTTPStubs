@@ -1,3 +1,6 @@
-before_script: cd OHHTTPStubs
 language: objective-c
+before_install:
+    - brew update
+    - brew install xctool
+script: xctool -project OHHTTPStubs/OHHTTPStubs.xcworkspace -scheme OHHTTPStubs test
 
