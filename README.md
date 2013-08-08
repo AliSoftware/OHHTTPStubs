@@ -3,6 +3,8 @@ OHHTTPStubs
 
 A class to stub network requests easily: test your apps with fake network data (stubbed from file) and custom response time
 
+[![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.png?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
+
 * [Basic Usage](#basic-usage)
 * [The `OHHTTPStubsResponse` object](#the-ohhttpstubsresponse-object)
 * [Advanced Usage](#advanced-usage)
