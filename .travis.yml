@@ -1,0 +1,3 @@
+before_script: cd OHHTTPStubs
+language: objective-c
+
