@@ -33,12 +33,13 @@
 
 -(void)test_AFHTTPRequestOperation
 {
+    static const NSTimeInterval kRequestTime = 1.0;
     static const NSTimeInterval kResponseTime = 1.0;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 responseTime:kResponseTime headers:nil];
+        return [OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 requestTime:kRequestTime responseTime:kResponseTime headers:nil];
     }];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
@@ -53,7 +54,7 @@
     }];
     [op start];
     
-    [self waitForAsyncOperationWithTimeout:kResponseTime+0.5];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
     
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
