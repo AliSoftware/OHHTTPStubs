@@ -102,7 +102,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         BOOL isHostRequest = [[self sharedInstance] isHostRequest:request];
       
         BOOL shouldStub;
-        if (isHostRequest == NO)
+        if (isHostRequest == NO && [[[self sharedInstance] hosts] count] > 0)
         {
             shouldStub = NO;
         }
