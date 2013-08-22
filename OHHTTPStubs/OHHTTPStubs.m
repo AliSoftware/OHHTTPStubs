@@ -46,7 +46,9 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 -(BOOL)removeRequestHandler:(id)handler;
 -(void)removeLastRequestHandler;
 -(void)removeAllRequestHandlers;
+-(void)setApplicationHosts:(NSSet *)hosts;
 @property(nonatomic, strong) NSMutableArray* requestHandlers;
+@property(nonatomic, strong) NSMutableSet *hosts;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +99,18 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
 {
     return [self.sharedInstance addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
     {
-        BOOL shouldStub = testBlock ? testBlock(request) : YES;
+        BOOL isHostRequest = [[self sharedInstance] isHostRequest:request];
+      
+        BOOL shouldStub;
+        if (isHostRequest == NO && [self hasRegisteredHosts] == YES)
+        {
+            shouldStub = NO;
+        }
+        else
+        {
+            shouldStub = testBlock ? testBlock(request) : YES;
+        }
+        
         if (onlyCheck)
         {
             return shouldStub ? (OHHTTPStubsResponse*)@"DummyStub" : (OHHTTPStubsResponse*)nil;
@@ -142,6 +155,14 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
     currentEnabledState = enabled;
 }
 
++(void)setApplicationHosts:(NSSet *)hosts {
+    [self.sharedInstance setApplicationHosts:hosts];
+}
+
++(BOOL)hasRegisteredHosts {
+  return [[[self sharedInstance] hosts] count] > 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public instance methods
 
@@ -180,6 +201,10 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
     }
 }
 
+-(void)setApplicationHosts:(NSSet *)hosts {
+    self.hosts = [NSMutableSet setWithSet:hosts];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private methods
 
@@ -195,6 +220,16 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         }
     }
     return response;
+}
+
+- (BOOL)isHostRequest:(NSURLRequest *)request {
+    BOOL isHostRequest = NO;
+    for (NSString *host in self.hosts)
+    {
+        isHostRequest = [request.URL.absoluteString hasPrefix:host];
+        if (isHostRequest == YES) break;
+    }
+    return isHostRequest;
 }
 
 @end

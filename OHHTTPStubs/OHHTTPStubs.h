@@ -83,4 +83,9 @@ typedef id OHHTTPStubsRequestHandlerID;
  */
 +(void)setEnabled:(BOOL)enabled;
 
+/*! Add HTTP host urls to stub
+ @param hosts a set of host url strings that you want to stub. If this is not set, there is no pre-filtering and stubRequestsPassingTest:withStubResponse: will be called for all requests. This is useful when your app is consuming a lot of third party services which internally calls a lot of apis which you dont want to handle separately.
+ */
++(void)setApplicationHosts:(NSSet *)hosts;
+
 @end
