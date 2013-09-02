@@ -67,7 +67,7 @@ With the code below, every network request (because you returned YES in the firs
 
 ### Stub only requests to your WebService
 
-This is typically used in your Unit Tests to stub specific requests targeted to a given host or WebService for example.
+This is typically useful in your Unit Tests to only stub specific requests targeted to a given host or WebService, for example.
 
 With the code below, only requests to the `mywebservice.com` host will be stubbed. Requests to any other host will hit the real world:
 
@@ -89,7 +89,7 @@ This is useful if you have all your fixtures (stubbed responses for your Unit Te
 You can simulate a slow network by setting the `requestTime` and `responseTime` of your `OHHTTPStubsResponse`.
 _This is useful to check that your user interface does not freeze and that you have all your activity indicators working while waiting for responses in bad network conditions._
 
-You may use the `requestTime:response:` method to set both values and easily chain method calls (as it returns `self`):
+You may use the `requestTime:response:` method to set both values and easily chain method calls:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [request.URL.host isEqualToString:@"mywebservice.com"];
@@ -102,11 +102,11 @@ You may use the `requestTime:response:` method to set both values and easily cha
 
 At the end, you will only have the full content of your stub data after `requestTime+responseTime`, time after which the `completion` block or `connectionDidFinishLoading:` delegate method will be called.
 
-> Note that you can specify a network speed instead of a `responseTime` by using a negative value. [See below](#using-download-speed-instead-of-responsetime).
+> You can specify a **network speed** instead of a `responseTime` by using a negative value. [See below](#using-download-speed-instead-of-responsetime).
 
 ### Simulate a down network
 
-You may also return a network error for your stub. For example, you may use this to simulate an absence of network connection:
+You may also return a network error for your stub. For example, you can easily simulate an absence of network connection like this:
 
     [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]];
 
@@ -151,7 +151,7 @@ You can also remove any given handler with the `removeRequestHandler:` method. T
 
 [CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your `Podfile` and you are done.
 
-_Note: `OHHTTPStubs` uses APIs that were introduced in iOS5+, so it needs a deployment target of iOS5 minimum._
+_Note: `OHHTTPStubs` needs iOS5 minimum._
 
 > **Warning: Be careful anyway to include `OHHTTPStubs` only in your test targets, or only use it in `#if DEBUG` portions, so that its code is not included in your release for the AppStore !**
 
@@ -173,6 +173,5 @@ The changelog is available [here in the dedicated wiki page](https://github.com/
 This project and library has been created by Olivier Halligon (@AliSoftware) and is under the MIT License.
 
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
-
 I would also like to thank to @kcharwood for its contribution, and everyone who contributed to this project on GitHub.
 
