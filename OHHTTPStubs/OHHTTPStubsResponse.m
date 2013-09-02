@@ -298,6 +298,11 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return self;
 }
 
+-(NSString*)debugDescription
+{
+    return [NSString stringWithFormat:@"<%@ %p requestTime:%f responseTime:%f status:%d dataSize:%llu>",
+            self.class, self, self.requestTime, self.responseTime, self.statusCode, self.dataSize];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Accessors
@@ -308,21 +313,21 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     _requestTime = requestTime;
 }
 
-// Deprecated
+// Deprecated!!! Use inputStream instead
 -(NSData*)responseData
 {
     NSData* data = nil;
-    uint8_t* buffer;
-    NSUInteger length;
+    uint8_t* buffer = NULL;
+    NSUInteger length = 0UL;
     if ([self.inputStream getBuffer:&buffer length:&length])
     {
         data = [NSData dataWithBytes:buffer length:length];
     }
     free(buffer);
-    return nil;
+    return data;
 }
 
-// Deprecated
+// Deprecated!!! Use inputStream instead
 -(void)setResponseData:(NSData *)responseData
 {
     self.inputStream = [NSInputStream inputStreamWithData:responseData];
