@@ -388,7 +388,6 @@ typedef struct {
         // This is needed in case we computed a non-integer chunkSizePerSlot, to avoid cumulative errors
         double cumulativeChunkSizeAfterRead = timingInfo.cumulativeChunkSize + timingInfo.chunkSizePerSlot;
         NSUInteger chunkSizeToRead = floor(cumulativeChunkSizeAfterRead) - floor(timingInfo.cumulativeChunkSize);
-        NSLog(@"read %d (%f / %f)", chunkSizeToRead, timingInfo.chunkSizePerSlot, timingInfo.slotTime);
         timingInfo.cumulativeChunkSize = cumulativeChunkSizeAfterRead;
         
         if (chunkSizeToRead == 0)
