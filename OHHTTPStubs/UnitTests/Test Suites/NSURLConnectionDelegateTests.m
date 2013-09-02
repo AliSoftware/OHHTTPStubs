@@ -116,13 +116,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:testData
-                                          statusCode:200
-                                         requestTime:kRequestTime 
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:testData
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
-        
+    
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
     
@@ -177,11 +176,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
-                                          statusCode:500
-                                         requestTime:0.0
-                                        responseTime:1.5
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
+                                           statusCode:500
+                                              headers:nil]
+                requestTime:0.0 responseTime:1.5];
     }];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
@@ -212,11 +210,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* cookie = [NSString stringWithFormat:@"%@=%@;", cookieName, cookieValue];
         NSDictionary* headers = [NSDictionary dictionaryWithObject:cookie forKey:@"Set-Cookie"];
-        return [OHHTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
-                                          statusCode:200
-                                         requestTime:0.0
-                                        responseTime:0.1
-                                             headers:headers];
+        return [[OHHTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
+                                           statusCode:200
+                                              headers:headers]
+                requestTime:0.0 responseTime:0.1];
     }];
     
     // Set the cookie accept policy to accept all cookies from the main document domain
@@ -285,19 +282,17 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
                                      [endURL absoluteString], @"Location",
                                      redirectCookie, @"Set-Cookie",
                                      nil];
-            return [OHHTTPStubsResponse responseWithData:redirectData
-                                              statusCode:311 // any 300-level request will do
-                                             requestTime:kRequestTime
-                                            responseTime:kResponseTime
-                                                 headers:headers];
+            return [[OHHTTPStubsResponse responseWithData:redirectData
+                                               statusCode:311 // any 300-level request will do
+                                                  headers:headers]
+                    requestTime:kRequestTime responseTime:kResponseTime];
         } else {
             NSString* endCookie = [NSString stringWithFormat:@"%@=%@;", endCookieName, endCookieValue];
             NSDictionary* headers = [NSDictionary dictionaryWithObject:endCookie forKey:@"Set-Cookie"];
-            return [OHHTTPStubsResponse responseWithData:testData
-                                              statusCode:200
-                                             requestTime:kRequestTime
-                                            responseTime:kResponseTime
-                                                 headers:headers];
+            return [[OHHTTPStubsResponse responseWithData:testData
+                                               statusCode:200
+                                                  headers:headers]
+                    requestTime:kRequestTime responseTime:kResponseTime];
         }
     }];
     

@@ -48,11 +48,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
-                                          statusCode:200
-                                         requestTime:kRequestTime
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
     NSDate* startDate = [NSDate date];
@@ -87,11 +86,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:testData
-                                          statusCode:200
-                                         requestTime:kRequestTime
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:testData
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
     NSDate* startDate = [NSDate date];
