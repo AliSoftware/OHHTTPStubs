@@ -33,10 +33,12 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Types
+#pragma mark - Types & Constants
 
 @interface OHHTTPStubsProtocol : NSURLProtocol @end
 typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck);
+
+static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chunk of the data from the stream each 'slotTime' seconds
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Interface
@@ -324,48 +326,98 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
     self.stopped = YES;
 }
 
+typedef struct {
+    NSTimeInterval slotTime;
+    double chunkSizePerSlot;
+    double cumulativeChunkSize;
+} OHHTTPStubsStreamTimingInfo;
+
 - (void)streamDataForClient:(id<NSURLProtocolClient>)client
            withStubResponse:(OHHTTPStubsResponse*)stubResponse
                  completion:(void(^)(NSError * error))completion
 {
     if (stubResponse.inputStream.hasBytesAvailable && !self.stopped)
     {
-        NSUInteger chunkSizePerSlot;
-        NSTimeInterval slotTime = .25; // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
+        /*** Compute timing data once and for all for this stub ***/
+        
+        OHHTTPStubsStreamTimingInfo timingInfo = {
+            .slotTime = kSlotTime, // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
+            .cumulativeChunkSize = 0
+        };
+        
         if(stubResponse.responseTime < 0)
         {
             // Bytes send each 'slotTime' seconds = Speed in KB/s * 1000 * slotTime in seconds
-            chunkSizePerSlot = (fabs(stubResponse.responseTime) * 1000) * slotTime;
+            timingInfo.chunkSizePerSlot = (fabs(stubResponse.responseTime) * 1000) * timingInfo.slotTime;
         }
-        else if (stubResponse.responseTime < slotTime) // includes case when responseTime == 0
+        else if (stubResponse.responseTime < kSlotTime) // includes case when responseTime == 0
         {
             // We want to send the whole data quicker than the slotTime, so send it all in one chunk.
-            chunkSizePerSlot = stubResponse.dataSize;
-            slotTime = stubResponse.responseTime;
+            timingInfo.chunkSizePerSlot = stubResponse.dataSize;
+            timingInfo.slotTime = stubResponse.responseTime;
         }
         else
         {
             // Bytes send each 'slotTime' seconds = (Whole size in bytes / response time) * slotTime = speed in bps * slotTime in seconds
-            chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * slotTime);
+            timingInfo.chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * timingInfo.slotTime);
         }
+        
+        [self streamDataForClient:client
+                       fromStream:stubResponse.inputStream
+                       timingInfo:timingInfo
+                       completion:completion];
+    }
+    else
+    {
+        if (completion)
+        {
+            completion(nil);
+        }
+    }
+}
 
-        uint8_t buffer[chunkSizePerSlot];
-        NSInteger bytesRead = [stubResponse.inputStream read:buffer maxLength:chunkSizePerSlot];
-        if (bytesRead > 0)
+- (void) streamDataForClient:(id<NSURLProtocolClient>)client
+                  fromStream:(NSInputStream*)inputStream
+                  timingInfo:(OHHTTPStubsStreamTimingInfo)timingInfo
+                  completion:(void(^)(NSError * error))completion
+{
+    NSParameterAssert(timingInfo.chunkSizePerSlot > 0);
+    
+    if (inputStream.hasBytesAvailable && !self.stopped)
+    {
+        // This is needed in case we computed a non-integer chunkSizePerSlot, to avoid cumulative errors
+        double cumulativeChunkSizeAfterRead = timingInfo.cumulativeChunkSize + timingInfo.chunkSizePerSlot;
+        NSUInteger chunkSizeToRead = floor(cumulativeChunkSizeAfterRead) - floor(timingInfo.cumulativeChunkSize);
+        NSLog(@"read %d (%f / %f)", chunkSizeToRead, timingInfo.chunkSizePerSlot, timingInfo.slotTime);
+        timingInfo.cumulativeChunkSize = cumulativeChunkSizeAfterRead;
+        
+        if (chunkSizeToRead == 0)
         {
-            NSData * data = [NSData dataWithBytes:buffer length:bytesRead];
-            // Wait for 'slotTime' seconds before sending the chunk.
-            // If bytesRead < chunkSizePerSlot (because we are near the EOF), adjust slotTime proportionally to the bytes remaining
-            execute_after(((double)bytesRead/(double)chunkSizePerSlot)*slotTime, ^{
-                [client URLProtocol:self didLoadData:data];
-                [self streamDataForClient:client withStubResponse:stubResponse completion:completion];
+            // Nothing to read at this pass, but probably later
+            execute_after(timingInfo.slotTime, ^{
+                [self streamDataForClient:client fromStream:inputStream
+                               timingInfo:timingInfo completion:completion];
             });
-        }
-        else
-        {
-            if (completion)
+        } else {
+            uint8_t buffer[chunkSizeToRead];
+            NSInteger bytesRead = [inputStream read:buffer maxLength:chunkSizeToRead];
+            if (bytesRead > 0)
             {
-                completion([stubResponse.inputStream streamError]);
+                NSData * data = [NSData dataWithBytes:buffer length:bytesRead];
+                // Wait for 'slotTime' seconds before sending the chunk.
+                // If bytesRead < chunkSizePerSlot (because we are near the EOF), adjust slotTime proportionally to the bytes remaining
+                execute_after(((double)bytesRead / (double)chunkSizeToRead) * timingInfo.slotTime, ^{
+                    [client URLProtocol:self didLoadData:data];
+                    [self streamDataForClient:client fromStream:inputStream
+                                   timingInfo:timingInfo completion:completion];
+                });
+            }
+            else
+            {
+                if (completion)
+                {
+                    completion([inputStream streamError]);
+                }
             }
         }
     }
