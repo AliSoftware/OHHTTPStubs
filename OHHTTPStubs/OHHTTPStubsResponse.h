@@ -105,6 +105,14 @@ OHHTTPStubsDownloadSpeedWifi;
   [basePath stringByAppendingPathComponent:fileName]; \
 })
 
+/*! Useful macro to build an NSBundle located in the application's resources simply from its name
+ @param bundleBasename The base name, without extension (extension is assumed to be ".bundle").
+ @return The NSBundle object representing the bundle with the given basename located in your application's resources.
+ */
+#define OHResourceBundle(bundleBasename) ({ \
+    [NSBundle bundleWithPath:[[NSBundle bundleForClass:self.class] pathForResource:bundleBasename ofType:@"bundle"]]; \
+})
+
 /*! @name Building a response from a file */
 
 /*! Builds a response given a file path, the status code and headers.
