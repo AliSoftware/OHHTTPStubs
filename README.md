@@ -18,7 +18,7 @@ It works with `NSURLConnection`, `AFNetworking`, or any networking framework you
  * [Set request and response time](#set-request-and-response-time)
  * [Simulate a down network](#simulate-a-down-network)
 * [Advanced Usage](#advanced-usage)
- * [Use macros to build fixture paths](#use-macros-to-build-fixture-paths)
+ * [Use macros to build your fixtures path](#use-macros-to-build-your-fixtures-path)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
  * [Stack multiple request handlers](#stack-multiple-request-handlers)
 * [Installing in your projects](#installing-in-your-projects)
@@ -30,14 +30,13 @@ It works with `NSURLConnection`, `AFNetworking`, or any networking framework you
 
 ## How it works
 
-`OHHTTPStubs` is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to return your own data instead.
-Simply call `stubRequestsPassingTest:withStubResponse:` to install your define stub responses and when to stub them.
+Using `OHHTTPStubs` is as simple as calling `stubRequestsPassingTest:withStubResponse:` to tell which requests you want to stub and what data you want to respond with.
 
-Then for every request sent, whatever the framework used (`NSURLConnection`,
+For every request sent to the network, whatever the framework used (`NSURLConnection`,
 [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), …):
 
 * The block passed as first argument of `stubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
-* If this block returned anything that evaluates to YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
+* If the return value of this block is YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
 
 _(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtocol` to intercept the requests and stub them)_
 
@@ -46,8 +45,6 @@ _(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtoc
 
 `OHHTTPStubs` headers are fully documented using Appledoc-like / Headerdoc-like comments in the header files.
 When you [install it using CocoaPods](#installing-in-your-projects), you will get a docset for free installed in your Xcode Organizer.
-
-You should find your happiness and (almost) all you have ever wondered in there, or directly in the header comments.
 
 Don't hesitate to take a look into `OHHTTPStubsResponse.h`, `OHHTTPStubsResponse+JSON.h` and `OHHTTPStubsResponse.HTTPMessage.h` to see all the commodity constructors, constants and macros available.
 
@@ -89,10 +86,10 @@ This is useful if you have all your fixtures (stubbed responses for your Unit Te
 
 ### Set request and response time
 
-The `OHHTTPStubsResponse` you return can also contain timing information, like if `OHHTTPStubs` should simulate a latency by delaying the response or sending the data in small chunks during a given duration instead of all at a time.
-_This is useful to simulate slow networks, for example, and to check that your user interface does not freeze in such occasions and that you though about displaying some activity indicators while waiting for your network responses, etc._
+You can simulate a slow network by setting the `requestTime` and `responseTime` of your `OHHTTPStubsResponse`.
+_This is useful to check that your user interface does not freeze and that you have all your activity indicators working while waiting for responses in bad network conditions._
 
-You may simply set the `requestTime` and `responseTime` of your `OHHTTPStubsReponse` to indicate this timing information, but an alternate, easiest way is to use `requestTime:response:` method that simply set them both and return the `OHHTTPStubsResponse` itself, so those calls can be chained, like this:
+You may use the `requestTime:response:` method to set both values and easily chain method calls (as it returns `self`):
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [request.URL.host isEqualToString:@"mywebservice.com"];
@@ -101,14 +98,11 @@ You may simply set the `requestTime` and `responseTime` of your `OHHTTPStubsRepo
                 requestTime:1.0 responseTime:3.0];
     }];
 
-`OHHTTPStubs` will wait `requestTime` before sending the `NSHTTPURLResponse` (and before sending any chunk of data), and then start sending chunks of the stub data regularly during `responseTime` so that after the given `responseTime` all the stub data is sent.
-This simulates regular reception of some data dispatched during the `responseTime` like if the server took time sending the content of a large response.
+`OHHTTPStubs` will wait `requestTime` before sending the `NSHTTPURLResponse`, and then start sending chunks of the stub data regularly during the period of `responseTime`, to simulate the slow network.
 
 At the end, you will only have the full content of your stub data after `requestTime+responseTime`, time after which the `completion` block or `connectionDidFinishLoading:` delegate method will be called.
 
 > Note that you can specify a network speed instead of a `responseTime` by using a negative value. [See below](#using-download-speed-instead-of-responsetime).
-
-This code also show how you can create a `OHHTTPStubsReponse with a JSON object. `responseWithJSONObject:` will serialize the JSON object (`NSDictionary` in our example) and add the `"Content-Type: text/json"` header if not present already.
 
 ### Simulate a down network
 
@@ -119,11 +113,11 @@ You may also return a network error for your stub. For example, you may use this
 
 ## Advanced Usage
 
-### Use macros to build fixture paths
+### Use macros to build your fixtures path
 
-`OHHTTPStubsResponse.h` include useful macros to build a path to your fixtures, like `OHPathForFileInBundle`, `ohPathForFileInDocumentsDir` and `OHResourceBundle`. You are encouraged to use them to build your path more easily.
+`OHHTTPStubsResponse.h` includes a useful set of macros to build a path to your fixtures easily, like `OHPathForFileInBundle`, `ohPathForFileInDocumentsDir` and `OHResourceBundle`. You are encouraged to use them to build your path more easily.
 
-_Especially, they use `[NSBundle bundleForClass:self.class]` to reference your app bundle (and not `[NSBundle mainBundle]` as one may think), so that they still work with OCUnit and XCTestKit when unit-testing your app in the Simulator._
+> Especially, they use `[NSBundle bundleForClass:self.class]` to reference your app bundle (and not `[NSBundle mainBundle]` as one may think), so that they still work with OCUnit and XCTestKit when unit-testing your app in the Simulator.
 
 ### Using download speed instead of responseTime
 
@@ -145,18 +139,17 @@ You can call `stubRequestsPassingTest:withStubResponse:` multiple times. It will
 
 _This may be useful to install different stubs in various places in your code, or to separate different stubbing conditions more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
-When a network request is performed by the system, the response handlers are called in the reverse order that they have been added, the last added handler having priority over the first added ones.
+When a network request is performed by the system, the **response handlers are called in the reverse order that they have been added**, the last added handler having priority over the first added ones.
 The first handler that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-* You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
-* You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:`.
-_Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it._
+You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
+You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it)_.
 
 ----
 
 ## Installing in your projects
 
-[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your Podfile and you are done.
+[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your `Podfile` and you are done.
 
 _Note: `OHHTTPStubs` uses APIs that were introduced in iOS5+, so it needs a deployment target of iOS5 minimum._
 
