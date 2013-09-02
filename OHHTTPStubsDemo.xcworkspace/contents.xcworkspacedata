@@ -7,4 +7,10 @@
    <FileRef
       location = "container:OHHTTPStubs/OHHTTPStubs.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
 </Workspace>

@@ -21,6 +21,8 @@
 		098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */; };
 		098368EC169000340082B1A4 /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368EB169000340082B1A4 /* WithContentsOfURLTests.m */; };
 		0984831717805538002A99FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
+		099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */; };
+		099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */; };
 		099C73541690397600239880 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73501690397600239880 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C73551690397600239880 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73531690397600239880 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
@@ -60,6 +62,10 @@
 		098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionDelegateTests.m; sourceTree = "<group>"; };
 		098368EB169000340082B1A4 /* WithContentsOfURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithContentsOfURLTests.m; sourceTree = "<group>"; };
 		0984831617805538002A99FF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		099B95D917D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
+		099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
+		099B95DD17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+HTTPMessage.h"; sourceTree = "<group>"; };
+		099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubsResponse+HTTPMessage.m"; sourceTree = "<group>"; };
 		099C734F1690397600239880 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		099C73501690397600239880 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		099C73521690397600239880 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
@@ -128,6 +134,10 @@
 				09793598161B62C0006DB5D5 /* OHHTTPStubs.m */,
 				09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */,
 				0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */,
+				099B95D917D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.h */,
+				099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */,
+				099B95DD17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.h */,
+				099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */,
 			);
 			name = OHHTTPStubs;
 			sourceTree = SOURCE_ROOT;
@@ -275,6 +285,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */,
+				099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */,
 				0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

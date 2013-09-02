@@ -84,24 +84,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                                 headers:@{ @"Content-Type":contentType }];
 }
 
-+(instancetype)responseWithHTTPMessageData:(NSData*)responseData
-                              responseTime:(NSTimeInterval)responseTime
-{
-    return [self responseWithHTTPMessageData:responseData
-                                 requestTime:(responseTime<0)?0:responseTime*0.1
-                                responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
-+(instancetype)responseNamed:(NSString*)responseName
-                  fromBundle:(NSBundle*)bundle
-                responseTime:(NSTimeInterval)responseTime
-{
-    return [self responseNamed:responseName
-                      inBundle:bundle
-                   requestTime:(responseTime<0)?0:responseTime*0.1
-                  responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
                responseTime:(NSTimeInterval)responseTime
@@ -136,26 +118,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
-+ (instancetype)responseWithJSONObject:(id)jsonObject
-                            statusCode:(int)statusCode
-                           requestTime:(NSTimeInterval)requestTime
-                          responseTime:(NSTimeInterval)responseTime
-                               headers:(NSDictionary *)httpHeaders
-{
-    if (!httpHeaders[@"Content-Type"])
-    {
-        NSMutableDictionary *mutableHeaders = [httpHeaders mutableCopy];
-        mutableHeaders[@"Content-Type"] = @"application/json";
-        httpHeaders = mutableHeaders;
-    }
-    
-    return [self responseWithData:[NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil]
-                       statusCode:statusCode
-                      requestTime:requestTime
-                     responseTime:responseTime
-                          headers:httpHeaders
-            ];
-}
 
 #pragma mark > Building response from a file
 
@@ -173,53 +135,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
-
-#pragma mark > Building response from HTTP Message Data (dump from "curl -is")
-
-+(instancetype)responseWithHTTPMessageData:(NSData*)responseData
-                               requestTime:(NSTimeInterval)requestTime
-                              responseTime:(NSTimeInterval)responseTime;
-{
-    NSData *data = [NSData data];
-    NSInteger statusCode = 200;
-    NSDictionary *headers = [NSDictionary dictionary];
-    
-    CFHTTPMessageRef httpMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
-    if (httpMessage)
-    {
-        CFHTTPMessageAppendBytes(httpMessage, [responseData bytes], [responseData length]);
-        
-        data = responseData; // By default
-        
-        if (CFHTTPMessageIsHeaderComplete(httpMessage))
-        {
-            statusCode = (NSInteger)CFHTTPMessageGetResponseStatusCode(httpMessage);
-            headers = (__bridge_transfer NSDictionary *)CFHTTPMessageCopyAllHeaderFields(httpMessage);
-            data = (__bridge_transfer NSData *)CFHTTPMessageCopyBody(httpMessage);
-        }
-        CFRelease(httpMessage);
-    }
-    
-    return [self responseWithData:data
-                       statusCode:(int)statusCode
-                      requestTime:(responseTime<0)?0:responseTime*0.1
-                     responseTime:(responseTime<0)?responseTime:responseTime*0.9
-                          headers:headers];
-}
-
-+(instancetype)responseNamed:(NSString*)responseName
-                    inBundle:(NSBundle*)responsesBundle
-                 requestTime:(NSTimeInterval)requestTime
-                responseTime:(NSTimeInterval)responseTime
-{
-    NSURL *responseURL = [responsesBundle?:[NSBundle bundleForClass:[self class]] URLForResource:responseName
-                                                                                   withExtension:@"response"];
-    
-    NSData *responseData = [NSData dataWithContentsOfURL:responseURL];
-    NSAssert (responseData == nil, @"Could not find HTTP response named '%@' in bundle '%@'", responseName, responsesBundle);
-    
-    return [self responseWithHTTPMessageData:responseData requestTime:requestTime responseTime:responseTime];
-}
 
 #pragma mark > Building an error response
 

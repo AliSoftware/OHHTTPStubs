@@ -52,7 +52,7 @@ OHHTTPStubsDownloadSpeedWifi;
 
 @property(nonatomic, strong) NSDictionary* httpHeaders;
 @property(nonatomic, assign) int statusCode;
-@property(nonatomic, strong) NSData* responseData __attribute__((deprecated("Use inputSteam property instead")));
+@property(nonatomic, strong) NSData* responseData __attribute__((deprecated("Will be removed in next version. Use inputSteam property instead.")));
 @property(nonatomic, strong) NSInputStream* inputStream;
 @property(nonatomic, assign) unsigned long long dataSize;
 @property(nonatomic, assign) NSTimeInterval requestTime; //!< Defaults to 0.0
@@ -88,25 +88,6 @@ OHHTTPStubsDownloadSpeedWifi;
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders;
 
-/*!
- Builds a response given a JSON object for the response body, status code, and headers.
- 
- @param jsonObject object representing the response body.
-            Typically a `NSDictionary`; may be any object accepted by +[NSJSONSerialization dataWithJSONObject:options:error:]
- @param statusCode The HTTP Status Code to use in the response
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
- @param httpHeaders The HTTP Headers to return in the response
-                    If a "Content-Type" header is not included, "Content-Type: application/json" will be added.
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
- */
-+ (instancetype)responseWithJSONObject:(id)jsonObject
-                            statusCode:(int)statusCode
-                           requestTime:(NSTimeInterval)requestTime
-                          responseTime:(NSTimeInterval)responseTime
-                               headers:(NSDictionary *)httpHeaders;
 
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building response from a file
@@ -142,7 +123,7 @@ OHHTTPStubsDownloadSpeedWifi;
  @param httpHeaders The HTTP Headers to return in the response
  @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
  @note It is encouraged to use the `OHPathForFileInBundle(fileName, bundleOrNil)` macro to easily build a path to a file located in
-       the app bundle, an arbitrary bundle. Likewise, you may use the `OHPathForFileInDocumentsDir(fileName)` macro to build
+       the app bundle or any arbitrary bundle. Likewise, you may use the `OHPathForFileInDocumentsDir(fileName)` macro to build
        a path to a file located in the Documents directory of your application' sandbox.
  */
 +(instancetype)responseWithFileAtPath:(NSString *)filePath
@@ -150,41 +131,6 @@ OHHTTPStubsDownloadSpeedWifi;
                           requestTime:(NSTimeInterval)requestTime
                          responseTime:(NSTimeInterval)responseTime
                               headers:(NSDictionary*)httpHeaders;
-
-/* -------------------------------------------------------------------------- */
-#pragma mark > Building response from HTTP Message Data (dump from "curl -is")
-/*! @name Building a response from HTTP Message data */
-
-// TODO: Add a responseWithHTTPMessageFromFileAtPath: method that uses NSInputStream
-
-/*! Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
- This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
- @param responseData The NSData containing the whole HTTP response, including the headers and the body
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
- */
-+(instancetype)responseWithHTTPMessageData:(NSData*)responseData
-                               requestTime:(NSTimeInterval)requestTime
-                              responseTime:(NSTimeInterval)responseTime;
-
-/*! Builds a response given the name of a "*.response" file containing both the headers and the body.
- The response file is expected to be in the specified bundle (or the application bundle if nil).
- This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
- @param responseName The name of the "*.response" file (without extension) containing the whole HTTP response (including the headers and the body)
- @param bundleOrNil The bundle in which the "*.response" file is located. If `nil`, the `[NSBundle bundleForClass:self.class]` will be used.
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
- */
-+(instancetype)responseNamed:(NSString*)responseName
-                    inBundle:(NSBundle*)bundleOrNil
-                 requestTime:(NSTimeInterval)requestTime
-                responseTime:(NSTimeInterval)responseTime;
 
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building an error response
@@ -307,26 +253,6 @@ __attribute__((deprecated("Use responseWithFile:inBundle:statusCode:requestTime:
                    responseTime:(NSTimeInterval)responseTime
 __attribute__((deprecated("Use responseWithFile:inBundle:statusCode:requestTime:responseTime:headers: instead")));
 
-/*! Deprecated.
- 
- For an exact equivalent of the behavior of this method, use this instead:
- 
-     [OHHTTPStubsResponse responseWithHTTPMessageData:responseData requestTime:responseTime*0.1 responseTime:responseTime*0.9]
- */
-+(instancetype)responseWithHTTPMessageData:(NSData*)responseData
-                              responseTime:(NSTimeInterval)responseTime
-__attribute__((deprecated("Use responseWithHTTPMessageData:requestTime:responseTime: instead")));
-
-/*! Deprecated.
- 
- For an exact equivalent of the behavior of this method, use this instead:
- 
-     [OHHTTPStubsReponse responseNamed:responseName inBundle:bundle requestTime:responseTime*0.1 responseTime:responseTime*0.9]
- */
-+(instancetype)responseNamed:(NSString*)responseName
-                  fromBundle:(NSBundle*)bundle
-                responseTime:(NSTimeInterval)responseTime
-__attribute__((deprecated("Use responseNamed:inBundle:requestTime:responseTime: instead")));
 
 /*! Deprecated.
  
