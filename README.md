@@ -1,19 +1,31 @@
 OHHTTPStubs
 ===========
 
-A class to stub network requests easily: test your apps with fake network data (stubbed from file) and custom response time
+A class to stub network requests easily: test your apps with **fake network data** (stubbed from file) and **custom response times**.
+
+`OHHTTPStubs` is very useful to write **Unit Tests** and return fake network data from your fixtures, or to **simulate slow networks** in order to check your application behavior in bad network conditions.
+It works with `NSURLConnection`, `AFNetworking`, or any networking framework you chose to use.
 
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.png?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
 
+----
+
 * [Basic Usage](#basic-usage)
-* [The `OHHTTPStubsResponse` object](#the-ohhttpstubsresponse-object)
-* [Advanced Usage](#advanced-usage)
+ * [How it works](#how-it-works)
+ * [Stub all requests with some given NSData](#stub-all-requests-with-some-given-nsdata)
+ * [Conditionally stub only certain requests](#conditionally-stub-only-certain-requests)
+ * [Set request and response time](#set-request-and-response-time)
+* [Detail of the `OHHTTPStubsResponse` methods](#detail-of-the-ohhttpstubsresponse-methods)
+ * [Stub response given some NSData](#stub-response-given-some-nsdata)
+ * [Stub response from a file](#stub-response-from-a-file)
+ * [Respond with an error](#respond-with-an-error)
+ * [Extension to use JSON Objects](#extension-to-use-json-objects)
+ * [Extension to use full HTTP messages](#extension-to-use-full-http-messages)
+* [Advanced Examples](#advanced-examples)
  * [Return a response depending on the request](#return-a-response-depending-on-the-request)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
  * [Stack multiple request handlers](#stack-multiple-request-handlers)
-* [Complete Examples](#complete-examples)
 * [Installing in your projects](#installing-in-your-projects)
- * [Private API Warning](#private-api-warning)
  * [Integrating using CocoaPods](#integrating-using-cocoapods)
  * [Integrating manually](#integrating-manually)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
@@ -24,91 +36,126 @@ A class to stub network requests easily: test your apps with fake network data (
 
 ## Basic Usage
 
-This is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to
-return data from a file instead.
+`OHHTTPStubs` is aimed to be very simple to use. It uses block to intercept outgoing requests and allow you to return your own data instead.
 
-##### This is the most simple way to use it:
+##### How it works
+
+The principle is to call `stubRequestsPassingTest:withStubResponse:` to install your define stub responses and when to stub them.
+
+Then for every request sent, whatever the framework used (`NSURLConnection`,
+[`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
+
+* The block passed as first argument of `stubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
+* If this block returned anything that evaluates to YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
+
+_(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtocol` to intercept the requests and stub them)_
+
+We will demonstrate multiple examples below.
+
+##### Stub all requests with some given NSData
+
+With the code below, every network request (because you returned YES in the first block) will return a stubbed response containing the data `"Hello World!"`:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES; // Stub ALL requests without any condition
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        // Stub all those requests with our "response.json" stub file
-        return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
+        // Stub all those requests with "Hello World!" string
+        NSData* stubData = [@"Hello World!" dataUsingEncoding:NSUTF8StringEncoding];
+        return [OHHTTPStubsResponse responseWithData:stubData statusCode:200 headers:nil];
     }];
      
-With this code, every network request will return a stubbed response containing the content of the `"response.json"` file (which must be in your bundle)
-with a `"Content-Type"` header of `"text/json"` in the HTTP response, after 2 seconds.
 
-##### We can also conditionally stub only certain requests, like this:
+##### Conditionally stub only certain requests
+
+In practice, this is quite uncommon to stub ALL your outgoing network requests, especially with the same stub response. Instead, you may give the condition upon which the network requests will be stubbed. This is typically used in your Unit Tests to stub specific requests targeted to a given host or WebService.
+
+With the code below, only requests to the `mywebservice.com` host will be stubbed. Requests to any other host will hit the real world:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        // Only stub requests to "*.json" files
-        return [request.URL.absoluteString.lastPathComponent.pathExtension isEqualToString:@"json"];
+        return [request.URL.host isEqualToString:@"mywebservice.com"];
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        // Stub it with our "response.json" stub file
-        return [OHHTTPStubsResponse responseWithFile:@"response.json" contentType:@"text/json" responseTime:2.0];
+        // Stub it with our "wsresponse.json" stub file
+        return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"wsresponse.json",nil)
+                statusCode:200 headers:@{"Content-Type":@"text/json"}];
     }];
 
-This code will only stub requests ending with ".json", and in such case return the content of the corresponding file in your bundle. Every other network request (not ending with ".json") will hit the real world.
+This example also demonstrate how to **easily return the content of a given file in your application bundle**.
+This is useful if you have all your fixtures (stubbed responses for your Unit Tests) in your Xcode project linked with your Unit Test target.
 
-##### How it works
+> Note: You may even put all your fixtures in a custom bundle (let's call it Fixtures.bundle) to group them, simply link this bundle to your Unit Test target, and then use my helper macros macros to get it like this: `OHPathForFileInBundle(@"wsresponse.json",OHResourceBundle(@"Fixtures"))`.
+_Of course, you are free to build your own file paths or define your own macros to ease your path construction :wink:_
 
-For every request sent, whatever the framework used (`NSURLConnection`,
-[`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), or anything else):
+##### Set request and response time
 
-* The block passed as first argument of `stubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
-* If this block returned YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
+The `OHHTTPStubsResponse` you return can also contain timing information, like if `OHHTTPStubs` should simulate a latency by delaying the response or sending the data in small chunks during a given duration instead of all at a time.
+_This is useful to simulate slow networks, for example, and to check that your user interface does not freeze in such occasions and that you though about displaying some activity indicators while waiting for your network responses, etc._
 
-_(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtocol` to intercept the requests and stub them)_
+You may simply set the `requestTime` and `responseTime` of your `OHHTTPStubsReponse` to indicate this timing information, but an alternate, easiest way is to use `requestTime:response:` method that simply set them both and return the `OHHTTPStubsResponse` itself, so those calls can be chained, like this:
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"mywebservice.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithJSONObject:someDict statusCode:200 headers:nil]
+                requestTime:1.0 responseTime:3.0];
+    }];
+
+`OHHTTPStubs` will wait `requestTime` before sending the `NSHTTPURLResponse` (and the first chunk of data), and then start sending chunks of the stub data regularly during `responseTime` so that after the given `responseTime` all the stub data is sent.
+This simulates regular reception of some data dispatched during the `responseTime` like if the server took time sending the content of a large response.
+
+At the end, you will only have the full content of your stub data after `requestTime+responseTime`, time after which the `completionHandler` block or `connectionDidFinishLoading:` delegate method of your `NSURLConnection` call — or the `completion` block of your `AFNetworking` call if you use [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/) — will be called.
+
+> Note that you can specify a network speed instead of a `responseTime` by using a negative value, whose absolute value expresses the desired speed to simulate in KB/s. `OHHTTPStubsResponse.h` provides some useful constants for such speeds, like `OHHTTPStubsDownloadSpeedEDGE` or `OHHTTPStubsDownloadSpeedWifi`.
+
+This code also show how you can create a OHHTTPStubsReponse with a JSON object. `responseWithJSONObject:` will serialize the JSON object (`NSDictionary` in our example) and add the `"Content-Type: text/json"` header if not present already.
 
 
-## The `OHHTTPStubsResponse` object
+## Detail of the `OHHTTPStubsResponse` methods
 
-The `OHHTTPStubsResponse` class, describing the fake response to return, exposes multiple initializers:
+The `OHHTTPStubsResponse` class, describing the fake response to return, exposes multiple commodity constructors:
 
-##### The designed intializer
+##### Stub response given some NSData
 
-    +(id)responseWithData:(NSData*)data
-               statusCode:(int)statusCode
-             responseTime:(NSTimeInterval)responseTime
-                  headers:(NSDictionary*)httpHeaders;
+    +(instancetype)responseWithData:(NSData*)data
+                         statusCode:(int)statusCode
+                            headers:(NSDictionary*)httpHeaders;
 
-##### Commodity initializer to load data from a file in your bundle
+##### Stub response from a file
 
-    +(id)responseWithFile:(NSString*)fileName
-               statusCode:(int)statusCode
-             responseTime:(NSTimeInterval)responseTime
-                  headers:(NSDictionary*)httpHeaders;
+    +(instancetype)responseWithFileAtPath:(NSString*)fileName
+                               statusCode:(int)statusCode
+                                  headers:(NSDictionary*)httpHeaders;
 
-##### Useful short-form initializer to load data from a file in your bundle, using the specified "Content-Type" header
+You are encouraged to use the `OHPathForFileInBundle`, `OHPathForFileInDocumentsDir` and `OHResourceBundle` macros to build your file paths more easily.
 
-    +(id)responseWithFile:(NSString*)fileName
-              contentType:(NSString*)contentType
-             responseTime:(NSTimeInterval)responseTime;
-
-##### Using a HTTP message to define a response
-
-    +(OHHTTPStubsResponse*)responseWithHTTPMessageData:(NSData*)responseData
-                                          responseTime:(NSTimeInterval)responseTime;
-
-You can dump entire responses using `curl -is [URL]` on the command line. These include all HTTP headers, the response status code and the response body in one file. Use this initializer to load them into a `OHHTTPStubsResponse` object.
-
-##### Conveniently loading HTTP messages
-
-    +(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
-                              fromBundle:(NSBundle*)bundle
-                            responseTime:(NSTimeInterval)responseTime;
-
-Add a bundle (e.g. `APIResponses.bundle`) to your test target and put all HTTP message dumps (using `curl -is [URL]`) of your responses in there and give them a `.response` extension. Using this method allows you to address them by name. You can also put your dumped responses in a directory structure and address them that way (e.g. using `users/me` as the response name would look for a file `me.response` inside the `users` folder in the bundle you passed in).
-             
-##### To respond with an error instead of a success
+##### Respond with an error
 
     +(id)responseWithError:(NSError*)error;
 
-_(e.g. you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`)_
+_(e.g. you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]` to simulate an absence of network connection)_
 
 
-## Advanced Usage
+##### Extension to use JSON Objects
+
+This commodity method is defined in the `OHHTTPStubsResponse+JSON` category.
+
+    +(instancetype)responseWithJSONObject:(id)jsonObject
+                                statusCode:(int)statusCode
+                                   headers:(NSDictionary *)httpHeaders;
+
+##### Extension to use full HTTP messages
+
+These commodity constructors are defined in the `OHHTTPStubs+HTTPMessage` category.
+
+You can dump entire responses using `curl -is [URL]` on the command line. These include all HTTP headers, the response status code and the response body in one file. Use then this method to load them into a `OHHTTPStubsResponse` object:
+
+    +(OHHTTPStubsResponse*)responseWithHTTPMessageData:(NSData*)responseData;
+
+You may also add a bundle (e.g. `APIResponses.bundle`) to your test target and put all HTTP message dumps (using `curl -is [URL]`) of your responses in there and give them a `.response` extension. Using this method allows you to address them by name. You can also put your dumped responses in a directory structure and address them that way (e.g. using `users/me` as the response name would look for a file `me.response` inside the `users` folder in the bundle you passed in).
+
+    +(OHHTTPStubsResponse*)responseNamed:(NSString*)responseName
+                              fromBundle:(NSBundle*)bundle;
+
+## Advanced Examples
 
 ### Return a response depending on the request
 
@@ -121,9 +168,9 @@ Example:
        NSString* basename = request.URL.absoluteString.lastPathComponent;
        return [basename.pathExtension isEqualToString:@"json"]; // Only stub requests to *.json files
      } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-         NSString* basename = request.URL.absoluteString.lastPathComponent;
-         // Stub with the "*.json" file of the same name in your app bundle
-         return [OHHTTPStubsResponse responseWithFile:basename contentType:@"text/json" responseTime:2.0];
+       NSString* basename = request.URL.absoluteString.lastPathComponent;
+       // Stub with the "*.json" file of the same name in your app bundle
+       return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(basename) statusCode:200 headers:@"text/json"];
      }];
 
 
@@ -131,8 +178,7 @@ Example:
 
 When building the `OHHTTPStubsResponse` object, you can specify a response time (in seconds) so that the sending of the fake response will be postponed. This allows you to simulate a slow network for example.
 
-If you specify a negative value for the responseTime parameter, instead of being interpreted as a time in seconds, it will be interpreted as a download speed in KBytes/s.
-In that case, the response time will be computed using the size of the response's data to simulate the indicated download speed.
+If you specify a negative value for the responseTime parameter, instead of being interpreted as a time in seconds, it will be interpreted as a download speed in KBytes/s. In that case, the response time will be computed using the size of the response's data to simulate the indicated download speed.
 
 The `OHHTTPStubsResponse` header defines some constants for standard download speeds:
 * `OHHTTPStubsDownloadSpeedGPRS`   :    56 kbps (7 KB/s)
@@ -144,69 +190,30 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 
 ### Stack multiple request handlers
 
-You can call `stubRequestsPassingTest:withStubResponse:` multiple times.
-It will just add the response handlers in an internal list of handlers.
+You can call `stubRequestsPassingTest:withStubResponse:` multiple times. It will just add the response handlers in an internal list of handlers.
+
+_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application, or to separate different stubs and stubbing conditions (like some stubs for images and other stubs for JSON files) more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
 When a network request is performed by the system, the response handlers are called in the reverse order that they have been added, the last added handler having priority over the first added ones.
 The first handler that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-_This may be useful to install different stubs in different classes (say different UIViewControllers) and various places in your application, or to separate different stubs and stubbing conditions (like some stubs for images and other stubs for JSON files) more easily. See the `OHHTTPStubsDemo` project for a typical example._
-
-You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
-
-You can also remove any given handler with the `removeRequestHandler:` method.
-This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:`.
+* You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
+* You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:`.
 _Note that this returned object is already retained by `OHHTTPStubs` while the stub is installed, so you may keep it in a `__weak` variable (no need to keep a `__strong` reference)._
-
-
-
-## Complete examples
-
-Here is another example code below that uses the various techniques explained above.
-For a complete Xcode projet, see the `OHHTTPStubsDemo.xcworkspace` project in the repository.
-
-
-    NSArray* stubs = [NSArray arrayWithObjects:@"file1", @"file2", nil];
-                           
-    [OHHTTPStubs stubRequestPassingTest:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        return [stubs containsObject:request.URL.absoluteString.lastPathComponent];
-    } withStubResponse:^OHHTTPStubsResponse* (NSURLRequest* request))handler {
-        NSString* file = [request.URL.absoluteString.lastPathComponent
-                          stringByAppendingPathExtension:@"json"];
-        return [OHHTTPStubsResponse responseWithFile:file contentType:@"text/json"
-                                         responseTime:OHHTTPStubsDownloadSpeedEDGE];
-    }];
-     
-     ...
-     
-    // Then this call (sending a request using the AFNetworking framework) will actually
-    // receive a fake response issued from the file "file1.json"
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com/file1"]];
-    [[AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
-     {
-        ...
-     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-     {
-        ...
-     }] start];
 
 
 
 ## Installing in your projects
 
-### Private API Warning
+> **Warning: Be careful anyway to include `OHHTTPStubs` only in your test targets, or only use it in `#if DEBUG` portions, so that its code is not included in your release for the AppStore !**
 
-`OHHTTPStubs` is designed to be used **in test/debug code only**.
-**Don't link with it in production code when you compile your final application for the AppStore**.
-
-> _Its code use a private API to build an `NSHTTPURLResponse`, which is not authorized by Apple in applications published on the AppStore.
-So you will probably only link it with your Unit Tests target, or inside some `#if DEBUG`/`#endif` portions of your code._
+_Note: `OHHTTPStibs` uses APIs that were introduced in iOS5+, so it needs a deployment target of iOS5 minimum._
 
 ### Integrating using CocoaPods
 
-`OHHTTPStubs` is referenced in [`CocoaPods`](https://github.com/CocoaPods/Specs/tree/master/OHHTTPStubs), so if you use [CocoaPods](http://cocoapods.org/) you can simply add `pod OHHTTPStubs` to your Podfile.
+[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects.
 
-_Be careful anyway to include it only in your test targets, or only use its symbols in `#if DEBUG` portions, so that its code (and the private API it uses) is not included in your release for the AppStore, as explained above._
+`OHHTTPStubs` is referenced in [`CocoaPods`](https://github.com/CocoaPods/Specs/tree/master/OHHTTPStubs), so you simply have to add `pod 'OHHTTPStubs'` to your Podfile!
 
 ### Integrating manually
 
@@ -232,5 +239,7 @@ The changelog is available [here in the dedicated wiki page](https://github.com/
 
 This project is brought to you by Olivier Halligon and is under MIT License
 
-It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/)
+It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
+I would also like to thank to @kcharwood for its contribution, and everyone who contributed to this project on GitHub.
+
 
