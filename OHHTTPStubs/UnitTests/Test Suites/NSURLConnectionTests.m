@@ -46,13 +46,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:testData
-                                          statusCode:200
-                                         requestTime:kRequestTime
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:testData
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
-        
+    
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
     
@@ -84,11 +83,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:testData
-                                          statusCode:200
-                                         requestTime:kRequestTime
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:testData
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
     
@@ -135,11 +133,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSData* retData = dataForRequest(request);
         NSTimeInterval responseTime = [request.URL.lastPathComponent doubleValue];
-        return [OHHTTPStubsResponse responseWithData:retData
-                                          statusCode:200
-                                         requestTime:responseTime*.1
-                                        responseTime:responseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:retData
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:responseTime*.1 responseTime:responseTime];
     }];
     
     // Reusable code to send a request that will respond in the given response time

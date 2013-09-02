@@ -39,7 +39,8 @@
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 requestTime:kRequestTime responseTime:kResponseTime headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];

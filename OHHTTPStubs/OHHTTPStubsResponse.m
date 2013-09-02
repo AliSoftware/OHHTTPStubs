@@ -54,11 +54,11 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
 {
-    return [self responseWithData:data
-                       statusCode:statusCode
-                      requestTime:(responseTime<0)?0:responseTime*0.1
-                     responseTime:(responseTime<0)?responseTime:responseTime*0.9
-                          headers:httpHeaders];
+    return [[self responseWithData:data
+                        statusCode:statusCode
+                           headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
 }
 
 +(instancetype)responseWithFile:(NSString*)fileName
@@ -66,22 +66,22 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
 {
-    return [self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-                             statusCode:statusCode
-                            requestTime:(responseTime<0)?0:responseTime*0.1
-                           responseTime:(responseTime<0)?responseTime:responseTime*0.9
-                                headers:httpHeaders];
+    return [[self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
+                              statusCode:statusCode
+                                 headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
 }
 
 +(instancetype)responseWithFile:(NSString*)fileName
                     contentType:(NSString*)contentType
                    responseTime:(NSTimeInterval)responseTime
 {
-    return [self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-                             statusCode:200
-                            requestTime:(responseTime<0)?0:responseTime*0.1
-                           responseTime:(responseTime<0)?responseTime:responseTime*0.9
-                                headers:@{ @"Content-Type":contentType }];
+    return [[self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
+                              statusCode:200
+                                 headers:@{ @"Content-Type":contentType }]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
 }
 
 -(instancetype)initWithData:(NSData*)data
@@ -89,11 +89,11 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                responseTime:(NSTimeInterval)responseTime
                     headers:(NSDictionary*)httpHeaders
 {
-    return [self initWithData:data
-                   statusCode:statusCode
-                  requestTime:(responseTime<0)?0:responseTime*0.1
-                 responseTime:(responseTime<0)?responseTime:responseTime*0.9
-                      headers:httpHeaders];
+    return [[self initWithData:data
+                    statusCode:statusCode
+                       headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
 }
 
 
@@ -106,14 +106,10 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
-                    requestTime:(NSTimeInterval)requestTime
-                   responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
 {
     OHHTTPStubsResponse* response = [[self alloc] initWithData:data
                                                     statusCode:statusCode
-                                                   requestTime:requestTime
-                                                  responseTime:responseTime
                                                        headers:httpHeaders];
     return response;
 }
@@ -123,14 +119,10 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 +(instancetype)responseWithFileAtPath:(NSString *)filePath
                            statusCode:(int)statusCode
-                          requestTime:(NSTimeInterval)requestTime
-                         responseTime:(NSTimeInterval)responseTime
                               headers:(NSDictionary *)httpHeaders
 {
     OHHTTPStubsResponse* response = [[self alloc] initWithFileAtPath:filePath
                                                           statusCode:statusCode
-                                                         requestTime:requestTime
-                                                        responseTime:responseTime
                                                              headers:httpHeaders];
     return response;
 }
@@ -144,6 +136,15 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Commotidy Setters
+
+-(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
+{
+    self.requestTime = requestTime;
+    self.responseTime = responseTime;
+    return self;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initializers
@@ -151,8 +152,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
                         statusCode:(int)statusCode
-                       requestTime:(NSTimeInterval)requestTime
-                      responseTime:(NSTimeInterval)responseTime
                            headers:(NSDictionary*)httpHeaders
 {
     self = [super init];
@@ -161,8 +160,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
         self.inputStream = inputStream;
         self.dataSize = dataSize;
         self.statusCode = statusCode;
-        self.requestTime = requestTime;
-        self.responseTime = responseTime;
         NSMutableDictionary * headers = [NSMutableDictionary dictionaryWithDictionary:httpHeaders];
         [headers setObject:[NSString stringWithFormat:@"%llu",self.dataSize] forKey:@"Content-Length"];
         self.httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
@@ -172,8 +169,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 -(instancetype)initWithFileAtPath:(NSString*)filePath
                        statusCode:(int)statusCode
-                      requestTime:(NSTimeInterval)requestTime
-                     responseTime:(NSTimeInterval)responseTime
                           headers:(NSDictionary*)httpHeaders
 {
     NSInputStream* inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
@@ -182,24 +177,18 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     self = [self initWithInputStream:inputStream
                             dataSize:fileSize
                           statusCode:statusCode
-                         requestTime:requestTime
-                        responseTime:responseTime
                              headers:httpHeaders];
     return self;
 }
 
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
-                requestTime:(NSTimeInterval)requestTime
-               responseTime:(NSTimeInterval)responseTime
                     headers:(NSDictionary*)httpHeaders
 {
     NSInputStream* inputStream = [NSInputStream inputStreamWithData:data];
     self = [self initWithInputStream:inputStream
                             dataSize:[data length]
                           statusCode:statusCode
-                         requestTime:requestTime
-                        responseTime:responseTime
                              headers:httpHeaders];
     return self;
 }

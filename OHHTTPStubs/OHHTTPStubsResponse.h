@@ -71,21 +71,15 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! @name Building a response from data */
 
 /*! Builds a response given raw data.
- @note Internally calls "initWithInputStream:dataSize:statusCode:requestTime:responseTime:headers:" with and inputStream build from the NSData.
+ @note Internally calls "initWithInputStream:dataSize:statusCode:headers:" with and inputStream build from the NSData.
  
  @param data The raw data to return in the response
  @param statusCode The HTTP Status Code to use in the response
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
  @param httpHeaders The HTTP Headers to return in the response
  @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
-                    requestTime:(NSTimeInterval)requestTime
-                   responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders;
 
 
@@ -116,10 +110,6 @@ OHHTTPStubsDownloadSpeedWifi;
 /*! Builds a response given a file path, the status code and headers.
  @param filePath The file path that contains the response body to return.
  @param statusCode The HTTP Status Code to use in the response
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
  @param httpHeaders The HTTP Headers to return in the response
  @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
  @note It is encouraged to use the `OHPathForFileInBundle(fileName, bundleOrNil)` macro to easily build a path to a file located in
@@ -128,8 +118,6 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 +(instancetype)responseWithFileAtPath:(NSString *)filePath
                            statusCode:(int)statusCode
-                          requestTime:(NSTimeInterval)requestTime
-                         responseTime:(NSTimeInterval)responseTime
                               headers:(NSDictionary*)httpHeaders;
 
 /* -------------------------------------------------------------------------- */
@@ -145,60 +133,61 @@ OHHTTPStubsDownloadSpeedWifi;
 
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Commotidy Setters
+
+/*! @name Building a response from a file */
+
+/*! Set both the requestTime and the responseTime of the OHHTTPStubsResponse at once. Useful for chaining method calls.
+ 
+ @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
+ @param responseTime If positive, the amount of time used to send the entire response.
+                     If negative, the rate in KB/s at which to send the response data.
+                     Useful to simulate slow networks for example. You may use the OHHTTPStubsDownloadSpeed* constants here.
+ @return self (the same OHHTTPStubsResponse that was the target of this method). Useful for chaining method calls.
+ 
+ @example return [[OHHTTPStubsReponse responseWithData:data statusCode:200 headers:nil] requestTime:1.0 responseTime:5.0];
+ */
+-(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime;
+
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initializers
 
 /*! @name Initializers */
 
-/*! Designed initializer. Initialize a response with the given input stream, dataSize, statusCode, requestTime, responseTime and headers.
+/*! Designed initializer. Initialize a response with the given input stream, dataSize, statusCode and headers.
  @param inputStream The input stream that will provide the data to return in the response
  @param dataSize The size of the data in the stream.
  @param statusCode The HTTP Status Code to use in the response
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
  @param httpHeaders The HTTP Headers to return in the response
  @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
                         statusCode:(int)statusCode
-                       requestTime:(NSTimeInterval)requestTime
-                      responseTime:(NSTimeInterval)responseTime
                            headers:(NSDictionary*)httpHeaders;
 
 
-/*! Initialize a response with a given file path, statusCode, requestTime, responseTime and headers.
+/*! Initialize a response with a given file path, statusCode and headers.
  @param filePath The file path of the data to return in the response
  @param statusCode The HTTP Status Code to use in the response
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
  @param httpHeaders The HTTP Headers to return in the response
  @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @note This method simply builds the NSInputStream, compute the file size, and then call initWithInputStream:dataSize:statusCode:headers:
  */
 -(instancetype)initWithFileAtPath:(NSString*)filePath
                        statusCode:(int)statusCode
-                      requestTime:(NSTimeInterval)requestTime
-                     responseTime:(NSTimeInterval)responseTime
                           headers:(NSDictionary*)httpHeaders;
 
 
-/*! Initialize a response with the given data, statusCode, requestTime, responseTime and headers.
+/*! Initialize a response with the given data, statusCode and headers.
  @param data The raw data to return in the response
  @param statusCode The HTTP Status Code to use in the response
- @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
- @param responseTime If positive, the amount of time used to send the entire response.
-                     If negative, the rate in KB/s at which to send the response data.
-                     Useful to simulate slow networks for example.
  @param httpHeaders The HTTP Headers to return in the response
  @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
  */
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
-                requestTime:(NSTimeInterval)requestTime
-               responseTime:(NSTimeInterval)responseTime
                     headers:(NSDictionary*)httpHeaders;
 
 
@@ -217,55 +206,55 @@ OHHTTPStubsDownloadSpeedWifi;
 
 /*! Deprecated.
  
- For an exact equivalent of the behavior of this method, use this instead:
+ For an equivalent of the behavior of this old method, use this instead:
  
-     [OHHTTPStubsResponse responseWithData:data
-      statusCode:statusCode requestTime:responseTime*0.1 responseTime:responseTime*0.9 headers:httpHeaders]
+     [[OHHTTPStubsResponse responseWithData:data statusCode:statusCode headers:httpHeaders]
+      requestTime:responseTime*0.1 responseTime:responseTime*0.9]
  */
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithData:statusCode:requestTime:responseTime:headers: instead")));
+__attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTime:responseTime: instead")));
 
 /*! Deprecated.
  
- For an exact equivalent of the behavior of this method, use this instead:
+ For an equivalent of the behavior of this old method, use this instead:
  
-    [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-     statusCode:statusCode requestTime:responseTime*0.1 responseTime:responseTime*0.9 headers:httpHeaders]
+    [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil) statusCode:statusCode headers:httpHeaders]
+     requestTime:responseTime*0.1 responseTime:responseTime*0.9]
  */
 +(instancetype)responseWithFile:(NSString*)fileName
                      statusCode:(int)statusCode
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithFile:inBundle:statusCode:requestTime:responseTime:headers: instead")));
+__attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + requestTime:responseTime: instead")));
 
 /*! Deprecated.
  
- For an exact equivalent of the behavior of this method, use this instead:
+ For an equivalent of the behavior of this old method, use this instead:
  
-     [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-      statusCode:200 requestTime:responseTime*0.1 responseTime:responseTime*0.9 headers:@{ @"Content-Type":contentType }]
+     [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil) statusCode:200 headers:@{ @"Content-Type":contentType }]
+      requestTime:responseTime*0.1 responseTime:responseTime*0.9]
  */
 +(instancetype)responseWithFile:(NSString*)fileName
                     contentType:(NSString*)contentType
                    responseTime:(NSTimeInterval)responseTime
-__attribute__((deprecated("Use responseWithFile:inBundle:statusCode:requestTime:responseTime:headers: instead")));
+__attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + requestTime:responseTime: instead")));
 
 
 /*! Deprecated.
  
- For an exact equivalent of the behavior of this method, use this instead:
+ For an equivalent of the behavior of this old method, use this instead:
  
-     [[OHHTTPStubsResponse alloc] initWithData:data
-      statusCode:statusCode requestTime:responseTime*0.1 responseTime:responseTime*0.9 headers:httpHeaders]
+     [[[OHHTTPStubsResponse alloc] initWithData:data statusCode:statusCode headers:httpHeaders]
+      requestTime:responseTime*0.1 responseTime:responseTime*0.9]
  */
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
                responseTime:(NSTimeInterval)responseTime
                     headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use initWithData:statusCode:requestTime:responseTime:headers: instead")));
+__attribute__((deprecated("Use initWithData:statusCode:headers: + requestTime:responseTime: instead")));
 
 
 @end

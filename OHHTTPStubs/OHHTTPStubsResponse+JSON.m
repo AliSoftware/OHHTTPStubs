@@ -14,8 +14,6 @@
 
 + (instancetype)responseWithJSONObject:(id)jsonObject
                             statusCode:(int)statusCode
-                           requestTime:(NSTimeInterval)requestTime
-                          responseTime:(NSTimeInterval)responseTime
                                headers:(NSDictionary *)httpHeaders
 {
     if (!httpHeaders[@"Content-Type"])
@@ -27,8 +25,6 @@
     
     return [self responseWithData:[NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil]
                        statusCode:statusCode
-                      requestTime:requestTime
-                     responseTime:responseTime
                           headers:httpHeaders
             ];
 }

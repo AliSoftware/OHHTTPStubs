@@ -103,11 +103,11 @@
             return [request.URL.absoluteString.pathExtension isEqualToString:@"txt"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub txt files with this
-            return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.txt",nil)
-                                                    statusCode:200
-                                                   requestTime:self.delaySwitch.on ? 2.f: 0.f
-                                                  responseTime:OHHTTPStubsDownloadSpeedWifi
-                                                       headers:@{@"Content-Type":@"text/plain"}];
+            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.txt",nil)
+                                                     statusCode:200
+                                                        headers:@{@"Content-Type":@"text/plain"}]
+                    requestTime:self.delaySwitch.on ? 2.f: 0.f
+                    responseTime:OHHTTPStubsDownloadSpeedWifi];
         }];
     }
     else
@@ -149,11 +149,11 @@
             return [request.URL.absoluteString.pathExtension isEqualToString:@"jpg"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub jpg files with this
-            return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.jpg",nil)
-                                                    statusCode:200
-                                                   requestTime:self.delaySwitch.on ? 2.f: 0.f
-                                                  responseTime:OHHTTPStubsDownloadSpeedWifi
-                                                       headers:@{@"Content-Type":@"image/jpeg"}];
+            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.jpg",nil)
+                                                     statusCode:200
+                                                        headers:@{@"Content-Type":@"image/jpeg"}]
+                    requestTime:self.delaySwitch.on ? 2.f: 0.f
+                    responseTime:OHHTTPStubsDownloadSpeedWifi];
         }];
     }
     else
