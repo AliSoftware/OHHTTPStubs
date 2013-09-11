@@ -27,6 +27,7 @@
 		099C73541690397600239880 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73501690397600239880 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C73551690397600239880 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 099C73531690397600239880 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
+		09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF7C817DFF68100B096F3 /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +74,7 @@
 		099C73521690397600239880 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
 		099C73531690397600239880 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
 		099C735616903B9800239880 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		09BEF7C817DFF68100B096F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */,
 				0984831717805538002A99FF /* CFNetwork.framework in Frameworks */,
 				099C735716903B9800239880 /* UIKit.framework in Frameworks */,
 				098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */,
@@ -123,6 +126,7 @@
 		0979357B161B6251006DB5D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09BEF7C817DFF68100B096F3 /* Security.framework */,
 				0984831617805538002A99FF /* CFNetwork.framework */,
 				0979357C161B6251006DB5D5 /* Foundation.framework */,
 			);
