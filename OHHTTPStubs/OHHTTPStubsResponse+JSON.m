@@ -30,3 +30,20 @@
 }
 
 @end
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Deprecated Constructors
+
+@implementation OHHTTPStubsResponse (Deprecated_JSON)
+
++ (instancetype)responseWithJSONObject:(id)jsonObject
+                            statusCode:(int)statusCode
+                          responseTime:(NSTimeInterval)responseTime
+                               headers:(NSDictionary*)httpHeaders
+{
+    return [[self responseWithJSONObject:jsonObject statusCode:statusCode headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
+}
+
+@end

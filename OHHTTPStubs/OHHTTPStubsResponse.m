@@ -45,59 +45,6 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 @implementation OHHTTPStubsResponse
 
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Deprecated Constructors
-
-+(instancetype)responseWithData:(NSData*)data
-                     statusCode:(int)statusCode
-                   responseTime:(NSTimeInterval)responseTime
-                        headers:(NSDictionary*)httpHeaders
-{
-    return [[self responseWithData:data
-                        statusCode:statusCode
-                           headers:httpHeaders]
-            requestTime:(responseTime<0)?0:responseTime*0.1
-            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
-+(instancetype)responseWithFile:(NSString*)fileName
-                     statusCode:(int)statusCode
-                   responseTime:(NSTimeInterval)responseTime
-                        headers:(NSDictionary*)httpHeaders
-{
-    return [[self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-                              statusCode:statusCode
-                                 headers:httpHeaders]
-            requestTime:(responseTime<0)?0:responseTime*0.1
-            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
-+(instancetype)responseWithFile:(NSString*)fileName
-                    contentType:(NSString*)contentType
-                   responseTime:(NSTimeInterval)responseTime
-{
-    return [[self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-                              statusCode:200
-                                 headers:@{ @"Content-Type":contentType }]
-            requestTime:(responseTime<0)?0:responseTime*0.1
-            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
--(instancetype)initWithData:(NSData*)data
-                 statusCode:(int)statusCode
-               responseTime:(NSTimeInterval)responseTime
-                    headers:(NSDictionary*)httpHeaders
-{
-    return [[self initWithData:data
-                    statusCode:statusCode
-                       headers:httpHeaders]
-            requestTime:(responseTime<0)?0:responseTime*0.1
-            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
-
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Commodity Constructors
 
@@ -236,6 +183,62 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 {
     self.inputStream = [NSInputStream inputStreamWithData:responseData];
     self.dataSize = responseData.length;
+}
+
+@end
+
+
+
+@implementation OHHTTPStubsResponse (Deprecated)
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Deprecated Constructors
+
++(instancetype)responseWithData:(NSData*)data
+statusCode:(int)statusCode
+responseTime:(NSTimeInterval)responseTime
+headers:(NSDictionary*)httpHeaders
+{
+    return [[self responseWithData:data
+                        statusCode:statusCode
+                           headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
+}
+
++(instancetype)responseWithFile:(NSString*)fileName
+statusCode:(int)statusCode
+responseTime:(NSTimeInterval)responseTime
+headers:(NSDictionary*)httpHeaders
+{
+    return [[self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
+                              statusCode:statusCode
+                                 headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
+}
+
++(instancetype)responseWithFile:(NSString*)fileName
+contentType:(NSString*)contentType
+responseTime:(NSTimeInterval)responseTime
+{
+    return [[self responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
+                              statusCode:200
+                                 headers:@{ @"Content-Type":contentType }]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
+}
+
+-(instancetype)initWithData:(NSData*)data
+statusCode:(int)statusCode
+responseTime:(NSTimeInterval)responseTime
+headers:(NSDictionary*)httpHeaders
+{
+    return [[self initWithData:data
+                    statusCode:statusCode
+                       headers:httpHeaders]
+            requestTime:(responseTime<0)?0:responseTime*0.1
+            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
 }
 
 @end

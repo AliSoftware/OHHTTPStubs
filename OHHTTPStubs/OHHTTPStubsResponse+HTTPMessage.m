@@ -51,12 +51,14 @@
     return [self responseWithHTTPMessageData:responseData];
 }
 
-
+@end
 
 
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Deprecated Constructors
+
+@implementation OHHTTPStubsResponse (Deprecated_HTTPMessage)
 
 +(instancetype)responseWithHTTPMessageData:(NSData*)responseData
                               responseTime:(NSTimeInterval)responseTime
