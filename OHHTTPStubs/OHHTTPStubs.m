@@ -415,7 +415,10 @@ typedef struct {
             {
                 if (completion)
                 {
-                    completion([inputStream streamError]);
+                    // Note: We may also arrive here with no error if we were just at the end of the stream (EOF)
+                    // In that case, hasBytesAvailable did return YES (because at the limit of OEF) but nothing were read (because EOF)
+                    // But then in that case inputStream.streamError will be nil so that's cool, we won't return an error anyway
+                    completion(inputStream.streamError);
                 }
             }
         }
