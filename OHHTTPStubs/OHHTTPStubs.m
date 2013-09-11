@@ -111,10 +111,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }];
 }
 
-+(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler DEPRECATED_ATTRIBUTE
-{
-    return [self.sharedInstance addRequestHandler:handler];
-}
 +(BOOL)removeRequestHandler:(id)handler
 {
     return [self.sharedInstance removeRequestHandler:handler];
@@ -204,6 +200,18 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Deprecated Methods (will be removed in 3.0)
+/*! @name Deprecated Methods */
+
+@implementation OHHTTPStubs (Deprecated)
+
++(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
+{
+    return [self.sharedInstance addRequestHandler:handler];
+}
+
+@end
 
 
 
@@ -338,7 +346,7 @@ typedef struct {
 {
     if (stubResponse.inputStream.hasBytesAvailable && !self.stopped)
     {
-        /*** Compute timing data once and for all for this stub ***/
+        // Compute timing data once and for all for this stub
         
         OHHTTPStubsStreamTimingInfo timingInfo = {
             .slotTime = kSlotTime, // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
@@ -415,7 +423,10 @@ typedef struct {
             {
                 if (completion)
                 {
-                    completion([inputStream streamError]);
+                    // Note: We may also arrive here with no error if we were just at the end of the stream (EOF)
+                    // In that case, hasBytesAvailable did return YES (because at the limit of OEF) but nothing were read (because EOF)
+                    // But then in that case inputStream.streamError will be nil so that's cool, we won't return an error anyway
+                    completion(inputStream.streamError);
                 }
             }
         }

@@ -65,18 +65,18 @@ OHHTTPStubsDownloadSpeedWifi;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Commodity Constructors
+/*! @name Commodity */
 
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building response from NSData
-/*! @name Building a response from data */
 
 /*! Builds a response given raw data.
- @note Internally calls "initWithInputStream:dataSize:statusCode:headers:" with and inputStream build from the NSData.
+ @note Internally calls `-initWithInputStream:dataSize:statusCode:headers:` with and inputStream build from the NSData.
  
  @param data The raw data to return in the response
  @param statusCode The HTTP Status Code to use in the response
  @param httpHeaders The HTTP Headers to return in the response
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
@@ -88,7 +88,7 @@ OHHTTPStubsDownloadSpeedWifi;
 
 /*! Useful macro to build a path given a file name and a bundle.
  @param fileName The name of the file to get the path to, including file extension
- @param bundleOrNil The bundle in which the file is located. If nil, the application bundle ([NSBundle bundleForClass:self.class]) is used
+ @param bundleOrNil The bundle in which the file is located. If nil, the application bundle (`[NSBundle bundleForClass:self.class]`) is used
  @return The path of the given file in the given bundle
  */
 #define OHPathForFileInBundle(fileName,bundleOrNil) ({ \
@@ -113,16 +113,16 @@ OHHTTPStubsDownloadSpeedWifi;
     [NSBundle bundleWithPath:[[NSBundle bundleForClass:self.class] pathForResource:bundleBasename ofType:@"bundle"]]; \
 })
 
-/*! @name Building a response from a file */
 
 /*! Builds a response given a file path, the status code and headers.
  @param filePath The file path that contains the response body to return.
  @param statusCode The HTTP Status Code to use in the response
  @param httpHeaders The HTTP Headers to return in the response
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
- @note It is encouraged to use the `OHPathForFileInBundle(fileName, bundleOrNil)` macro to easily build a path to a file located in
-       the app bundle or any arbitrary bundle. Likewise, you may use the `OHPathForFileInDocumentsDir(fileName)` macro to build
-       a path to a file located in the Documents directory of your application' sandbox.
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ @note It is encouraged to use the `OHPathForFileInBundle(fileName, bundleOrNil)` and `OHResourceBundle(bundleBasename)` macros
+       to easily build a path to a file located in the app bundle or any arbitrary bundle.
+       Likewise, you may use the `OHPathForFileInDocumentsDir(fileName)` macro to build a path to a file located in
+       the Documents directory of your application' sandbox.
  */
 +(instancetype)responseWithFileAtPath:(NSString *)filePath
                            statusCode:(int)statusCode
@@ -130,11 +130,10 @@ OHHTTPStubsDownloadSpeedWifi;
 
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building an error response
-/*! @name Building an error response */
 
 /*! Builds a response that corresponds to the given error
  @param error The error to use in the stubbed response.
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
 +(instancetype)responseWithError:(NSError*)error;
@@ -143,24 +142,23 @@ OHHTTPStubsDownloadSpeedWifi;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Commotidy Setters
 
-/*! @name Building a response from a file */
-
-/*! Set both the requestTime and the responseTime of the OHHTTPStubsResponse at once. Useful for chaining method calls.
+/*! Set both the `requestTime` and the `responseTime` of the `OHHTTPStubsResponse` at once. Useful for chaining method calls.
+ 
+ _Usage example:_
+ <pre>return [[OHHTTPStubsReponse responseWithData:data statusCode:200 headers:nil]
+               requestTime:1.0 responseTime:5.0];</pre>
  
  @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
  @param responseTime If positive, the amount of time used to send the entire response.
                      If negative, the rate in KB/s at which to send the response data.
                      Useful to simulate slow networks for example. You may use the OHHTTPStubsDownloadSpeed* constants here.
- @return self (the same OHHTTPStubsResponse that was the target of this method). Useful for chaining method calls.
- 
- @example return [[OHHTTPStubsReponse responseWithData:data statusCode:200 headers:nil] requestTime:1.0 responseTime:5.0];
+ @return `self` (= the same `OHHTTPStubsResponse` that was the target of this method). Useful for chaining method calls.
  */
 -(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initializers
-
 /*! @name Initializers */
 
 /*! Designed initializer. Initialize a response with the given input stream, dataSize, statusCode and headers.
@@ -168,7 +166,8 @@ OHHTTPStubsDownloadSpeedWifi;
  @param dataSize The size of the data in the stream.
  @param statusCode The HTTP Status Code to use in the response
  @param httpHeaders The HTTP Headers to return in the response
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ @note You will probably never need to call this method yourself. Prefer the other initializers (that will call this method eventually)
  */
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
@@ -180,8 +179,8 @@ OHHTTPStubsDownloadSpeedWifi;
  @param filePath The file path of the data to return in the response
  @param statusCode The HTTP Status Code to use in the response
  @param httpHeaders The HTTP Headers to return in the response
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
- @note This method simply builds the NSInputStream, compute the file size, and then call initWithInputStream:dataSize:statusCode:headers:
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ @note This method simply builds the NSInputStream, compute the file size, and then call `-initWithInputStream:dataSize:statusCode:headers:`
  */
 -(instancetype)initWithFileAtPath:(NSString*)filePath
                        statusCode:(int)statusCode
@@ -192,7 +191,7 @@ OHHTTPStubsDownloadSpeedWifi;
  @param data The raw data to return in the response
  @param statusCode The HTTP Status Code to use in the response
  @param httpHeaders The HTTP Headers to return in the response
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  */
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
@@ -201,10 +200,16 @@ OHHTTPStubsDownloadSpeedWifi;
 
 /*! Designed initializer. Initialize a response with the given error.
  @param error The error to use in the stubbed response.
- @return An OHHTTPStubsResponse describing the corresponding response to return by the stub
+ @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
 -(instancetype)initWithError:(NSError*)error;
+
+@end
+
+
+
+
 
 
 
@@ -212,12 +217,21 @@ OHHTTPStubsDownloadSpeedWifi;
 #pragma mark - Deprecated Constructors (will be removed in 3.0)
 /*! @name Deprecated initializers */
 
-/*! Deprecated.
+@interface OHHTTPStubsResponse (Deprecated)
+
+/*! @warning This method is deprecated
  
  For an equivalent of the behavior of this old method, use this instead:
+ <pre>
+ `[[OHHTTPStubsResponse responseWithData:data statusCode:statusCode headers:httpHeaders]
+  requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
+ </pre>
  
-     [[OHHTTPStubsResponse responseWithData:data statusCode:statusCode headers:httpHeaders]
-      requestTime:responseTime*0.1 responseTime:responseTime*0.9]
+ @param data The raw data to return in the response
+ @param statusCode the HTTP Status Code to use in the response
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param httpHeaders The HTTP Headers to return in the response
+ @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
@@ -225,12 +239,20 @@ OHHTTPStubsDownloadSpeedWifi;
                         headers:(NSDictionary*)httpHeaders
 __attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTime:responseTime: instead")));
 
-/*! Deprecated.
+/*! @warning This method is deprecated
  
  For an equivalent of the behavior of this old method, use this instead:
+ <pre>
+ `[[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
+                                    statusCode:statusCode headers:httpHeaders]
+   requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
+ </pre>
  
-    [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil) statusCode:statusCode headers:httpHeaders]
-     requestTime:responseTime*0.1 responseTime:responseTime*0.9]
+ @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
+ @param statusCode the HTTP Status Code to use in the response
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param httpHeaders The HTTP Headers to return in the response
+ @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithFile:(NSString*)fileName
                      statusCode:(int)statusCode
@@ -238,12 +260,19 @@ __attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTim
                         headers:(NSDictionary*)httpHeaders
 __attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + requestTime:responseTime: instead")));
 
-/*! Deprecated.
+/*! @warning This method is deprecated
  
  For an equivalent of the behavior of this old method, use this instead:
+ <pre>
+ `[[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
+                                    statusCode:200 headers:@{ @"Content-Type":contentType }]
+  requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
+ </pre>
  
-     [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil) statusCode:200 headers:@{ @"Content-Type":contentType }]
-      requestTime:responseTime*0.1 responseTime:responseTime*0.9]
+ @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
+ @param contentType the value to use for the "Content-Type" HTTP header
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithFile:(NSString*)fileName
                     contentType:(NSString*)contentType
@@ -251,12 +280,19 @@ __attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + r
 __attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + requestTime:responseTime: instead")));
 
 
-/*! Deprecated.
+/*! @warning This method is deprecated
  
  For an equivalent of the behavior of this old method, use this instead:
+ <pre>
+ `[[[OHHTTPStubsResponse alloc] initWithData:data statusCode:statusCode headers:httpHeaders]
+  requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
+ </pre>
  
-     [[[OHHTTPStubsResponse alloc] initWithData:data statusCode:statusCode headers:httpHeaders]
-      requestTime:responseTime*0.1 responseTime:responseTime*0.9]
+ @param data The raw data to return in the response
+ @param statusCode the HTTP Status Code to use in the response
+ @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
+ @param httpHeaders The HTTP Headers to return in the response
+ @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  */
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
