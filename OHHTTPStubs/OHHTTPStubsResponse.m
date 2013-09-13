@@ -132,7 +132,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                  statusCode:(int)statusCode
                     headers:(NSDictionary*)httpHeaders
 {
-    NSInputStream* inputStream = [NSInputStream inputStreamWithData:data];
+    NSInputStream* inputStream = [NSInputStream inputStreamWithData:data?:[NSData data]];
     self = [self initWithInputStream:inputStream
                             dataSize:[data length]
                           statusCode:statusCode
