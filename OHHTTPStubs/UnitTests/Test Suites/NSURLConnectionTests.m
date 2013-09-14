@@ -32,6 +32,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 
 @implementation NSURLConnectionTests
 
+-(void)setUp
+{
+    [super setUp];
+    [OHHTTPStubs removeAllStubs];
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark [NSURLConnection sendSynchronousRequest:returningResponse:error:]

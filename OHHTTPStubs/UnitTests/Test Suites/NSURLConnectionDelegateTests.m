@@ -47,6 +47,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 {
     [super setUp];
     _data = [[NSMutableData alloc] init];
+    [OHHTTPStubs removeAllStubs];
 }
 
 -(void)tearDown

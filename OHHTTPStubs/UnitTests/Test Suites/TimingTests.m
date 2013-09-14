@@ -27,6 +27,7 @@
     _error = nil;
 //    _didReceiveResponseTS = nil;
     _didFinishLoadingTS = nil;
+    [OHHTTPStubs removeAllStubs];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -75,9 +76,7 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startTS = [NSDate date];
     
-//    [[NSOperationQueue new] addOperationWithBlock:^{
-        [NSURLConnection connectionWithRequest:req delegate:self];
-//    }];
+    [NSURLConnection connectionWithRequest:req delegate:self];
     
     [self waitForAsyncOperationWithTimeout:requestTime+responseTime+kResponseTimeTolerence+kSecurityTimeout];
 

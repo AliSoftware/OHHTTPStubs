@@ -31,6 +31,12 @@
 
 @implementation AFNetworkingTests
 
+-(void)setUp
+{
+    [super setUp];
+    [OHHTTPStubs removeAllStubs];
+}
+
 -(void)test_AFHTTPRequestOperation
 {
     static const NSTimeInterval kRequestTime = 1.0;

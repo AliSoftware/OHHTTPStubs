@@ -72,7 +72,7 @@
     sender.enabled = NO;
     self.textView.text = nil;
 
-    NSString* urlString = @"http://www.loremipsum.de/downloads/version3.txt";
+    NSString* urlString = @"http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?txt";
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
@@ -94,13 +94,13 @@
 
 - (IBAction)installTextStub:(UISwitch *)sender
 {
-    static id textHandler = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
+    static OHHTTPStubsID textStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
     if (sender.on)
     {
         // Install
-        textHandler = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            // This handler will only configure stub requests for "*.txt" files
-            return [request.URL.absoluteString.pathExtension isEqualToString:@"txt"];
+        textStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            // This stub will only configure stub requests for "*.txt" files
+            return [request.URL.pathExtension isEqualToString:@"txt"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub txt files with this
             return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.txt",nil)
@@ -113,7 +113,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeRequestHandler:textHandler];
+        [OHHTTPStubs removeStub:textStub];
     }
 }
 
@@ -125,7 +125,7 @@
 {
     sender.enabled = NO;
     
-    NSString* urlString = @"http://images.apple.com/iphone/ios/images/ios_business_2x.jpg";
+    NSString* urlString = @"http://images.apple.com/support/assets/images/products/iphone/hero_iphone4-5_wide.png";
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
@@ -140,13 +140,13 @@
 
 - (IBAction)installImageStub:(UISwitch *)sender
 {
-    static id imageHandler = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
+    static OHHTTPStubsID imageStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
     if (sender.on)
     {
         // Install
-        imageHandler = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            // This handler will only configure stub requests for "*.jpg" files
-            return [request.URL.absoluteString.pathExtension isEqualToString:@"jpg"];
+        imageStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            // This stub will only configure stub requests for "*.png" files
+            return [request.URL.pathExtension isEqualToString:@"png"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub jpg files with this
             return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.jpg",nil)
@@ -159,7 +159,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeRequestHandler:imageHandler];
+        [OHHTTPStubs removeStub:imageStub];
     }
 }
 

@@ -20,7 +20,7 @@ It works with `NSURLConnection`, `AFNetworking`, or any networking framework you
 * [Advanced Usage](#advanced-usage)
  * [Use macros to build your fixtures path](#use-macros-to-build-your-fixtures-path)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
- * [Stack multiple request handlers](#stack-multiple-request-handlers)
+ * [Stack multiple stubs](#stack-multiple-stubs)
 * [Installing in your projects](#installing-in-your-projects)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
@@ -138,17 +138,17 @@ Example:
 
 
 
-### Stack multiple request handlers
+### Stack multiple stubs
 
-You can call `stubRequestsPassingTest:withStubResponse:` multiple times. It will just add the response handlers in an internal list of handlers.
+You can call `stubRequestsPassingTest:withStubResponse:` multiple times. It will just add the stubs in an internal list of stubs.
 
 _This may be useful to install different stubs in various places in your code, or to separate different stubbing conditions more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
-When a network request is performed by the system, the **response handlers are called in the reverse order that they have been added**, the last added handler having priority over the first added ones.
-The first handler that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
+When a network request is performed by the system, the **stubs are called in the reverse order that they have been added**, the last added stub having priority over the first added ones.
+The first stub that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-You can remove the latest added handler with the `removeLastRequestHandler` method, and all handlers with the `removeAllRequestHandlers` method.
-You can also remove any given handler with the `removeRequestHandler:` method. This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it)_.
+You can remove the latest added stub with the `removeLastStub` method, and all stubs with the `removeAllStubs` method.
+You can also remove any given stub with the `removeStub:` method. This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it)_.
 
 ----
 
