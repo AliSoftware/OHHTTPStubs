@@ -142,6 +142,18 @@ OHHTTPStubsDownloadSpeedWifi;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Commotidy Setters
 
+/*! Set the `responseTime` of the `OHHTTPStubsResponse` and return `self`. Useful for chaining method calls.
+ 
+ _Usage example:_
+ <pre>return [[OHHTTPStubsReponse responseWithData:data statusCode:200 headers:nil] responseTime:5.0];</pre>
+ 
+ @param responseTime If positive, the amount of time used to send the entire response.
+                     If negative, the rate in KB/s at which to send the response data.
+                     Useful to simulate slow networks for example. You may use the OHHTTPStubsDownloadSpeed* constants here.
+ @return `self` (= the same `OHHTTPStubsResponse` that was the target of this method). Useful for chaining method calls.
+ */
+-(instancetype)responseTime:(NSTimeInterval)responseTime;
+
 /*! Set both the `requestTime` and the `responseTime` of the `OHHTTPStubsResponse` at once. Useful for chaining method calls.
  
  _Usage example:_
