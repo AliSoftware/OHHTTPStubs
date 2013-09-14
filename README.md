@@ -89,7 +89,7 @@ This is useful if you have all your fixtures (stubbed responses for your Unit Te
 You can simulate a slow network by setting the `requestTime` and `responseTime` of your `OHHTTPStubsResponse`.
 _This is useful to check that your user interface does not freeze and that you have all your activity indicators working while waiting for responses in bad network conditions._
 
-You may use the `requestTime:response:` method to set both values and easily chain method calls:
+You may use the commoidty chainable setters  `responseTime:` and `requestTime:responseTime:` to set those values and easily chain method calls:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [request.URL.host isEqualToString:@"mywebservice.com"];
@@ -115,7 +115,7 @@ You may also return a network error for your stub. For example, you can easily s
 
 ### Use macros to build your fixtures path
 
-`OHHTTPStubsResponse.h` includes a useful set of macros to build a path to your fixtures easily, like `OHPathForFileInBundle`, `ohPathForFileInDocumentsDir` and `OHResourceBundle`. You are encouraged to use them to build your path more easily.
+`OHHTTPStubsResponse.h` includes a useful set of macros to build a path to your fixtures easily, like `OHPathForFileInBundle`, `OHPathForFileInDocumentsDir` and `OHResourceBundle`. You are encouraged to use them to build your path more easily.
 
 > Especially, they use `[NSBundle bundleForClass:self.class]` to reference your app bundle (and not `[NSBundle mainBundle]` as one may think), so that they still work with OCUnit and XCTestKit when unit-testing your app in the Simulator.
 
@@ -131,6 +131,11 @@ The `OHHTTPStubsResponse` header defines some constants for standard download sp
 * `OHHTTPStubsDownloadSpeed3G`     :  3200 kbps (400 KB/s)
 * `OHHTTPStubsDownloadSpeed3GPlus` :  7200 kbps (900 KB/s)
 * `OHHTTPStubsDownloadSpeedWifi`   : 12000 kbps (1500 KB/s)
+
+Example:
+
+    return [[OHHTTPStubsResponse responseWithData:nil statusCode:400 headers:nil] responseTime:OHHTTPStubsDownloadSpeed3G];
+
 
 
 ### Stack multiple request handlers

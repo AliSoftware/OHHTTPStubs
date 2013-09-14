@@ -86,6 +86,12 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Commotidy Setters
 
+-(instancetype)responseTime:(NSTimeInterval)responseTime
+{
+    self.responseTime = responseTime;
+    return self;
+}
+
 -(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
 {
     self.requestTime = requestTime;

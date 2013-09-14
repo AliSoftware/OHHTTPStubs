@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092DBB2917E4A4280089FC55 /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092DBB2817E4A4280089FC55 /* NilValuesTests.m */; };
 		09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09739F2B16900E81009851EF /* AFNetworkingTests.m */; };
 		0979357D161B6251006DB5D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
 		0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
@@ -45,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		092DBB2817E4A4280089FC55 /* NilValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NilValuesTests.m; sourceTree = "<group>"; };
 		09739F2B16900E81009851EF /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTests.m; sourceTree = "<group>"; };
 		09793579161B6251006DB5D5 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0979357C161B6251006DB5D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -179,6 +181,7 @@
 				098368EB169000340082B1A4 /* WithContentsOfURLTests.m */,
 				09739F2B16900E81009851EF /* AFNetworkingTests.m */,
 				099B95E117D3E63D0023F9BD /* TimingTests.m */,
+				092DBB2817E4A4280089FC55 /* NilValuesTests.m */,
 			);
 			path = "Test Suites";
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */,
 				098368EC169000340082B1A4 /* WithContentsOfURLTests.m in Sources */,
 				09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */,
+				092DBB2917E4A4280089FC55 /* NilValuesTests.m in Sources */,
 				099C73541690397600239880 /* AFHTTPRequestOperation.m in Sources */,
 				099C73551690397600239880 /* AFURLConnectionOperation.m in Sources */,
 			);
