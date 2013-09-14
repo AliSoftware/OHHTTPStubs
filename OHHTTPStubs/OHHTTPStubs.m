@@ -44,10 +44,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
--(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler;
--(BOOL)removeRequestHandler:(id)handler;
--(void)removeLastRequestHandler;
--(void)removeAllRequestHandlers;
 @property(nonatomic, strong) NSMutableArray* requestHandlers;
 @end
 
@@ -94,7 +90,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public class methods
 
-+(id)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
++(OHHTTPStubsID)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
             withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
     return [self.sharedInstance addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
@@ -111,15 +107,15 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }];
 }
 
-+(BOOL)removeRequestHandler:(id)handler
++(BOOL)removeStub:(OHHTTPStubsID)stubID
 {
-    return [self.sharedInstance removeRequestHandler:handler];
+    return [self.sharedInstance removeRequestHandler:stubID];
 }
-+(void)removeLastRequestHandler
++(void)removeLastStub
 {
     [self.sharedInstance removeLastRequestHandler];
 }
-+(void)removeAllRequestHandlers
++(void)removeAllStubs
 {
     [self.sharedInstance removeAllRequestHandlers];
 }
@@ -141,9 +137,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Public instance methods
+#pragma mark - Private instance methods
 
--(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
+-(OHHTTPStubsID)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
     OHHTTPStubsRequestHandler handlerCopy = [handler copy];
     @synchronized(_requestHandlers)
@@ -153,12 +149,12 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     return handlerCopy;
 }
 
--(BOOL)removeRequestHandler:(id)handler
+-(BOOL)removeRequestHandler:(OHHTTPStubsID)stubID
 {
-    BOOL handlerFound = [self.requestHandlers containsObject:handler];
+    BOOL handlerFound = [self.requestHandlers containsObject:stubID];
     @synchronized(_requestHandlers)
     {
-        [_requestHandlers removeObject:handler];
+        [_requestHandlers removeObject:stubID];
     }
     return handlerFound;
 }
@@ -206,9 +202,24 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 @implementation OHHTTPStubs (Deprecated)
 
-+(id)addRequestHandler:(OHHTTPStubsRequestHandler)handler
++(OHHTTPStubsRequestHandlerID)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
     return [self.sharedInstance addRequestHandler:handler];
+}
+
++(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handler
+{
+    return [self removeStub:handler];
+}
+
++(void)removeLastRequestHandler
+{
+    return [self removeLastStub];
+}
+
++(void)removeAllRequestHandlers
+{
+    return [self removeAllStubs];
 }
 
 @end

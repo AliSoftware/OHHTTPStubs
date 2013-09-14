@@ -34,7 +34,7 @@
 
 typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
 typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
-typedef id OHHTTPStubsRequestHandlerID;
+typedef id OHHTTPStubsID;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
@@ -45,26 +45,25 @@ typedef id OHHTTPStubsRequestHandlerID;
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods
 
-/*! Dedicated method to add a request handler
- @param testBlock Block that should return `YES` if the request passed as parameter should be stubbed with the handler block, `NO` if it should hit the real world (or be managed by another request handler).
+/*! Dedicated method to add a stub
+ @param testBlock Block that should return `YES` if the request passed as parameter should be stubbed with the response block, `NO` if it should hit the real world (or be managed by another stub).
  @param responseBlock Block that will return the `OHHTTPStubsResponse` (response to use for stubbing) corresponding to the given request
- @return an opaque object that uniquely identifies the handler and can be later used to remove it with `removeRequestHandler:`
+ @return an opaque object that uniquely identifies the stub and can be later used to remove it with `removeStub:`
  */
-+(OHHTTPStubsRequestHandlerID)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
++(OHHTTPStubsID)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
                                      withStubResponse:(OHHTTPStubsResponseBlock)responseBlock;
 
-/*! Remove a request handler from the list of stubs
- @param handlerID the opaque object that has been returned when adding the handler using `stubRequestsPassingTest:withStubResponse:`
-   or using `addRequestHandler:`
- @return `YES` if the request handler has been successfully removed, `NO` if the parameter was not a valid handler identifier
+/*! Remove a stub from the list of stubs
+ @param stubID the opaque object that has been returned when adding the stub using `stubRequestsPassingTest:withStubResponse:`
+ @return `YES` if the stub has been successfully removed, `NO` if the parameter was not a valid stub identifier
  */
-+(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handlerID;
++(BOOL)removeStub:(OHHTTPStubsID)stubID;
 
-/*! Remove the last added request handler from the stubs list */
-+(void)removeLastRequestHandler;
+/*! Remove the last added stub from the stubs list */
++(void)removeLastStub;
 
-/*! Remove all the requests handlers from the stubs list. */
-+(void)removeAllRequestHandlers;
+/*! Remove all the stubs from the stubs list. */
++(void)removeAllStubs;
 
 /*! Enable or disable the stubs
  @param enabled if `YES`, enables the stubs. If `NO`, disable all the stubs and let all the requests hit the real world.
@@ -81,6 +80,8 @@ typedef id OHHTTPStubsRequestHandlerID;
 
 @interface OHHTTPStubs (Deprecated)
 
+typedef id OHHTTPStubsRequestHandlerID __attribute__((deprecated("Use OHHTTPStubsID instead")));
+
 /*! @warning This method is deprecated
  
  Use `stubRequestsPassingTest:withStubResponse:` instead.
@@ -91,6 +92,22 @@ typedef id OHHTTPStubsRequestHandlerID;
  @return an opaque object that uniquely identifies the handler and can be later used to remove it with `removeRequestHandler:`
  */
 +(OHHTTPStubsRequestHandlerID)addRequestHandler:(OHHTTPStubsResponse*(^)(NSURLRequest* request, BOOL onlyCheck))handler
-__attribute__((deprecated("Use stubRequestsPassingTest:withStubResponse:  instead")));
+__attribute__((deprecated("Use stubRequestsPassingTest:withStubResponse: instead")));
+
+/*! Remove a request handler from the list of stubs
+ @param handlerID the opaque object that has been returned when adding the handler using `stubRequestsPassingTest:withStubResponse:`
+ or using `addRequestHandler:`
+ @return `YES` if the request handler has been successfully removed, `NO` if the parameter was not a valid handler identifier
+ */
++(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handlerID
+__attribute__((deprecated("Use removeStub: instead")));
+
+/*! Remove the last added request handler from the stubs list */
++(void)removeLastRequestHandler
+__attribute__((deprecated("Use removeLastStub instead")));
+
+/*! Remove all the requests handlers from the stubs list. */
++(void)removeAllRequestHandlers
+__attribute__((deprecated("Use removeAllStubs instead")));
 
 @end

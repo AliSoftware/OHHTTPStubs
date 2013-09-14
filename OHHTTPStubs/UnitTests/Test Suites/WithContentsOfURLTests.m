@@ -32,8 +32,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 @implementation WithContentsOfURLTests
 
-
-
+-(void)setUp
+{
+    [super setUp];
+    [OHHTTPStubs removeAllStubs];
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark [NSString stringWithContentsOfURL:encoding:error:]
