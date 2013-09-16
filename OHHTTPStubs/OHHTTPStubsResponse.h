@@ -270,7 +270,7 @@ __attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTim
                      statusCode:(int)statusCode
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + requestTime:responseTime: instead")));
+__attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead")));
 
 /*! @warning This method is deprecated
  
@@ -289,7 +289,7 @@ __attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + r
 +(instancetype)responseWithFile:(NSString*)fileName
                     contentType:(NSString*)contentType
                    responseTime:(NSTimeInterval)responseTime
-__attribute__((deprecated("Use responseWithFile:inBundle:statusCode:headers: + requestTime:responseTime: instead")));
+__attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead")));
 
 
 /*! @warning This method is deprecated
