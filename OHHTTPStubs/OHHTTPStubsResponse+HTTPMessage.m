@@ -46,7 +46,7 @@
                                                                                    withExtension:@"response"];
     
     NSData *responseData = [NSData dataWithContentsOfURL:responseURL];
-    NSAssert (responseData == nil, @"Could not find HTTP response named '%@' in bundle '%@'", responseName, responsesBundle);
+    NSAssert(responseData, @"Could not find HTTP response named '%@' in bundle '%@'", responseName, responsesBundle);
     
     return [self responseWithHTTPMessageData:responseData];
 }
