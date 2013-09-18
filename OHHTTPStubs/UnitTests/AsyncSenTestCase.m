@@ -27,6 +27,8 @@
 
 @interface AsyncSenTestCase()
 @property(atomic, assign) NSUInteger asyncTestCaseSignaledCount;
+@property(atomic, retain) id asyncObject;
+@property(atomic, retain) NSMutableDictionary *asyncObjectsByKey;
 @end
 
 static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
@@ -36,6 +38,13 @@ static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
 @implementation AsyncSenTestCase
 
 @synthesize asyncTestCaseSignaledCount = _asyncTestCaseSignaledCount;
+
+- (void)setUp
+{
+    [super setUp];
+    
+    self.asyncObjectsByKey = [NSMutableDictionary new];
+}
 
 -(void)waitForAsyncOperationWithTimeout:(NSTimeInterval)timeout
 {
@@ -62,6 +71,22 @@ static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
     }
 }
 
+-(id)waitForAsyncOperationObjectWithTimeout:(NSTimeInterval)timeout
+{
+    [self waitForAsyncOperationWithTimeout:timeout];
+    id asyncObject = self.asyncObject;
+    self.asyncObject = nil;
+    return asyncObject;
+}
+
+-(NSDictionary *)waitForAsyncOperationObjects:(NSUInteger)count withTimeout:(NSTimeInterval)timeout
+{
+    [self waitForAsyncOperations:count withTimeout:timeout];
+    NSDictionary *asyncObjectsByKey = self.asyncObjectsByKey;
+    self.asyncObjectsByKey = [NSMutableDictionary new];
+    return asyncObjectsByKey;
+}
+
 -(void)waitForTimeout:(NSTimeInterval)timeout
 {
     NSDate* waitEndDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
@@ -77,6 +102,18 @@ static const NSTimeInterval kRunLoopSamplingInterval = 0.01;
     {
         self.asyncTestCaseSignaledCount = self.asyncTestCaseSignaledCount+1;
     }
+}
+
+-(void)notifyAsyncOperationDoneWithObject:(id)object
+{
+    self.asyncObject = object;
+    [self notifyAsyncOperationDone];
+}
+
+-(void)notifyAsyncOperationDoneWithObject:(id)object forKey:(NSString *)key
+{
+    [self.asyncObjectsByKey setObject:object forKey:key];
+    [self notifyAsyncOperationDone];
 }
 
 @end

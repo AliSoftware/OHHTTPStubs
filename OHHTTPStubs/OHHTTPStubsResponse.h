@@ -29,6 +29,11 @@
 #import <Foundation/Foundation.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Types
+
+typedef void(^OHHTTPStubsResponder)(dispatch_block_t respondBlock);
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
 
 // Standard download speeds.
@@ -58,6 +63,7 @@ OHHTTPStubsDownloadSpeedWifi;
 //! @note if responseTime<0, it is interpreted as a download speed in KBps ( -200 => 200KB/s )
 @property(nonatomic, assign) NSTimeInterval responseTime;
 @property(nonatomic, strong) NSError* error;
+@property(nonatomic, copy) OHHTTPStubsResponder responder;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class Methods

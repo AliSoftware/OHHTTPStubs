@@ -286,38 +286,69 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, 
         if (((responseStub.statusCode >= 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(responseTime, ^{
+            dispatch_block_t respondBlock = [^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
                 }
-            });
+            } copy];
+            if (responseStub.responder)
+            {
+                responseStub.responder(respondBlock);
+            }
+            else
+            {
+                execute_after(responseTime, respondBlock);
+            }
         }
         else
         {
-            execute_after(requestTime,^{
-                if (!self.stopped)
-                {
-                    [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                    
-                    execute_after(responseTime,^{
-                        if (!self.stopped)
-                        {
-                            [client URLProtocol:self didLoadData:responseStub.responseData];
-                            [client URLProtocolDidFinishLoading:self];
-                        }
-                    });
-                }
-            });
+            if (responseStub.responder)
+            {
+                dispatch_block_t respondBlock = [^{
+                    if (!self.stopped)
+                    {
+                        [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                        [client URLProtocol:self didLoadData:responseStub.responseData];
+                        [client URLProtocolDidFinishLoading:self];
+                    }
+                } copy];
+                responseStub.responder(respondBlock);
+            }
+            else
+            {
+                execute_after(requestTime,^{
+                    if (!self.stopped)
+                    {
+                        [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                        
+                        execute_after(responseTime,^{
+                            if (!self.stopped)
+                            {
+                                [client URLProtocol:self didLoadData:responseStub.responseData];
+                                [client URLProtocolDidFinishLoading:self];
+                            }
+                        });
+                    }
+                });
+            }
         }
     } else {
-        // Send the canned error
-        execute_after(responseStub.responseTime, ^{
+        dispatch_block_t respondBlock = [^{
             if (!self.stopped)
             {
                 [client URLProtocol:self didFailWithError:responseStub.error];
             }
-        });
+        } copy];
+        if (responseStub.responder)
+        {
+            responseStub.responder(respondBlock);
+        }
+        else
+        {
+            // Send the canned error
+            execute_after(responseStub.responseTime, respondBlock);
+        }
     }
 }
 
