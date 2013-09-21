@@ -283,7 +283,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         }
         
         
-        NSString* redirectLocation = [responseStub.httpHeaders objectForKey:@"Location"];
+        NSString* redirectLocation = (responseStub.httpHeaders)[@"Location"];
         NSURL* redirectLocationURL;
         if (redirectLocation)
         {

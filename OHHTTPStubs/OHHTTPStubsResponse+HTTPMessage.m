@@ -16,7 +16,7 @@
 {
     NSData *data = [NSData data];
     NSInteger statusCode = 200;
-    NSDictionary *headers = [NSDictionary dictionary];
+    NSDictionary *headers = @{};
     
     CFHTTPMessageRef httpMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
     if (httpMessage)
