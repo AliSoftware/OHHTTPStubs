@@ -22,18 +22,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Init & Dealloc
 
-- (void)dealloc
-{
-#if ! __has_feature(objc_arc)
-    [_textView release];
-    [_imageView release];
-    [_delaySwitch release];
-    [_installTextStubSwitch release];
-    [_installImageStubSwitch release];
-    [super dealloc];
-#endif
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -83,9 +71,6 @@
          sender.enabled = YES;
          NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
          self.textView.text = receivedText;
-#if ! __has_feature(objc_arc)
-         [receivedText release];
-#endif
      }];
 }
 

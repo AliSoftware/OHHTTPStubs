@@ -85,7 +85,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 - (void)dealloc
 {
     [self.class setEnabled:NO];
-    self.requestHandlers = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
