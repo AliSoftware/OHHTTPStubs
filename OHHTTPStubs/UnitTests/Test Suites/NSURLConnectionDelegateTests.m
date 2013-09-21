@@ -210,7 +210,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* cookie = [NSString stringWithFormat:@"%@=%@;", cookieName, cookieValue];
-        NSDictionary* headers = [NSDictionary dictionaryWithObject:cookie forKey:@"Set-Cookie"];
+        NSDictionary* headers = @{@"Set-Cookie": cookie};
         return [[OHHTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
                                            statusCode:200
                                               headers:headers]

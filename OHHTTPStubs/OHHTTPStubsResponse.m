@@ -114,7 +114,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
         self.dataSize = dataSize;
         self.statusCode = statusCode;
         NSMutableDictionary * headers = [NSMutableDictionary dictionaryWithDictionary:httpHeaders];
-        [headers setObject:[NSString stringWithFormat:@"%llu",self.dataSize] forKey:@"Content-Length"];
+        headers[@"Content-Length"] = [NSString stringWithFormat:@"%llu",self.dataSize];
         self.httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
     }
     return self;
