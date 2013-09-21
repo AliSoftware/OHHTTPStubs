@@ -32,7 +32,9 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     
-    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          STAssertEquals(data.length, (NSUInteger)0, @"Data should be empty");
          
@@ -53,7 +55,9 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     
-    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          STAssertEquals(data.length, (NSUInteger)0, @"Data should be empty");
          

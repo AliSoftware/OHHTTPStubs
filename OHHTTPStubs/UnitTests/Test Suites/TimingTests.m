@@ -118,7 +118,7 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
 {
     static NSUInteger const kDataLength = 1024;
     NSMutableData* testData = [NSMutableData dataWithCapacity:kDataLength];
-    NSData* chunk = [[[NSBundle mainBundle] bundlePath] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* chunk = [[NSProcessInfo.processInfo globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
     while(testData.length<kDataLength)
     {
         [testData appendData:chunk];
