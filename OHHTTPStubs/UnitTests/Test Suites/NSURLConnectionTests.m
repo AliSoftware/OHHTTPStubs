@@ -112,7 +112,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 
 -(void)test_NSURLConnection_sendAsyncronousRequest_mainQueue
 {
-    [self _test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:[NSOperationQueue mainQueue]];
+    [self _test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:NSOperationQueue.mainQueue];
 }
 
 
@@ -170,7 +170,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_mainQueue
 {
-    [self _test_NSURLConnection_sendMultipleAsyncronousRequestsOnOperationQueue:[NSOperationQueue mainQueue]];
+    [self _test_NSURLConnection_sendMultipleAsyncronousRequestsOnOperationQueue:NSOperationQueue.mainQueue];
 }
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_parallelQueue

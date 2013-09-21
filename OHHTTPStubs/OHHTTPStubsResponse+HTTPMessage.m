@@ -21,7 +21,7 @@
     CFHTTPMessageRef httpMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
     if (httpMessage)
     {
-        CFHTTPMessageAppendBytes(httpMessage, [responseData bytes], [responseData length]);
+        CFHTTPMessageAppendBytes(httpMessage, responseData.bytes, responseData.length);
         
         data = responseData; // By default
         
@@ -42,7 +42,7 @@
 +(instancetype)responseNamed:(NSString*)responseName
                     inBundle:(NSBundle*)responsesBundle
 {
-    NSURL *responseURL = [responsesBundle?:[NSBundle bundleForClass:[self class]] URLForResource:responseName
+    NSURL *responseURL = [responsesBundle?:[NSBundle bundleForClass:self.class] URLForResource:responseName
                                                                                    withExtension:@"response"];
     
     NSData *responseData = [NSData dataWithContentsOfURL:responseURL];

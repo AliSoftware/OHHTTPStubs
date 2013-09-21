@@ -62,10 +62,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
 {
-    _redirectRequestURL = [request URL];
+    _redirectRequestURL = request.URL;
     if (response)
     {
-        if ([response isKindOfClass:[NSHTTPURLResponse class]])
+        if ([response isKindOfClass:NSHTTPURLResponse.class])
         {
             _redirectResponseStatusCode = [((NSHTTPURLResponse *) response) statusCode];
         }
@@ -205,7 +205,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 -(void)test_NSURLConnection_cookies
 {
     NSString* const cookieName = @"SESSIONID";
-    NSString* const cookieValue = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString* const cookieValue = [NSProcessInfo.processInfo globallyUniqueString];
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -219,8 +219,8 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     // Set the cookie accept policy to accept all cookies from the main document domain
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
-    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSHTTPCookieAcceptPolicy previousAcceptPolicy = [cookieStorage cookieAcceptPolicy]; // keep it to restore later
+    NSHTTPCookieStorage* cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage;
+    NSHTTPCookieAcceptPolicy previousAcceptPolicy = cookieStorage.cookieAcceptPolicy; // keep it to restore later
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain];
     
     // Send the request and wait for the response containing the Set-Cookie headers
@@ -262,34 +262,32 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     NSURL* redirectURL = [NSURL URLWithString:@"http://www.yahoo.com/"];
     NSString* redirectCookieName = @"yahooCookie";
-    NSString* redirectCookieValue = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString* redirectCookieValue = [NSProcessInfo.processInfo globallyUniqueString];
     
     // Set the cookie accept policy to accept all cookies from the main document domain
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
-    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSHTTPCookieAcceptPolicy previousAcceptPolicy = [cookieStorage cookieAcceptPolicy]; // keep it to restore later
+    NSHTTPCookieStorage* cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage;
+    NSHTTPCookieAcceptPolicy previousAcceptPolicy = cookieStorage.cookieAcceptPolicy; // keep it to restore later
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain];
     
     NSString* endCookieName = @"googleCookie";
-    NSString* endCookieValue = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString* endCookieValue = [NSProcessInfo.processInfo globallyUniqueString];
     NSURL *endURL = [NSURL URLWithString:@"http://www.google.com/"];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        if ([[request URL] isEqual:redirectURL]) {
+        if ([request.URL isEqual:redirectURL]) {
             NSString* redirectCookie = [NSString stringWithFormat:@"%@=%@;", redirectCookieName, redirectCookieValue];
-            NSDictionary* headers = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [endURL absoluteString], @"Location",
-                                     redirectCookie, @"Set-Cookie",
-                                     nil];
+            NSDictionary* headers = @{ @"Location": endURL.absoluteString,
+                                       @"Set-Cookie": redirectCookie };
             return [[OHHTTPStubsResponse responseWithData:redirectData
                                                statusCode:311 // any 300-level request will do
                                                   headers:headers]
                     requestTime:kRequestTime responseTime:kResponseTime];
         } else {
             NSString* endCookie = [NSString stringWithFormat:@"%@=%@;", endCookieName, endCookieValue];
-            NSDictionary* headers = [NSDictionary dictionaryWithObject:endCookie forKey:@"Set-Cookie"];
+            NSDictionary* headers = @{ @"Set-Cookie": endCookie };
             return [[OHHTTPStubsResponse responseWithData:testData
                                                statusCode:200
                                                   headers:headers]

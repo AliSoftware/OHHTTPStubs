@@ -44,7 +44,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 #pragma mark - Private Interface
 
 @interface OHHTTPStubs()
-@property(nonatomic, strong) NSMutableArray* requestHandlers;
++ (instancetype)sharedInstance;
+@property(atomic, strong) NSMutableArray* requestHandlers;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,14 +77,14 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     if (self)
     {
         _requestHandlers = [NSMutableArray array];
-        [[self class] setEnabled:YES];
+        [self.class setEnabled:YES];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [[self class] setEnabled:NO];
+    [self.class setEnabled:NO];
     self.requestHandlers = nil;
 }
 
@@ -125,13 +126,13 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     static BOOL currentEnabledState = NO;
     if (enabled && !currentEnabledState)
     {
-        [NSURLProtocol registerClass:[OHHTTPStubsProtocol class]];
+        [NSURLProtocol registerClass:OHHTTPStubsProtocol.class];
     }
     else if (!enabled && currentEnabledState)
     {
         // Force instanciate sharedInstance to avoid it being created later and this turning setEnabled to YES again
-        (void)[self sharedInstance]; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
-        [NSURLProtocol unregisterClass:[OHHTTPStubsProtocol class]];
+        (void)self.sharedInstance; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
+        [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
     }
     currentEnabledState = enabled;
 }
@@ -151,9 +152,10 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 -(BOOL)removeRequestHandler:(OHHTTPStubsID)stubID
 {
-    BOOL handlerFound = [self.requestHandlers containsObject:stubID];
+    BOOL handlerFound = NO;
     @synchronized(_requestHandlers)
     {
+        handlerFound = [self.requestHandlers containsObject:stubID];
         [_requestHandlers removeObject:stubID];
     }
     return handlerFound;
@@ -182,7 +184,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     OHHTTPStubsResponse* response = nil;
     @synchronized(_requestHandlers)
     {
-        for(OHHTTPStubsRequestHandler handler in [_requestHandlers reverseObjectEnumerator])
+        for(OHHTTPStubsRequestHandler handler in _requestHandlers.reverseObjectEnumerator)
         {
             response = handler(request, onlyCheck);
             if (response) break;
@@ -241,7 +243,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    return ([[OHHTTPStubs sharedInstance] responseForRequest:request onlyCheck:YES] != nil);
+    return ([OHHTTPStubs.sharedInstance responseForRequest:request onlyCheck:YES] != nil);
 }
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
@@ -262,10 +264,10 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 - (void)startLoading
 {
-    NSURLRequest* request = [self request];
-	id<NSURLProtocolClient> client = [self client];
+    NSURLRequest* request = self.request;
+	id<NSURLProtocolClient> client = self.client;
     
-    OHHTTPStubsResponse* responseStub = [[OHHTTPStubs sharedInstance] responseForRequest:request onlyCheck:NO];
+    OHHTTPStubsResponse* responseStub = [OHHTTPStubs.sharedInstance responseForRequest:request onlyCheck:NO];
     
     if (responseStub.error == nil)
     {        
@@ -278,7 +280,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         if (request.HTTPShouldHandleCookies)
         {
             NSArray* cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:responseStub.httpHeaders forURL:request.URL];
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
+            [NSHTTPCookieStorage.sharedHTTPCookieStorage setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
         }
         
         
