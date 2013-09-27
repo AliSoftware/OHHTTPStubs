@@ -54,6 +54,6 @@
                             statusCode:(int)statusCode
                           responseTime:(NSTimeInterval)responseTime
                                headers:(NSDictionary*)httpHeaders
-__deprecated_msg("Use responseWithJSONObject:statusCode:headers: and requestTime:responseTime: instead");
+__attribute__((deprecated("Use responseWithJSONObject:statusCode:headers: and requestTime:responseTime: instead")));
 
 @end
