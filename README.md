@@ -20,7 +20,8 @@ It works with `NSURLConnection`, `AFNetworking`, or any networking framework you
 * [Advanced Usage](#advanced-usage)
  * [Use macros to build your fixtures path](#use-macros-to-build-your-fixtures-path)
  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
- * [Stack multiple stubs and remove stubs](#stack-multiple-stubs-and-remove-stubs)
+ * [Stack multiple stubs and remove installed stubs](#stack-multiple-stubs-and-remove-installed-stubs)
+ * [Name your stubs and log their activation](#name-your-stubs-and-log-their-activation)
 * [Installing in your projects](#installing-in-your-projects)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
@@ -138,25 +139,48 @@ Example:
 
 
 
-### Stack multiple stubs and remove stubs
+### Stack multiple stubs and remove installed stubs
 
-You can call `stubRequestsPassingTest:withStubResponse:` multiple times. It will just add the stubs in an internal list of stubs.
+* You can call `stubRequestsPassingTest:withStubResponse:` multiple times. It will just add the stubs in an internal list of stubs.
 
 _This may be useful to install different stubs in various places in your code, or to separate different stubbing conditions more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
 When a network request is performed by the system, the **stubs are called in the reverse order that they have been added**, the last added stub having priority over the first added ones.
 The first stub that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-You can remove any given stub with the `removeStub:` method. This method takes as a parameter the object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it)_.
-You can also remove and all stubs at once with the `removeAllStubs` method, or only the latest added stub with the `removeLastStub` method.
+* You can remove any given stub with the `removeStub:` method. This method takes as a parameter the `id<OHHTTPStubsDescriptor>` object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it)_.
+* You can remove the latest added stub with the `removeLastStub` method.
+* You can also remove all stubs at once with the `removeAllStubs` method.
 
-
-When using `OHHTTPStubs` to build your Unit Tests, don't forget to remove all installed stubs at the end of each of your test case, to avoid stubs installed in one test case to be still installed for the next test case.
+This last one is useful when using `OHHTTPStubs` in your Unit Tests, to remove all installed stubs at the end of each of your test case to avoid stubs installed in one test case to be still installed for the next test case.
 
     - (void)tearDown
     {
         [OHHTTPStubs removeAllStubs];
     }
+
+### Name your stubs and log their activation
+
+You can add a name (at your convenience) to your stubs. The only purpose of this is for debug & display in your console or anywhere else.
+
+    id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:... withStubResponse:...];
+    stub.name = @"Stub for text files";
+   
+You can even imagine appling the `.name = ...` affectation directly if you don't intend to use the `id<OHHTTPStubsDescriptor>` in a variable:
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+       ...
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+       ...
+    }].name = @"Stub for text files";
+
+You can then list all the installed stubs using `[OHHTTPStubs allStubs]`, which return an array of `id<OHHTTPStubsDescriptor>` objects so you can display their `name` on the console. This is useful to check that you didn't forget to remove some previous stubs that are still installed for example.
+
+You can also setup a block to execute each time a request has been stubbed, using `onStubActivation:` method, typically to log the stub being used for each request:
+
+    [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
+        NSLog(@"%@ stubbed %@", request.URL, stub.name);
+    }];
 
 ----
 
@@ -187,4 +211,3 @@ This project and library has been created by Olivier Halligon (@AliSoftware) and
 
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
 I would also like to thank to @kcharwood for its contribution, and everyone who contributed to this project on GitHub.
-

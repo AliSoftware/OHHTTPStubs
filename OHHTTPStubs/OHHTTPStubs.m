@@ -36,20 +36,51 @@
 #pragma mark - Types & Constants
 
 @interface OHHTTPStubsProtocol : NSURLProtocol @end
-typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck);
 
 static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chunk of the data from the stream each 'slotTime' seconds
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Private Interface
+#pragma mark - Private Interfaces
 
 @interface OHHTTPStubs()
 + (instancetype)sharedInstance;
-@property(atomic, strong) NSMutableArray* requestHandlers;
+@property(atomic, copy) NSMutableArray* stubDescriptors;
+@property(atomic, copy) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>);
+@end
+
+@interface OHHTTPStubsDescriptor : NSObject <OHHTTPStubsDescriptor>
+@property(atomic, copy) OHHTTPStubsTestBlock testBlock;
+@property(atomic, copy) OHHTTPStubsResponseBlock responseBlock;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Implementation
+#pragma mark - OHHTTPStubsDescriptor Implementation
+
+@implementation OHHTTPStubsDescriptor
+
+@synthesize name = _name;
+
++(instancetype)stubDescriptorWithTestBlock:(OHHTTPStubsTestBlock)testBlock
+                             responseBlock:(OHHTTPStubsResponseBlock)responseBlock
+{
+    OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor new];
+    stub.testBlock = testBlock;
+    stub.responseBlock = responseBlock;
+    return stub;
+}
+
+-(NSString*)description
+{
+    return [NSString stringWithFormat:@"<%@ %p : %@>", self.class, self, self.name];
+}
+
+@end
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - OHHTTPStubs Implementation
 
 @implementation OHHTTPStubs
 
@@ -76,7 +107,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     self = [super init];
     if (self)
     {
-        _requestHandlers = [NSMutableArray array];
+        _stubDescriptors = [NSMutableArray array];
         [self.class setEnabled:YES];
     }
     return self;
@@ -90,34 +121,26 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public class methods
 
-+(OHHTTPStubsID)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
-            withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
++(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
+                                   withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
-    return [self.sharedInstance addRequestHandler:^OHHTTPStubsResponse *(NSURLRequest *request, BOOL onlyCheck)
-    {
-        BOOL shouldStub = testBlock ? testBlock(request) : YES;
-        if (onlyCheck)
-        {
-            return shouldStub ? (OHHTTPStubsResponse*)@"DummyStub" : (OHHTTPStubsResponse*)nil;
-        }
-        else
-        {
-            return (responseBlock && shouldStub) ? responseBlock(request) : nil;
-        }
-    }];
+    OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:testBlock
+                                                                       responseBlock:responseBlock];
+    [OHHTTPStubs.sharedInstance addStub:stub];
+    return stub;
 }
 
-+(BOOL)removeStub:(OHHTTPStubsID)stubID
++(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
 {
-    return [self.sharedInstance removeRequestHandler:stubID];
+    return [OHHTTPStubs.sharedInstance removeStub:stubDesc];
 }
 +(void)removeLastStub
 {
-    [self.sharedInstance removeLastRequestHandler];
+    [OHHTTPStubs.sharedInstance removeLastStub];
 }
 +(void)removeAllStubs
 {
-    [self.sharedInstance removeAllRequestHandlers];
+    [OHHTTPStubs.sharedInstance removeAllStubs];
 }
 
 +(void)setEnabled:(BOOL)enabled
@@ -130,66 +153,77 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     else if (!enabled && currentEnabledState)
     {
         // Force instanciate sharedInstance to avoid it being created later and this turning setEnabled to YES again
-        (void)self.sharedInstance; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
+        (void)OHHTTPStubs.sharedInstance; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
         [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
     }
     currentEnabledState = enabled;
 }
 
++(NSArray*)allStubs
+{
+    return [OHHTTPStubs.sharedInstance stubDescriptors];
+}
+
++(void)onStubActivation:( void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub) )block
+{
+    [OHHTTPStubs.sharedInstance setOnStubActivationBlock:block];
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private instance methods
 
--(OHHTTPStubsID)addRequestHandler:(OHHTTPStubsRequestHandler)handler
+-(void)addStub:(OHHTTPStubsDescriptor*)stubDesc
 {
-    OHHTTPStubsRequestHandler handlerCopy = [handler copy];
-    @synchronized(_requestHandlers)
+    @synchronized(_stubDescriptors)
     {
-        [_requestHandlers addObject:handlerCopy];
+        [_stubDescriptors addObject:stubDesc];
     }
-    return handlerCopy;
 }
 
--(BOOL)removeRequestHandler:(OHHTTPStubsID)stubID
+-(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
 {
     BOOL handlerFound = NO;
-    @synchronized(_requestHandlers)
+    @synchronized(_stubDescriptors)
     {
-        handlerFound = [self.requestHandlers containsObject:stubID];
-        [_requestHandlers removeObject:stubID];
+        handlerFound = [_stubDescriptors containsObject:stubDesc];
+        [_stubDescriptors removeObject:stubDesc];
     }
     return handlerFound;
 }
--(void)removeLastRequestHandler
+
+-(void)removeLastStub
 {
-    @synchronized(_requestHandlers)
+    @synchronized(_stubDescriptors)
     {
-        [_requestHandlers removeLastObject];
+        [_stubDescriptors removeLastObject];
     }
 }
 
--(void)removeAllRequestHandlers
+-(void)removeAllStubs
 {
-    @synchronized(_requestHandlers)
+    @synchronized(_stubDescriptors)
     {
-        [_requestHandlers removeAllObjects];
+        [_stubDescriptors removeAllObjects];
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Private methods
-
-- (OHHTTPStubsResponse*)responseForRequest:(NSURLRequest*)request onlyCheck:(BOOL)onlyCheck
+- (OHHTTPStubsDescriptor*)firstStubPassingTestForRequest:(NSURLRequest*)request
 {
-    OHHTTPStubsResponse* response = nil;
-    @synchronized(_requestHandlers)
+    OHHTTPStubsDescriptor* foundStub = nil;
+    @synchronized(_stubDescriptors)
     {
-        for(OHHTTPStubsRequestHandler handler in _requestHandlers.reverseObjectEnumerator)
+        for(OHHTTPStubsDescriptor* stub in _stubDescriptors.reverseObjectEnumerator)
         {
-            response = handler(request, onlyCheck);
-            if (response) break;
+            if (stub.testBlock(request))
+            {
+                foundStub = stub;
+                break;
+            }
         }
     }
-    return response;
+    return foundStub;
 }
 
 @end
@@ -201,11 +235,18 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 #pragma mark - Deprecated Methods (will be removed in 3.0)
 /*! @name Deprecated Methods */
 
+typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck) __deprecated;
+
 @implementation OHHTTPStubs (Deprecated)
 
 +(OHHTTPStubsRequestHandlerID)addRequestHandler:(OHHTTPStubsRequestHandler)handler
 {
-    return [self.sharedInstance addRequestHandler:handler];
+    return [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:^BOOL(NSURLRequest *request)
+    {
+        return (handler(request, YES) != nil);
+    } responseBlock:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return handler(request, NO);
+    }];
 }
 
 +(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handler
@@ -242,7 +283,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    return ([OHHTTPStubs.sharedInstance responseForRequest:request onlyCheck:YES] != nil);
+    return ([OHHTTPStubs.sharedInstance firstStubPassingTestForRequest:request] != nil);
 }
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
@@ -266,7 +307,14 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     NSURLRequest* request = self.request;
 	id<NSURLProtocolClient> client = self.client;
     
-    OHHTTPStubsResponse* responseStub = [OHHTTPStubs.sharedInstance responseForRequest:request onlyCheck:NO];
+    OHHTTPStubsDescriptor* stub = [OHHTTPStubs.sharedInstance firstStubPassingTestForRequest:request];
+    NSAssert(stub, @"At the time startLoading is called, canInitRequest should have assured that stub is != nil beforehand");
+    OHHTTPStubsResponse* responseStub = stub.responseBlock(request);
+
+    if (OHHTTPStubs.sharedInstance.onStubActivationBlock)
+    {
+        OHHTTPStubs.sharedInstance.onStubActivationBlock(request, stub);
+    }
     
     if (responseStub.error == nil)
     {        
@@ -456,7 +504,7 @@ typedef struct {
 // Delayed execution utility methods
 /////////////////////////////////////////////
 
-void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
+static void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
 {
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);

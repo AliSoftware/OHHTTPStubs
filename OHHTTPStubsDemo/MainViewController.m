@@ -28,6 +28,9 @@
     
     [self installTextStub:self.installTextStubSwitch];
     [self installImageStub:self.installImageStubSwitch];
+    [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
+        NSLog(@"[OHHTTPStubs] Request to %@ has been stubbed with %@", request.URL, stub.name);
+    }];
 }
 - (void)viewDidUnload
 {
@@ -46,6 +49,8 @@
     self.delaySwitch.enabled = sender.on;
     self.installTextStubSwitch.enabled = sender.on;
     self.installImageStubSwitch.enabled = sender.on;
+    
+    NSLog(@"Installed (%@) stubs: %@", (sender.on?@"and enabled":@"but disabled"), OHHTTPStubs.allStubs);
 }
 
 
@@ -79,7 +84,7 @@
 
 - (IBAction)installTextStub:(UISwitch *)sender
 {
-    static OHHTTPStubsID textStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
+    static id<OHHTTPStubsDescriptor> textStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already
     if (sender.on)
     {
         // Install
@@ -94,6 +99,7 @@
                     requestTime:self.delaySwitch.on ? 2.f: 0.f
                     responseTime:OHHTTPStubsDownloadSpeedWifi];
         }];
+        textStub.name = @"Text stub";
     }
     else
     {
@@ -125,7 +131,7 @@
 
 - (IBAction)installImageStub:(UISwitch *)sender
 {
-    static OHHTTPStubsID imageStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
+    static id<OHHTTPStubsDescriptor> imageStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
     if (sender.on)
     {
         // Install
@@ -140,6 +146,7 @@
                     requestTime:self.delaySwitch.on ? 2.f: 0.f
                     responseTime:OHHTTPStubsDownloadSpeedWifi];
         }];
+        imageStub.name = @"Image stub";
     }
     else
     {
