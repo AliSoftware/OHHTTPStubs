@@ -52,7 +52,7 @@ OHHTTPStubsDownloadSpeedWifi;
 
 @property(nonatomic, strong) NSDictionary* httpHeaders;
 @property(nonatomic, assign) int statusCode;
-@property(nonatomic, strong) NSData* responseData __attribute__((deprecated("Will be removed in next version. Use inputSteam property instead.")));
+@property(nonatomic, strong) NSData* responseData __deprecated_msg("Will be removed in next version. Use inputSteam property instead.");
 @property(nonatomic, strong) NSInputStream* inputStream;
 @property(nonatomic, assign) unsigned long long dataSize;
 @property(nonatomic, assign) NSTimeInterval requestTime; //!< Defaults to 0.0
@@ -249,7 +249,7 @@ OHHTTPStubsDownloadSpeedWifi;
                      statusCode:(int)statusCode
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTime:responseTime: instead")));
+__deprecated_msg("Use responseWithData:statusCode:headers: + requestTime:responseTime: instead");
 
 /*! @warning This method is deprecated
  
@@ -270,7 +270,7 @@ __attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTim
                      statusCode:(int)statusCode
                    responseTime:(NSTimeInterval)responseTime
                         headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead")));
+__deprecated_msg("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead");
 
 /*! @warning This method is deprecated
  
@@ -289,7 +289,7 @@ __attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requ
 +(instancetype)responseWithFile:(NSString*)fileName
                     contentType:(NSString*)contentType
                    responseTime:(NSTimeInterval)responseTime
-__attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead")));
+__deprecated_msg("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead");
 
 
 /*! @warning This method is deprecated
@@ -310,7 +310,7 @@ __attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requ
                  statusCode:(int)statusCode
                responseTime:(NSTimeInterval)responseTime
                     headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use initWithData:statusCode:headers: + requestTime:responseTime: instead")));
+__deprecated_msg("Use initWithData:statusCode:headers: + requestTime:responseTime: instead");
 
 
 @end
