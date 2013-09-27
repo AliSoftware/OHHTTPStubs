@@ -56,7 +56,7 @@
  */
 +(instancetype)responseWithHTTPMessageData:(NSData*)responseData
                               responseTime:(NSTimeInterval)responseTime
-__deprecated_msg("Use responseWithHTTPMessageData: and requestTime:responseTime: instead");
+__attribute__((deprecated("Use responseWithHTTPMessageData: and requestTime:responseTime: instead")));
 
 /*! @warning This method is deprecated
  
@@ -74,7 +74,7 @@ __deprecated_msg("Use responseWithHTTPMessageData: and requestTime:responseTime:
 +(instancetype)responseNamed:(NSString*)responseName
                   fromBundle:(NSBundle*)bundle
                 responseTime:(NSTimeInterval)responseTime
-__deprecated_msg("Use responseNamed:inBundle: and requestTime:responseTime: instead");
+__attribute__((deprecated("Use responseNamed:inBundle: and requestTime:responseTime: instead")));
 
 
 @end

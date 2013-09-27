@@ -103,8 +103,8 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 
 @interface OHHTTPStubs (Deprecated)
 
-typedef id OHHTTPStubsRequestHandlerID __deprecated_msg("Use OHHTTPStubsDescriptor* instead");
-typedef id<OHHTTPStubsDescriptor> OHHTTPStubsID __deprecated_msg("Use id<OHHTTPStubsDescriptor> instead");
+typedef id OHHTTPStubsRequestHandlerID __attribute__((deprecated("Use OHHTTPStubsDescriptor* instead")));
+typedef id<OHHTTPStubsDescriptor> OHHTTPStubsID __attribute__((deprecated("Use id<OHHTTPStubsDescriptor> instead")));
 
 
 /*! @warning This method is deprecated
@@ -117,7 +117,7 @@ typedef id<OHHTTPStubsDescriptor> OHHTTPStubsID __deprecated_msg("Use id<OHHTTPS
  @return an opaque object that uniquely identifies the handler and can be later used to remove it with `removeRequestHandler:`
  */
 +(OHHTTPStubsRequestHandlerID)addRequestHandler:(OHHTTPStubsResponse*(^)(NSURLRequest* request, BOOL onlyCheck))handler
-__deprecated_msg("Use stubRequestsPassingTest:withStubResponse: instead");
+__attribute__((deprecated("Use stubRequestsPassingTest:withStubResponse: instead")));
 
 /*! Remove a request handler from the list of stubs
  @param handlerID the opaque object that has been returned when adding the handler using `stubRequestsPassingTest:withStubResponse:`
@@ -125,14 +125,14 @@ __deprecated_msg("Use stubRequestsPassingTest:withStubResponse: instead");
  @return `YES` if the request handler has been successfully removed, `NO` if the parameter was not a valid handler identifier
  */
 +(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handlerID
-__deprecated_msg("Use removeStub: instead");
+__attribute__((deprecated("Use removeStub: instead")));
 
 /*! Remove the last added request handler from the stubs list */
 +(void)removeLastRequestHandler
-__deprecated_msg("Use removeLastStub instead");
+__attribute__((deprecated("Use removeLastStub instead")));
 
 /*! Remove all the requests handlers from the stubs list. */
 +(void)removeAllRequestHandlers
-__deprecated_msg("Use removeAllStubs instead");
+__attribute__((deprecated("Use removeAllStubs instead")));
 
 @end
