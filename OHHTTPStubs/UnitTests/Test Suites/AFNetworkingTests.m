@@ -25,6 +25,7 @@
 
 #import "AsyncSenTestCase.h"
 #import "AFHTTPRequestOperation.h"
+#import "AFHTTPSessionManager.h"
 #import "OHHTTPStubs.h"
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
@@ -64,6 +65,41 @@
     [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
     
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
+}
+
+- (void)test_AFHTTPURLSSession
+{
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    [OHHTTPStubs setEnabled:YES forSessionConfiguration:sessionConfig];
+    
+    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
+    
+    static const NSTimeInterval kRequestTime = 1.0;
+    static const NSTimeInterval kResponseTime = 1.0;
+    NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
+    NSData* expectedResponse = [NSJSONSerialization dataWithJSONObject:expectedResponseDict options:0 error:NULL];
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:@{@"Content-Type" : @"application/json"}]
+                requestTime:kRequestTime responseTime:kResponseTime];
+    }];
+    
+    __block __strong id response = nil;
+    [sessionManager GET:@"http://localhost:3333"
+             parameters:nil
+                success:^(NSURLSessionDataTask *task, id responseObject) {
+                    response = responseObject; // keep strong reference
+                    [self notifyAsyncOperationDone];
+                }
+                failure:^(NSURLSessionDataTask *task, NSError *error) {
+                    STFail(@"Unexpected network failure");
+                    [self notifyAsyncOperationDone];
+                }];
+    
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
+    
+    STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
 }
 
 @end
