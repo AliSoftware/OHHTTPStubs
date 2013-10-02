@@ -159,6 +159,24 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     currentEnabledState = enabled;
 }
 
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
+
++ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
+{
+    NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:[sessionConfig protocolClasses]];
+    if (enabled)
+    {
+        [urlProtocolClasses addObject:[OHHTTPStubsProtocol class]];
+    }
+    else
+    {
+        [urlProtocolClasses removeObject:[OHHTTPStubsProtocol class]];
+    }
+    sessionConfig.protocolClasses = [urlProtocolClasses copy];
+}
+
+#endif
+
 +(NSArray*)allStubs
 {
     return [OHHTTPStubs.sharedInstance stubDescriptors];
