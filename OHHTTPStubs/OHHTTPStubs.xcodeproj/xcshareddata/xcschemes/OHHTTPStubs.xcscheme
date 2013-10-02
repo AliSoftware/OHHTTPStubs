@@ -41,6 +41,21 @@
                <Test
                   Identifier = "AsyncSenTestCase">
                </Test>
+               <Test
+                  Identifier = "NilValuesTests">
+               </Test>
+               <Test
+                  Identifier = "NSURLConnectionDelegateTests">
+               </Test>
+               <Test
+                  Identifier = "NSURLConnectionTests">
+               </Test>
+               <Test
+                  Identifier = "TimingTests">
+               </Test>
+               <Test
+                  Identifier = "WithContentsOfURLTests">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
