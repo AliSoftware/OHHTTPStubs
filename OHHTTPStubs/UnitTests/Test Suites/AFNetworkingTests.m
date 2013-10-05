@@ -25,7 +25,9 @@
 
 #import "AsyncSenTestCase.h"
 #import "AFHTTPRequestOperation.h"
+#import "AFHTTPSessionManager.h"
 #import "OHHTTPStubs.h"
+#import "OHHTTPStubsResponse+JSON.h"
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
 
@@ -51,6 +53,7 @@
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+    [op setResponseSerializer:[AFHTTPResponseSerializer serializer]];
     __block __strong id response = nil;
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         response = responseObject; // keep strong reference
@@ -65,5 +68,48 @@
     
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
+
+// Note: because AFNetworking conditionally compiles AFHTTPSessionManager only when the deployment target
+// is iOS 7+, these tests will only be run when the tests are built for deployment on iOS 7+.
+// Otherwise, compilation will fail.
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
+
+- (void)test_AFHTTPURLSSessionCustom
+{
+    // For AFNetworking, this only works if you create a session with a custom configuration.
+    
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    [OHHTTPStubs setEnabled:YES forSessionConfiguration:sessionConfig];
+    
+    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
+    
+    static const NSTimeInterval kRequestTime = 1.0;
+    static const NSTimeInterval kResponseTime = 1.0;
+    NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
+    }];
+    
+    __block __strong id response = nil;
+    [sessionManager GET:@"http://localhost:3333"
+             parameters:nil
+                success:^(NSURLSessionDataTask *task, id responseObject) {
+                    response = responseObject; // keep strong reference
+                    [self notifyAsyncOperationDone];
+                }
+                failure:^(NSURLSessionDataTask *task, NSError *error) {
+                    STFail(@"Unexpected network failure");
+                    [self notifyAsyncOperationDone];
+                }];
+    
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
+    
+    STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
+}
+#endif
 
 @end

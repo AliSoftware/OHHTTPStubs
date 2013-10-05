@@ -79,6 +79,12 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
  */
 +(void)setEnabled:(BOOL)enabled;
 
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+
++ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
+
+#endif
+
 #pragma mark - Debug Methods
 
 /*! List all the installed stubs

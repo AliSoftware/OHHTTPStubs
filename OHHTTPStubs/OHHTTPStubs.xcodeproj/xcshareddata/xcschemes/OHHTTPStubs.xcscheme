@@ -37,11 +37,6 @@
                BlueprintName = "UnitTests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "AsyncSenTestCase">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
