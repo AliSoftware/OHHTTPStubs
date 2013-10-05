@@ -53,6 +53,7 @@
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+    [op setResponseSerializer:[AFHTTPResponseSerializer serializer]];
     __block __strong id response = nil;
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         response = responseObject; // keep strong reference
