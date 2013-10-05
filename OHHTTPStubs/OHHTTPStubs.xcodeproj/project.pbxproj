@@ -38,6 +38,7 @@
 		9A59C9A117FCBC4E00890679 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */; };
 		9A59C9A317FCBC7000890679 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A217FCBC7000890679 /* CoreGraphics.framework */; };
 		9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */; };
+		9AF315AE180063E400B82720 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -356,6 +357,7 @@
 				098368E4168FD0E50082B1A4 /* NSURLConnectionTests.m in Sources */,
 				9A59C9A017FCBC4E00890679 /* AFURLResponseSerialization.m in Sources */,
 				098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */,
+				9AF315AE180063E400B82720 /* OHHTTPStubsResponse+JSON.m in Sources */,
 				9A59C99F17FCBC4E00890679 /* AFURLRequestSerialization.m in Sources */,
 				9A59C99D17FCBC4E00890679 /* AFSecurityPolicy.m in Sources */,
 				9A59C99917FCBC4E00890679 /* AFHTTPRequestOperation.m in Sources */,
@@ -426,7 +428,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -437,7 +439,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
