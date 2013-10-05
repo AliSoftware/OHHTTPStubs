@@ -18,9 +18,10 @@
 {
     if (!httpHeaders[@"Content-Type"])
     {
-        NSMutableDictionary *mutableHeaders = [httpHeaders mutableCopy];
+        // If httpHeaders is nil, we can't make a mutable copy.
+        NSMutableDictionary *mutableHeaders = httpHeaders ? [httpHeaders mutableCopy] : [NSMutableDictionary dictionary];
         mutableHeaders[@"Content-Type"] = @"application/json";
-        httpHeaders = mutableHeaders;
+        httpHeaders = [mutableHeaders copy]; // make immutable again
     }
     
     return [self responseWithData:[NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil]
