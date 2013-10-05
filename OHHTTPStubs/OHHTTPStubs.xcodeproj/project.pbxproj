@@ -39,6 +39,7 @@
 		9A59C9A317FCBC7000890679 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A217FCBC7000890679 /* CoreGraphics.framework */; };
 		9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */; };
 		9AF315AE180063E400B82720 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */; };
+		9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF315AF180069BA00B82720 /* NSURLSessionTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,6 +105,7 @@
 		9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		9A59C9A217FCBC7000890679 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9AF315AF180069BA00B82720 /* NSURLSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLSessionTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				09739F2B16900E81009851EF /* AFNetworkingTests.m */,
 				099B95E117D3E63D0023F9BD /* TimingTests.m */,
 				092DBB2817E4A4280089FC55 /* NilValuesTests.m */,
+				9AF315AF180069BA00B82720 /* NSURLSessionTests.m */,
 			);
 			path = "Test Suites";
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A59C99E17FCBC4E00890679 /* AFURLConnectionOperation.m in Sources */,
+				9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */,
 				099B95E217D3E63D0023F9BD /* TimingTests.m in Sources */,
 				098368DC168FC7920082B1A4 /* AsyncSenTestCase.m in Sources */,
 				098368E4168FD0E50082B1A4 /* NSURLConnectionTests.m in Sources */,
