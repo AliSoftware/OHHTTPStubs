@@ -159,20 +159,28 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     currentEnabledState = enabled;
 }
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
 
 + (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
 {
-    NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:[sessionConfig protocolClasses]];
-    if (enabled)
+    // Runtime check to make sure the API is available on this version
+    if ([NSURLSessionConfiguration class])
     {
-        [urlProtocolClasses addObject:[OHHTTPStubsProtocol class]];
+        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:[sessionConfig protocolClasses]];
+        if (enabled)
+        {
+            [urlProtocolClasses addObject:[OHHTTPStubsProtocol class]];
+        }
+        else
+        {
+            [urlProtocolClasses removeObject:[OHHTTPStubsProtocol class]];
+        }
+        sessionConfig.protocolClasses = [urlProtocolClasses copy];
     }
     else
     {
-        [urlProtocolClasses removeObject:[OHHTTPStubsProtocol class]];
+        // Maybe log a warning? Leaving this empty for now.
     }
-    sessionConfig.protocolClasses = [urlProtocolClasses copy];
 }
 
 #endif

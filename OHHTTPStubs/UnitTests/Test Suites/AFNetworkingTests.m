@@ -27,6 +27,7 @@
 #import "AFHTTPRequestOperation.h"
 #import "AFHTTPSessionManager.h"
 #import "OHHTTPStubs.h"
+#import "OHHTTPStubsResponse+JSON.h"
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
 
@@ -67,8 +68,15 @@
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 
-- (void)test_AFHTTPURLSSession
+// Note: because AFNetworking conditionally compiles AFHTTPSessionManager only when the deployment target
+// is iOS 7+, these tests will only be run when the tests are built for deployment on iOS 7+.
+// Otherwise, compilation will fail.
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
+
+- (void)test_AFHTTPURLSSessionCustom
 {
+    // For AFNetworking, this only works if you create a session with a custom configuration.
+    
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     [OHHTTPStubs setEnabled:YES forSessionConfiguration:sessionConfig];
     
@@ -77,11 +85,11 @@
     static const NSTimeInterval kRequestTime = 1.0;
     static const NSTimeInterval kResponseTime = 1.0;
     NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
-    NSData* expectedResponse = [NSJSONSerialization dataWithJSONObject:expectedResponseDict options:0 error:NULL];
+    
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:@{@"Content-Type" : @"application/json"}]
+        return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
@@ -101,5 +109,6 @@
     
     STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
 }
+#endif
 
 @end

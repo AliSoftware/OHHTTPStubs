@@ -79,9 +79,9 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
  */
 +(void)setEnabled:(BOOL)enabled;
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
 
-+ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig;
++ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
 
 #endif
 
