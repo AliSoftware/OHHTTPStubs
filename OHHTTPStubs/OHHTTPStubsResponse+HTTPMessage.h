@@ -12,7 +12,7 @@
 
 /*! @name Building a response from HTTP Message data */
 
-// TODO: Try to implement it using NSInputStream
+// TODO: Try to implement it using NSInputStream someday?
 
 /*! Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
  This method will split the headers and the body and build a OHHTTPStubsReponse accordingly

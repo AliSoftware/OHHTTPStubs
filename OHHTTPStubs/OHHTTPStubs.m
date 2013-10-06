@@ -126,6 +126,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public class methods
 
+#pragma mark > Adding & Removing stubs
+
 +(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
                                    withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
@@ -147,6 +149,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     [OHHTTPStubs.sharedInstance removeAllStubs];
 }
+
+#pragma mark > Disabling & Re-Enabling stubs
 
 +(void)setEnabled:(BOOL)enabled
 {
@@ -186,6 +190,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }
 }
 #endif
+
+#pragma mark > Debug Methods
 
 +(NSArray*)allStubs
 {

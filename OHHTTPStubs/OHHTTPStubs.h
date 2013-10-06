@@ -47,7 +47,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 @interface OHHTTPStubs : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Class Methods
+#pragma mark - Adding & Removing stubs
 
 /*! Dedicated method to add a stub
  @param testBlock Block that should return `YES` if the request passed as parameter should be stubbed with the response block,
@@ -73,6 +73,9 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 
 /*! Remove all the stubs from the stubs list. */
 +(void)removeAllStubs;
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Disabling & Re-Enabling stubs
 
 /*! Enable or disable the stubs
  @param enabled if `YES`, enables the stubs. If `NO`, disable all the stubs and let all the requests hit the real world.
