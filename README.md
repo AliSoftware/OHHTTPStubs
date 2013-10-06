@@ -13,15 +13,16 @@ It works with `NSURLConnection`, `AFNetworking`, or any networking framework you
 * [How it works](#how-it-works)
 * [Documentation](#documentation)
 * [Usage examples](#usage-examples)
- * [Stub all requests with some given NSData](#stub-all-requests-with-some-given-nsdata)
- * [Stub only requests to your WebService](#stub-only-requests-to-your-webservice)
- * [Set request and response time](#set-request-and-response-time)
- * [Simulate a down network](#simulate-a-down-network)
+  * [Stub all requests with some given NSData](#stub-all-requests-with-some-given-nsdata)
+  * [Stub only requests to your WebService](#stub-only-requests-to-your-webservice)
+  * [Set request and response time](#set-request-and-response-time)
+  * [Simulate a down network](#simulate-a-down-network)
 * [Advanced Usage](#advanced-usage)
- * [Use macros to build your fixtures path](#use-macros-to-build-your-fixtures-path)
- * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
- * [Stack multiple stubs and remove installed stubs](#stack-multiple-stubs-and-remove-installed-stubs)
- * [Name your stubs and log their activation](#name-your-stubs-and-log-their-activation)
+  * [Use macros to build your fixtures path](#use-macros-to-build-your-fixtures-path)
+  * [Using download speed instead of responseTime](#using-download-speed-instead-of-responsetime)
+  * [Stack multiple stubs and remove installed stubs](#stack-multiple-stubs-and-remove-installed-stubs)
+  * [Name your stubs and log their activation](#name-your-stubs-and-log-their-activation)
+  * [OHHTTPStubs and NSURLSession](#ohhttpstubs-and-nsurlsession)
 * [Installing in your projects](#installing-in-your-projects)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
@@ -181,6 +182,24 @@ You can also setup a block to execute each time a request has been stubbed, usin
     [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
         NSLog(@"%@ stubbed %@", request.URL, stub.name);
     }];
+
+### OHHTTPStubs and NSURLSession
+
+`OHHTTPStubs` use a custom private `NSURLProtocol` to intercept its requests.
+
+`OHHTTPStubs` is automatically enabled by default, both for requests made using:
+
+* `NSURLConnection` or `[NSURLSession sharedSession]` _(that are based on `[NSURLProtocol registerProtocol:]` to look for custom protocols for every requests)_, because this protocol is installed as soon as you use the `OHHTTPStubs` class _(installed in the `+initialize` method)_
+* a `NSURLSession` created using a `NSURLSessionConfiguration` and `[NSURLSession sessionWithConfiguration:]` _(thanks to method swizzling that insert the private protocol used by `OHHTTPStubs` into the `protocolClasses` of `[NSURLSessionConfiguration defaultSessionConfiguration]` and `[NSURLSessionConfiguration ephemeralSessionConfiguration] automagically)_
+
+> Note however that `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols`. There's nothing we can do about it, sorry.
+
+If you need to disable (and re-enable) `OHHTTPStubs` globally or per session, you can use:
+
+* `[OHHTTPStubs setEnabled:]` for `NSURLConnection`/`[NSURLSession sharedSession]`-based requests
+* `[OHHTTPStubs setEnabled:forSessionConfiguration:]` for requests sent on a session created using `[NSURLSession sessionWithConfiguration:...]`
+
+_There is generally no need to explicitly call `setEnabled:` or `setEnabled:forSessionConfiguration:` using `YES` as this is the default._
 
 ----
 

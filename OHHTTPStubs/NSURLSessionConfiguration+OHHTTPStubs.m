@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#if 1
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
 
 #import <objc/runtime.h>
@@ -79,5 +78,4 @@ static NSURLSessionConfiguration* ephemeralSessionConfigurationWithOHHTTPStubs(i
 
 @end
 
-#endif
 #endif
