@@ -38,14 +38,15 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs removeAllStubs];
 }
 
+static const NSTimeInterval kRequestTime = 0.1;
+static const NSTimeInterval kResponseTime = 0.5;
+
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark [NSURLConnection sendSynchronousRequest:returningResponse:error:]
 ///////////////////////////////////////////////////////////////////////////////////
 
 -(void)test_NSURLConnection_sendSyncronousRequest_mainQueue
 {
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -72,7 +73,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
         [self test_NSURLConnection_sendSyncronousRequest_mainQueue];
         [self notifyAsyncOperationDone];
     }];
-    [self waitForAsyncOperationWithTimeout:3.0];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -81,8 +82,6 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 
 -(void)_test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:(NSOperationQueue*)queue
 {
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -161,11 +160,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          }];
     };
 
-    sendAsyncRequest(1.5); // send this one first, should receive last
-    sendAsyncRequest(1.0); // send this one next, shoud receive 2nd
-    sendAsyncRequest(0.5); // send this one last, should receive first
+    static NSTimeInterval time3 = 1.5, time2 = 1.0, time1 = 0.5;
+    sendAsyncRequest(time3); // send this one first, should receive last
+    sendAsyncRequest(time2); // send this one next, shoud receive 2nd
+    sendAsyncRequest(time1); // send this one last, should receive first
 
-    [self waitForAsyncOperations:3 withTimeout:2.0]; // time out after 4s because the requests should run concurrently and all should be done in ~1.5s
+    [self waitForAsyncOperations:3 withTimeout:MAX(time1,MAX(time2,time3))+kResponseTimeTolerence];
 }
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_mainQueue
