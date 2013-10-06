@@ -41,8 +41,8 @@
 
 -(void)test_AFHTTPRequestOperation
 {
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
+    static const NSTimeInterval kRequestTime = 0.1;
+    static const NSTimeInterval kResponseTime = 0.2;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
@@ -81,8 +81,8 @@
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
     
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
+    static const NSTimeInterval kRequestTime = 0.1;
+    static const NSTimeInterval kResponseTime = 0.2;
     NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {

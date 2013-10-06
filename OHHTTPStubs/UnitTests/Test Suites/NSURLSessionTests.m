@@ -27,8 +27,8 @@
 {
     if ([NSURLSession class])
     {
-        static const NSTimeInterval kRequestTime = 1.0;
-        static const NSTimeInterval kResponseTime = 1.0;
+        static const NSTimeInterval kRequestTime = 0.0;
+        static const NSTimeInterval kResponseTime = 0.2;
         
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return YES;
