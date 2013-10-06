@@ -128,15 +128,19 @@ When building the `OHHTTPStubsResponse` object, you can specify a response time 
 If you specify a negative value for the responseTime parameter, instead of being interpreted as a time in seconds, it will be interpreted as a download speed in KBytes/s. In that case, the response time will be computed using the size of the response's data to simulate the indicated download speed.
 
 The `OHHTTPStubsResponse` header defines some constants for standard download speeds:
-* `OHHTTPStubsDownloadSpeedGPRS`   :    56 kbps (7 KB/s)
-* `OHHTTPStubsDownloadSpeedEDGE`   :   128 kbps (16 KB/s)
-* `OHHTTPStubsDownloadSpeed3G`     :  3200 kbps (400 KB/s)
-* `OHHTTPStubsDownloadSpeed3GPlus` :  7200 kbps (900 KB/s)
-* `OHHTTPStubsDownloadSpeedWifi`   : 12000 kbps (1500 KB/s)
+
+```
+OHHTTPStubsDownloadSpeedGPRS   =    -7 =    7 KB/s =    56 kbps
+OHHTTPStubsDownloadSpeedEDGE   =   -16 =   16 KB/s =   128 kbps
+OHHTTPStubsDownloadSpeed3G     =  -400 =  400 KB/s =  3200 kbps
+OHHTTPStubsDownloadSpeed3GPlus =  -900 =  900 KB/s =  7200 kbps
+OHHTTPStubsDownloadSpeedWifi   = -1500 = 1500 KB/s = 12000 kbps
+```
 
 Example:
 
-    return [[OHHTTPStubsResponse responseWithData:nil statusCode:400 headers:nil] responseTime:OHHTTPStubsDownloadSpeed3G];
+    return [[OHHTTPStubsResponse responseWithData:nil statusCode:400 headers:nil]
+            responseTime:OHHTTPStubsDownloadSpeed3G];
 
 
 
@@ -180,7 +184,7 @@ You can then list all the installed stubs using `[OHHTTPStubs allStubs]`, which 
 You can also setup a block to execute each time a request has been stubbed, using `onStubActivation:` method, typically to log the stub being used for each request:
 
     [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
-        NSLog(@"%@ stubbed %@", request.URL, stub.name);
+        NSLog(@"%@ stubbed by %@", request.URL, stub.name);
     }];
 
 ### OHHTTPStubs and NSURLSession
