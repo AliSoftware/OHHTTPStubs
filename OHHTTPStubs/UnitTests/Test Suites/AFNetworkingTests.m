@@ -24,10 +24,17 @@
 
 
 #import "AsyncSenTestCase.h"
-#import "AFHTTPRequestOperation.h"
-#import "AFHTTPSessionManager.h"
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse+JSON.h"
+
+#import "AFHTTPRequestOperation.h"
+
+// Note: because AFNetworking conditionally compiles AFHTTPSessionManager only when the deployment target
+// is iOS 7+, these tests will only be run when the tests are built for deployment on iOS 7+.
+// Otherwise, compilation will fail.
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
+#import "AFHTTPSessionManager.h"
+#endif
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
 
