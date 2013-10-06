@@ -38,7 +38,6 @@
 		9A59C9A117FCBC4E00890679 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */; };
 		9A59C9A317FCBC7000890679 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A217FCBC7000890679 /* CoreGraphics.framework */; };
 		9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */; };
-		9AF315AE180063E400B82720 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */; };
 		9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF315AF180069BA00B82720 /* NSURLSessionTests.m */; };
 /* End PBXBuildFile section */
 
@@ -173,12 +172,7 @@
 			children = (
 				09793597161B62C0006DB5D5 /* OHHTTPStubs.h */,
 				09793598161B62C0006DB5D5 /* OHHTTPStubs.m */,
-				09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */,
-				0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */,
-				099B95D917D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.h */,
-				099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */,
-				099B95DD17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.h */,
-				099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */,
+				09E884191801C5590068FFFF /* OHHTTPStubsResponse */,
 			);
 			name = OHHTTPStubs;
 			sourceTree = SOURCE_ROOT;
@@ -218,6 +212,19 @@
 				9AF315AF180069BA00B82720 /* NSURLSessionTests.m */,
 			);
 			path = "Test Suites";
+			sourceTree = "<group>";
+		};
+		09E884191801C5590068FFFF /* OHHTTPStubsResponse */ = {
+			isa = PBXGroup;
+			children = (
+				09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */,
+				0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */,
+				099B95D917D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.h */,
+				099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */,
+				099B95DD17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.h */,
+				099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */,
+			);
+			name = OHHTTPStubsResponse;
 			sourceTree = "<group>";
 		};
 		9A59C98517FCBC4E00890679 /* AFNetworking */ = {
@@ -344,9 +351,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */,
-				099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
-				099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */,
 				0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */,
+				099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */,
+				099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,22 +361,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A59C99E17FCBC4E00890679 /* AFURLConnectionOperation.m in Sources */,
-				9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */,
-				099B95E217D3E63D0023F9BD /* TimingTests.m in Sources */,
 				098368DC168FC7920082B1A4 /* AsyncSenTestCase.m in Sources */,
 				098368E4168FD0E50082B1A4 /* NSURLConnectionTests.m in Sources */,
-				9A59C9A017FCBC4E00890679 /* AFURLResponseSerialization.m in Sources */,
 				098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */,
-				9AF315AE180063E400B82720 /* OHHTTPStubsResponse+JSON.m in Sources */,
+				098368EC169000340082B1A4 /* WithContentsOfURLTests.m in Sources */,
+				09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */,
+				099B95E217D3E63D0023F9BD /* TimingTests.m in Sources */,
+				092DBB2917E4A4280089FC55 /* NilValuesTests.m in Sources */,
+				9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */,
+				9A59C99E17FCBC4E00890679 /* AFURLConnectionOperation.m in Sources */,
+				9A59C9A017FCBC4E00890679 /* AFURLResponseSerialization.m in Sources */,
 				9A59C99F17FCBC4E00890679 /* AFURLRequestSerialization.m in Sources */,
 				9A59C99D17FCBC4E00890679 /* AFSecurityPolicy.m in Sources */,
 				9A59C99917FCBC4E00890679 /* AFHTTPRequestOperation.m in Sources */,
 				9A59C9A117FCBC4E00890679 /* AFURLSessionManager.m in Sources */,
-				098368EC169000340082B1A4 /* WithContentsOfURLTests.m in Sources */,
-				09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */,
 				9A59C99B17FCBC4E00890679 /* AFHTTPSessionManager.m in Sources */,
-				092DBB2917E4A4280089FC55 /* NilValuesTests.m in Sources */,
 				9A59C99C17FCBC4E00890679 /* AFNetworkReachabilityManager.m in Sources */,
 				9A59C99A17FCBC4E00890679 /* AFHTTPRequestOperationManager.m in Sources */,
 			);
@@ -402,6 +408,7 @@
 				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -422,6 +429,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

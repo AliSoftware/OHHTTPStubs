@@ -21,7 +21,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs removeAllStubs];
 }
 
-- (void)testNilData
+- (void)test_NilData
 {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
@@ -44,7 +44,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [self waitForAsyncOperationWithTimeout:kResponseTimeTolerence];
 }
 
-- (void)testInvalidPath
+- (void)test_InvalidPath
 {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
