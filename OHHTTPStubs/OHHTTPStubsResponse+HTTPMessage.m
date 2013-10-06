@@ -52,30 +52,3 @@
 }
 
 @end
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Deprecated Constructors
-
-@implementation OHHTTPStubsResponse (Deprecated_HTTPMessage)
-
-+(instancetype)responseWithHTTPMessageData:(NSData*)responseData
-                              responseTime:(NSTimeInterval)responseTime
-{
-    return [[self responseWithHTTPMessageData:responseData]
-            requestTime:(responseTime<0)?0:responseTime*0.1
-            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
-+(instancetype)responseNamed:(NSString*)responseName
-                  fromBundle:(NSBundle*)bundle
-                responseTime:(NSTimeInterval)responseTime
-{
-    return [[self responseNamed:responseName
-                       inBundle:bundle]
-            requestTime:(responseTime<0)?0:responseTime*0.1
-            responseTime:(responseTime<0)?responseTime:responseTime*0.9];
-}
-
-@end

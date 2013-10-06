@@ -52,7 +52,6 @@ OHHTTPStubsDownloadSpeedWifi;
 
 @property(nonatomic, strong) NSDictionary* httpHeaders;
 @property(nonatomic, assign) int statusCode;
-@property(nonatomic, strong) NSData* responseData __attribute__((deprecated("Will be removed in next version. Use inputSteam property instead.")));
 @property(nonatomic, strong) NSInputStream* inputStream;
 @property(nonatomic, assign) unsigned long long dataSize;
 @property(nonatomic, assign) NSTimeInterval requestTime; //!< Defaults to 0.0
@@ -216,101 +215,5 @@ OHHTTPStubsDownloadSpeedWifi;
  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
 -(instancetype)initWithError:(NSError*)error;
-
-@end
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Deprecated Constructors (will be removed in 3.0)
-/*! @name Deprecated initializers */
-
-@interface OHHTTPStubsResponse (Deprecated)
-
-/*! @warning This method is deprecated
- 
- For an equivalent of the behavior of this old method, use this instead:
- <pre>
- `[[OHHTTPStubsResponse responseWithData:data statusCode:statusCode headers:httpHeaders]
-  requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
- </pre>
- 
- @param data The raw data to return in the response
- @param statusCode the HTTP Status Code to use in the response
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @param httpHeaders The HTTP Headers to return in the response
- @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
- */
-+(instancetype)responseWithData:(NSData*)data
-                     statusCode:(int)statusCode
-                   responseTime:(NSTimeInterval)responseTime
-                        headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithData:statusCode:headers: + requestTime:responseTime: instead")));
-
-/*! @warning This method is deprecated
- 
- For an equivalent of the behavior of this old method, use this instead:
- <pre>
- `[[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-                                    statusCode:statusCode headers:httpHeaders]
-   requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
- </pre>
- 
- @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
- @param statusCode the HTTP Status Code to use in the response
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @param httpHeaders The HTTP Headers to return in the response
- @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
- */
-+(instancetype)responseWithFile:(NSString*)fileName
-                     statusCode:(int)statusCode
-                   responseTime:(NSTimeInterval)responseTime
-                        headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead")));
-
-/*! @warning This method is deprecated
- 
- For an equivalent of the behavior of this old method, use this instead:
- <pre>
- `[[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName,nil)
-                                    statusCode:200 headers:@{ @"Content-Type":contentType }]
-  requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
- </pre>
- 
- @param fileName The file name and extension that contains the response body to return. The file must be in the application bundle
- @param contentType the value to use for the "Content-Type" HTTP header
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
- */
-+(instancetype)responseWithFile:(NSString*)fileName
-                    contentType:(NSString*)contentType
-                   responseTime:(NSTimeInterval)responseTime
-__attribute__((deprecated("Use responseWithFileAtPath:statusCode:headers: + requestTime:responseTime: instead")));
-
-
-/*! @warning This method is deprecated
- 
- For an equivalent of the behavior of this old method, use this instead:
- <pre>
- `[[[OHHTTPStubsResponse alloc] initWithData:data statusCode:statusCode headers:httpHeaders]
-  requestTime:responseTime*0.1 responseTime:responseTime*0.9]`
- </pre>
- 
- @param data The raw data to return in the response
- @param statusCode the HTTP Status Code to use in the response
- @param responseTime the time to wait before the response is sent (to simulate slow networks for example)
- @param httpHeaders The HTTP Headers to return in the response
- @return an `OHHTTPStubsResponse` describing the corresponding response to return by the stub
- */
--(instancetype)initWithData:(NSData*)data
-                 statusCode:(int)statusCode
-               responseTime:(NSTimeInterval)responseTime
-                    headers:(NSDictionary*)httpHeaders
-__attribute__((deprecated("Use initWithData:statusCode:headers: + requestTime:responseTime: instead")));
-
 
 @end
