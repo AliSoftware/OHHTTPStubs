@@ -20,6 +20,7 @@
     [OHHTTPStubs removeAllStubs];
 }
 
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED>=70000)
 
 - (void)_test_NSURLSession:(NSURLSession*)session
                jsonForStub:(id)json
@@ -143,5 +144,9 @@
         NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this iOS version");
     }
 }
+
+#else
+#warning NSURLSession Unit tests won't be run because NSURLSession needs the code to be compiled with iOS SDK 7.0 or later
+#endif
 
 @end
