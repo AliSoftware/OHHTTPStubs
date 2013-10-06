@@ -79,8 +79,6 @@
     // For AFNetworking, this only works if you create a session with a custom configuration.
     
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    [OHHTTPStubs setEnabled:YES forSessionConfiguration:sessionConfig];
-    
     AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
     
     static const NSTimeInterval kRequestTime = 1.0;

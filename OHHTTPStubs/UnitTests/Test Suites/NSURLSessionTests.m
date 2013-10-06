@@ -90,7 +90,6 @@
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; // Soon useless when swizzling in place
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
         
         NSDictionary* json = @{@"Success": @"Yes"};
@@ -110,7 +109,6 @@
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; // Soon useless when swizzling in place
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
         
         NSDictionary* json = @{@"Success": @"Yes"};
@@ -130,11 +128,12 @@
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        [OHHTTPStubs setEnabled:NO forSessionConfiguration:config];
+        [OHHTTPStubs setEnabled:NO forSessionConfiguration:config]; // Disable stubs for this session
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
         
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
+            // Stubs were disable for this session, so we should get an error instead of the stubs data
             STAssertNotNil(errorResponse, @"Expected error but none found");
             STAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];

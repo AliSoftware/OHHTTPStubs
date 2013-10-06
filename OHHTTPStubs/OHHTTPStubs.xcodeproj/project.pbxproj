@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0929D0B81802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0929D0B71802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m */; };
 		092DBB2917E4A4280089FC55 /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092DBB2817E4A4280089FC55 /* NilValuesTests.m */; };
 		09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09739F2B16900E81009851EF /* AFNetworkingTests.m */; };
 		0979357D161B6251006DB5D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
@@ -56,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0929D0B71802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionConfiguration+OHHTTPStubs.m"; sourceTree = "<group>"; };
 		092DBB2817E4A4280089FC55 /* NilValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NilValuesTests.m; sourceTree = "<group>"; };
 		09739F2B16900E81009851EF /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTests.m; sourceTree = "<group>"; };
 		09793579161B6251006DB5D5 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0929D0B61801FFF600D27ADC /* NSURLSession Support */ = {
+			isa = PBXGroup;
+			children = (
+				0929D0B71802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m */,
+			);
+			name = "NSURLSession Support";
+			sourceTree = "<group>";
+		};
 		0979356E161B6251006DB5D5 = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +183,7 @@
 				09793597161B62C0006DB5D5 /* OHHTTPStubs.h */,
 				09793598161B62C0006DB5D5 /* OHHTTPStubs.m */,
 				09E884191801C5590068FFFF /* OHHTTPStubsResponse */,
+				0929D0B61801FFF600D27ADC /* NSURLSession Support */,
 			);
 			name = OHHTTPStubs;
 			sourceTree = SOURCE_ROOT;
@@ -352,6 +363,7 @@
 			files = (
 				0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */,
 				0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */,
+				0929D0B81802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m in Sources */,
 				099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */,
 				099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 			);
