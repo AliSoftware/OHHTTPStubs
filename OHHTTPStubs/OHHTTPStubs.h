@@ -76,13 +76,27 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 
 /*! Enable or disable the stubs
  @param enabled if `YES`, enables the stubs. If `NO`, disable all the stubs and let all the requests hit the real world.
+ @note OHHTTPStubs are enabled by default, so there is no need to call this method with `YES` for stubs to work,
+       except if you explicitely disabled the stubs before.
+ @note This only affects requests that are further made using `NSURLConnection` or using `[NSURLSession sharedSession]`.
+       This does not affect requests sent on an `NSURLSession` created using an `NSURLSessionConfiguration`.
  */
 +(void)setEnabled:(BOOL)enabled;
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
-
+/*!
+ @param enabled If `YES`, enables the stubs for this `NSURLSessionConfiguration`.
+                If `NO`, disable the stubs and let all the requests hit the real world
+ @param sessionConfig The NSURLSessionConfiguration on which to enabled/disable the stubs
+ @note OHHTTPStubs are enabled by default on newly created `defaultSessionConfiguration` and `ephemeralSessionConfiguration`,
+         so there is no need to call this method with `YES` for stubs to work. You generally only use this if you want to
+         disable `OHTTPStubs` per `NSURLSession` by calling it before building the `NSURLSession` with the `NSURLSessionConfiguration`.
+ @note Important: As usual according to the way `NSURLSessionConfiguration` works, you must set this property
+         *before* creating the `NSURLSession`. Once the `NSURLSession` object is created, they use a deep copy of
+         the `NSURLSessionConfiguration` object used to create them, so changing the configuration later does not
+         affect already created sessions.
+ */
 + (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
-
 #endif
 
 #pragma mark - Debug Methods

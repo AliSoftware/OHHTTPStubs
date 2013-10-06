@@ -185,7 +185,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+. Use conditions like 'if ([NSURLSessionConfiguration class])' to only call this method if the user is running iOS7+.", NSStringFromSelector(_cmd));
     }
 }
-
 #endif
 
 +(NSArray*)allStubs
