@@ -31,7 +31,6 @@
 
 #import "OHHTTPStubs.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types & Constants
 
@@ -102,13 +101,19 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
 
++ (void)initialize
+{
+    if (self == [OHHTTPStubs class])
+    {
+        [self setEnabled:YES];
+    }
+}
 - (id)init
 {
     self = [super init];
     if (self)
     {
         _stubDescriptors = [NSMutableArray array];
-        [self.class setEnabled:YES];
     }
     return self;
 }
@@ -152,12 +157,35 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }
     else if (!enabled && currentEnabledState)
     {
-        // Force instanciate sharedInstance to avoid it being created later and this turning setEnabled to YES again
-        (void)OHHTTPStubs.sharedInstance; // This way if we call [setEnabled:NO] before any call to sharedInstance it will be kept disabled
         [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
     }
     currentEnabledState = enabled;
 }
+
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
++ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
+{
+    // Runtime check to make sure the API is available on this version
+    if (   [sessionConfig respondsToSelector:@selector(protocolClasses)]
+        && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
+    {
+        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
+        if (enabled)
+        {
+            [urlProtocolClasses addObject:[OHHTTPStubsProtocol class]];
+        }
+        else
+        {
+            [urlProtocolClasses removeObject:[OHHTTPStubsProtocol class]];
+        }
+        sessionConfig.protocolClasses = urlProtocolClasses;
+    }
+    else
+    {
+        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+. Use conditions like 'if ([NSURLSessionConfiguration class])' to only call this method if the user is running iOS7+.", NSStringFromSelector(_cmd));
+    }
+}
+#endif
 
 +(NSArray*)allStubs
 {
