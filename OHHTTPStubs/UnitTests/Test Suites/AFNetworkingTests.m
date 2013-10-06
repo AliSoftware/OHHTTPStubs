@@ -34,6 +34,8 @@
 // Otherwise, compilation will fail.
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000)
 #import "AFHTTPSessionManager.h"
+#else
+#warning Some Unit Tests for AFNetworking won't be run because AFNetworking needs a minimum Deployment Target of iOS7 for them
 #endif
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
