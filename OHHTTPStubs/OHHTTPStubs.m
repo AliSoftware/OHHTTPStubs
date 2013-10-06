@@ -259,41 +259,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 
 
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Deprecated Methods (will be removed in 3.0)
-/*! @name Deprecated Methods */
-
-typedef OHHTTPStubsResponse*(^OHHTTPStubsRequestHandler)(NSURLRequest* request, BOOL onlyCheck) __deprecated;
-
-@implementation OHHTTPStubs (Deprecated)
-
-+(OHHTTPStubsRequestHandlerID)addRequestHandler:(OHHTTPStubsRequestHandler)handler
-{
-    return [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:^BOOL(NSURLRequest *request)
-    {
-        return (handler(request, YES) != nil);
-    } responseBlock:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return handler(request, NO);
-    }];
-}
-
-+(BOOL)removeRequestHandler:(OHHTTPStubsRequestHandlerID)handler
-{
-    return [self removeStub:handler];
-}
-
-+(void)removeLastRequestHandler
-{
-    return [self removeLastStub];
-}
-
-+(void)removeAllRequestHandlers
-{
-    return [self removeAllStubs];
-}
-
-@end
-
 
 
 
