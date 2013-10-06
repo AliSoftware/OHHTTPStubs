@@ -38,14 +38,15 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [OHHTTPStubs removeAllStubs];
 }
 
+static const NSTimeInterval kRequestTime = 0.1;
+static const NSTimeInterval kResponseTime = 0.5;
+
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark [NSString stringWithContentsOfURL:encoding:error:]
 ///////////////////////////////////////////////////////////////////////////////////
 
 -(void)test_NSString_stringWithContentsOfURL_mainQueue
 {
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
     NSString* testString = NSStringFromSelector(_cmd);
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -73,7 +74,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         [self test_NSString_stringWithContentsOfURL_mainQueue];
         [self notifyAsyncOperationDone];
     }];
-    [self waitForAsyncOperationWithTimeout:3.0];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -82,8 +83,6 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSData_dataWithContentsOfURL_mainQueue
 {
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -109,7 +108,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         [self test_NSData_dataWithContentsOfURL_mainQueue];
         [self notifyAsyncOperationDone];
     }];
-    [self waitForAsyncOperationWithTimeout:3.0];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
 }
 
 @end

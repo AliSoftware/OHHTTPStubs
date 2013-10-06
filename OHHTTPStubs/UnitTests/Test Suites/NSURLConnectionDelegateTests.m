@@ -110,8 +110,8 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSURLConnectionDelegate_success
 {
-    static const NSTimeInterval kRequestTime = 1.0;
-    static const NSTimeInterval kResponseTime = 1.0;
+    static const NSTimeInterval kRequestTime = 0.1;
+    static const NSTimeInterval kResponseTime = 0.5;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -140,7 +140,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSURLConnectionDelegate_error
 {
-    static const NSTimeInterval kResponseTime = 1.0;
+    static const NSTimeInterval kResponseTime = 0.5;
     NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -257,7 +257,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 - (void)test_NSURLConnection_redirected
 {
     static const NSTimeInterval kRequestTime = 0.1;
-    static const NSTimeInterval kResponseTime = 1.0;
+    static const NSTimeInterval kResponseTime = 0.5;
     NSData* redirectData = [[NSString stringWithFormat:@"%@ - redirect", NSStringFromSelector(_cmd)] dataUsingEncoding:NSUTF8StringEncoding];
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     NSURL* redirectURL = [NSURL URLWithString:@"http://www.yahoo.com/"];
