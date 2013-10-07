@@ -123,7 +123,7 @@ You may also return a network error for your stub. For example, you can easily s
 
 ### Using download speed instead of responseTime
 
-When building the `OHHTTPStubsResponse` object, you can specify a response time (in seconds) so that the sending of the fake response will be postponed. This allows you to simulate a slow network for example.
+When building the `OHHTTPStubsResponse` object, you can specify a response time (in seconds) so that the sending of the fake response will be spread over time. This allows you to simulate a slow network for example. ([see "Set request and response time"](#set-request-and-response-time))
 
 If you specify a negative value for the responseTime parameter, instead of being interpreted as a time in seconds, it will be interpreted as a download speed in KBytes/s. In that case, the response time will be computed using the size of the response's data to simulate the indicated download speed.
 
@@ -166,12 +166,12 @@ This last one is useful when using `OHHTTPStubs` in your Unit Tests, to remove a
 
 ### Name your stubs and log their activation
 
-You can add a name (at your convenience) to your stubs. The only purpose of this is for debug & display in your console or anywhere else.
+You can add a name of your choice to your stubs. The only purpose of this is to easily identify your stubs for debugging, like when displaying them in your console.
 
     id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:... withStubResponse:...];
     stub.name = @"Stub for text files";
    
-You can even imagine appling the `.name = ...` affectation directly if you don't intend to use the `id<OHHTTPStubsDescriptor>` in a variable:
+You can even imagine appling the `.name = ...` affectation directly if you don't need to use the returned `id<OHHTTPStubsDescriptor>` otherwise:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
        ...
