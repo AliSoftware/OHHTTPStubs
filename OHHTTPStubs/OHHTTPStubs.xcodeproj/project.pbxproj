@@ -66,8 +66,6 @@
 		09793598161B62C0006DB5D5 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
 		09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
-		09804E5116A8D98900ADC660 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		09804E5216A8D98900ADC660 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		098368CE168FC7920082B1A4 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		098368CF168FC7920082B1A4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		098368D6168FC7920082B1A4 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
@@ -147,8 +145,6 @@
 		0979356E161B6251006DB5D5 = {
 			isa = PBXGroup;
 			children = (
-				09804E5216A8D98900ADC660 /* README.md */,
-				09804E5116A8D98900ADC660 /* LICENSE */,
 				0979357E161B6251006DB5D5 /* OHHTTPStubs */,
 				098368D4168FC7920082B1A4 /* UnitTests */,
 				0979357B161B6251006DB5D5 /* Frameworks */,
