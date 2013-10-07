@@ -171,7 +171,7 @@ You can add a name of your choice to your stubs. The only purpose of this is to 
     id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:... withStubResponse:...];
     stub.name = @"Stub for text files";
    
-You can even imagine appling the `.name = ...` affectation directly if you don't need to use the returned `id<OHHTTPStubsDescriptor>` otherwise:
+You can even imagine applying the `.name = ...` affectation directly if you don't need to use the returned `id<OHHTTPStubsDescriptor>` otherwise:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
        ...
