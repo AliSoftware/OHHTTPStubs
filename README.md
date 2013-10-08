@@ -78,7 +78,7 @@ With the code below, only requests to the `mywebservice.com` host will be stubbe
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         // Stub it with our "wsresponse.json" stub file
         return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"wsresponse.json",nil)
-                statusCode:200 headers:@{"Content-Type":@"text/json"}];
+                statusCode:200 headers:@{@"Content-Type":@"text/json"}];
     }];
 
 This example also demonstrate how to **easily return the content of a given file in your application bundle**.
