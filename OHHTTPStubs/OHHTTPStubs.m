@@ -152,35 +152,36 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 #pragma mark > Disabling & Re-Enabling stubs
 
-+(void)setEnabled:(BOOL)enabled
++(void)setEnabled:(BOOL)enable
 {
     static BOOL currentEnabledState = NO;
-    if (enabled && !currentEnabledState)
+    if (enable && !currentEnabledState)
     {
         [NSURLProtocol registerClass:OHHTTPStubsProtocol.class];
     }
-    else if (!enabled && currentEnabledState)
+    else if (!enable && currentEnabledState)
     {
         [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
     }
-    currentEnabledState = enabled;
+    currentEnabledState = enable;
 }
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
-+ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
++ (void)setEnabled:(BOOL)enable forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
 {
     // Runtime check to make sure the API is available on this version
     if (   [sessionConfig respondsToSelector:@selector(protocolClasses)]
         && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
     {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
-        if (enabled)
+        Class protoCls = OHHTTPStubsProtocol.class;
+        if (enable && ![urlProtocolClasses containsObject:protoCls])
         {
-            [urlProtocolClasses addObject:[OHHTTPStubsProtocol class]];
+            [urlProtocolClasses addObject:protoCls];
         }
-        else
+        else if (!enable  && [urlProtocolClasses containsObject:protoCls])
         {
-            [urlProtocolClasses removeObject:[OHHTTPStubsProtocol class]];
+            [urlProtocolClasses removeObject:protoCls];
         }
         sessionConfig.protocolClasses = urlProtocolClasses;
     }
