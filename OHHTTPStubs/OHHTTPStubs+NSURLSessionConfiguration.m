@@ -13,24 +13,22 @@
 #import <objc/runtime.h>
 #import "OHHTTPStubs.h"
 
-@interface NSURLSessionConfiguration (OHHTTPStubs) @end
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*! This category automatically swizzle the defaultSessionConfiguration & ephemeralSessionConfiguration
-    to add the private OHHTTPStubsProtocol to the list of supported protocols by default
- 
- @note Custom NSURLProtocol subclasses are not available in background sessions.
-       This is why the swizzling is not done on the `backgroundSessionConfiguration` constructor.
-*/
-@implementation NSURLSessionConfiguration (OHHTTPStubs)
+/*! This helper is used to swizzle NSURLSessionConfiguration constructor methods
+    defaultSessionConfiguration and ephemeralSessionConfiguration to insert the private
+    OHHTTPStubsProtocol into their protocolClasses array so that OHHTTPStubs is automagically
+    supported when you create a new NSURLSession based on one of there configurations.
+ */
 
 typedef NSURLSessionConfiguration*(*SessionConfigConstructor)(id,SEL);
 static SessionConfigConstructor orig_defaultSessionConfiguration;
 static SessionConfigConstructor orig_ephemeralSessionConfiguration;
 
-static SessionConfigConstructor OHHTTPStubsSwizzle(Class cls, SEL selector, SessionConfigConstructor newImpl)
+static SessionConfigConstructor OHHTTPStubsSwizzle(SEL selector, SessionConfigConstructor newImpl)
 {
+    Class cls = NSURLSessionConfiguration.class;
     Class metaClass = object_getClass(cls);
     
     Method origMethod = class_getClassMethod(cls, selector);
@@ -42,40 +40,37 @@ static SessionConfigConstructor OHHTTPStubsSwizzle(Class cls, SEL selector, Sess
     return origImpl;
 }
 
-static void OHTTPStubsAddProtocolClassToConfig(NSURLSessionConfiguration* config)
+static void OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(NSURLSessionConfiguration* config)
 {
     NSMutableArray* protocolClasses = [NSMutableArray arrayWithArray:config.protocolClasses];
     // objc_getClass loads the class in the ObjC Runtime if not loaded at that time, so it's secure.
     Class protocolClass = objc_getClass("OHHTTPStubsProtocol");
-    [protocolClasses addObject:protocolClass];
+    if (![protocolClasses containsObject:protocolClass])
+        [protocolClasses addObject:protocolClass];
     config.protocolClasses = protocolClasses;
 }
 
 static NSURLSessionConfiguration* defaultSessionConfigurationWithOHHTTPStubs(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_defaultSessionConfiguration(self,_cmd); // call original method
-    OHTTPStubsAddProtocolClassToConfig(config);
+    OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
 static NSURLSessionConfiguration* ephemeralSessionConfigurationWithOHHTTPStubs(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_ephemeralSessionConfiguration(self,_cmd); // call original method
-    OHTTPStubsAddProtocolClassToConfig(config);
+    OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
-+ (void)load
+void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
 {
-    orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(self,
-                                                          @selector(defaultSessionConfiguration),
+    orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(@selector(defaultSessionConfiguration),
                                                           defaultSessionConfigurationWithOHHTTPStubs);
-    orig_ephemeralSessionConfiguration = OHHTTPStubsSwizzle(self,
-                                                            @selector(ephemeralSessionConfiguration),
+    orig_ephemeralSessionConfiguration = OHHTTPStubsSwizzle(@selector(ephemeralSessionConfiguration),
                                                             ephemeralSessionConfigurationWithOHHTTPStubs);
 }
 
-
-@end
 
 #endif
