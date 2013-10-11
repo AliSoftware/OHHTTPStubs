@@ -101,11 +101,14 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
 
+extern void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
+
 + (void)initialize
 {
     if (self == [OHHTTPStubs class])
     {
         [self setEnabled:YES];
+        _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
     }
 }
 - (id)init

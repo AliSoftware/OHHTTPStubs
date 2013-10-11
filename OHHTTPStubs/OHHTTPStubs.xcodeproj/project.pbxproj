@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0929D0B81802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0929D0B71802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m */; };
 		092DBB2917E4A4280089FC55 /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092DBB2817E4A4280089FC55 /* NilValuesTests.m */; };
 		09739F2C16900E81009851EF /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09739F2B16900E81009851EF /* AFNetworkingTests.m */; };
 		0979357D161B6251006DB5D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0979357C161B6251006DB5D5 /* Foundation.framework */; };
@@ -28,6 +27,7 @@
 		099B95E217D3E63D0023F9BD /* TimingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95E117D3E63D0023F9BD /* TimingTests.m */; };
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
 		09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF7C817DFF68100B096F3 /* Security.framework */; };
+		09D888241808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
 		9A59C99917FCBC4E00890679 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */; };
 		9A59C99A17FCBC4E00890679 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98917FCBC4E00890679 /* AFHTTPRequestOperationManager.m */; };
 		9A59C99B17FCBC4E00890679 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98B17FCBC4E00890679 /* AFHTTPSessionManager.m */; };
@@ -57,7 +57,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0929D0B71802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionConfiguration+OHHTTPStubs.m"; sourceTree = "<group>"; };
 		092DBB2817E4A4280089FC55 /* NilValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NilValuesTests.m; sourceTree = "<group>"; };
 		09739F2B16900E81009851EF /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTests.m; sourceTree = "<group>"; };
 		09793579161B6251006DB5D5 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +82,7 @@
 		099B95E117D3E63D0023F9BD /* TimingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimingTests.m; sourceTree = "<group>"; };
 		099C735616903B9800239880 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		09BEF7C817DFF68100B096F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		9A59C98617FCBC4E00890679 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		9A59C98817FCBC4E00890679 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -137,7 +137,7 @@
 		0929D0B61801FFF600D27ADC /* NSURLSession Support */ = {
 			isa = PBXGroup;
 			children = (
-				0929D0B71802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m */,
+				09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */,
 			);
 			name = "NSURLSession Support";
 			sourceTree = "<group>";
@@ -359,7 +359,7 @@
 			files = (
 				0979359B161B62C0006DB5D5 /* OHHTTPStubs.m in Sources */,
 				0979359C161B62C0006DB5D5 /* OHHTTPStubsResponse.m in Sources */,
-				0929D0B81802000900D27ADC /* NSURLSessionConfiguration+OHHTTPStubs.m in Sources */,
+				09D888241808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */,
 				099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 			);
