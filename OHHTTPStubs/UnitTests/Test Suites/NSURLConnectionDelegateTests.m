@@ -158,7 +158,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
     
-    STAssertEquals(_data.length, 0U, @"Received unexpected network data %@", _data);
+    STAssertEquals(_data.length, (NSUInteger)0, @"Received unexpected network data %@", _data);
     STAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
     STAssertEquals(_error.code, expectedError.code, @"Invalid error response code");
     STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
@@ -190,7 +190,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [cxn cancel];
     [self waitForTimeout:1.5];
     
-    STAssertEquals(_data.length, 0U, @"Received unexpected data but the request should have been cancelled");
+    STAssertEquals(_data.length, (NSUInteger)0, @"Received unexpected data but the request should have been cancelled");
     STAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
@@ -303,7 +303,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [self waitForAsyncOperationWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeTolerence)];
     
     STAssertEqualObjects(_redirectRequestURL, endURL, @"Invalid redirect request URL");
-    STAssertEquals(_redirectResponseStatusCode, 311, @"Invalid redirect response status code");
+    STAssertEquals(_redirectResponseStatusCode, (NSInteger)311, @"Invalid redirect response status code");
     STAssertEqualObjects(_data, testData, @"Invalid data response");
     STAssertNil(_error, @"Received unexpected network error %@", _error);
     STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, 2 * kResponseTimeTolerence, @"Invalid response time");
