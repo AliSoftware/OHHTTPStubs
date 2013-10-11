@@ -146,7 +146,7 @@
 }
 
 #else
-#warning NSURLSession Unit tests won't be run because NSURLSession needs the code to be compiled with iOS SDK 7.0 or later
+#warning Unit Tests using NSURLSession won't be run because they need Xcode5 / SDK 7.0+. Please upgrade your Xcode version.
 #endif
 
 @end
