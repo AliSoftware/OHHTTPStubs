@@ -29,14 +29,8 @@
 
 #import "AFHTTPRequestOperation.h"
 
-// Note: Only __IPHONE_OS_VERSION_MAX_ALLOWED should matter here, but because AFNetworking conditionally
-// compiles AFHTTPSessionManager only when the Deployment Target is iOS 7+, this import should only be done
-// when building for deployment on iOS 7+. Otherwise, compilation will fail. @mattt please fix this.
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
-    && defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
-#import "AFHTTPSessionManager.h"
-#else
-#warning Some Unit Tests for AFNetworking won't be run because AFNetworking needs a minimum Deployment Target of iOS7 for them
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+  #import "AFHTTPSessionManager.h"
 #endif
 
 @interface AFNetworkingTests : AsyncSenTestCase @end
@@ -78,14 +72,18 @@
     
     STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
+@end
 
-// Note: because AFNetworking conditionally compiles AFHTTPSessionManager only when the deployment target
-// is iOS 7+, these tests will only be run when the tests are built for deployment on iOS 7+.
-// Otherwise, compilation will fail.
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
-    && defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
 
-- (void)test_AFHTTPURLSSessionCustom
+
+#pragma mark - NSURLSession / AFHTTPURLSession support
+
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+
+@interface AFNetworkingTests (NSURLSession) @end
+@implementation AFNetworkingTests (NSURLSession)
+
+- (void)test_AFHTTPURLSessionCustom
 {
     // For AFNetworking, this only works if you create a session with a custom configuration.
     
@@ -119,6 +117,9 @@
     
     STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
 }
+
+#else
+#warning Unit Tests using AFHTTPSessionManager won't be run because they need Xcode5 / SDK 7.0+. Please upgrade your Xcode version.
 #endif
 
 @end
