@@ -182,6 +182,7 @@
 				0929D0B61801FFF600D27ADC /* NSURLSession Support */,
 			);
 			name = OHHTTPStubs;
+			path = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
 		098368D4168FC7920082B1A4 /* UnitTests */ = {
@@ -416,7 +417,6 @@
 				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -437,7 +437,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = "include/$(PROJECT_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

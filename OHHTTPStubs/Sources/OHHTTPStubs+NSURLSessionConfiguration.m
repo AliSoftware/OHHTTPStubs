@@ -64,6 +64,8 @@ static NSURLSessionConfiguration* ephemeralSessionConfigurationWithOHHTTPStubs(i
     return config;
 }
 
+extern void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
+
 void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
 {
     orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(@selector(defaultSessionConfiguration),

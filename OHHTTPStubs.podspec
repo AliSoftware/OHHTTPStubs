@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "3.0.0"
+  s.version      = "3.0.1"
 
   s.summary      = "Stubbing framework for network requests."
   s.description  = <<-DESC
@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/AliSoftware/OHHTTPStubs.git", :tag => s.version.to_s }
 
-  s.source_files = "OHHTTPStubs/*.{h,m}"
-  s.public_header_files = "OHHTTPStubs/*.h"
+  s.source_files = "OHHTTPStubs/Sources/*.{h,m}"
+  s.public_header_files = "OHHTTPStubs/Sources/*.h"
 
   s.frameworks = 'Foundation', 'CFNetwork'
 
