@@ -20,7 +20,8 @@
     [OHHTTPStubs removeAllStubs];
 }
 
-#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED>=70000)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
 - (void)_test_NSURLSession:(NSURLSession*)session
                jsonForStub:(id)json
@@ -146,7 +147,7 @@
 }
 
 #else
-#warning Unit Tests using NSURLSession won't be run because they need Xcode5 / SDK 7.0+. Please upgrade your Xcode version.
+#warning Unit Tests using NSURLSession won't be run because they need Xcode5 and iOS7/OSX10.9 SDK. Please upgrade.
 #endif
 
 @end

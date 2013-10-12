@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
 #import <objc/runtime.h>
 #import "OHHTTPStubs.h"
@@ -64,8 +65,6 @@ static NSURLSessionConfiguration* ephemeralSessionConfigurationWithOHHTTPStubs(i
     return config;
 }
 
-extern void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
-
 void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
 {
     orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(@selector(defaultSessionConfiguration),
@@ -74,5 +73,9 @@ void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
                                                             ephemeralSessionConfigurationWithOHHTTPStubs);
 }
 
-
+#else
+inline void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
+{
+    /* NO-OP for Xcode4 and pre-iOS7/pre-OSX9 SDKs that does not support NSURLSessionConfiguration */
+}
 #endif
