@@ -74,7 +74,7 @@ void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
 }
 
 #else
-inline void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
+void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
 {
     /* NO-OP for Xcode4 and pre-iOS7/pre-OSX9 SDKs that does not support NSURLSessionConfiguration */
 }
