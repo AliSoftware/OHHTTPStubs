@@ -29,10 +29,6 @@
 
 #import "AFHTTPRequestOperation.h"
 
-#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
-  #import "AFHTTPSessionManager.h"
-#endif
-
 @interface AFNetworkingTests : AsyncSenTestCase @end
 
 @implementation AFNetworkingTests
@@ -78,7 +74,10 @@
 
 #pragma mark - NSURLSession / AFHTTPURLSession support
 
-#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
+
+#import "AFHTTPSessionManager.h"
 
 @interface AFNetworkingTests (NSURLSession) @end
 @implementation AFNetworkingTests (NSURLSession)
@@ -121,5 +120,5 @@
 @end
 
 #else
-#warning Unit Tests using AFHTTPSessionManager won't be run because they need Xcode5 / SDK 7.0+. Please upgrade your Xcode version.
+#warning Unit Tests using AFHTTPSessionManager won't be run because they need Xcode5 and iOS7/OSX10.9 SDK. Please upgrade.
 #endif
