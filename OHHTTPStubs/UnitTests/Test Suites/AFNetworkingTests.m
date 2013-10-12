@@ -118,8 +118,8 @@
     STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
 }
 
+@end
+
 #else
 #warning Unit Tests using AFHTTPSessionManager won't be run because they need Xcode5 / SDK 7.0+. Please upgrade your Xcode version.
 #endif
-
-@end
