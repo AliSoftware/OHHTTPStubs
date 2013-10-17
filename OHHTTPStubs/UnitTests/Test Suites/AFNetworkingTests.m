@@ -74,8 +74,8 @@
 
 #pragma mark - NSURLSession / AFHTTPURLSession support
 
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
- || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
 
 #import "AFHTTPSessionManager.h"
 
@@ -84,11 +84,6 @@
 
 - (void)test_AFHTTPURLSessionCustom
 {
-    // For AFNetworking, this only works if you create a session with a custom configuration.
-    
-    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
-    
     static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 0.2;
     NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
@@ -100,6 +95,9 @@
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
+
     __block __strong id response = nil;
     [sessionManager GET:@"http://localhost:3333"
              parameters:nil
@@ -120,5 +118,6 @@
 @end
 
 #else
-#warning Unit Tests using AFHTTPSessionManager won't be run because they need Xcode5 and iOS7/OSX10.9 SDK. Please upgrade.
+#warning Unit Tests using AFHTTPSessionManager won't be run because NSURLSession is only available on iOS7/OSX10.9 minimum. \
+-------- Launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
 #endif
