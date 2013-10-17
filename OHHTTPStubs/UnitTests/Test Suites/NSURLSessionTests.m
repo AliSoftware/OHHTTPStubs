@@ -20,8 +20,8 @@
     [OHHTTPStubs removeAllStubs];
 }
 
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
- || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
 
 - (void)_test_NSURLSession:(NSURLSession*)session
                jsonForStub:(id)json
@@ -68,7 +68,9 @@
     }
 }
 
-// Normal stubbing should work fine for the shared session
+// The shared session use the same mechanism as NSURLConnection
+// (based on protocols registered via +[NSURLProtocol registerClass:] and all)
+// and no NSURLSessionConfiguration
 - (void)test_SharedNSURLSession
 {
     if ([NSURLSession class])
@@ -147,7 +149,8 @@
 }
 
 #else
-#warning Unit Tests using NSURLSession won't be run because they need Xcode5 and iOS7/OSX10.9 SDK. Please upgrade.
+#warning Unit Tests using NSURLSession won't be run because NSURLSession is only available on iOS7/OSX10.9 minimum. \
+-------- Launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
 #endif
 
 @end
