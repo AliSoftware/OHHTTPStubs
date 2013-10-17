@@ -328,10 +328,13 @@ extern void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
                                                                    headerFields:responseStub.httpHeaders];
         
         // Cookies handling
-        if (request.HTTPShouldHandleCookies)
+        if (request.HTTPShouldHandleCookies && request.URL)
         {
             NSArray* cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:responseStub.httpHeaders forURL:request.URL];
-            [NSHTTPCookieStorage.sharedHTTPCookieStorage setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
+            if (cookies)
+            {
+                [NSHTTPCookieStorage.sharedHTTPCookieStorage setCookies:cookies forURL:request.URL mainDocumentURL:request.mainDocumentURL];
+            }
         }
         
         
