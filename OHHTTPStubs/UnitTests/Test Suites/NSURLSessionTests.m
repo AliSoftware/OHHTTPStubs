@@ -93,7 +93,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSession class is not available on this OS version");
+        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
     }
 }
 
@@ -112,7 +112,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
+        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
     }
 }
 
@@ -131,7 +131,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
+        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
     }
 }
 
@@ -152,28 +152,35 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
+        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
     }
 }
 
 - (void)test_NSURLSession_DataTask_DelegateMethods
 {
-    NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.scheme isEqualToString:@"stub"];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
-                responseTime:0.5];
-    }];
-    
-    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-    
-    [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
-    
-    [self waitForAsyncOperationWithTimeout:5];
-
-    STAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            return [request.URL.scheme isEqualToString:@"stub"];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+                    responseTime:0.5];
+        }];
+        
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        
+        [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
+        
+        [self waitForAsyncOperationWithTimeout:5];
+        
+        STAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+    }
+    else
+    {
+        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+    }
 }
 
 //---------------------------------------------------------------
@@ -196,6 +203,6 @@
 @end
 
 #else
-#warning Unit Tests using NSURLSession won't be run because NSURLSession is only available on iOS7/OSX10.9 minimum. \
+#warning Unit Tests using NSURLSession were not compiled nor executed, because NSURLSession is only available since iOS7/OSX10.9 SDK. \
 -------- Compile using iOS7 or OSX10.9 SDK then launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
 #endif
