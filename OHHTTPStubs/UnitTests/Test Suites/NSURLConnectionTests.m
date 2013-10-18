@@ -148,11 +148,11 @@ static const NSTimeInterval kResponseTime = 0.5;
     {
         NSString* urlString = [NSString stringWithFormat:@"http://dummyrequest/concurrent/time/%f",responseTime];
         NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-        [SenTestLog testLogWithFormat:@"== Sending request %@\n", req];
+//        [SenTestLog testLogWithFormat:@"== Sending request %@\n", req];
         NSDate* startDate = [NSDate date];
         [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
          {
-             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
+//             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
              STAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
              STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, kResponseTimeTolerence, @"Invalid response time");
              
