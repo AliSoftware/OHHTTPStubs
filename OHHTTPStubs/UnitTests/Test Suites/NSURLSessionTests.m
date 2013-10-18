@@ -6,22 +6,26 @@
 //  Copyright (c) 2013 AliSoftware. All rights reserved.
 //
 
+#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
+|| (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+
 #import "AsyncSenTestCase.h"
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse+JSON.h"
 
-@interface NSURLSessionTests : AsyncSenTestCase @end
+@interface NSURLSessionTests : AsyncSenTestCase <NSURLSessionDataDelegate> @end
 
 @implementation NSURLSessionTests
+{
+    NSMutableData* _receivedData;
+}
 
 - (void)setUp
 {
     [super setUp];
     [OHHTTPStubs removeAllStubs];
+    _receivedData = nil;
 }
-
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
- || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
 
 - (void)_test_NSURLSession:(NSURLSession*)session
                jsonForStub:(id)json
@@ -41,7 +45,7 @@
         
         __block __strong id dataResponse = nil;
         __block __strong NSError* errorResponse = nil;
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://unknownhost:666"]];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -148,9 +152,46 @@
     }
 }
 
+- (void)test_NSURLSession_DataTask_DelegateMethods
+{
+    NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.scheme isEqualToString:@"stub"];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+                responseTime:0.5];
+    }];
+    
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
+    
+    [self waitForAsyncOperationWithTimeout:5];
+
+    STAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+}
+
+//---------------------------------------------------------------
+#pragma mark - Delegate Methods
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    _receivedData = [NSMutableData new];
+    completionHandler(NSURLSessionResponseAllow);
+}
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+{
+    [_receivedData appendData:data];
+}
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    [self notifyAsyncOperationDone];
+}
+
+@end
+
 #else
 #warning Unit Tests using NSURLSession won't be run because NSURLSession is only available on iOS7/OSX10.9 minimum. \
 -------- Launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
 #endif
-
-@end
