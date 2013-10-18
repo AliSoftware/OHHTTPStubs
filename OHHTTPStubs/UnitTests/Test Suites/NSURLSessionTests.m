@@ -6,8 +6,12 @@
 //  Copyright (c) 2013 AliSoftware. All rights reserved.
 //
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
-|| (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+
+
+// Compile this only if SDK version (…MAX_ALLOWED) is iOS7+/10.9+ because NSURLSession is a class only known starting these SDKs
+// (this code won't compile if we use an eariler SDKs, like when building with Xcode4)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
 #import "AsyncSenTestCase.h"
 #import "OHHTTPStubs.h"
@@ -89,7 +93,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSession class is not available on this iOS version");
+        NSLog(@"Test skipped because the NSURLSession class is not available on this OS version");
     }
 }
 
@@ -108,7 +112,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this iOS version");
+        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
     }
 }
 
@@ -127,7 +131,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this iOS version");
+        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
     }
 }
 
@@ -148,7 +152,7 @@
     }
     else
     {
-        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this iOS version");
+        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
     }
 }
 
@@ -193,5 +197,5 @@
 
 #else
 #warning Unit Tests using NSURLSession won't be run because NSURLSession is only available on iOS7/OSX10.9 minimum. \
--------- Launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
+-------- Compile using iOS7 or OSX10.9 SDK then launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
 #endif

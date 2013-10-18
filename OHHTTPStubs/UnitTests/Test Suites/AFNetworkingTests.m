@@ -74,8 +74,10 @@
 
 #pragma mark - NSURLSession / AFHTTPURLSession support
 
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) \
- || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+// Compile this only if SDK version (…MAX_ALLOWED) is iOS7+/10.9+ because NSURLSession is a class only known starting these SDKs
+// (this code won't compile if we use an eariler SDKs, like when building with Xcode4)
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
+ || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
 #import "AFHTTPSessionManager.h"
 
@@ -84,40 +86,47 @@
 
 - (void)test_AFHTTPURLSessionCustom
 {
-    static const NSTimeInterval kRequestTime = 0.1;
-    static const NSTimeInterval kResponseTime = 0.2;
-    NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
-    
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
-                requestTime:kRequestTime responseTime:kResponseTime];
-    }];
-    
-    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
-
-    __block __strong id response = nil;
-    [sessionManager GET:@"http://localhost:3333"
-             parameters:nil
-                success:^(NSURLSessionDataTask *task, id responseObject) {
-                    response = responseObject; // keep strong reference
-                    [self notifyAsyncOperationDone];
-                }
-                failure:^(NSURLSessionDataTask *task, NSError *error) {
-                    STFail(@"Unexpected network failure");
-                    [self notifyAsyncOperationDone];
-                }];
-    
-    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
-    
-    STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
+    if ([NSURLSession class] && [NSURLSessionConfiguration class])
+    {
+        static const NSTimeInterval kRequestTime = 0.1;
+        static const NSTimeInterval kResponseTime = 0.2;
+        NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
+        
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            return YES;
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
+                    requestTime:kRequestTime responseTime:kResponseTime];
+        }];
+        
+        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
+        
+        __block __strong id response = nil;
+        [sessionManager GET:@"http://localhost:3333"
+                 parameters:nil
+                    success:^(NSURLSessionDataTask *task, id responseObject) {
+                        response = responseObject; // keep strong reference
+                        [self notifyAsyncOperationDone];
+                    }
+                    failure:^(NSURLSessionDataTask *task, NSError *error) {
+                        STFail(@"Unexpected network failure");
+                        [self notifyAsyncOperationDone];
+                    }];
+        
+        [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
+        
+        STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
+    }
+    else
+    {
+        NSLog(@"Test skipped because the NSURLSessionConfiguration & NSURLSession classes are not available on this OS version");
+    }
 }
 
 @end
 
 #else
 #warning Unit Tests using AFHTTPSessionManager won't be run because NSURLSession is only available on iOS7/OSX10.9 minimum. \
--------- Launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
+-------- Compile using iOS7 or OSX10.9 SDK then launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
 #endif
