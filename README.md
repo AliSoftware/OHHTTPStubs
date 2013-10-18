@@ -4,7 +4,7 @@ OHHTTPStubs
 A class to stub network requests easily: test your apps with **fake network data** (stubbed from file) and **custom response times**.
 
 `OHHTTPStubs` is very useful to write **Unit Tests** and return fake network data from your fixtures, or to **simulate slow networks** in order to check your application behavior in bad network conditions.
-It works with `NSURLConnection`, `AFNetworking`, or any networking framework you chose to use.
+It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking` (both 1.x and 2.x), or any networking framework that use Cocoa's URL Loading System.
 
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.png?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
 
@@ -34,19 +34,19 @@ It works with `NSURLConnection`, `AFNetworking`, or any networking framework you
 
 Using `OHHTTPStubs` is as simple as calling `stubRequestsPassingTest:withStubResponse:` to tell which requests you want to stub and what data you want to respond with.
 
-For every request sent to the network, whatever the framework used (`NSURLConnection`,
+For every request sent to the network, whatever the framework used (`NSURLConnection`/`NSURLSession`,
 [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/), …):
 
 * The block passed as first argument of `stubRequestsPassingTest:withStubResponse:` will be called to check if we need to stub this request.
 * If the return value of this block is YES, the block passed as second argument will be called to let you return an `OHHTTPStubsResponse` object, describing the fake response to return.
 
-_(In practice, it uses the URL Loading System of Cocoa and a custom `NSURLProtocol` to intercept the requests and stub them)_
+_(Note: behind the scenes, it uses a custom `NSURLProtocol` to intercept the requests and stub them)_
 
 
 ## Documentation
 
 `OHHTTPStubs` headers are fully documented using Appledoc-like / Headerdoc-like comments in the header files.
-When you [install it using CocoaPods](#installing-in-your-projects), you will get a docset for free installed in your Xcode Organizer.
+When you [**install it using CocoaPods**](#installing-in-your-projects), you will get **a docset for free installed in your Xcode Organizer**.
 
 Don't hesitate to take a look into `OHHTTPStubsResponse.h`, `OHHTTPStubsResponse+JSON.h` and `OHHTTPStubsResponse.HTTPMessage.h` to see all the commodity constructors, constants and macros available.
 
@@ -65,7 +65,8 @@ With the code below, every network request (because you returned YES in the firs
         NSData* stubData = [@"Hello World!" dataUsingEncoding:NSUTF8StringEncoding];
         return [OHHTTPStubsResponse responseWithData:stubData statusCode:200 headers:nil];
     }];
-     
+
+_Note that in practice, it is not recommended to directly `return YES` in the first block: you should explicitly use a computed condition (like the example below) to be sure to only stub the requests you intend to (only stub your own requests and avoid to mistakenly stub any other network requests like ones that could be done by third-party SDKs or library you use in your project)_
 
 ### Stub only requests to your WebService
 
@@ -88,10 +89,10 @@ This is useful if you have all your fixtures (stubbed responses for your Unit Te
 
 ### Set request and response time
 
-You can simulate a slow network by setting the `requestTime` and `responseTime` of your `OHHTTPStubsResponse`.
-_This is useful to check that your user interface does not freeze and that you have all your activity indicators working while waiting for responses in bad network conditions._
+You can simulate a slow network by setting the `requestTime` and/or `responseTime` properties of your `OHHTTPStubsResponse`.
+_This is useful to check that your user interface does not freeze when you have bad network conditions, and that you have all your activity indicators working while waiting for responses._
 
-You may use the commoidty chainable setters  `responseTime:` and `requestTime:responseTime:` to set those values and easily chain method calls:
+You may use the commodity chainable setters `responseTime:` and `requestTime:responseTime:` to set those values and easily chain method calls:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [request.URL.host isEqualToString:@"mywebservice.com"];
@@ -102,9 +103,9 @@ You may use the commoidty chainable setters  `responseTime:` and `requestTime:re
 
 `OHHTTPStubs` will wait `requestTime` before sending the `NSHTTPURLResponse`, and then start sending chunks of the stub data regularly during the period of `responseTime`, to simulate the slow network.
 
-At the end, you will only have the full content of your stub data after `requestTime+responseTime`, time after which the `completion` block or `connectionDidFinishLoading:` delegate method will be called.
+At the end, you will only have the full content of your stub data after `requestTime+responseTime` (time after which the `completion` block or `connectionDidFinishLoading:` delegate method will be called).
 
-> You can specify a **network speed** instead of a `responseTime` by using a negative value. [See below](#using-download-speed-instead-of-responsetime).
+> Note: You can specify a **network speed** instead of a `responseTime` by using a negative value. [See below](#using-download-speed-instead-of-responsetime).
 
 ### Simulate a down network
 
@@ -161,17 +162,18 @@ This last one is useful when using `OHHTTPStubs` in your Unit Tests, to remove a
 
     - (void)tearDown
     {
+        [super tearDown];
         [OHHTTPStubs removeAllStubs];
     }
 
 ### Name your stubs and log their activation
 
-You can add a name of your choice to your stubs. The only purpose of this is to easily identify your stubs for debugging, like when displaying them in your console.
+You can add a name of your choice to your stubs. The only purpose of this is to easily identify your stubs for debugging, like when displaying them in the console.
 
     id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:... withStubResponse:...];
     stub.name = @"Stub for text files";
    
-You can even imagine applying the `.name = ...` affectation directly if you don't need to use the returned `id<OHHTTPStubsDescriptor>` otherwise:
+You can even imagine applying the `.name = ...` affectation directly (if you don't need to use the returned `id<OHHTTPStubsDescriptor>` otherwise), for a more concise syntax:
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
        ...
@@ -189,45 +191,48 @@ You can also setup a block to execute each time a request has been stubbed, usin
 
 ### OHHTTPStubs and NSURLSession
 
-`OHHTTPStubs` use a custom private `NSURLProtocol` to intercept its requests.
+`OHHTTPSutbs` also works with iOS7's and OSX 10.9's `NSURLSession` mechanism.
 
-`OHHTTPStubs` is automatically enabled by default, both for:
+In general, `OHHTTPStubs` is automatically enabled by default, both for:
 
-* requests made using `NSURLConnection` or `[NSURLSession sharedSession]` _(that are based on `[NSURLProtocol registerProtocol:]` to look for custom protocols for every requests)_, because this protocol is installed as soon as you use the `OHHTTPStubs` class _(installed in the `+initialize` method)_
-* requests made using a `NSURLSession` created with a `NSURLSessionConfiguration` and `[NSURLSession sessionWithConfiguration:]` _(thanks to method swizzling that insert the private protocol used by `OHHTTPStubs` into the `protocolClasses` of `[NSURLSessionConfiguration defaultSessionConfiguration]` and `[NSURLSessionConfiguration ephemeralSessionConfiguration]` automagically)_
+* requests made using `NSURLConnection` or `[NSURLSession sharedSession]`;
+* requests made using a `NSURLSession` created using a `[NSURLSessionConfiguration defaultSessionConfiguration]` or `[NSURLSessionConfiguration ephemeralSessionConfiguration]` configuration (using `[NSURLSession sessionWithConfiguration:…]`-like methods).
 
-> Note however that `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols`. There's nothing we can do about it, sorry.
+> As all this automatic installation of `OHHTTPStubs` (registration of `OHHTTPStubs`'s private `NSURLProtocol` using `+[NSURLProtocol registerClass:]` + method swizzling to insert the same `NSURLProtocol` in the `NSURLSessionConfiguration` returned by the default constructors) is done in `+[OHHTTPStubs initialize]`, the `OHHTTPStubs` class must have been used at least once before creating your first `NSURLSessionConfiguration` or starting your first request
+
+_Note that `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols`. (There's nothing we can do about it — sorry)_
 
 If you need to disable (and re-enable) `OHHTTPStubs` globally or per session, you can use:
 
 * `[OHHTTPStubs setEnabled:]` for `NSURLConnection`/`[NSURLSession sharedSession]`-based requests
 * `[OHHTTPStubs setEnabled:forSessionConfiguration:]` for requests sent on a session created using `[NSURLSession sessionWithConfiguration:...]`
 
-_There is generally no need to explicitly call `setEnabled:` or `setEnabled:forSessionConfiguration:` using `YES` as this is the default._
+_In practice, there is no need to ever explicitly call `setEnabled:` or `setEnabled:forSessionConfiguration:` using `YES`, as this is the default._
 
 ----
 
 ## Installing in your projects
 
-[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your `Podfile` and you are done.
+[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your `Podfile` then run `pod update` and you are ready to use it.
 
 _Note: `OHHTTPStubs` needs iOS5 minimum._
 
-> **Warning: Be careful anyway to include `OHHTTPStubs` only in your test targets, or only use it in `#if DEBUG` portions, so that its code is not included in your release for the AppStore !**
+> **Warning: Be careful anyway to include `OHHTTPStubs` only in your test targets, or only use it in `#if DEBUG` portions, if you don't want its code and the stubbing to still be included in your release for the AppStore!**
 
 In case you don't want to use CocoaPods (but you should!!!), the `OHHTTPStubs` project is provided as a Xcode project that generates a static library, so simply add its xcodeproj to your workspace and link your app against the `libOHHTTPStubs.a` library. See [here](https://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction) for detailed instructions.
 
-_PS: If you get an "unrecognised selector sent to instance" runtime error, make sure that the project you want to link with `OHHTTPStubs` has the `-ObjC` flag in its "Other Linker Flags" (`OTHER_LDFLAGS`) build setting (this is normally the default in projects created in latest versions of Xcode). [See the Apple doc for more details](https://developer.apple.com/library/mac/qa/qa1490/_index.html)._
+_Note: If you get an "unrecognised selector sent to instance" runtime error when calling one of the method declared in `OHHTTPStubs` categories, make sure that the project you want to link with `OHHTTPStubs` has the `-ObjC` flag in its "Other Linker Flags" (`OTHER_LDFLAGS`) build setting (this is normally the default in projects created in latest versions of Xcode). [See the Apple doc for more details](https://developer.apple.com/library/mac/qa/qa1490/_index.html)._
 
 ## About `OHHTTPStubs` Unit Tests
 
-If you want to be able to run `OHHTTPStubs`' Unit Tests, be sure you cloned the [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/) submodule (by using the `--recursive` option when cloning your repo, or using `git submodule init` and `git submodule update`) as it is used by some of `OHHTTPStubs` unit tests.
+If you want to be able to run `OHHTTPStubs`' Unit Tests, be sure you cloned the [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/) submodule (by using the `--recursive` option when cloning your repo, or using `git submodule init` and `git submodule update`) as it is used by some of `OHHTTPStubs` unit tests. (This submodule is only useful for the Unit Tests testing `OHHTTPStubs` with `AFNetworking`: you don't need the submodule to use `OHHTTPStubs` and `OHHTTPStubs` has no dependency on `AFNetworking` itself)
 
-Every contribution to add more unit tests is welcome.
+**Every contribution to add more unit tests is welcome!**
 
 ## Change Log
 
 The changelog is available [here in the dedicated wiki page](https://github.com/AliSoftware/OHHTTPStubs/wiki/ChangeLog).
+I also provide the same Release Notes on each tag/version/release directly on the [GitHub Releases tab](https://github.com/AliSoftware/OHHTTPStubs/releases).
 
 
 ## License and Credits
