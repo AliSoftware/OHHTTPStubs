@@ -23,6 +23,7 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
   * [Stack multiple stubs and remove installed stubs](#stack-multiple-stubs-and-remove-installed-stubs)
   * [Name your stubs and log their activation](#name-your-stubs-and-log-their-activation)
   * [OHHTTPStubs and NSURLSession](#ohhttpstubs-and-nsurlsession)
+  * [Known limitations](#known-limitations)
 * [Installing in your projects](#installing-in-your-projects)
 * [About OHHTTPStubs Unit Tests](#about-ohhttpstubs-unit-tests)
 * [Change Log](#change-log)
@@ -200,14 +201,19 @@ In general, `OHHTTPStubs` is automatically enabled by default, both for:
 
 > As all this automatic installation of `OHHTTPStubs` (registration of `OHHTTPStubs`'s private `NSURLProtocol` using `+[NSURLProtocol registerClass:]` + method swizzling to insert the same `NSURLProtocol` in the `NSURLSessionConfiguration` returned by the default constructors) is done in `+[OHHTTPStubs initialize]`, the `OHHTTPStubs` class must have been used at least once before creating your first `NSURLSessionConfiguration` or starting your first request
 
-_Note that `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols`. (There's nothing we can do about it — sorry)_
-
 If you need to disable (and re-enable) `OHHTTPStubs` globally or per session, you can use:
 
 * `[OHHTTPStubs setEnabled:]` for `NSURLConnection`/`[NSURLSession sharedSession]`-based requests
 * `[OHHTTPStubs setEnabled:forSessionConfiguration:]` for requests sent on a session created using `[NSURLSession sessionWithConfiguration:...]`
 
 _In practice, there is no need to ever explicitly call `setEnabled:` or `setEnabled:forSessionConfiguration:` using `YES`, as this is the default._
+
+### Known limitations
+
+* `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols` and are handled by the iOS Operating System itself.
+* `OHHTTPStubs` don't simulate data upload. The `NSURLProtocolClient` `@protocol` does not provide a way to signal the delegate that data has been **sent** (only that some has been loaded), so any data in the `HTTPBody` or `HTTPBodyStream` of an `NSURLRequest`, or data provided to `-[NSURLSession uploadTaskWithRequest:fromData:];` will be ignored, and more importantly, the `-URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:` delegate method will never be called when you stub the request using `OHHTTPStubs`.
+
+_As far as I know, there's nothing we can do about those two limitations. Please let me know if you know a solution that would make that possible anyway._
 
 ----
 
