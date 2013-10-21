@@ -160,7 +160,7 @@ _This may be useful to install different stubs in various places in your code, o
 When a network request is performed by the system, the **stubs are called in the reverse order that they have been added**, the last added stub having priority over the first added ones.
 The first stub that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-* You can remove any given stub with the `removeStub:` method. This method takes as a parameter the `id<OHHTTPStubsDescriptor>` object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, so there is no need to keep a `__strong` reference to it)_.
+* You can remove any given stub with the `removeStub:` method. This method takes as a parameter the `id<OHHTTPStubsDescriptor>` object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, **so you should keep it in a `__weak` variable** so it is properly released from memory once removed)_.
 * You can remove the latest added stub with the `removeLastStub` method.
 * You can also remove all stubs at once with the `removeAllStubs` method.
 
