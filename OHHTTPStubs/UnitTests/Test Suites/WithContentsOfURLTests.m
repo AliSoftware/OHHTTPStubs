@@ -32,8 +32,14 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 @implementation WithContentsOfURLTests
 
+-(void)setUp
+{
+    [super setUp];
+    [OHHTTPStubs removeAllStubs];
+}
 
-
+static const NSTimeInterval kRequestTime = 0.1;
+static const NSTimeInterval kResponseTime = 0.5;
 
 ///////////////////////////////////////////////////////////////////////////////////
 #pragma mark [NSString stringWithContentsOfURL:encoding:error:]
@@ -41,16 +47,15 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSString_stringWithContentsOfURL_mainQueue
 {
-    static const NSTimeInterval kResponseTime = 1.0;
     NSString* testString = NSStringFromSelector(_cmd);
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
-                                          statusCode:200
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
     NSDate* startDate = [NSDate date];
@@ -60,16 +65,16 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
                                                error:NULL];
     
     STAssertEqualObjects(string, testString, @"Invalid returned string");
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime+kRequestTime, kResponseTimeTolerence, @"Invalid response time");
 }
 
 -(void)test_NSString_stringWithContentsOfURL_parallelQueue
 {
-    [[[[NSOperationQueue alloc] init] autorelease] addOperationWithBlock:^{
+    [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSString_stringWithContentsOfURL_mainQueue];
         [self notifyAsyncOperationDone];
     }];
-    [self waitForAsyncOperationWithTimeout:3.0];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -78,16 +83,15 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)test_NSData_dataWithContentsOfURL_mainQueue
 {
-    static const NSTimeInterval kResponseTime = 1.0;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     
-    [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:testData
-                                          statusCode:200
-                                        responseTime:kResponseTime
-                                             headers:nil];
+        return [[OHHTTPStubsResponse responseWithData:testData
+                                           statusCode:200
+                                              headers:nil]
+                requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
     NSDate* startDate = [NSDate date];
@@ -95,16 +99,16 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     
     STAssertEqualObjects(data, testData, @"Invalid returned string");
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
 }
 
 -(void)test_NSData_dataWithContentsOfURL_parallelQueue
 {
-    [[[[NSOperationQueue alloc] init] autorelease] addOperationWithBlock:^{
+    [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSData_dataWithContentsOfURL_mainQueue];
         [self notifyAsyncOperationDone];
     }];
-    [self waitForAsyncOperationWithTimeout:3.0];
+    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
 }
 
 @end
