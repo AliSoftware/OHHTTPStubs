@@ -265,9 +265,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		09793578161B6251006DB5D5 /* OHHTTPStubs */ = {
+		09793578161B6251006DB5D5 /* OHHTTPStubs iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */;
+			buildConfigurationList = 09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS" */;
 			buildPhases = (
 				09793575161B6251006DB5D5 /* Sources */,
 				09793576161B6251006DB5D5 /* Frameworks */,
@@ -277,14 +277,14 @@
 			);
 			dependencies = (
 			);
-			name = OHHTTPStubs;
+			name = "OHHTTPStubs iOS";
 			productName = OHHTTPStubs;
 			productReference = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		098368CD168FC7920082B1A4 /* UnitTests */ = {
+		098368CD168FC7920082B1A4 /* OHHTTPStubs iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildConfigurationList = 098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Tests" */;
 			buildPhases = (
 				098368C9168FC7920082B1A4 /* Sources */,
 				098368CA168FC7920082B1A4 /* Frameworks */,
@@ -295,7 +295,7 @@
 			);
 			dependencies = (
 			);
-			name = UnitTests;
+			name = "OHHTTPStubs iOS Tests";
 			productName = "OHHTTPStubs Unit Tests";
 			productReference = 098368CE168FC7920082B1A4 /* UnitTests.octest */;
 			productType = "com.apple.product-type.bundle";
@@ -321,8 +321,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				09793578161B6251006DB5D5 /* OHHTTPStubs */,
-				098368CD168FC7920082B1A4 /* UnitTests */,
+				09793578161B6251006DB5D5 /* OHHTTPStubs iOS */,
+				098368CD168FC7920082B1A4 /* OHHTTPStubs iOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -446,9 +446,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -457,9 +456,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -512,7 +510,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */ = {
+		09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				09793588161B6251006DB5D5 /* Debug */,
@@ -521,7 +519,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+		098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				098368DE168FC7920082B1A4 /* Debug */,
