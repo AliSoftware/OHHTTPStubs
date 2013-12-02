@@ -28,6 +28,35 @@
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
 		09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF7C817DFF68100B096F3 /* Security.framework */; };
 		09D888241808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
+		27CE42E6184CD21D00484665 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E5184CD21D00484665 /* Cocoa.framework */; };
+		27CE42FC184CD21D00484665 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E5184CD21D00484665 /* Cocoa.framework */; };
+		27CE42FF184CD21D00484665 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */; };
+		27CE430E184CD36900484665 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
+		27CE430F184CD36900484665 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */; };
+		27CE4310184CD36900484665 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */; };
+		27CE4311184CD36900484665 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */; };
+		27CE4312184CD36900484665 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
+		27CE4314184CD75200484665 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098368CF168FC7920082B1A4 /* SenTestingKit.framework */; };
+		27CE4315184CD7D400484665 /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E3168FD0E50082B1A4 /* NSURLConnectionTests.m */; };
+		27CE4316184CD7D400484665 /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */; };
+		27CE4317184CD7D400484665 /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368EB169000340082B1A4 /* WithContentsOfURLTests.m */; };
+		27CE4318184CD7D400484665 /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09739F2B16900E81009851EF /* AFNetworkingTests.m */; };
+		27CE4319184CD7D400484665 /* TimingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95E117D3E63D0023F9BD /* TimingTests.m */; };
+		27CE431A184CD7D400484665 /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092DBB2817E4A4280089FC55 /* NilValuesTests.m */; };
+		27CE431B184CD7D400484665 /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF315AF180069BA00B82720 /* NSURLSessionTests.m */; };
+		27CE431C184CD7D400484665 /* AsyncSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368DB168FC7920082B1A4 /* AsyncSenTestCase.m */; };
+		27CE431E184CD9AF00484665 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */; };
+		27CE4320184CD9AF00484665 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98917FCBC4E00890679 /* AFHTTPRequestOperationManager.m */; };
+		27CE4322184CD9AF00484665 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98B17FCBC4E00890679 /* AFHTTPSessionManager.m */; };
+		27CE4325184CD9AF00484665 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98E17FCBC4E00890679 /* AFNetworkReachabilityManager.m */; };
+		27CE4327184CD9AF00484665 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99017FCBC4E00890679 /* AFSecurityPolicy.m */; };
+		27CE4329184CD9AF00484665 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99217FCBC4E00890679 /* AFURLConnectionOperation.m */; };
+		27CE432B184CD9AF00484665 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99417FCBC4E00890679 /* AFURLRequestSerialization.m */; };
+		27CE432D184CD9AF00484665 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99617FCBC4E00890679 /* AFURLResponseSerialization.m */; };
+		27CE432F184CD9AF00484665 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */; };
+		27CE4331184CD9DD00484665 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4330184CD9DD00484665 /* SystemConfiguration.framework */; };
+		27CE4333184CD9EB00484665 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4332184CD9EB00484665 /* Security.framework */; };
+		27CE4335184CD9F800484665 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4334184CD9F800484665 /* CFNetwork.framework */; };
 		9A59C99917FCBC4E00890679 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */; };
 		9A59C99A17FCBC4E00890679 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98917FCBC4E00890679 /* AFHTTPRequestOperationManager.m */; };
 		9A59C99B17FCBC4E00890679 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98B17FCBC4E00890679 /* AFHTTPSessionManager.m */; };
@@ -41,6 +70,16 @@
 		9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */; };
 		9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF315AF180069BA00B82720 /* NSURLSessionTests.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		27CE42FD184CD21D00484665 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09793570161B6251006DB5D5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27CE42E3184CD21D00484665;
+			remoteInfo = OHHTTPStubsMac;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		09804E4D16A8D5F100ADC660 /* CopyFiles */ = {
@@ -65,7 +104,7 @@
 		09793598161B62C0006DB5D5 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
 		09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
-		098368CE168FC7920082B1A4 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		098368CE168FC7920082B1A4 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = UnitTests.octest; path = "OHHTTPStubs iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		098368CF168FC7920082B1A4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		098368D6168FC7920082B1A4 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		098368DA168FC7920082B1A4 /* AsyncSenTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncSenTestCase.h; sourceTree = "<group>"; };
@@ -83,6 +122,16 @@
 		099C735616903B9800239880 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		09BEF7C817DFF68100B096F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
+		27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		27CE42E5184CD21D00484665 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		27CE42E8184CD21D00484665 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		27CE42E9184CD21D00484665 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		27CE42EA184CD21D00484665 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		27CE42F9184CD21D00484665 /* OHHTTPStubs Mac Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs Mac Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		27CE42FA184CD21D00484665 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		27CE4330184CD9DD00484665 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		27CE4332184CD9EB00484665 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		27CE4334184CD9F800484665 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		9A59C98617FCBC4E00890679 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		9A59C98817FCBC4E00890679 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -131,6 +180,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		27CE42E0184CD21D00484665 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27CE42E6184CD21D00484665 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27CE42F6184CD21D00484665 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27CE4335184CD9F800484665 /* CFNetwork.framework in Frameworks */,
+				27CE4333184CD9EB00484665 /* Security.framework in Frameworks */,
+				27CE4331184CD9DD00484665 /* SystemConfiguration.framework in Frameworks */,
+				27CE4314184CD75200484665 /* SenTestingKit.framework in Frameworks */,
+				27CE42FC184CD21D00484665 /* Cocoa.framework in Frameworks */,
+				27CE42FF184CD21D00484665 /* OHHTTPStubs.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -157,6 +227,8 @@
 			children = (
 				09793579161B6251006DB5D5 /* libOHHTTPStubs.a */,
 				098368CE168FC7920082B1A4 /* UnitTests.octest */,
+				27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */,
+				27CE42F9184CD21D00484665 /* OHHTTPStubs Mac Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,11 +236,17 @@
 		0979357B161B6251006DB5D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27CE4334184CD9F800484665 /* CFNetwork.framework */,
+				27CE4332184CD9EB00484665 /* Security.framework */,
+				27CE4330184CD9DD00484665 /* SystemConfiguration.framework */,
 				9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */,
 				9A59C9A217FCBC7000890679 /* CoreGraphics.framework */,
 				09BEF7C817DFF68100B096F3 /* Security.framework */,
 				0984831617805538002A99FF /* CFNetwork.framework */,
 				0979357C161B6251006DB5D5 /* Foundation.framework */,
+				27CE42E5184CD21D00484665 /* Cocoa.framework */,
+				27CE42FA184CD21D00484665 /* XCTest.framework */,
+				27CE42E7184CD21D00484665 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,6 +313,16 @@
 			name = OHHTTPStubsResponse;
 			sourceTree = "<group>";
 		};
+		27CE42E7184CD21D00484665 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				27CE42E8184CD21D00484665 /* Foundation.framework */,
+				27CE42E9184CD21D00484665 /* CoreData.framework */,
+				27CE42EA184CD21D00484665 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 		9A59C98517FCBC4E00890679 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,10 +352,20 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		27CE42E1184CD21D00484665 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		09793578161B6251006DB5D5 /* OHHTTPStubs */ = {
+		09793578161B6251006DB5D5 /* OHHTTPStubs iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */;
+			buildConfigurationList = 09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS" */;
 			buildPhases = (
 				09793575161B6251006DB5D5 /* Sources */,
 				09793576161B6251006DB5D5 /* Frameworks */,
@@ -277,14 +375,14 @@
 			);
 			dependencies = (
 			);
-			name = OHHTTPStubs;
+			name = "OHHTTPStubs iOS";
 			productName = OHHTTPStubs;
 			productReference = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		098368CD168FC7920082B1A4 /* UnitTests */ = {
+		098368CD168FC7920082B1A4 /* OHHTTPStubs iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildConfigurationList = 098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Tests" */;
 			buildPhases = (
 				098368C9168FC7920082B1A4 /* Sources */,
 				098368CA168FC7920082B1A4 /* Frameworks */,
@@ -295,10 +393,46 @@
 			);
 			dependencies = (
 			);
-			name = UnitTests;
+			name = "OHHTTPStubs iOS Tests";
 			productName = "OHHTTPStubs Unit Tests";
 			productReference = 098368CE168FC7920082B1A4 /* UnitTests.octest */;
 			productType = "com.apple.product-type.bundle";
+		};
+		27CE42E3184CD21D00484665 /* OHHTTPStubs Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27CE4308184CD21D00484665 /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac" */;
+			buildPhases = (
+				27CE42DF184CD21D00484665 /* Sources */,
+				27CE42E0184CD21D00484665 /* Frameworks */,
+				27CE42E1184CD21D00484665 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OHHTTPStubs Mac";
+			productName = OHHTTPStubsMac;
+			productReference = 27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		27CE42F8184CD21D00484665 /* OHHTTPStubs Mac Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27CE430B184CD21D00484665 /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac Tests" */;
+			buildPhases = (
+				27CE42F5184CD21D00484665 /* Sources */,
+				27CE42F6184CD21D00484665 /* Frameworks */,
+				27CE42F7184CD21D00484665 /* Resources */,
+				27CE4313184CD74100484665 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				27CE42FE184CD21D00484665 /* PBXTargetDependency */,
+			);
+			name = "OHHTTPStubs Mac Tests";
+			productName = OHHTTPStubsMacTests;
+			productReference = 27CE42F9184CD21D00484665 /* OHHTTPStubs Mac Tests.octest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -308,6 +442,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = AliSoftware;
+				TargetAttributes = {
+					27CE42F8184CD21D00484665 = {
+						TestTargetID = 27CE42E3184CD21D00484665;
+					};
+				};
 			};
 			buildConfigurationList = 09793573161B6251006DB5D5 /* Build configuration list for PBXProject "OHHTTPStubs" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -321,14 +460,23 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				09793578161B6251006DB5D5 /* OHHTTPStubs */,
-				098368CD168FC7920082B1A4 /* UnitTests */,
+				09793578161B6251006DB5D5 /* OHHTTPStubs iOS */,
+				098368CD168FC7920082B1A4 /* OHHTTPStubs iOS Tests */,
+				27CE42E3184CD21D00484665 /* OHHTTPStubs Mac */,
+				27CE42F8184CD21D00484665 /* OHHTTPStubs Mac Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		098368CB168FC7920082B1A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27CE42F7184CD21D00484665 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -350,6 +498,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		27CE4313184CD74100484665 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -390,7 +551,51 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		27CE42DF184CD21D00484665 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27CE430E184CD36900484665 /* OHHTTPStubs.m in Sources */,
+				27CE430F184CD36900484665 /* OHHTTPStubsResponse.m in Sources */,
+				27CE4310184CD36900484665 /* OHHTTPStubsResponse+JSON.m in Sources */,
+				27CE4311184CD36900484665 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				27CE4312184CD36900484665 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27CE42F5184CD21D00484665 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27CE431E184CD9AF00484665 /* AFHTTPRequestOperation.m in Sources */,
+				27CE4320184CD9AF00484665 /* AFHTTPRequestOperationManager.m in Sources */,
+				27CE4322184CD9AF00484665 /* AFHTTPSessionManager.m in Sources */,
+				27CE4325184CD9AF00484665 /* AFNetworkReachabilityManager.m in Sources */,
+				27CE4327184CD9AF00484665 /* AFSecurityPolicy.m in Sources */,
+				27CE4329184CD9AF00484665 /* AFURLConnectionOperation.m in Sources */,
+				27CE432B184CD9AF00484665 /* AFURLRequestSerialization.m in Sources */,
+				27CE432D184CD9AF00484665 /* AFURLResponseSerialization.m in Sources */,
+				27CE432F184CD9AF00484665 /* AFURLSessionManager.m in Sources */,
+				27CE4315184CD7D400484665 /* NSURLConnectionTests.m in Sources */,
+				27CE4316184CD7D400484665 /* NSURLConnectionDelegateTests.m in Sources */,
+				27CE4317184CD7D400484665 /* WithContentsOfURLTests.m in Sources */,
+				27CE4318184CD7D400484665 /* AFNetworkingTests.m in Sources */,
+				27CE4319184CD7D400484665 /* TimingTests.m in Sources */,
+				27CE431A184CD7D400484665 /* NilValuesTests.m in Sources */,
+				27CE431B184CD7D400484665 /* NSURLSessionTests.m in Sources */,
+				27CE431C184CD7D400484665 /* AsyncSenTestCase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		27CE42FE184CD21D00484665 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27CE42E3184CD21D00484665 /* OHHTTPStubs Mac */;
+			targetProxy = 27CE42FD184CD21D00484665 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		09793585161B6251006DB5D5 /* Debug */ = {
@@ -446,9 +651,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -457,9 +661,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -500,6 +703,148 @@
 			};
 			name = Release;
 		};
+		27CE4309184CD21D00484665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = OHHTTPStubs;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		27CE430A184CD21D00484665 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = OHHTTPStubs;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		27CE430C184CD21D00484665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OHHTTPStubs.framework/Versions/A/OHHTTPStubs";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		27CE430D184CD21D00484665 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OHHTTPStubs.framework/Versions/A/OHHTTPStubs";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -512,7 +857,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */ = {
+		09793587161B6251006DB5D5 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				09793588161B6251006DB5D5 /* Debug */,
@@ -521,11 +866,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+		098368E0168FC7920082B1A4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				098368DE168FC7920082B1A4 /* Debug */,
 				098368DF168FC7920082B1A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27CE4308184CD21D00484665 /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27CE4309184CD21D00484665 /* Debug */,
+				27CE430A184CD21D00484665 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27CE430B184CD21D00484665 /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27CE430C184CD21D00484665 /* Debug */,
+				27CE430D184CD21D00484665 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

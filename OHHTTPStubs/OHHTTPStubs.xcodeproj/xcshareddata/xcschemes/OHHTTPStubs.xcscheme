@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "09793578161B6251006DB5D5"
                BuildableName = "libOHHTTPStubs.a"
-               BlueprintName = "OHHTTPStubs"
+               BlueprintName = "OHHTTPStubs iOS"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "UnitTests.octest"
-               BlueprintName = "UnitTests"
+               BuildableName = "OHHTTPStubs iOS Tests.octest"
+               BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "UnitTests.octest"
-               BlueprintName = "UnitTests"
+               BuildableName = "OHHTTPStubs iOS Tests.octest"
+               BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </TestableReference>
