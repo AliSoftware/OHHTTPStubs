@@ -71,16 +71,6 @@
 		9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF315AF180069BA00B82720 /* NSURLSessionTests.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		27CE42FD184CD21D00484665 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 09793570161B6251006DB5D5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 27CE42E3184CD21D00484665;
-			remoteInfo = OHHTTPStubsMac;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		09804E4D16A8D5F100ADC660 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -427,7 +417,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				27CE42FE184CD21D00484665 /* PBXTargetDependency */,
 			);
 			name = "OHHTTPStubs Mac Tests";
 			productName = OHHTTPStubsMacTests;
@@ -588,14 +577,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		27CE42FE184CD21D00484665 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 27CE42E3184CD21D00484665 /* OHHTTPStubs Mac */;
-			targetProxy = 27CE42FD184CD21D00484665 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		09793585161B6251006DB5D5 /* Debug */ = {

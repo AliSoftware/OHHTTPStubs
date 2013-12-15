@@ -7,7 +7,7 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForTesting = "YES"
+            buildForTesting = "NO"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
@@ -17,6 +17,20 @@
                BlueprintIdentifier = "27CE42E3184CD21D00484665"
                BuildableName = "OHHTTPStubs.framework"
                BlueprintName = "OHHTTPStubs Mac"
+               ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "27CE42F8184CD21D00484665"
+               BuildableName = "OHHTTPStubs Mac Tests.octest"
+               BlueprintName = "OHHTTPStubs Mac Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
