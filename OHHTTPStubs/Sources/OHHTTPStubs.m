@@ -169,8 +169,7 @@ extern void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
     currentEnabledState = enable;
 }
 
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
- || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
+#if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 + (void)setEnabled:(BOOL)enable forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
 {
     // Runtime check to make sure the API is available on this version
@@ -191,7 +190,7 @@ extern void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport();
     }
     else
     {
-        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+. Use conditions like 'if ([NSURLSessionConfiguration class])' to only call this method if the user is running iOS7+.", NSStringFromSelector(_cmd));
+        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. Use conditions like 'if ([NSURLSessionConfiguration class])' to only call this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
     }
 }
 #endif
