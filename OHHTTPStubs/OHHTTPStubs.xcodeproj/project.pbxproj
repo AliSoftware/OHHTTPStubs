@@ -21,15 +21,21 @@
 		098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09793579161B6251006DB5D5 /* libOHHTTPStubs.a */; };
 		098368EA168FF9740082B1A4 /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368E9168FF9740082B1A4 /* NSURLConnectionDelegateTests.m */; };
 		098368EC169000340082B1A4 /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 098368EB169000340082B1A4 /* WithContentsOfURLTests.m */; };
-		0984831717805538002A99FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
 		099B95DB17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DA17D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.m */; };
 		099B95DF17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95DE17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.m */; };
 		099B95E217D3E63D0023F9BD /* TimingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B95E117D3E63D0023F9BD /* TimingTests.m */; };
 		099C735716903B9800239880 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099C735616903B9800239880 /* UIKit.framework */; };
 		09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF7C817DFF68100B096F3 /* Security.framework */; };
+		09C911FD185E2DB400A41694 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C911FC185E2DB400A41694 /* Foundation.framework */; };
+		09C91201185E2E6200A41694 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C911FC185E2DB400A41694 /* Foundation.framework */; };
+		09C91202185E2E7500A41694 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4334184CD9F800484665 /* CFNetwork.framework */; };
+		09C91203185E2EA800A41694 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C911FE185E2E3700A41694 /* Cocoa.framework */; };
+		09C91204185E2EB300A41694 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4330184CD9DD00484665 /* SystemConfiguration.framework */; };
+		09C91205185E2EBC00A41694 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4332184CD9EB00484665 /* Security.framework */; };
+		09C91206185E2F0700A41694 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
+		09C91207185E2F2300A41694 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
+		09C91209185E2F4600A41694 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A217FCBC7000890679 /* CoreGraphics.framework */; };
 		09D888241808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
-		27CE42E6184CD21D00484665 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E5184CD21D00484665 /* Cocoa.framework */; };
-		27CE42FC184CD21D00484665 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E5184CD21D00484665 /* Cocoa.framework */; };
 		27CE42FF184CD21D00484665 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */; };
 		27CE430E184CD36900484665 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
 		27CE430F184CD36900484665 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */; };
@@ -54,9 +60,6 @@
 		27CE432B184CD9AF00484665 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99417FCBC4E00890679 /* AFURLRequestSerialization.m */; };
 		27CE432D184CD9AF00484665 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99617FCBC4E00890679 /* AFURLResponseSerialization.m */; };
 		27CE432F184CD9AF00484665 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */; };
-		27CE4331184CD9DD00484665 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4330184CD9DD00484665 /* SystemConfiguration.framework */; };
-		27CE4333184CD9EB00484665 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4332184CD9EB00484665 /* Security.framework */; };
-		27CE4335184CD9F800484665 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE4334184CD9F800484665 /* CFNetwork.framework */; };
 		9A59C99917FCBC4E00890679 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */; };
 		9A59C99A17FCBC4E00890679 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98917FCBC4E00890679 /* AFHTTPRequestOperationManager.m */; };
 		9A59C99B17FCBC4E00890679 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98B17FCBC4E00890679 /* AFHTTPSessionManager.m */; };
@@ -66,7 +69,6 @@
 		9A59C99F17FCBC4E00890679 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99417FCBC4E00890679 /* AFURLRequestSerialization.m */; };
 		9A59C9A017FCBC4E00890679 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99617FCBC4E00890679 /* AFURLResponseSerialization.m */; };
 		9A59C9A117FCBC4E00890679 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */; };
-		9A59C9A317FCBC7000890679 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A217FCBC7000890679 /* CoreGraphics.framework */; };
 		9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A417FCBCC700890679 /* SystemConfiguration.framework */; };
 		9AF315B0180069BA00B82720 /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF315AF180069BA00B82720 /* NSURLSessionTests.m */; };
 /* End PBXBuildFile section */
@@ -111,6 +113,8 @@
 		099B95E117D3E63D0023F9BD /* TimingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimingTests.m; sourceTree = "<group>"; };
 		099C735616903B9800239880 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		09BEF7C817DFF68100B096F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		09C911FC185E2DB400A41694 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		09C911FE185E2E3700A41694 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27CE42E5184CD21D00484665 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
@@ -152,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0979357D161B6251006DB5D5 /* Foundation.framework in Frameworks */,
+				09C91206185E2F0700A41694 /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,14 +164,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098368D3168FC7920082B1A4 /* Foundation.framework in Frameworks */,
 				9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */,
-				9A59C9A317FCBC7000890679 /* CoreGraphics.framework in Frameworks */,
 				09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */,
-				0984831717805538002A99FF /* CFNetwork.framework in Frameworks */,
 				099C735716903B9800239880 /* UIKit.framework in Frameworks */,
 				098368E8168FE49A0082B1A4 /* libOHHTTPStubs.a in Frameworks */,
 				098368D0168FC7920082B1A4 /* SenTestingKit.framework in Frameworks */,
-				098368D3168FC7920082B1A4 /* Foundation.framework in Frameworks */,
+				09C91207185E2F2300A41694 /* CFNetwork.framework in Frameworks */,
+				09C91209185E2F4600A41694 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +179,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27CE42E6184CD21D00484665 /* Cocoa.framework in Frameworks */,
+				09C91201185E2E6200A41694 /* Foundation.framework in Frameworks */,
+				09C91202185E2E7500A41694 /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,12 +188,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27CE4335184CD9F800484665 /* CFNetwork.framework in Frameworks */,
-				27CE4333184CD9EB00484665 /* Security.framework in Frameworks */,
-				27CE4331184CD9DD00484665 /* SystemConfiguration.framework in Frameworks */,
-				27CE4314184CD75200484665 /* SenTestingKit.framework in Frameworks */,
-				27CE42FC184CD21D00484665 /* Cocoa.framework in Frameworks */,
+				09C911FD185E2DB400A41694 /* Foundation.framework in Frameworks */,
+				09C91204185E2EB300A41694 /* SystemConfiguration.framework in Frameworks */,
+				09C91205185E2EBC00A41694 /* Security.framework in Frameworks */,
+				09C91203185E2EA800A41694 /* Cocoa.framework in Frameworks */,
 				27CE42FF184CD21D00484665 /* OHHTTPStubs.framework in Frameworks */,
+				27CE4314184CD75200484665 /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +232,8 @@
 		0979357B161B6251006DB5D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09C911FE185E2E3700A41694 /* Cocoa.framework */,
+				09C911FC185E2DB400A41694 /* Foundation.framework */,
 				27CE4334184CD9F800484665 /* CFNetwork.framework */,
 				27CE4332184CD9EB00484665 /* Security.framework */,
 				27CE4330184CD9DD00484665 /* SystemConfiguration.framework */,
