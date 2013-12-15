@@ -4,4 +4,4 @@ before_install:
     - brew upgrade xctool
 script:
     - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS" -configuration Release -sdk iphonesimulator test
-    - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -configuration Release -sdk macosx test
+    - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -configuration Release -sdk macosx test ONLY_ACTIVE_ARCH=YES
