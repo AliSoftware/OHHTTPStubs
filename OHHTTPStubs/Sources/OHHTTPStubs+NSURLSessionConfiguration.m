@@ -40,7 +40,7 @@ static SessionConfigConstructor OHHTTPStubsSwizzle(SEL selector, SessionConfigCo
     return origImpl;
 }
 
-static void OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(NSURLSessionConfiguration* config)
+static void OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(NSURLSessionConfiguration* config)
 {
     NSMutableArray* protocolClasses = [NSMutableArray arrayWithArray:config.protocolClasses];
     // objc_getClass loads the class in the ObjC Runtime if not loaded at that time, so it's secure.
@@ -50,26 +50,26 @@ static void OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(NSURLSessionCo
     config.protocolClasses = protocolClasses;
 }
 
-static NSURLSessionConfiguration* defaultSessionConfigurationWithOHHTTPStubs(id self, SEL _cmd)
+static NSURLSessionConfiguration* OHHTTPStubs_defaultSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_defaultSessionConfiguration(self,_cmd); // call original method
-    OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
-static NSURLSessionConfiguration* ephemeralSessionConfigurationWithOHHTTPStubs(id self, SEL _cmd)
+static NSURLSessionConfiguration* OHHTTPStubs_ephemeralSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_ephemeralSessionConfiguration(self,_cmd); // call original method
-    OHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
 void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
 {
     orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(@selector(defaultSessionConfiguration),
-                                                          defaultSessionConfigurationWithOHHTTPStubs);
+                                                          OHHTTPStubs_defaultSessionConfiguration);
     orig_ephemeralSessionConfiguration = OHHTTPStubsSwizzle(@selector(ephemeralSessionConfiguration),
-                                                            ephemeralSessionConfigurationWithOHHTTPStubs);
+                                                            OHHTTPStubs_ephemeralSessionConfiguration);
 }
 
 #else
