@@ -2,5 +2,6 @@ language: objective-c
 before_install:
     - brew update
     - brew upgrade xctool
-script: xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme OHHTTPStubs -configuration Release -sdk iphonesimulator test
-
+script:
+    - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS" -configuration Release -sdk iphonesimulator test
+#    - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -configuration Release -sdk macosx test

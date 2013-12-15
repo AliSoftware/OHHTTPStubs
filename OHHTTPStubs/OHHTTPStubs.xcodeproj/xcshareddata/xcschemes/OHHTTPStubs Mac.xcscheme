@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09793578161B6251006DB5D5"
-               BuildableName = "libOHHTTPStubs.a"
-               BlueprintName = "OHHTTPStubs"
+               BlueprintIdentifier = "27CE42E3184CD21D00484665"
+               BuildableName = "OHHTTPStubs.framework"
+               BlueprintName = "OHHTTPStubs Mac"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "UnitTests.octest"
-               BlueprintName = "UnitTests"
+               BlueprintIdentifier = "27CE42F8184CD21D00484665"
+               BuildableName = "OHHTTPStubs Mac Tests.octest"
+               BlueprintName = "OHHTTPStubs Mac Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "UnitTests.octest"
-               BlueprintName = "UnitTests"
+               BlueprintIdentifier = "27CE42F8184CD21D00484665"
+               BuildableName = "OHHTTPStubs Mac Tests.octest"
+               BlueprintName = "OHHTTPStubs Mac Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </TestableReference>
