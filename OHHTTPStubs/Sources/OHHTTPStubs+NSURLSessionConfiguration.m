@@ -40,41 +40,31 @@ static SessionConfigConstructor OHHTTPStubsSwizzle(SEL selector, SessionConfigCo
     return origImpl;
 }
 
-static void OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(NSURLSessionConfiguration* config)
-{
-    NSMutableArray* protocolClasses = [NSMutableArray arrayWithArray:config.protocolClasses];
-    // objc_getClass loads the class in the ObjC Runtime if not loaded at that time, so it's secure.
-    Class protocolClass = objc_getClass("OHHTTPStubsProtocol");
-    if (![protocolClasses containsObject:protocolClass])
-        [protocolClasses addObject:protocolClass];
-    config.protocolClasses = protocolClasses;
-}
-
 static NSURLSessionConfiguration* OHHTTPStubs_defaultSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_defaultSessionConfiguration(self,_cmd); // call original method
-    OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
 static NSURLSessionConfiguration* OHHTTPStubs_ephemeralSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_ephemeralSessionConfiguration(self,_cmd); // call original method
-    OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
-void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
+@interface NSURLSessionConfiguration(OHHTTPStubsSupport) @end
+@implementation NSURLSessionConfiguration(OHHTTPStubsSupport)
++(void)load
 {
     orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(@selector(defaultSessionConfiguration),
                                                           OHHTTPStubs_defaultSessionConfiguration);
     orig_ephemeralSessionConfiguration = OHHTTPStubsSwizzle(@selector(ephemeralSessionConfiguration),
                                                             OHHTTPStubs_ephemeralSessionConfiguration);
 }
+@end
 
-#else
-void _OHHTTPStubs_InstallNSURLSessionConfigurationMagicSupport()
-{
-    /* NO-OP for Xcode4 and pre-iOS7/pre-OSX9 SDKs that does not support NSURLSessionConfiguration */
-}
 #endif
+
+
