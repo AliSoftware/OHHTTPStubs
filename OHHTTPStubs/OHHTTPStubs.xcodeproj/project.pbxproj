@@ -96,7 +96,7 @@
 		09793598161B62C0006DB5D5 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
 		09793599161B62C0006DB5D5 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		0979359A161B62C0006DB5D5 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
-		098368CE168FC7920082B1A4 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = UnitTests.octest; path = "OHHTTPStubs iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		098368CE168FC7920082B1A4 /* OHHTTPStubs iOS Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		098368CF168FC7920082B1A4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		098368D6168FC7920082B1A4 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		098368DA168FC7920082B1A4 /* AsyncSenTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncSenTestCase.h; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				09793579161B6251006DB5D5 /* libOHHTTPStubs.a */,
-				098368CE168FC7920082B1A4 /* UnitTests.octest */,
+				098368CE168FC7920082B1A4 /* OHHTTPStubs iOS Tests.octest */,
 				27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */,
 				27CE42F9184CD21D00484665 /* OHHTTPStubs Mac Tests.octest */,
 			);
@@ -393,7 +393,7 @@
 			);
 			name = "OHHTTPStubs iOS Tests";
 			productName = "OHHTTPStubs Unit Tests";
-			productReference = 098368CE168FC7920082B1A4 /* UnitTests.octest */;
+			productReference = 098368CE168FC7920082B1A4 /* OHHTTPStubs iOS Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		27CE42E3184CD21D00484665 /* OHHTTPStubs Mac */ = {
