@@ -35,7 +35,7 @@
 typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
 typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 
-@protocol OHHTTPStubsDescriptor
+@protocol OHHTTPStubsDescriptor <NSObject>
 /*! Arbitrary name that you can set and get to describe your stub. Use it as your own convenience. */
 @property(nonatomic, strong) NSString* name;
 @end
@@ -105,7 +105,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 #pragma mark - Debug Methods
 
 /*! List all the installed stubs
- @return An array of id<OHHTTPStubsDescriptor> objects currently installed. Useful for debug.
+ @return An array of `id<OHHTTPStubsDescriptor>` objects currently installed. Useful for debug.
  */
 +(NSArray*)allStubs;
 
