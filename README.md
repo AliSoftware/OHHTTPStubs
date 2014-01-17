@@ -206,12 +206,10 @@ In general, `OHHTTPStubs` is automatically enabled by default, both for:
 * requests made using `NSURLConnection` or `[NSURLSession sharedSession]`;
 * requests made using a `NSURLSession` created using a `[NSURLSessionConfiguration defaultSessionConfiguration]` or `[NSURLSessionConfiguration ephemeralSessionConfiguration]` configuration (using `[NSURLSession sessionWithConfiguration:…]`-like methods).
 
-> As all this automatic installation of `OHHTTPStubs` (registration of `OHHTTPStubs`'s private `NSURLProtocol` using `+[NSURLProtocol registerClass:]` + method swizzling to insert the same `NSURLProtocol` in the `NSURLSessionConfiguration` returned by the default constructors) is done in `+[OHHTTPStubs initialize]`, the `OHHTTPStubs` class must have been used at least once before creating your first `NSURLSessionConfiguration` or starting your first request
-
 If you need to disable (and re-enable) `OHHTTPStubs` globally or per session, you can use:
 
 * `[OHHTTPStubs setEnabled:]` for `NSURLConnection`/`[NSURLSession sharedSession]`-based requests
-* `[OHHTTPStubs setEnabled:forSessionConfiguration:]` for requests sent on a session created using `[NSURLSession sessionWithConfiguration:...]`
+* `[OHHTTPStubs setEnabled:forSessionConfiguration:]` for requests sent on a session created using `[NSURLSession sessionWithConfiguration:...]`. Note that you have to call this before creating the `NSURLSession` as the `NSURLSessionConfiguration` is deep-copied on the creation of the `NSURLSession` instance and cannot be modified afterwards.
 
 _In practice, there is no need to ever explicitly call `setEnabled:` or `setEnabled:forSessionConfiguration:` using `YES`, as this is the default._
 
