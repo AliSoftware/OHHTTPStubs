@@ -60,6 +60,8 @@
 		27CE432B184CD9AF00484665 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99417FCBC4E00890679 /* AFURLRequestSerialization.m */; };
 		27CE432D184CD9AF00484665 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99617FCBC4E00890679 /* AFURLResponseSerialization.m */; };
 		27CE432F184CD9AF00484665 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C99817FCBC4E00890679 /* AFURLSessionManager.m */; };
+		470D11CC18AB54E5001F56E7 /* OHHTTPStubsResponse+JSON.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 099B95D917D3E38E0023F9BD /* OHHTTPStubsResponse+JSON.h */; };
+		470D11CD18AB54E5001F56E7 /* OHHTTPStubsResponse+HTTPMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 099B95DD17D3E3D00023F9BD /* OHHTTPStubsResponse+HTTPMessage.h */; };
 		9A59C99917FCBC4E00890679 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98717FCBC4E00890679 /* AFHTTPRequestOperation.m */; };
 		9A59C99A17FCBC4E00890679 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98917FCBC4E00890679 /* AFHTTPRequestOperationManager.m */; };
 		9A59C99B17FCBC4E00890679 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A59C98B17FCBC4E00890679 /* AFHTTPSessionManager.m */; };
@@ -80,6 +82,8 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				470D11CC18AB54E5001F56E7 /* OHHTTPStubsResponse+JSON.h in CopyFiles */,
+				470D11CD18AB54E5001F56E7 /* OHHTTPStubsResponse+HTTPMessage.h in CopyFiles */,
 				09804E4E16A8D60A00ADC660 /* OHHTTPStubs.h in CopyFiles */,
 				09804E4F16A8D60A00ADC660 /* OHHTTPStubsResponse.h in CopyFiles */,
 			);
