@@ -224,7 +224,7 @@ _As far as I know, there's nothing we can do about those two limitations. Please
 
 ## Installing in your projects
 
-[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your `Podfile` then run `pod update` and you are ready to use it.
+[CocoaPods](http://cocoapods.org/) is the easiest way to add third-party libraries like `OHHTTPStubs` in your projects. Simply add `pod 'OHHTTPStubs'` to your `Podfile` then run `pod install` and you are ready to use it.
 
 _Note: `OHHTTPStubs` needs iOS5 minimum._
 
