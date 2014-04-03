@@ -52,7 +52,6 @@ _(Note: behind the scenes, it uses a custom `NSURLProtocol` to intercept the req
 
 * You can [read the **online documentation** here](http://cocoadocs.org/docsets/OHHTTPStubs/);
 * You can even **add it as a DocSet in your Xcode Organizer or in Dash** directly from the online doc mentioned above, with a simple click on the provided buttons in the top right corner;
-* When you [**install `OHHTTPStubs` using CocoaPods**](#installing-in-your-projects), if you have [appledoc](https://github.com/tomaz/appledoc) installed on your Mac, you will also get **the docset installed in your Xcode Organizer** automatically.
 
 Don't hesitate to take a look into `OHHTTPStubsResponse.h`, `OHHTTPStubsResponse+JSON.h` and `OHHTTPStubsResponse.HTTPMessage.h` to see all the commodity constructors, constants **and macros** available.
 
@@ -93,7 +92,7 @@ With the code below, only requests to the `mywebservice.com` host will be stubbe
 This example also demonstrate how to **easily return the content of a given file in your application bundle**.
 This is useful if you have all your fixtures (stubbed responses for your Unit Tests) in your Xcode project linked with your Unit Test target.
 
-> Note: You may even put all your fixtures in a custom bundle (let's call it Fixtures.bundle) and then use the helper macros to get it with `OHPathForFileInBundle(@"wsresponse.json",OHResourceBundle(@"Fixtures"))`.
+> Note: You may even put all your fixtures in a custom bundle (let's call it Fixtures.bundle) and then use the helper macros to get it: `OHPathForFileInBundle(@"wsresponse.json",OHResourceBundle(@"Fixtures"))`.
 
 ### Set request and response time
 
@@ -160,9 +159,9 @@ Example:
 _This may be useful to install different stubs in various places in your code, or to separate different stubbing conditions more easily. See the `OHHTTPStubsDemo` project for a typical example._
 
 When a network request is performed by the system, the **stubs are called in the reverse order that they have been added**, the last added stub having priority over the first added ones.
-The first stub that returns YES for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
+The first stub that returns `YES` for the first parameter of `stubRequestsPassingTest:withStubResponse:` is then used to reply to the request.
 
-* You can remove any given stub with the `removeStub:` method. This method takes as a parameter the `id<OHHTTPStubsDescriptor>` object returned by `stubRequestsPassingTest:withStubResponse:` _(Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, **so you should keep it in a `__weak` variable** so it is properly released from memory once removed)_.
+* You can remove any given stub with the `removeStub:` method. This method takes as a parameter the `id<OHHTTPStubsDescriptor>` object returned by `stubRequestsPassingTest:withStubResponse:` (Note: this returned object is already retained by `OHHTTPStubs` while the stub is installed, **so you should keep it in a `__weak` variable** so it is properly released from memory once removed).
 * You can remove the latest added stub with the `removeLastStub` method.
 * You can also remove all stubs at once with the `removeAllStubs` method.
 
@@ -232,7 +231,7 @@ _Note: `OHHTTPStubs` needs iOS5 minimum._
 
 In case you don't want to use CocoaPods (but you should!!!), the `OHHTTPStubs` project is provided as a Xcode project that generates a static library, so simply add its xcodeproj to your workspace and link your app against the `libOHHTTPStubs.a` library. See [here](https://github.com/AliSoftware/OHHTTPStubs/wiki/Detailed-Integration-Instruction) for detailed instructions.
 
-_Note: If you get an "unrecognised selector sent to instance" runtime error when calling one of the method declared in `OHHTTPStubs` categories, make sure that the project you want to link with `OHHTTPStubs` has the `-ObjC` flag in its "Other Linker Flags" (`OTHER_LDFLAGS`) build setting (this is normally the default in projects created in latest versions of Xcode). [See the Apple doc for more details](https://developer.apple.com/library/mac/qa/qa1490/_index.html)._
+> Note: If you get an "unrecognised selector sent to instance" runtime error when calling one of the method declared in `OHHTTPStubs` categories, make sure that the project you want to link with `OHHTTPStubs` has the `-ObjC` flag in its "Other Linker Flags" (`OTHER_LDFLAGS`) build setting (this is normally the default in projects created in latest versions of Xcode). [See the Apple doc for more details](https://developer.apple.com/library/mac/qa/qa1490/_index.html)._
 
 ## About `OHHTTPStubs` Unit Tests
 
@@ -248,7 +247,7 @@ I also provide the same Release Notes on each tag/version/release directly on th
 
 ## License and Credits
 
-This project and library has been created by Olivier Halligon (@AliSoftware) and is under the MIT License.
+This project and library has been created by Olivier Halligon (@aligatr on Twitter) and is under the MIT License.
 
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
 I would also like to thank to @kcharwood for its contribution, and everyone who contributed to this project on GitHub.
