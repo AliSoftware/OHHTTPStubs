@@ -492,6 +492,7 @@ typedef struct {
                     completion(inputStream.streamError);
                 }
             }
+            free(buffer);
         }
     }
     else
