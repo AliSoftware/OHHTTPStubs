@@ -126,4 +126,16 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
     [self _testWithData:testData requestTime:1 responseTime:5];
 }
 
+-(void)test_VeryLongData_RequestTime1_ResponseTime0
+{
+    static NSUInteger const kDataLength = 609792;
+    NSMutableData* testData = [NSMutableData dataWithCapacity:kDataLength];
+    NSData* chunk = [[NSProcessInfo.processInfo globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+    while(testData.length<kDataLength)
+    {
+        [testData appendData:chunk];
+    }
+    [self _testWithData:testData requestTime:1 responseTime:0];
+}
+
 @end
