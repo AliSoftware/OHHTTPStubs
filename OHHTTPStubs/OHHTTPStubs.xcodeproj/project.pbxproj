@@ -35,6 +35,8 @@
 		09C91206185E2F0700A41694 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
 		09C91207185E2F2300A41694 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0984831617805538002A99FF /* CFNetwork.framework */; };
 		09C91209185E2F4600A41694 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A59C9A217FCBC7000890679 /* CoreGraphics.framework */; };
+		09D56E771915163C00C7A0FB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D56E761915163C00C7A0FB /* MobileCoreServices.framework */; };
+		09D56E79191516AF00C7A0FB /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D56E78191516AF00C7A0FB /* CoreServices.framework */; };
 		09D888241808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
 		27CE42FF184CD21D00484665 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */; };
 		27CE430E184CD36900484665 /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09793598161B62C0006DB5D5 /* OHHTTPStubs.m */; };
@@ -119,6 +121,8 @@
 		09BEF7C817DFF68100B096F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		09C911FC185E2DB400A41694 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		09C911FE185E2E3700A41694 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		09D56E761915163C00C7A0FB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		09D56E78191516AF00C7A0FB /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		09D888231808BDA6002D3697 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		27CE42E4184CD21D00484665 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27CE42E5184CD21D00484665 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
@@ -168,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D56E771915163C00C7A0FB /* MobileCoreServices.framework in Frameworks */,
 				098368D3168FC7920082B1A4 /* Foundation.framework in Frameworks */,
 				9A59C9A517FCBCC700890679 /* SystemConfiguration.framework in Frameworks */,
 				09BEF7C917DFF68100B096F3 /* Security.framework in Frameworks */,
@@ -192,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D56E79191516AF00C7A0FB /* CoreServices.framework in Frameworks */,
 				09C911FD185E2DB400A41694 /* Foundation.framework in Frameworks */,
 				09C91204185E2EB300A41694 /* SystemConfiguration.framework in Frameworks */,
 				09C91205185E2EBC00A41694 /* Security.framework in Frameworks */,
@@ -236,6 +242,8 @@
 		0979357B161B6251006DB5D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09D56E78191516AF00C7A0FB /* CoreServices.framework */,
+				09D56E761915163C00C7A0FB /* MobileCoreServices.framework */,
 				09C911FE185E2E3700A41694 /* Cocoa.framework */,
 				09C911FC185E2DB400A41694 /* Foundation.framework */,
 				27CE4334184CD9F800484665 /* CFNetwork.framework */,
@@ -441,7 +449,7 @@
 		09793570161B6251006DB5D5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = AliSoftware;
 				TargetAttributes = {
 					27CE42F8184CD21D00484665 = {
@@ -699,7 +707,6 @@
 		27CE4309184CD21D00484665 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -734,7 +741,6 @@
 		27CE430A184CD21D00484665 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
