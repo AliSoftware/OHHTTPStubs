@@ -187,7 +187,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }
     else
     {
-        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. Use conditions like 'if ([NSURLSessionConfiguration class])' to only call this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
+        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. "
+              @"Use conditions like 'if ([NSURLSessionConfiguration class])' to only call "
+              @"this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
     }
 }
 #endif
@@ -276,7 +278,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 #pragma mark - Private Protocol Class
 
 @interface OHHTTPStubsProtocol()
-@property(nonatomic, assign) BOOL stopped;
+@property(assign) BOOL stopped;
+@property(strong) OHHTTPStubsDescriptor* stub;
 @end
 
 @implementation OHHTTPStubsProtocol
@@ -289,7 +292,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
 {
     // Make super sure that we never use a cached response.
-    return [super initWithRequest:request cachedResponse:nil client:client];
+    OHHTTPStubsProtocol* proto = [super initWithRequest:request cachedResponse:nil client:client];
+    proto.stub = [OHHTTPStubs.sharedInstance firstStubPassingTestForRequest:request];
+    return proto;
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
@@ -305,19 +310,31 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 - (void)startLoading
 {
     NSURLRequest* request = self.request;
-	id<NSURLProtocolClient> client = self.client;
+    id<NSURLProtocolClient> client = self.client;
     
-    OHHTTPStubsDescriptor* stub = [OHHTTPStubs.sharedInstance firstStubPassingTestForRequest:request];
-    NSAssert(stub, @"At the time startLoading is called, canInitRequest should have assured that stub is != nil beforehand");
-    OHHTTPStubsResponse* responseStub = stub.responseBlock(request);
-
+    if (!self.stub)
+    {
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"It seems like the stub has been removed BEFORE the response had time to be sent.",
+                                  NSLocalizedFailureReasonErrorKey,
+                                  @"For more info, see https://github.com/AliSoftware/OHHTTPStubs/wiki/OHHTTPStubs-and-asynchronous-tests",
+                                  NSLocalizedRecoverySuggestionErrorKey,
+                                  request.URL, // Stop right here if request.URL is nil
+                                  NSURLErrorFailingURLErrorKey,
+                                  nil];
+        NSError* error = [NSError errorWithDomain:@"OHHTTPStubs" code:500 userInfo:userInfo];
+        [client URLProtocol:self didFailWithError:error];
+        return;
+    }
+    
+    OHHTTPStubsResponse* responseStub = self.stub.responseBlock(request);
     if (OHHTTPStubs.sharedInstance.onStubActivationBlock)
     {
-        OHHTTPStubs.sharedInstance.onStubActivationBlock(request, stub);
+        OHHTTPStubs.sharedInstance.onStubActivationBlock(request, self.stub);
     }
     
     if (responseStub.error == nil)
-    {        
+    {
         NSHTTPURLResponse* urlResponse = [[NSHTTPURLResponse alloc] initWithURL:request.URL
                                                                      statusCode:responseStub.statusCode
                                                                     HTTPVersion:@"HTTP/1.1"
