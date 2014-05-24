@@ -1,14 +1,15 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "3.1.1"
+  s.version      = "3.1.2"
 
   s.summary      = "Stubbing framework for network requests."
-  s.description  = <<-DESC
-                    A class to stub network requests easily:
-                    * Test your apps with fake network data (stubbed from file)
-                    * Use customized stubs depending on the requests
-                    * Use custom response time to simulate slow network.
+  s.description  = <<-DESC.gsub(/^ +\|/,'')
+                    |A class to stub network requests easily:
+                    |
+                    | * Test your apps with fake network data (stubbed from file)
+                    | * Use customized stubs depending on the requests
+                    | * Use custom response time to simulate slow network.
                  DESC
 
   s.homepage     = "https://github.com/AliSoftware/OHHTTPStubs"
