@@ -88,14 +88,14 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 -(instancetype)responseTime:(NSTimeInterval)responseTime
 {
-    self.responseTime = responseTime;
+    _responseTime = responseTime;
     return self;
 }
 
 -(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
 {
-    self.requestTime = requestTime;
-    self.responseTime = responseTime;
+    _requestTime = requestTime;
+    _responseTime = responseTime;
     return self;
 }
 
@@ -110,12 +110,12 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     self = [super init];
     if (self)
     {
-        self.inputStream = inputStream;
-        self.dataSize = dataSize;
-        self.statusCode = statusCode;
+        _inputStream = inputStream;
+        _dataSize = dataSize;
+        _statusCode = statusCode;
         NSMutableDictionary * headers = [NSMutableDictionary dictionaryWithDictionary:httpHeaders];
-        headers[@"Content-Length"] = [NSString stringWithFormat:@"%llu",self.dataSize];
-        self.httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
+        headers[@"Content-Length"] = [NSString stringWithFormat:@"%llu",_dataSize];
+        _httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
     }
     return self;
 }
@@ -150,7 +150,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 {
     self = [super init];
     if (self) {
-        self.error = error;
+        _error = error;
     }
     return self;
 }
