@@ -58,7 +58,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-static NSTimeInterval const kResponseTimeTolerence = 0.2;
+static NSTimeInterval const kResponseTimeTolerence = 0.3;
 static NSTimeInterval const kSecurityTimeout = 5.0;
 
 -(void)_testWithData:(NSData*)stubData requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
