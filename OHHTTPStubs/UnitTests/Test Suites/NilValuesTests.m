@@ -36,7 +36,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
-         STAssertEquals(data.length, (NSUInteger)0, @"Data should be empty");
+         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
          
          [self notifyAsyncOperationDone];
      }];
@@ -59,7 +59,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
-         STAssertEquals(data.length, (NSUInteger)0, @"Data should be empty");
+         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
          
          [self notifyAsyncOperationDone];
      }];
@@ -94,7 +94,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     
     [self waitForAsyncOperationWithTimeout:kResponseTimeTolerence];
     
-    STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
+    XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 
 - (void)test_NilURLAndCookieHandlingEnabled

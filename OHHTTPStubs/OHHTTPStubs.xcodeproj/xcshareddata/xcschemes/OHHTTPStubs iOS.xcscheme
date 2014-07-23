@@ -7,14 +7,14 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForTesting = "NO"
+            buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09793578161B6251006DB5D5"
+               BlueprintIdentifier = "09110A4019805F4800D175E4"
                BuildableName = "libOHHTTPStubs.a"
                BlueprintName = "OHHTTPStubs iOS"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
@@ -28,8 +28,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "OHHTTPStubs iOS Tests.octest"
+               BlueprintIdentifier = "09110A5019805F4800D175E4"
+               BuildableName = "OHHTTPStubs iOS Tests.xctest"
                BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
@@ -46,8 +46,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "OHHTTPStubs iOS Tests.octest"
+               BlueprintIdentifier = "09110A5019805F4800D175E4"
+               BuildableName = "OHHTTPStubs iOS Tests.xctest"
                BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>

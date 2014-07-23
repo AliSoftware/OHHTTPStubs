@@ -130,9 +130,9 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
     
-    STAssertEqualObjects(_data, testData, @"Invalid data response");
-    STAssertNil(_error, @"Received unexpected network error %@", _error);
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertEqualObjects(_data, testData, @"Invalid data response");
+    XCTAssertNil(_error, @"Received unexpected network error %@", _error);
+    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -158,10 +158,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     [self waitForAsyncOperationWithTimeout:kResponseTime+kResponseTimeTolerence];
     
-    STAssertEquals(_data.length, (NSUInteger)0, @"Received unexpected network data %@", _data);
-    STAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
-    STAssertEquals(_error.code, expectedError.code, @"Invalid error response code");
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertEqual(_data.length, (NSUInteger)0, @"Received unexpected network data %@", _data);
+    XCTAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
+    XCTAssertEqual(_error.code, expectedError.code, @"Invalid error response code");
+    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -190,8 +190,8 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [cxn cancel];
     [self waitForTimeout:1.5];
     
-    STAssertEquals(_data.length, (NSUInteger)0, @"Received unexpected data but the request should have been cancelled");
-    STAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
+    XCTAssertEqual(_data.length, (NSUInteger)0, @"Received unexpected data but the request should have been cancelled");
+    XCTAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -238,10 +238,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         if ([cookie.name isEqualToString:cookieName])
         {
             cookieFound = YES;
-            STAssertEqualObjects(cookie.value, cookieValue, @"The cookie does not have the expected value");
+            XCTAssertEqualObjects(cookie.value, cookieValue, @"The cookie does not have the expected value");
         }
     }
-    STAssertTrue(cookieFound, @"The cookie was not stored as expected");
+    XCTAssertTrue(cookieFound, @"The cookie was not stored as expected");
     
 
     // As a courtesy, restore previous policy before leaving
@@ -302,11 +302,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     [self waitForAsyncOperationWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeTolerence)];
     
-    STAssertEqualObjects(_redirectRequestURL, endURL, @"Invalid redirect request URL");
-    STAssertEquals(_redirectResponseStatusCode, (NSInteger)311, @"Invalid redirect response status code");
-    STAssertEqualObjects(_data, testData, @"Invalid data response");
-    STAssertNil(_error, @"Received unexpected network error %@", _error);
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, 2 * kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertEqualObjects(_redirectRequestURL, endURL, @"Invalid redirect request URL");
+    XCTAssertEqual(_redirectResponseStatusCode, (NSInteger)311, @"Invalid redirect response status code");
+    XCTAssertEqualObjects(_data, testData, @"Invalid data response");
+    XCTAssertNil(_error, @"Received unexpected network error %@", _error);
+    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, 2 * kResponseTimeTolerence, @"Invalid response time");
     
     /* Check that the redirect cookie has been properly stored */
     NSArray* redirectCookies = [cookieStorage cookiesForURL:req.URL];
@@ -316,10 +316,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         if ([cookie.name isEqualToString:redirectCookieName])
         {
             redirectCookieFound = YES;
-            STAssertEqualObjects(cookie.value, redirectCookieValue, @"The redirect cookie does not have the expected value");
+            XCTAssertEqualObjects(cookie.value, redirectCookieValue, @"The redirect cookie does not have the expected value");
         }
     }
-    STAssertTrue(redirectCookieFound, @"The redirect cookie was not stored as expected");
+    XCTAssertTrue(redirectCookieFound, @"The redirect cookie was not stored as expected");
     
     /* Check that the end cookie has been properly stored */
     NSArray* endCookies = [cookieStorage cookiesForURL:endURL];
@@ -329,10 +329,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
         if ([cookie.name isEqualToString:endCookieName])
         {
             endCookieFound = YES;
-            STAssertEqualObjects(cookie.value, endCookieValue, @"The end cookie does not have the expected value");
+            XCTAssertEqualObjects(cookie.value, endCookieValue, @"The end cookie does not have the expected value");
         }
     }
-    STAssertTrue(endCookieFound, @"The end cookie was not stored as expected");
+    XCTAssertTrue(endCookieFound, @"The end cookie was not stored as expected");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];

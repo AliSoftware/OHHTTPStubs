@@ -59,14 +59,14 @@
         response = responseObject; // keep strong reference
         [self notifyAsyncOperationDone];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        STFail(@"Unexpected network failure");
+        XCTFail(@"Unexpected network failure");
         [self notifyAsyncOperationDone];
     }];
     [op start];
     
     [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
     
-    STAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
+    XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 @end
 
@@ -110,17 +110,17 @@
                         [self notifyAsyncOperationDone];
                     }
                     failure:^(NSURLSessionDataTask *task, NSError *error) {
-                        STFail(@"Unexpected network failure");
+                        XCTFail(@"Unexpected network failure");
                         [self notifyAsyncOperationDone];
                     }];
         
         [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
         
-        STAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
+        XCTAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
     }
     else
     {
-        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
 
