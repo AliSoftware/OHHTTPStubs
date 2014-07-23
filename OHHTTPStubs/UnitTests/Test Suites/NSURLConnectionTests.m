@@ -63,8 +63,8 @@ static const NSTimeInterval kResponseTime = 0.5;
     
     NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
     
-    STAssertEqualObjects(data, testData, @"Invalid data response");
-    STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertEqualObjects(data, testData, @"Invalid data response");
+    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
 }
 
 -(void)test_NSURLConnection_sendSyncronousRequest_parallelQueue
@@ -99,8 +99,8 @@ static const NSTimeInterval kResponseTime = 0.5;
     
     [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
-         STAssertEqualObjects(data, testData, @"Invalid data response");
-         STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+         XCTAssertEqualObjects(data, testData, @"Invalid data response");
+         XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
          
          [self notifyAsyncOperationDone];
      }];
@@ -153,8 +153,8 @@ static const NSTimeInterval kResponseTime = 0.5;
         [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
          {
 //             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
-             STAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
-             STAssertEqualsWithAccuracy(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, kResponseTimeTolerence, @"Invalid response time");
+             XCTAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
+             XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, kResponseTimeTolerence, @"Invalid response time");
              
              [self notifyAsyncOperationDone];
          }];

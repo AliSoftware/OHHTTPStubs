@@ -80,11 +80,11 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
     
     [self waitForAsyncOperationWithTimeout:requestTime+responseTime+kResponseTimeTolerence+kSecurityTimeout];
 
-    STAssertEqualObjects(_data, stubData, @"Invalid data response");
+    XCTAssertEqualObjects(_data, stubData, @"Invalid data response");
 
 //    STAssertEqualsWithAccuracy([_didReceiveResponseTS timeIntervalSinceDate:startTS], requestTime,
 //                               kResponseTimeTolerence, @"Invalid request time");
-    STAssertEqualsWithAccuracy([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime,
+    XCTAssertEqualWithAccuracy([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime,
                                kResponseTimeTolerence, @"Invalid response time");
     
     [NSThread sleepForTimeInterval:0.01]; // Time for the test to wrap it all (otherwise we may have "Test did not finish" warning)

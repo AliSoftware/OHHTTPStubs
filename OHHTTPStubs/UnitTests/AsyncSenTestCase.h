@@ -23,9 +23,9 @@
  ***********************************************************************************/
 
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface AsyncSenTestCase : SenTestCase
+@interface AsyncSenTestCase : XCTestCase
 /** @note All the waitFor… methods run the current runloop while waiting to let other threads and operations to continue running **/
 -(void)waitForAsyncOperationWithTimeout:(NSTimeInterval)timeout; //!< Wait for one async operation
 -(void)waitForAsyncOperations:(NSUInteger)count withTimeout:(NSTimeInterval)timeout; //!< Wait for multiple async operations

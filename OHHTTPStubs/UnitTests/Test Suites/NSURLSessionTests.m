@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 AliSoftware. All rights reserved.
 //
 
-
+#import <Foundation/Foundation.h>
 
 // Compile this only if SDK version (…MAX_ALLOWED) is iOS7+/10.9+ because NSURLSession is a class only known starting these SDKs
 // (this code won't compile if we use an eariler SDKs, like when building with Xcode4)
@@ -62,7 +62,7 @@
             {
                 NSError *jsonError = nil;
                 NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                STAssertNil(jsonError, @"Unexpected error deserializing JSON response");
+                XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
                 dataResponse = jsonObject;
             }
             [self notifyAsyncOperationDone];
@@ -87,13 +87,13 @@
         
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
-            STAssertNil(errorResponse, @"Unexpected error");
-            STAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
     }
     else
     {
-        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
 
@@ -106,13 +106,13 @@
         
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
-            STAssertNil(errorResponse, @"Unexpected error");
-            STAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
     }
     else
     {
-        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
 
@@ -125,13 +125,13 @@
         
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
-            STAssertNil(errorResponse, @"Unexpected error");
-            STAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
     }
     else
     {
-        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
 
@@ -146,13 +146,13 @@
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             // Stubs were disable for this session, so we should get an error instead of the stubs data
-            STAssertNotNil(errorResponse, @"Expected error but none found");
-            STAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+            XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];
     }
     else
     {
-        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
 
@@ -175,11 +175,11 @@
         
         [self waitForAsyncOperationWithTimeout:5];
         
-        STAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+        XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
     }
     else
     {
-        [SenTestLog testLogWithFormat:@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n"];
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
 
