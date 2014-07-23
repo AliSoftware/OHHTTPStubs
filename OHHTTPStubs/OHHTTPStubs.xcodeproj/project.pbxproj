@@ -73,7 +73,7 @@
 			containerPortal = 09110A3919805F4800D175E4 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 09110A4019805F4800D175E4;
-			remoteInfo = OHHTTPStubs;
+			remoteInfo = "OHHTTPStubs iOS";
 		};
 		095981D519806A7900807DBE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -419,7 +419,7 @@
 				095981D619806A7900807DBE /* PBXTargetDependency */,
 			);
 			name = "OHHTTPStubs Mac Tests";
-			productName = "OHHTTPStubs MacTests";
+			productName = "OHHTTPStubs Mac Tests";
 			productReference = 095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -433,7 +433,7 @@
 				ORGANIZATIONNAME = AliSoftware;
 				TargetAttributes = {
 					09110A5019805F4800D175E4 = {
-						TestTargetID = 095981C119806A7900807DBE;
+						TestTargetID = 09110A4019805F4800D175E4;
 					};
 					095981D119806A7900807DBE = {
 						TestTargetID = 095981C119806A7900807DBE;
@@ -645,7 +645,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/OHHTTPStubs.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
@@ -656,7 +655,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/OHHTTPStubs.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
@@ -684,7 +682,6 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -706,7 +703,6 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -723,7 +719,6 @@
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -749,7 +744,6 @@
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = OHHTTPStubs;
@@ -761,7 +755,6 @@
 		095981E419806A7900807DBE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OHHTTPStubs.framework/Versions/A/OHHTTPStubs";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -780,7 +773,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -788,7 +780,6 @@
 		095981E519806A7900807DBE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OHHTTPStubs.framework/Versions/A/OHHTTPStubs";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -804,7 +795,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -846,6 +836,7 @@
 				095981E219806A7900807DBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		095981E319806A7900807DBE /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac Tests" */ = {
 			isa = XCConfigurationList;
@@ -854,6 +845,7 @@
 				095981E519806A7900807DBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
