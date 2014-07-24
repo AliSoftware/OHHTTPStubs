@@ -1,27 +1,43 @@
-//
-//  NSURLSessionTests.m
-//  OHHTTPStubs
-//
-//  Created by Nick Donaldson on 10/5/13.
-//  Copyright (c) 2013 AliSoftware. All rights reserved.
-//
+/***********************************************************************************
+ *
+ * Copyright (c) 2012 Olivier Halligon
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ ***********************************************************************************/
 
-#import <Foundation/Foundation.h>
 
 // Compile this only if SDK version (…MAX_ALLOWED) is iOS7+/10.9+ because NSURLSession is a class only known starting these SDKs
 // (this code won't compile if we use an eariler SDKs, like when building with Xcode4)
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
  || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-#import "AsyncSenTestCase.h"
+#import <XCTest/XCTest.h>
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse+JSON.h"
 
-@interface NSURLSessionTests : AsyncSenTestCase <NSURLSessionDataDelegate> @end
+@interface NSURLSessionTests : XCTestCase <NSURLSessionDataDelegate> @end
 
 @implementation NSURLSessionTests
 {
     NSMutableData* _receivedData;
+    XCTestExpectation* _taskDidCompleteExpectation;
 }
 
 - (void)setUp
@@ -47,6 +63,8 @@
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
         
+        XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
+        
         __block __strong id dataResponse = nil;
         __block __strong NSError* errorResponse = nil;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
@@ -65,12 +83,12 @@
                 XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
                 dataResponse = jsonObject;
             }
-            [self notifyAsyncOperationDone];
+            [expectation fulfill];
         }];
 
         [task resume];
         
-        [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+0.5];
+        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
         
         completion(errorResponse, dataResponse);
     }
@@ -168,12 +186,14 @@
                     responseTime:0.5];
         }];
         
+        _taskDidCompleteExpectation = [self expectationWithDescription:@"NSURLSessionDataTask completion delegate method called"];
+        
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
         
         [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
         
-        [self waitForAsyncOperationWithTimeout:5];
+        [self waitForExpectationsWithTimeout:5 handler:nil];
         
         XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
     }
@@ -197,7 +217,7 @@
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-    [self notifyAsyncOperationDone];
+    [_taskDidCompleteExpectation fulfill];
 }
 
 @end
