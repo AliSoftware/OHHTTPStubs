@@ -16,7 +16,6 @@
 		09110A751980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A711980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m */; };
 		09110A761980606A00D175E4 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A731980606A00D175E4 /* OHHTTPStubsResponse+JSON.m */; };
 		09110A791980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A781980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
-		09110A84198060B200D175E4 /* AsyncSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A7C198060B200D175E4 /* AsyncSenTestCase.m */; };
 		0959813C198064B000807DBE /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981211980649200807DBE /* AFHTTPRequestOperation.m */; };
 		0959813D198064B000807DBE /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981231980649200807DBE /* AFHTTPRequestOperationManager.m */; };
 		0959813E198064B000807DBE /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981251980649200807DBE /* AFHTTPSessionManager.m */; };
@@ -50,7 +49,6 @@
 		095981F219806AA200807DBE /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814C1980668E00807DBE /* NSURLSessionTests.m */; };
 		095981F319806AA200807DBE /* TimingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814D1980668E00807DBE /* TimingTests.m */; };
 		095981F419806AA200807DBE /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814E1980668E00807DBE /* WithContentsOfURLTests.m */; };
-		095981F519806AA200807DBE /* AsyncSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A7C198060B200D175E4 /* AsyncSenTestCase.m */; };
 		095981F619806AAC00807DBE /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A6B1980605A00D175E4 /* OHHTTPStubs.m */; };
 		095981F719806AAC00807DBE /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A6F1980606A00D175E4 /* OHHTTPStubsResponse.m */; };
 		095981F819806AAC00807DBE /* OHHTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A711980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m */; };
@@ -65,6 +63,8 @@
 		0959820119806B1E00807DBE /* OHHTTPStubsResponse+HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 09110A701980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0959820219806B2200807DBE /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 09110A721980606A00D175E4 /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0959820319806F2D00807DBE /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981211980649200807DBE /* AFHTTPRequestOperation.m */; };
+		099E8C1919808B14002895AA /* XCTestExpectation+OHRetroCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */; };
+		099E8C1A19808B14002895AA /* XCTestExpectation+OHRetroCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,8 +114,6 @@
 		09110A721980606A00D175E4 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		09110A731980606A00D175E4 /* OHHTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
 		09110A781980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
-		09110A7B198060B200D175E4 /* AsyncSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSenTestCase.h; sourceTree = "<group>"; };
-		09110A7C198060B200D175E4 /* AsyncSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSenTestCase.m; sourceTree = "<group>"; };
 		095981201980649200807DBE /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		095981211980649200807DBE /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		095981221980649200807DBE /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -150,6 +148,8 @@
 		095981C219806A7900807DBE /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		095981C619806A7900807DBE /* OHHTTPStubs Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OHHTTPStubs Mac-Info.plist"; sourceTree = "<group>"; };
 		095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs Mac Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		099E8C1719808B14002895AA /* XCTestExpectation+OHRetroCompat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestExpectation+OHRetroCompat.h"; sourceTree = "<group>"; };
+		099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestExpectation+OHRetroCompat.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,10 +237,9 @@
 		09110A5A19805F4800D175E4 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				099E8C1619808B14002895AA /* Async Tests Helper */,
 				0959811F1980647A00807DBE /* AFNetworking Source */,
 				095981461980663000807DBE /* Test Suites */,
-				09110A7B198060B200D175E4 /* AsyncSenTestCase.h */,
-				09110A7C198060B200D175E4 /* AsyncSenTestCase.m */,
 				09110A5B19805F4800D175E4 /* Supporting Files */,
 			);
 			path = UnitTests;
@@ -333,6 +332,15 @@
 				095981C619806A7900807DBE /* OHHTTPStubs Mac-Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		099E8C1619808B14002895AA /* Async Tests Helper */ = {
+			isa = PBXGroup;
+			children = (
+				099E8C1719808B14002895AA /* XCTestExpectation+OHRetroCompat.h */,
+				099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */,
+			);
+			path = "Async Tests Helper";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -510,7 +518,6 @@
 				095981881980682800807DBE /* AFNetworkingTests.m in Sources */,
 				0959813D198064B000807DBE /* AFHTTPRequestOperationManager.m in Sources */,
 				0959813E198064B000807DBE /* AFHTTPSessionManager.m in Sources */,
-				09110A84198060B200D175E4 /* AsyncSenTestCase.m in Sources */,
 				09598140198064B000807DBE /* AFSecurityPolicy.m in Sources */,
 				09598142198064B000807DBE /* AFURLRequestSerialization.m in Sources */,
 				0959818C1980682E00807DBE /* NSURLSessionTests.m in Sources */,
@@ -518,6 +525,7 @@
 				095981891980682E00807DBE /* NilValuesTests.m in Sources */,
 				0959813F198064B000807DBE /* AFNetworkReachabilityManager.m in Sources */,
 				09598143198064B000807DBE /* AFURLResponseSerialization.m in Sources */,
+				099E8C1919808B14002895AA /* XCTestExpectation+OHRetroCompat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,9 +559,9 @@
 				095981F219806AA200807DBE /* NSURLSessionTests.m in Sources */,
 				095981EB19806AA200807DBE /* AFURLRequestSerialization.m in Sources */,
 				095981EC19806AA200807DBE /* AFURLResponseSerialization.m in Sources */,
-				095981F519806AA200807DBE /* AsyncSenTestCase.m in Sources */,
 				0959820319806F2D00807DBE /* AFHTTPRequestOperation.m in Sources */,
 				095981F019806AA200807DBE /* NSURLConnectionDelegateTests.m in Sources */,
+				099E8C1A19808B14002895AA /* XCTestExpectation+OHRetroCompat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,6 +770,7 @@
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -788,6 +797,7 @@
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

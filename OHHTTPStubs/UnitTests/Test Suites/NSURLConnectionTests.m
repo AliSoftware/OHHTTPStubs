@@ -22,11 +22,10 @@
  *
  ***********************************************************************************/
 
-
-#import "AsyncSenTestCase.h"
+#import <XCTest/XCTest.h>
 #import "OHHTTPStubs.h"
 
-@interface NSURLConnectionTests : AsyncSenTestCase @end
+@interface NSURLConnectionTests : XCTestCase @end
 
 static const NSTimeInterval kResponseTimeTolerence = 0.3;
 
@@ -69,11 +68,12 @@ static const NSTimeInterval kResponseTime = 0.5;
 
 -(void)test_NSURLConnection_sendSyncronousRequest_parallelQueue
 {
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Synchronous request completed"];
     [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSURLConnection_sendSyncronousRequest_mainQueue];
-        [self notifyAsyncOperationDone];
+        [expectation fulfill];
     }];
-    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +93,7 @@ static const NSTimeInterval kResponseTime = 0.5;
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Asynchronous request finished"];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
@@ -102,10 +103,10 @@ static const NSTimeInterval kResponseTime = 0.5;
          XCTAssertEqualObjects(data, testData, @"Invalid data response");
          XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
          
-         [self notifyAsyncOperationDone];
+         [expectation fulfill];
      }];
     
-    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
 }
 
 
@@ -146,6 +147,9 @@ static const NSTimeInterval kResponseTime = 0.5;
     // Reusable code to send a request that will respond in the given response time
     void (^sendAsyncRequest)(NSTimeInterval) = ^(NSTimeInterval responseTime)
     {
+        NSString* desc = [NSString stringWithFormat:@"Asynchronous request with response time %.f finished", responseTime];
+        XCTestExpectation* expectation = [self expectationWithDescription:desc];
+
         NSString* urlString = [NSString stringWithFormat:@"http://dummyrequest/concurrent/time/%f",responseTime];
         NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 //        [SenTestLog testLogWithFormat:@"== Sending request %@\n", req];
@@ -156,7 +160,7 @@ static const NSTimeInterval kResponseTime = 0.5;
              XCTAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
              XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, kResponseTimeTolerence, @"Invalid response time");
              
-             [self notifyAsyncOperationDone];
+             [expectation fulfill];
          }];
     };
 
@@ -165,7 +169,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     sendAsyncRequest(time2); // send this one next, shoud receive 2nd
     sendAsyncRequest(time1); // send this one last, should receive first
 
-    [self waitForAsyncOperations:3 withTimeout:MAX(time1,MAX(time2,time3))+kResponseTimeTolerence];
+    [self waitForExpectationsWithTimeout:MAX(time1,MAX(time2,time3))+kResponseTimeTolerence handler:nil];
 }
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_mainQueue

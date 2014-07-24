@@ -23,10 +23,10 @@
  ***********************************************************************************/
 
 
-#import "AsyncSenTestCase.h"
+#import <XCTest/XCTest.h>
 #import "OHHTTPStubs.h"
 
-@interface WithContentsOfURLTests : AsyncSenTestCase @end
+@interface WithContentsOfURLTests : XCTestCase @end
 
 static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
@@ -70,11 +70,12 @@ static const NSTimeInterval kResponseTime = 0.5;
 
 -(void)test_NSString_stringWithContentsOfURL_parallelQueue
 {
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Synchronous download finished"];
     [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSString_stringWithContentsOfURL_mainQueue];
-        [self notifyAsyncOperationDone];
+        [expectation fulfill];
     }];
-    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -104,11 +105,12 @@ static const NSTimeInterval kResponseTime = 0.5;
 
 -(void)test_NSData_dataWithContentsOfURL_parallelQueue
 {
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Synchronous download finished"];
     [[NSOperationQueue new] addOperationWithBlock:^{
         [self test_NSData_dataWithContentsOfURL_mainQueue];
-        [self notifyAsyncOperationDone];
+        [expectation fulfill];
     }];
-    [self waitForAsyncOperationWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
 }
 
 @end
