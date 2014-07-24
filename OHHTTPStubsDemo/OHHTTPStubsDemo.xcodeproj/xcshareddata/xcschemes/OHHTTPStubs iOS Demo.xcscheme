@@ -28,8 +28,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "OHHTTPStubs iOS Tests.octest"
+               BlueprintIdentifier = "09110A5019805F4800D175E4"
+               BuildableName = "OHHTTPStubs iOS Tests.xctest"
                BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:../OHHTTPStubs/OHHTTPStubs.xcodeproj">
             </BuildableReference>
@@ -46,8 +46,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "098368CD168FC7920082B1A4"
-               BuildableName = "OHHTTPStubs iOS Tests.octest"
+               BlueprintIdentifier = "09110A5019805F4800D175E4"
+               BuildableName = "OHHTTPStubs iOS Tests.xctest"
                BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:../OHHTTPStubs/OHHTTPStubs.xcodeproj">
             </BuildableReference>
