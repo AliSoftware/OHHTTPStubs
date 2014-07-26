@@ -38,9 +38,8 @@
 #import "XCTestExpectation+OHRetroCompat.h"
 #import <Foundation/Foundation.h>
 
-#import <objc/runtime.h>
+#import <libkern/OSAtomic.h>
 
-static void* kExpectationsAssocKey = &kExpectationsAssocKey;
 static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 
 
@@ -51,25 +50,41 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 @property(weak) XCTestCase* associatedTestCase;
 @end
 
+@interface XCTestCaseAsync()
+{
+    NSMutableArray* _expectations;
+    OSSpinLock _expectationsLock;
+    int32_t _unfulfilledExpectationsCount;
+}
+@end
+
+
 /////////////////////////////////////////////////////////
 
-@implementation XCTestCase(NFAsync)
+@implementation XCTestCaseAsync
 
-- (void)lockExpectationsArrayAndDo:(void(^)(NSMutableArray* expectations))block
+- (void)setUp
 {
-    @synchronized(self)
-    {
-        NSMutableArray* expectations = objc_getAssociatedObject(self, kExpectationsAssocKey);
-        if (!expectations)
-        {
-            expectations = [NSMutableArray new];
-            objc_setAssociatedObject(self, kExpectationsAssocKey, expectations, OBJC_ASSOCIATION_RETAIN);
-        }
-        block(expectations);
-    }
+    [super setUp];
+    _expectations = [NSMutableArray new];
+    _unfulfilledExpectationsCount = 0;
 }
 
-
+- (void)tearDown
+{
+    [super tearDown];
+    if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount))
+    {
+        OSSpinLockLock(&_expectationsLock);
+        XCTFail(@"Failed due to unwaited expectations: %@.", [_expectations componentsJoinedByString:@", "]);
+//        // Locate Xcode test failures at the exact line of each expectation, if we have thie FILE+LINE information
+//        for(XCTestExpectation* expectation in _expectations)
+//        {
+//            _XCTFailureHandler(self, YES, expectation.file, expectation.line, _XCTFailureDescription(_XCTAssertion_Fail, 0), @"Failed due to unwaited expectations.");
+//        }
+        OSSpinLockUnlock(&_expectationsLock);
+    }
+}
 
 - (XCTestExpectation *)expectationWithDescription:(NSString *)description
 {
@@ -77,39 +92,44 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
     expectation.associatedTestCase = self;
     expectation.descritionString = description;
 
-    [self lockExpectationsArrayAndDo:^(NSMutableArray *expectations) {
-        [expectations addObject:expectation];
-    }];
+    OSSpinLockLock(&_expectationsLock);
+    {
+        [_expectations addObject:expectation];
+        OSAtomicIncrement32(&_unfulfilledExpectationsCount);
+    }
+    OSSpinLockUnlock(&_expectationsLock);
     
     return expectation;
+}
+
+- (void)fulfillExpectation:(XCTestExpectation*)expectation
+{
+    OSSpinLockLock(&_expectationsLock);
+    if ([_expectations containsObject:self])
+    {
+        [NSException raise:NSInternalInconsistencyException format:@"The XCTestExpectation %@ has already been fulfilled!", expectation];
+    }
+    [_expectations removeObject:expectation];
+    OSAtomicDecrement32(&_unfulfilledExpectationsCount);
+    OSSpinLockUnlock(&_expectationsLock);
 }
 
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
 {
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    __block BOOL allExpectationsFulfilled = NO;
     
     while ([timeoutDate timeIntervalSinceNow]>0)
     {
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, kRunLoopSamplingInterval, YES);
-
-        [self lockExpectationsArrayAndDo:^(NSMutableArray *expectations) {
-            allExpectationsFulfilled = (expectations.count == 0);
-        }];
-        if (allExpectationsFulfilled) break;
+        if (OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount)) break;
     }
     
-    __block NSError* error = nil;
-    __block NSString* expectationsList = nil;
+    NSError* error = nil;
     
-    [self lockExpectationsArrayAndDo:^(NSMutableArray *expectations) {
-        if (expectations.count > 0)
-        {
-            expectationsList = [expectations componentsJoinedByString:@", "];
-            error = [NSError errorWithDomain:@"com.apple.XCTestErrorDomain" code:0 userInfo:nil];
-            [expectations removeAllObjects];
-        }
-    }];
+    if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount))
+    {
+        error = [NSError errorWithDomain:@"com.apple.XCTestErrorDomain" code:0 userInfo:nil];
+    }
     
     if (handlerOrNil)
     {
@@ -118,8 +138,17 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
     
     if (error)
     {
+        OSSpinLockLock(&_expectationsLock);
+        NSString* expectationsList = [_expectations componentsJoinedByString:@", "];
+        [_expectations removeAllObjects];
+        OSAtomicCompareAndSwap32(_unfulfilledExpectationsCount, 0, &_unfulfilledExpectationsCount);
+        OSSpinLockUnlock(&_expectationsLock);
+        
         XCTFail(@"Asynchronous wait failed: Exceeded timeout of %0.f seconds, with unfulfilled expectations: %@.",
                 timeout, expectationsList);
+//        _XCTFailureHandler(self, YES, file, line, _XCTFailureDescription(_XCTAssertion_Fail, 0),
+//                           @"Asynchronous wait failed: Exceeded timeout of %0.f seconds, with unfulfilled expectations: %@.",
+//                           timeout, expectationsList);
     }
 }
 
@@ -130,12 +159,11 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 @implementation XCTestExpectation
 - (void)fulfill
 {
-    NSAssert(_associatedTestCase, @"The test case associated with this XCTestExpectation %@ has already finished!", self);
-    
-    [_associatedTestCase lockExpectationsArrayAndDo:^(NSMutableArray *expectations) {
-        NSAssert([expectations containsObject:self], @"The XCTestExpectation %@ has already been fulfilled!", self);
-        [expectations removeObject:self];
-    }];
+    if(!_associatedTestCase)
+    {
+        [NSException raise:NSInternalInconsistencyException format:@"The test case associated with this XCTestExpectation %@ has already finished!", self];
+    }
+    [_associatedTestCase fulfillExpectation:self];
 }
 
 - (NSString*)description
