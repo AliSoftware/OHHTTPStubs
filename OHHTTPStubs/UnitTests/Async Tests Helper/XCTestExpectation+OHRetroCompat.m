@@ -48,6 +48,10 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 @interface XCTestExpectation()
 @property(strong) NSString* descritionString;
 @property(weak) XCTestCase* associatedTestCase;
+#if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
+@property(assign) const char* sourceFile;
+@property(assign) NSUInteger sourceLine;
+#endif
 @end
 
 @interface XCTestCaseAsync()
@@ -63,6 +67,11 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 
 @implementation XCTestCaseAsync
 
+#if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
+#undef expectationWithDescription
+#undef waitForExpectationsWithTimeout
+#endif
+
 - (void)setUp
 {
     [super setUp];
@@ -76,12 +85,15 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
     if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount))
     {
         OSSpinLockLock(&_expectationsLock);
+#if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
+        // Locate Xcode test failures at the exact line of each expectation, if we have thie FILE+LINE information
+        for(XCTestExpectation* expectation in _expectations)
+        {
+            _XCTFailureHandler(self, YES, expectation.sourceFile, expectation.sourceLine, _XCTFailureDescription(_XCTAssertion_Fail, 0), @"Failed due to unwaited expectation.");
+        }
+#else
         XCTFail(@"Failed due to unwaited expectations: %@.", [_expectations componentsJoinedByString:@", "]);
-//        // Locate Xcode test failures at the exact line of each expectation, if we have thie FILE+LINE information
-//        for(XCTestExpectation* expectation in _expectations)
-//        {
-//            _XCTFailureHandler(self, YES, expectation.file, expectation.line, _XCTFailureDescription(_XCTAssertion_Fail, 0), @"Failed due to unwaited expectations.");
-//        }
+#endif
         OSSpinLockUnlock(&_expectationsLock);
     }
 }
@@ -116,17 +128,22 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
 {
+    [self file:NULL line:0 waitForExpectationsWithTimeout:timeout handler:handlerOrNil];
+}
+
+- (void)file:(const char*)_caller_source_file line:(NSUInteger)_caller_source_line waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
+{
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     
     while ([timeoutDate timeIntervalSinceNow]>0)
     {
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, kRunLoopSamplingInterval, YES);
-        if (OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount)) break;
+        if (OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount)) break; // if all expectations fulfilled, break
     }
     
     NSError* error = nil;
     
-    if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount))
+    if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount)) // if unfulfilledExpectationsCount != 0
     {
         error = [NSError errorWithDomain:@"com.apple.XCTestErrorDomain" code:0 userInfo:nil];
     }
@@ -141,16 +158,30 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
         OSSpinLockLock(&_expectationsLock);
         NSString* expectationsList = [_expectations componentsJoinedByString:@", "];
         [_expectations removeAllObjects];
-        OSAtomicCompareAndSwap32(_unfulfilledExpectationsCount, 0, &_unfulfilledExpectationsCount);
+        OSAtomicCompareAndSwap32(_unfulfilledExpectationsCount, 0, &_unfulfilledExpectationsCount); // reset to 0
         OSSpinLockUnlock(&_expectationsLock);
-        
-        XCTFail(@"Asynchronous wait failed: Exceeded timeout of %0.f seconds, with unfulfilled expectations: %@.",
+#if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
+        _XCTFailureHandler(self, YES, _caller_source_file, _caller_source_line, _XCTFailureDescription(_XCTAssertion_Fail, 0),
+                           @"Asynchronous wait failed: Exceeded timeout of %g seconds, with unfulfilled expectations: %@.",
+                           timeout, expectationsList);
+#else
+        XCTFail(@"Asynchronous wait failed: Exceeded timeout of %g seconds, with unfulfilled expectations: %@.",
                 timeout, expectationsList);
-//        _XCTFailureHandler(self, YES, file, line, _XCTFailureDescription(_XCTAssertion_Fail, 0),
-//                           @"Asynchronous wait failed: Exceeded timeout of %0.f seconds, with unfulfilled expectations: %@.",
-//                           timeout, expectationsList);
+        
+#endif
     }
 }
+
+#if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
+- (XCTestExpectation *)file:(const char*)_caller_source_file line:(NSUInteger)_caller_source_line
+ expectationWithDescription:(NSString *)description
+{
+    XCTestExpectation* expectation = [self expectationWithDescription:description];
+    expectation.sourceFile = _caller_source_file;
+    expectation.sourceLine = _caller_source_line;
+    return expectation;
+}
+#endif
 
 @end
 
