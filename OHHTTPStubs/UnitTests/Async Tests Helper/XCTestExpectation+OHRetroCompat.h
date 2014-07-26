@@ -55,7 +55,7 @@
 
 /////////////////////////////////////////////////////////
 
-@interface XCTestCase (NFAsync)
+@interface XCTestCaseAsync : XCTestCase
 
 /*!
  * @method +expectationWithDescription:
@@ -101,5 +101,7 @@ typedef void (^XCWaitCompletionHandler)(NSError *error);
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil;
 
 @end
+
+#define XCTestCase XCTestCaseAsync
 
 #endif
