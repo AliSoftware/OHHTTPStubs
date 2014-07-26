@@ -34,6 +34,7 @@
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 80000) \
  || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED)  && __MAC_OS_X_VERSION_MAX_ALLOWED < 101000)
 
+#define XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS 1
 
 #import <XCTest/XCTest.h>
 
@@ -99,6 +100,13 @@ typedef void (^XCWaitCompletionHandler)(NSError *error);
  * loop while using this API.
  */
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil;
+
+#if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
+- (XCTestExpectation *)file:(const char*)_ line:(NSUInteger)_ expectationWithDescription:(NSString *)description;
+- (void)file:(const char*)_ line:(NSUInteger)_ waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil;
+#define expectationWithDescription file:__FILE__ line:__LINE__ expectationWithDescription
+#define waitForExpectationsWithTimeout file:__FILE__ line:__LINE__ waitForExpectationsWithTimeout
+#endif
 
 @end
 
