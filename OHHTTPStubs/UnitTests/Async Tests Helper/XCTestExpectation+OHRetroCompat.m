@@ -128,10 +128,10 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
 {
-    [self file:NULL line:0 waitForExpectationsWithTimeout:timeout handler:handlerOrNil];
+    [self __file:NULL line:0 waitForExpectationsWithTimeout:timeout handler:handlerOrNil];
 }
 
-- (void)file:(const char*)_caller_source_file line:(NSUInteger)_caller_source_line waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
+- (void)__file:(const char*)_caller_source_file line:(NSUInteger)_caller_source_line waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
 {
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     
@@ -173,7 +173,7 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 }
 
 #if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
-- (XCTestExpectation *)file:(const char*)_caller_source_file line:(NSUInteger)_caller_source_line
+- (XCTestExpectation *)__file:(const char*)_caller_source_file line:(NSUInteger)_caller_source_line
  expectationWithDescription:(NSString *)description
 {
     XCTestExpectation* expectation = [self expectationWithDescription:description];

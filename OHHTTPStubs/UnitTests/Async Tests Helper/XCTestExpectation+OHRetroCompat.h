@@ -102,10 +102,10 @@ typedef void (^XCWaitCompletionHandler)(NSError *error);
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil;
 
 #if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
-- (XCTestExpectation *)file:(const char*)_ line:(NSUInteger)_ expectationWithDescription:(NSString *)description;
-- (void)file:(const char*)_ line:(NSUInteger)_ waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil;
-#define expectationWithDescription file:__FILE__ line:__LINE__ expectationWithDescription
-#define waitForExpectationsWithTimeout file:__FILE__ line:__LINE__ waitForExpectationsWithTimeout
+- (XCTestExpectation *)__file:(const char*)_ line:(NSUInteger)_ expectationWithDescription:(NSString *)description;
+- (void)__file:(const char*)_ line:(NSUInteger)_ waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil;
+#define expectationWithDescription __file:__FILE__ line:__LINE__ expectationWithDescription
+#define waitForExpectationsWithTimeout __file:__FILE__ line:__LINE__ waitForExpectationsWithTimeout
 #endif
 
 @end
