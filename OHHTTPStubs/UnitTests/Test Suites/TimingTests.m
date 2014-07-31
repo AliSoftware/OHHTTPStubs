@@ -1,18 +1,36 @@
-//
-//  TimingTests.m
-//  OHHTTPStubs
-//
-//  Created by Olivier Halligon on 01/09/13.
-//  Copyright (c) 2013 AliSoftware. All rights reserved.
-//
+/***********************************************************************************
+ *
+ * Copyright (c) 2012 Olivier Halligon
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ ***********************************************************************************/
 
-#import "AsyncSenTestCase.h"
+
+#import <XCTest/XCTest.h>
 #import "OHHTTPStubs.h"
 
-@interface TimingTests : AsyncSenTestCase
+@interface TimingTests : XCTestCase
 {
     NSMutableData* _data;
     NSError* _error;
+    XCTestExpectation* _connectionFinishedExpectation;
     
 //    NSDate* _didReceiveResponseTS;
     NSDate* _didFinishLoadingTS;
@@ -33,7 +51,7 @@
 {
     [_data setLength:0U];
     // NOTE: This timing info is not reliable as Cocoa always calls the connection:didReceiveResponse: delegate method just before
-    // calling the first "connection:didReceiveData:", even if the [id<NSURLProtocolClient> URLProtocol:didReceiveResponse:…] method was called way before.
+    // calling the first "connection:didReceiveData:", even if the [id<NSURLProtocolClient> URLProtocol:didReceiveResponse:…] method was called way before. So we are not testing this
 //    _didReceiveResponseTS = [NSDate date];
 }
 
@@ -46,19 +64,19 @@
 {
     _error = error; // keep strong reference
     _didFinishLoadingTS = [NSDate date];
-    [self notifyAsyncOperationDone];
+    [_connectionFinishedExpectation fulfill];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     _didFinishLoadingTS = [NSDate date];
-    [self notifyAsyncOperationDone];
+    [_connectionFinishedExpectation fulfill];
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-static NSTimeInterval const kResponseTimeTolerence = 0.3;
+static NSTimeInterval const kResponseTimeTolerence = 0.8;
 static NSTimeInterval const kSecurityTimeout = 5.0;
 
 -(void)_testWithData:(NSData*)stubData requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
@@ -72,19 +90,20 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
                 requestTime:requestTime responseTime:responseTime];
     }];
     
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
     
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startTS = [NSDate date];
     
     [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForAsyncOperationWithTimeout:requestTime+responseTime+kResponseTimeTolerence+kSecurityTimeout];
+    [self waitForExpectationsWithTimeout:requestTime+responseTime+kResponseTimeTolerence+kSecurityTimeout handler:nil];
 
-    STAssertEqualObjects(_data, stubData, @"Invalid data response");
+    XCTAssertEqualObjects(_data, stubData, @"Invalid data response");
 
-//    STAssertEqualsWithAccuracy([_didReceiveResponseTS timeIntervalSinceDate:startTS], requestTime,
+//    XCTAssertEqualWithAccuracy([_didReceiveResponseTS timeIntervalSinceDate:startTS], requestTime,
 //                               kResponseTimeTolerence, @"Invalid request time");
-    STAssertEqualsWithAccuracy([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime,
+    XCTAssertEqualWithAccuracy([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime,
                                kResponseTimeTolerence, @"Invalid response time");
     
     [NSThread sleepForTimeInterval:0.01]; // Time for the test to wrap it all (otherwise we may have "Test did not finish" warning)
