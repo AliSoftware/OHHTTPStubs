@@ -48,6 +48,7 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 @interface XCTestExpectation()
 @property(strong) NSString* descritionString;
 @property(weak) XCTestCase* associatedTestCase;
+@property(readonly) BOOL fulfilled;
 #if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
 @property(assign) const char* sourceFile;
 @property(assign) NSUInteger sourceLine;
@@ -75,6 +76,7 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 - (void)setUp
 {
     [super setUp];
+    
     _expectations = [NSMutableArray new];
     _unfulfilledExpectationsCount = 0;
 }
@@ -82,9 +84,11 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 - (void)tearDown
 {
     [super tearDown];
-    if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount))
+    
+    if (!OSAtomicCompareAndSwap32(0, 0, &_unfulfilledExpectationsCount)) // if unfulfilledExpectationsCount != 0
     {
         OSSpinLockLock(&_expectationsLock);
+        [_expectations filterUsingPredicate:[NSPredicate predicateWithFormat:@"fulfilled == NO"]];
 #if XCTestExpectation_OHRetroCompat_BETTER_FAILURE_LOCATIONS
         // Locate Xcode test failures at the exact line of each expectation, if we have thie FILE+LINE information
         for(XCTestExpectation* expectation in _expectations)
@@ -94,6 +98,7 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
 #else
         XCTFail(@"Failed due to unwaited expectations: %@.", [_expectations componentsJoinedByString:@", "]);
 #endif
+        [_expectations removeAllObjects];
         OSSpinLockUnlock(&_expectationsLock);
     }
 }
@@ -114,16 +119,9 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
     return expectation;
 }
 
-- (void)fulfillExpectation:(XCTestExpectation*)expectation
+- (void)decrementUnfulfilledExpectationsCount
 {
-    OSSpinLockLock(&_expectationsLock);
-    if ([_expectations containsObject:self])
-    {
-        [NSException raise:NSInternalInconsistencyException format:@"The XCTestExpectation %@ has already been fulfilled!", expectation];
-    }
-    [_expectations removeObject:expectation];
     OSAtomicDecrement32(&_unfulfilledExpectationsCount);
-    OSSpinLockUnlock(&_expectationsLock);
 }
 
 - (void)waitForExpectationsWithTimeout:(NSTimeInterval)timeout handler:(XCWaitCompletionHandler)handlerOrNil
@@ -156,6 +154,7 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
     if (error)
     {
         OSSpinLockLock(&_expectationsLock);
+        [_expectations filterUsingPredicate:[NSPredicate predicateWithFormat:@"fulfilled == NO"]];
         NSString* expectationsList = [_expectations componentsJoinedByString:@", "];
         [_expectations removeAllObjects];
         OSAtomicCompareAndSwap32(_unfulfilledExpectationsCount, 0, &_unfulfilledExpectationsCount); // reset to 0
@@ -194,7 +193,12 @@ static NSTimeInterval const kRunLoopSamplingInterval = 0.01;
     {
         [NSException raise:NSInternalInconsistencyException format:@"The test case associated with this XCTestExpectation %@ has already finished!", self];
     }
-    [_associatedTestCase fulfillExpectation:self];
+    if (_fulfilled)
+    {
+        [NSException raise:NSInternalInconsistencyException format:@"The XCTestExpectation %@ has already been fulfilled!", self];
+    }
+    _fulfilled = YES;
+    [_associatedTestCase decrementUnfulfilledExpectationsCount];
 }
 
 - (NSString*)description
