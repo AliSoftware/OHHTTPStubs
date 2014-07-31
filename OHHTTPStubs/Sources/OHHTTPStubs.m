@@ -486,7 +486,7 @@ typedef struct {
                                timingInfo:timingInfo completion:completion];
             });
         } else {
-            uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t*)*chunkSizeToRead);
+            uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t)*chunkSizeToRead);
             NSInteger bytesRead = [inputStream read:buffer maxLength:chunkSizeToRead];
             if (bytesRead > 0)
             {
