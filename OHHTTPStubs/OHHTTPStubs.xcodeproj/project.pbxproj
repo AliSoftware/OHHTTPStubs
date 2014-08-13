@@ -194,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				09110A4619805F4800D175E4 /* OHHTTPStubs */,
+				099E8C1619808B14002895AA /* XCTestExpectation+Xcode5 */,
 				095981C519806A7900807DBE /* Supporting Files */,
 				09110A5A19805F4800D175E4 /* UnitTests */,
 				09110A4319805F4800D175E4 /* Frameworks */,
@@ -237,7 +238,6 @@
 		09110A5A19805F4800D175E4 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				099E8C1619808B14002895AA /* Async Tests Helper */,
 				0959811F1980647A00807DBE /* AFNetworking Source */,
 				095981461980663000807DBE /* Test Suites */,
 				09110A5B19805F4800D175E4 /* Supporting Files */,
@@ -334,13 +334,13 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		099E8C1619808B14002895AA /* Async Tests Helper */ = {
+		099E8C1619808B14002895AA /* XCTestExpectation+Xcode5 */ = {
 			isa = PBXGroup;
 			children = (
 				099E8C1719808B14002895AA /* XCTestExpectation+OHRetroCompat.h */,
 				099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */,
 			);
-			path = "Async Tests Helper";
+			path = "XCTestExpectation+Xcode5";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

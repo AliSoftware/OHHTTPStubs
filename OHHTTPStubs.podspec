@@ -20,8 +20,18 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/AliSoftware/OHHTTPStubs.git", :tag => s.version.to_s }
 
-  s.source_files = "OHHTTPStubs/Sources/*.{h,m}"
-  s.public_header_files = "OHHTTPStubs/Sources/*.h"
+  s.default_subspec = 'Core'
+
+  s.subspec 'Core' do |ss|
+    ss.source_files = "OHHTTPStubs/Sources/*.{h,m}"
+    ss.public_header_files = "OHHTTPStubs/Sources/*.h"
+  end
+  
+  s.subspec 'XCTestExpectation' do |ss|
+    ss.source_files = "OHHTTPStubs/XCTestExpectation+Xcode5/*.{h,m}"
+    ss.public_header_files = "OHHTTPStubs/XCTestExpectation+Xcode5/*.h"
+    ss.frameworks = 'XCTest'
+  end
 
   s.frameworks = 'Foundation', 'CFNetwork'
 
