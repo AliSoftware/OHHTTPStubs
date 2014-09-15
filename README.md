@@ -61,7 +61,7 @@ The wiki also contain [some articles that can help you get started](https://gith
 
 To help you with asynchronous tests, you should use the `XCTestExpectation` class.
 
-This class is available in Xcode 6, but if you still compile with Xcode 5, you can **use the `XCTestExpecation` subspec provided by `OHHTTPStubs`** that adds a custom implementation of this `XCTestExpecatation` class that **allows you to use it with Xcode 5 too**.
+This class is available in Xcode 6, but if you still compile with Xcode 5, you can **use the `XCTestExpectation` subspec provided by `OHHTTPStubs`** that adds a custom implementation of this `XCTestExpectation` class that **allows you to use it with Xcode 5 too**.
 
 ```
 pod 'OHHTTPStubs/XCTestExpectation'
