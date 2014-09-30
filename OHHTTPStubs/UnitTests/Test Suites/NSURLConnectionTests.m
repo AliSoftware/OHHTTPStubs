@@ -128,7 +128,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 
 -(void)_test_NSURLConnection_sendMultipleAsyncronousRequestsOnOperationQueue:(NSOperationQueue*)queue
 {
-    
+    BOOL testFinished = NO;
     NSData* (^dataForRequest)(NSURLRequest*) = ^(NSURLRequest* req) {
         return [[NSString stringWithFormat:@"<Response for URL %@>",req.URL.absoluteString] dataUsingEncoding:NSUTF8StringEncoding];
     };
@@ -160,7 +160,7 @@ static const NSTimeInterval kResponseTime = 0.5;
              XCTAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
              XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, kResponseTimeTolerence, @"Invalid response time");
              
-             [expectation fulfill];
+             if (!testFinished) [expectation fulfill];
          }];
     };
 
@@ -170,6 +170,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     sendAsyncRequest(time1); // send this one last, should receive first
 
     [self waitForExpectationsWithTimeout:MAX(time1,MAX(time2,time3))+kResponseTimeTolerence handler:nil];
+    testFinished = YES;
 }
 
 -(void)test_NSURLConnection_sendMultipleAsyncronousRequests_mainQueue

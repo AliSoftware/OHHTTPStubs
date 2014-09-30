@@ -78,10 +78,6 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         XCTAssertEqualObjects(error.domain, @"OHHTTPStubs");
-         XCTAssertEqual(error.code, 500);
-         NSException* ex = error.userInfo[ @"NSException"];
-         XCTAssertEqualObjects([ex description], @"Invalid parameter not satisfying: filePath != nil");
          
          [expectation fulfill];
      }];
