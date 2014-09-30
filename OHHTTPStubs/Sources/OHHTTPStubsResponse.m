@@ -128,7 +128,9 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                        statusCode:(int)statusCode
                           headers:(NSDictionary*)httpHeaders
 {
+    NSParameterAssert(filePath != nil);
     NSInputStream* inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+    
     NSDictionary* attributes = [NSFileManager.defaultManager attributesOfItemAtPath:filePath error:nil];
     unsigned long long fileSize = [[attributes valueForKey:NSFileSize] unsignedLongLongValue];
     self = [self initWithInputStream:inputStream
