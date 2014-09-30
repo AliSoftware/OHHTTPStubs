@@ -61,6 +61,34 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
 }
 
+- (void)test_NilPath
+{
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithFileAtPath:nil statusCode:501 headers:nil];
+    }];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
+         XCTAssertEqualObjects(error.domain, @"OHHTTPStubs");
+         XCTAssertEqual(error.code, 500);
+         NSException* ex = error.userInfo[ @"NSException"];
+         XCTAssertEqualObjects([ex description], @"Invalid parameter not satisfying: filePath != nil");
+         
+         [expectation fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+}
+
 - (void)test_InvalidPath
 {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {

@@ -327,7 +327,16 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         return;
     }
     
-    OHHTTPStubsResponse* responseStub = self.stub.responseBlock(request);
+    OHHTTPStubsResponse* responseStub;
+    @try {
+        responseStub = self.stub.responseBlock(request);
+    }
+    @catch (NSException *exception) {
+        NSError* err = [NSError errorWithDomain:@"OHHTTPStubs" code:500 userInfo:@{@"NSException": exception}];
+        [client URLProtocol:self didFailWithError:err];
+        @throw exception;
+    }
+    
     if (OHHTTPStubs.sharedInstance.onStubActivationBlock)
     {
         OHHTTPStubs.sharedInstance.onStubActivationBlock(request, self.stub);
