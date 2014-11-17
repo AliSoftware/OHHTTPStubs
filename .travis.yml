@@ -1,9 +1,8 @@
 language: objective-c
 
-# before_install:
-#     - brew update
-#     - brew upgrade xctool
+before_install:
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
 script:
-    - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS" -configuration Release -sdk iphonesimulator test
-#    - xctool -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -configuration Release -sdk macosx test
+  - xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS" -sdk iphonesimulator -configuration Release test | xcpretty -c ; exit ${PIPESTATUS[0]}
+  - xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -sdk iphonesimulator -configuration Release test | xcpretty -c ; exit ${PIPESTATUS[0]}
