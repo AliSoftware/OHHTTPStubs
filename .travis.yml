@@ -4,5 +4,5 @@ before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
 script:
-  - xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS" -sdk iphonesimulator -configuration Release test | xcpretty -c ; exit ${PIPESTATUS[0]}
-  - xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -sdk iphonesimulator -configuration Release test | xcpretty -c ; exit ${PIPESTATUS[0]}
+  - set -o pipefail && xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS" -sdk iphonesimulator -configuration Release ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+  - set -o pipefail && xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac" -sdk iphonesimulator -configuration Release ONLY_ACTIVE_ARCH=NO test | xcpretty -c
