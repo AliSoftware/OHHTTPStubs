@@ -31,7 +31,7 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
         // Stub it with our "wsresponse.json" stub file
         NSString* fixture = OHPathForFileInBundle(@"wsresponse.json",nil);
         return [OHHTTPStubsResponse responseWithFileAtPath:fixture
-                  statusCode:200 headers:@{@"Content-Type":@"text/json"}];
+                  statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
 
 ### [More examples](https://github.com/AliSoftware/OHHTTPStubs/wiki/Usage-Examples)
