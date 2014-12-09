@@ -55,6 +55,8 @@
 		0959820219806B2200807DBE /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 09110A721980606A00D175E4 /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		099E8C1919808B14002895AA /* XCTestExpectation+OHRetroCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */; };
 		099E8C1A19808B14002895AA /* XCTestExpectation+OHRetroCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */; };
+		47AF337B1A3775B600158C9F /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
+		47AF337C1A3775B600158C9F /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +142,7 @@
 		095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs Mac Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		099E8C1719808B14002895AA /* XCTestExpectation+OHRetroCompat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestExpectation+OHRetroCompat.h"; sourceTree = "<group>"; };
 		099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestExpectation+OHRetroCompat.m"; sourceTree = "<group>"; };
+		47AF337A1A37757B00158C9F /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +231,7 @@
 		09110A5A19805F4800D175E4 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				47AF33791A37755E00158C9F /* Fixtures */,
 				0959811F1980647A00807DBE /* AFNetworking Source */,
 				095981461980663000807DBE /* Test Suites */,
 				09110A5B19805F4800D175E4 /* Supporting Files */,
@@ -331,6 +335,14 @@
 				099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */,
 			);
 			path = "XCTestExpectation+Xcode5";
+			sourceTree = "<group>";
+		};
+		47AF33791A37755E00158C9F /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				47AF337A1A37757B00158C9F /* emptyfile.json */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -463,6 +475,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47AF337B1A3775B600158C9F /* emptyfile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +490,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47AF337C1A3775B600158C9F /* emptyfile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

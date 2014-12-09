@@ -61,12 +61,38 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
 }
 
+- (void)test_EmptyData
+{
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:400 headers:nil]
+                requestTime:0.01 responseTime:0.01];
+    }];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
+         
+         [expectation fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+}
+
 - (void)test_NilPath
 {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithFileAtPath:nil statusCode:501 headers:nil];
+        return [[OHHTTPStubsResponse responseWithFileAtPath:nil statusCode:501 headers:nil]
+                requestTime:0.01 responseTime:0.01];
     }];
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
@@ -90,7 +116,34 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithFileAtPath:@"-invalid-path-" statusCode:500 headers:nil];
+        return [[OHHTTPStubsResponse responseWithFileAtPath:@"-invalid-path-" statusCode:500 headers:nil]
+        requestTime:0.01 responseTime:0.01];
+    }];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
+         
+         [expectation fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+}
+
+- (void)test_EmptyFile
+{
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        NSString* emptyFile = OHPathForFileInBundle(@"emptyfile.json", nil);
+        return [[OHHTTPStubsResponse responseWithFileAtPath:emptyFile statusCode:500 headers:nil]
+                requestTime:0.01 responseTime:0.01];
     }];
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
