@@ -183,7 +183,7 @@ OHHTTPStubsDownloadSpeedWifi;
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
                         statusCode:(int)statusCode
-                           headers:(NSDictionary*)httpHeaders;
+                           headers:(NSDictionary*)httpHeaders NS_DESIGNATED_INITIALIZER;
 
 
 /*! Initialize a response with a given file path, statusCode and headers.
@@ -214,6 +214,6 @@ OHHTTPStubsDownloadSpeedWifi;
  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
--(instancetype)initWithError:(NSError*)error;
+-(instancetype)initWithError:(NSError*)error NS_DESIGNATED_INITIALIZER;
 
 @end
