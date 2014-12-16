@@ -128,7 +128,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 
 -(void)_test_NSURLConnection_sendMultipleAsyncronousRequestsOnOperationQueue:(NSOperationQueue*)queue
 {
-    BOOL testFinished = NO;
+    __block BOOL testFinished = NO;
     NSData* (^dataForRequest)(NSURLRequest*) = ^(NSURLRequest* req) {
         return [[NSString stringWithFormat:@"<Response for URL %@>",req.URL.absoluteString] dataUsingEncoding:NSUTF8StringEncoding];
     };
