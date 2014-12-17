@@ -58,6 +58,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     // So avoid sending messages to deallocated object in this case by ensuring we reset it to nil
     _data = nil;
     _error = nil;
+    _connectionFinishedExpectation = nil;
     [super tearDown];
 }
 
