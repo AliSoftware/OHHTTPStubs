@@ -94,7 +94,7 @@
         NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
         
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            return YES;
+            return [request.URL.scheme isEqualToString:@"stubs"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
@@ -103,10 +103,12 @@
         XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPSessionManager request finished"];
         
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfig];
+        NSURL* baseURL = [NSURL URLWithString:@"stubs://stubs/"];
+        AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL
+                                                                        sessionConfiguration:sessionConfig];
         
         __block __strong id response = nil;
-        [sessionManager GET:@"http://localhost:3333"
+        [sessionManager GET:@"foo"
                  parameters:nil
                     success:^(NSURLSessionDataTask *task, id responseObject) {
                         response = responseObject; // keep strong reference
@@ -117,7 +119,7 @@
                         [expectation fulfill];
                     }];
         
-        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
+        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+1.0 handler:nil];
         
         XCTAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
     }
