@@ -40,8 +40,8 @@
 
 -(void)test_AFHTTPRequestOperation
 {
-    static const NSTimeInterval kRequestTime = 0.1;
-    static const NSTimeInterval kResponseTime = 0.2;
+    static const NSTimeInterval kRequestTime = 0.05;
+    static const NSTimeInterval kResponseTime = 0.1;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
@@ -65,7 +65,7 @@
     }];
     [op start];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.8 handler:nil];
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
