@@ -16,10 +16,11 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*! This helper is used to swizzle NSURLSessionConfiguration constructor methods
-    defaultSessionConfiguration and ephemeralSessionConfiguration to insert the private
-    OHHTTPStubsProtocol into their protocolClasses array so that OHHTTPStubs is automagically
-    supported when you create a new NSURLSession based on one of there configurations.
+/**
+ *  This helper is used to swizzle NSURLSessionConfiguration constructor methods
+ *  defaultSessionConfiguration and ephemeralSessionConfiguration to insert the private
+ *  OHHTTPStubsProtocol into their protocolClasses array so that OHHTTPStubs is automagically
+ *  supported when you create a new NSURLSession based on one of there configurations.
  */
 
 typedef NSURLSessionConfiguration*(*SessionConfigConstructor)(id,SEL);
