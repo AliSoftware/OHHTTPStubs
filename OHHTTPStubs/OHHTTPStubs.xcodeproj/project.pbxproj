@@ -802,6 +802,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
+				INSTALL_PATH = "@rpath";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
@@ -824,6 +825,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
+				INSTALL_PATH = "@rpath";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
