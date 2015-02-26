@@ -41,6 +41,15 @@
 #import "OHHTTPStubsResponse+JSON.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Framework
+
+//! Project version number for OHHTTPStubs Framework.
+FOUNDATION_EXPORT double OHHTTPStubsFrameworkVersionNumber;
+
+//! Project version string for OHHTTPStubs Framework.
+FOUNDATION_EXPORT const unsigned char OHHTTPStubsFrameworkVersionString[];
+
+////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
 typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
