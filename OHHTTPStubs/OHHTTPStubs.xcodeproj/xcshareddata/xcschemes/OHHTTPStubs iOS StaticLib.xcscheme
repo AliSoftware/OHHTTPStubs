@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "09110A4019805F4800D175E4"
                BuildableName = "libOHHTTPStubs.a"
-               BlueprintName = "OHHTTPStubs iOS"
+               BlueprintName = "OHHTTPStubs iOS StaticLib"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -68,7 +68,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "09110A4019805F4800D175E4"
             BuildableName = "libOHHTTPStubs.a"
-            BlueprintName = "OHHTTPStubs iOS"
+            BlueprintName = "OHHTTPStubs iOS StaticLib"
             ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

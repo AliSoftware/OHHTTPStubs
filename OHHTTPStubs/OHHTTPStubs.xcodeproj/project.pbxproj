@@ -391,9 +391,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		09110A4019805F4800D175E4 /* OHHTTPStubs iOS */ = {
+		09110A4019805F4800D175E4 /* OHHTTPStubs iOS StaticLib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 09110A6419805F4800D175E4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS" */;
+			buildConfigurationList = 09110A6419805F4800D175E4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS StaticLib" */;
 			buildPhases = (
 				09110A3D19805F4800D175E4 /* Sources */,
 				09110A3E19805F4800D175E4 /* Frameworks */,
@@ -403,7 +403,7 @@
 			);
 			dependencies = (
 			);
-			name = "OHHTTPStubs iOS";
+			name = "OHHTTPStubs iOS StaticLib";
 			productName = OHHTTPStubs;
 			productReference = 09110A4119805F4800D175E4 /* libOHHTTPStubs.a */;
 			productType = "com.apple.product-type.library.static";
@@ -426,9 +426,9 @@
 			productReference = 09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		095981C119806A7900807DBE /* OHHTTPStubs Mac */ = {
+		095981C119806A7900807DBE /* OHHTTPStubs Mac Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 095981E019806A7900807DBE /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac" */;
+			buildConfigurationList = 095981E019806A7900807DBE /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac Framework" */;
 			buildPhases = (
 				095981BD19806A7900807DBE /* Sources */,
 				095981BE19806A7900807DBE /* Frameworks */,
@@ -439,7 +439,7 @@
 			);
 			dependencies = (
 			);
-			name = "OHHTTPStubs Mac";
+			name = "OHHTTPStubs Mac Framework";
 			productName = "OHHTTPStubs Mac";
 			productReference = 095981C219806A7900807DBE /* OHHTTPStubs.framework */;
 			productType = "com.apple.product-type.framework";
@@ -512,9 +512,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				09110A4019805F4800D175E4 /* OHHTTPStubs iOS */,
+				09110A4019805F4800D175E4 /* OHHTTPStubs iOS StaticLib */,
 				09110A5019805F4800D175E4 /* OHHTTPStubs iOS Tests */,
-				095981C119806A7900807DBE /* OHHTTPStubs Mac */,
+				095981C119806A7900807DBE /* OHHTTPStubs Mac Framework */,
 				095981D119806A7900807DBE /* OHHTTPStubs Mac Tests */,
 				725CD99A1A9EB65100F84C8B /* OHHTTPStubs iOS Framework */,
 			);
@@ -634,12 +634,12 @@
 /* Begin PBXTargetDependency section */
 		09110A5819805F4800D175E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 09110A4019805F4800D175E4 /* OHHTTPStubs iOS */;
+			target = 09110A4019805F4800D175E4 /* OHHTTPStubs iOS StaticLib */;
 			targetProxy = 09110A5719805F4800D175E4 /* PBXContainerItemProxy */;
 		};
 		095981D619806A7900807DBE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 095981C119806A7900807DBE /* OHHTTPStubs Mac */;
+			target = 095981C119806A7900807DBE /* OHHTTPStubs Mac Framework */;
 			targetProxy = 095981D519806A7900807DBE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -944,7 +944,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		09110A6419805F4800D175E4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS" */ = {
+		09110A6419805F4800D175E4 /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS StaticLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				09110A6519805F4800D175E4 /* Debug */,
@@ -962,7 +962,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		095981E019806A7900807DBE /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac" */ = {
+		095981E019806A7900807DBE /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				095981E119806A7900807DBE /* Debug */,
@@ -987,6 +987,7 @@
 				725CD9AF1A9EB65200F84C8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
