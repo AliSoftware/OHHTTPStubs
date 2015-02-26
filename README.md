@@ -48,6 +48,11 @@ The wiki also contain [some articles that can help you get started](https://gith
 
 `OHHTTPStubs` also works with iOS7's and OSX 10.9's `NSURLSession` mechanism.
 
+`OHHTTPStubs` is Swift-compatible and can be used from Swift easily. 
+When working with cocoapods:
+- 0.36+, you can use dynamic framework. In your `Podfile`, use `use_frameworks!` flag, in your Swift source file use `import OHHTTPStubs`.
+- 0.35, frameworks are not available and you have to have Obj-C / Swift bridging file. As the import is done in briding-header, no import is needed in you Swift code.
+
 # Special Considerations
 
 ## Using OHHTTPStubs in your Unit Tests
