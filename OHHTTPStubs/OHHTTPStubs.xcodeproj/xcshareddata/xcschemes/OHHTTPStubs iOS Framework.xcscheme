@@ -20,20 +20,6 @@
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "725CD9A41A9EB65200F84C8B"
-               BuildableName = "OHHTTPStubs iOS FrameworkTests.xctest"
-               BlueprintName = "OHHTTPStubs iOS FrameworkTests"
-               ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -46,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "725CD9A41A9EB65200F84C8B"
-               BuildableName = "OHHTTPStubs iOS FrameworkTests.xctest"
-               BlueprintName = "OHHTTPStubs iOS FrameworkTests"
+               BlueprintIdentifier = "09110A5019805F4800D175E4"
+               BuildableName = "OHHTTPStubs iOS Tests.xctest"
+               BlueprintName = "OHHTTPStubs iOS Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </TestableReference>
