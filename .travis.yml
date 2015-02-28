@@ -11,4 +11,4 @@ env:
   - RAKETASK="osx[Mac Framework,x86_64,test]"
 
 script:
-  - rake $RAKETASK
+  - rake "$RAKETASK"
