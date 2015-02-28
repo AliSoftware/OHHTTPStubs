@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "095981C119806A7900807DBE"
                BuildableName = "OHHTTPStubs.framework"
-               BlueprintName = "OHHTTPStubs Mac"
+               BlueprintName = "OHHTTPStubs Mac Framework"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -68,7 +68,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "095981C119806A7900807DBE"
             BuildableName = "OHHTTPStubs.framework"
-            BlueprintName = "OHHTTPStubs Mac"
+            BlueprintName = "OHHTTPStubs Mac Framework"
             ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
