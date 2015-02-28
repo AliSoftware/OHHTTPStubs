@@ -1,10 +1,14 @@
 language: objective-c
-sudo: false
 
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
+env:
+  - RAKETASK="ios[iOS StaticLib,7.1,test]"
+  - RAKETASK="ios[iOS Framework,7.1,analyze]"
+  - RAKETASK="ios[iOS StaticLib,latest,test]"
+  - RAKETASK="ios[iOS Framework,latest,analyze]"
+  - RAKETASK="osx[Mac Framework,x86_64,test]"
+
 script:
-  - set -o pipefail && xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS StaticLib" -sdk iphonesimulator -configuration Release ONLY_ACTIVE_ARCH=NO -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' test | xcpretty -c
-  - set -o pipefail && xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs Mac Framework" -sdk macosx -configuration Release ONLY_ACTIVE_ARCH=NO test | xcpretty -c
-  - set -o pipefail && xcodebuild -project OHHTTPStubs/OHHTTPStubs.xcodeproj -scheme "OHHTTPStubs iOS Framework" -sdk iphonesimulator -configuration Release ONLY_ACTIVE_ARCH=NO -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' analyze | xcpretty -c
+  - rake $RAKETASK
