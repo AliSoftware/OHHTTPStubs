@@ -13,3 +13,6 @@ profile
 *.moved-aside
 .DS_Store
 *.xccheckout
+# CocoaPods
+Podfile.lock
+Pods/
