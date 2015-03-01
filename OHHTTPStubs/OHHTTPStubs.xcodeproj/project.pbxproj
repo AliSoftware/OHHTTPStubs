@@ -66,6 +66,27 @@
 		725CD9BA1A9EB71500F84C8B /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 09110A6E1980606A00D175E4 /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		725CD9BB1A9EB71A00F84C8B /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 09110A721980606A00D175E4 /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		725CD9BC1A9EB71D00F84C8B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 09110A701980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7FD65B3C1AA30F79008DCA2C /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981321980649200807DBE /* AFURLSessionManager.m */; };
+		7FD65B3D1AA30F79008DCA2C /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959812C1980649200807DBE /* AFURLConnectionOperation.m */; };
+		7FD65B3E1AA30F79008DCA2C /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981211980649200807DBE /* AFHTTPRequestOperation.m */; };
+		7FD65B3F1AA30F79008DCA2C /* TimingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814D1980668E00807DBE /* TimingTests.m */; };
+		7FD65B401AA30F79008DCA2C /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814A1980668E00807DBE /* NSURLConnectionDelegateTests.m */; };
+		7FD65B411AA30F79008DCA2C /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814E1980668E00807DBE /* WithContentsOfURLTests.m */; };
+		7FD65B421AA30F79008DCA2C /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981481980668E00807DBE /* AFNetworkingTests.m */; };
+		7FD65B431AA30F79008DCA2C /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981231980649200807DBE /* AFHTTPRequestOperationManager.m */; };
+		7FD65B441AA30F79008DCA2C /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981251980649200807DBE /* AFHTTPSessionManager.m */; };
+		7FD65B451AA30F79008DCA2C /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959812A1980649200807DBE /* AFSecurityPolicy.m */; };
+		7FD65B461AA30F79008DCA2C /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959812E1980649200807DBE /* AFURLRequestSerialization.m */; };
+		7FD65B471AA30F79008DCA2C /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814C1980668E00807DBE /* NSURLSessionTests.m */; };
+		7FD65B481AA30F79008DCA2C /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814B1980668E00807DBE /* NSURLConnectionTests.m */; };
+		7FD65B491AA30F79008DCA2C /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981491980668E00807DBE /* NilValuesTests.m */; };
+		7FD65B4A1AA30F79008DCA2C /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981281980649200807DBE /* AFNetworkReachabilityManager.m */; };
+		7FD65B4B1AA30F79008DCA2C /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981301980649200807DBE /* AFURLResponseSerialization.m */; };
+		7FD65B4C1AA30F79008DCA2C /* XCTestExpectation+OHRetroCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */; };
+		7FD65B4E1AA30F79008DCA2C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A5219805F4800D175E4 /* XCTest.framework */; };
+		7FD65B501AA30F79008DCA2C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A4419805F4800D175E4 /* Foundation.framework */; };
+		7FD65B521AA30F79008DCA2C /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
+		7FD65B5A1AA30FAF008DCA2C /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +103,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 095981C119806A7900807DBE;
 			remoteInfo = "OHHTTPStubs Mac";
+		};
+		7FD65B581AA30FA1008DCA2C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09110A3919805F4800D175E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 725CD99A1A9EB65100F84C8B;
+			remoteInfo = "OHHTTPStubs iOS Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -153,6 +181,8 @@
 		099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestExpectation+OHRetroCompat.m"; sourceTree = "<group>"; };
 		47AF337A1A37757B00158C9F /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
 		725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Tests copy.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FD65B571AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OHHTTPStubs iOS Tests copy-Info.plist"; path = "/Users/ishkawa/dev/src/github.com/ishkawa/OHHTTPStubs/OHHTTPStubs/OHHTTPStubs iOS Tests copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +227,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7FD65B4D1AA30F79008DCA2C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FD65B5A1AA30FAF008DCA2C /* OHHTTPStubs.framework in Frameworks */,
+				7FD65B4E1AA30F79008DCA2C /* XCTest.framework in Frameworks */,
+				7FD65B501AA30F79008DCA2C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -209,6 +249,7 @@
 				09110A5A19805F4800D175E4 /* UnitTests */,
 				09110A4319805F4800D175E4 /* Frameworks */,
 				09110A4219805F4800D175E4 /* Products */,
+				7FD65B571AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,6 +261,7 @@
 				095981C219806A7900807DBE /* OHHTTPStubs.framework */,
 				095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */,
 				725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */,
+				7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -480,6 +522,24 @@
 			productReference = 725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		7FD65B381AA30F79008DCA2C /* OHHTTPStubs iOS Framework Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7FD65B531AA30F79008DCA2C /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Framework Tests" */;
+			buildPhases = (
+				7FD65B3B1AA30F79008DCA2C /* Sources */,
+				7FD65B4D1AA30F79008DCA2C /* Frameworks */,
+				7FD65B511AA30F79008DCA2C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7FD65B591AA30FA1008DCA2C /* PBXTargetDependency */,
+			);
+			name = "OHHTTPStubs iOS Framework Tests";
+			productName = OHHTTPStubsTests;
+			productReference = 7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -517,6 +577,7 @@
 				095981C119806A7900807DBE /* OHHTTPStubs Mac Framework */,
 				095981D119806A7900807DBE /* OHHTTPStubs Mac Tests */,
 				725CD99A1A9EB65100F84C8B /* OHHTTPStubs iOS Framework */,
+				7FD65B381AA30F79008DCA2C /* OHHTTPStubs iOS Framework Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -549,6 +610,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7FD65B511AA30F79008DCA2C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FD65B521AA30F79008DCA2C /* emptyfile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,6 +698,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7FD65B3B1AA30F79008DCA2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FD65B3C1AA30F79008DCA2C /* AFURLSessionManager.m in Sources */,
+				7FD65B3D1AA30F79008DCA2C /* AFURLConnectionOperation.m in Sources */,
+				7FD65B3E1AA30F79008DCA2C /* AFHTTPRequestOperation.m in Sources */,
+				7FD65B3F1AA30F79008DCA2C /* TimingTests.m in Sources */,
+				7FD65B401AA30F79008DCA2C /* NSURLConnectionDelegateTests.m in Sources */,
+				7FD65B411AA30F79008DCA2C /* WithContentsOfURLTests.m in Sources */,
+				7FD65B421AA30F79008DCA2C /* AFNetworkingTests.m in Sources */,
+				7FD65B431AA30F79008DCA2C /* AFHTTPRequestOperationManager.m in Sources */,
+				7FD65B441AA30F79008DCA2C /* AFHTTPSessionManager.m in Sources */,
+				7FD65B451AA30F79008DCA2C /* AFSecurityPolicy.m in Sources */,
+				7FD65B461AA30F79008DCA2C /* AFURLRequestSerialization.m in Sources */,
+				7FD65B471AA30F79008DCA2C /* NSURLSessionTests.m in Sources */,
+				7FD65B481AA30F79008DCA2C /* NSURLConnectionTests.m in Sources */,
+				7FD65B491AA30F79008DCA2C /* NilValuesTests.m in Sources */,
+				7FD65B4A1AA30F79008DCA2C /* AFNetworkReachabilityManager.m in Sources */,
+				7FD65B4B1AA30F79008DCA2C /* AFURLResponseSerialization.m in Sources */,
+				7FD65B4C1AA30F79008DCA2C /* XCTestExpectation+OHRetroCompat.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -641,6 +734,11 @@
 			isa = PBXTargetDependency;
 			target = 095981C119806A7900807DBE /* OHHTTPStubs Mac Framework */;
 			targetProxy = 095981D519806A7900807DBE /* PBXContainerItemProxy */;
+		};
+		7FD65B591AA30FA1008DCA2C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 725CD99A1A9EB65100F84C8B /* OHHTTPStubs iOS Framework */;
+			targetProxy = 7FD65B581AA30FA1008DCA2C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -928,6 +1026,52 @@
 			};
 			name = Release;
 		};
+		7FD65B541AA30F79008DCA2C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "OHHTTPStubs iOS Tests copy";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		7FD65B551AA30F79008DCA2C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "OHHTTPStubs iOS Tests copy";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -981,6 +1125,15 @@
 			buildConfigurations = (
 				725CD9AE1A9EB65200F84C8B /* Debug */,
 				725CD9AF1A9EB65200F84C8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7FD65B531AA30F79008DCA2C /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Framework Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7FD65B541AA30F79008DCA2C /* Debug */,
+				7FD65B551AA30F79008DCA2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
