@@ -181,7 +181,7 @@
 		099E8C1819808B14002895AA /* XCTestExpectation+OHRetroCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestExpectation+OHRetroCompat.m"; sourceTree = "<group>"; };
 		47AF337A1A37757B00158C9F /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
 		725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Tests copy.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Framework Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Framework Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FD65B571AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OHHTTPStubs iOS Tests copy-Info.plist"; path = "/Users/ishkawa/dev/src/github.com/ishkawa/OHHTTPStubs/OHHTTPStubs/OHHTTPStubs iOS Tests copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -261,7 +261,7 @@
 				095981C219806A7900807DBE /* OHHTTPStubs.framework */,
 				095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */,
 				725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */,
-				7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy.xctest */,
+				7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Framework Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -537,7 +537,7 @@
 			);
 			name = "OHHTTPStubs iOS Framework Tests";
 			productName = OHHTTPStubsTests;
-			productReference = 7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy.xctest */;
+			productReference = 7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Framework Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1046,7 +1046,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "OHHTTPStubs iOS Tests copy";
+				PRODUCT_NAME = "OHHTTPStubs iOS Framework Tests";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1067,7 +1067,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "OHHTTPStubs iOS Tests copy";
+				PRODUCT_NAME = "OHHTTPStubs iOS Framework Tests";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
