@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09110A5019805F4800D175E4"
-               BuildableName = "OHHTTPStubs iOS Tests.xctest"
-               BlueprintName = "OHHTTPStubs iOS Tests"
-               ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
