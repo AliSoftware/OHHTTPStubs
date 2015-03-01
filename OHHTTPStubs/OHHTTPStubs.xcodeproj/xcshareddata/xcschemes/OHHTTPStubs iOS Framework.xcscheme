@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09110A5019805F4800D175E4"
-               BuildableName = "OHHTTPStubs iOS Tests.xctest"
-               BlueprintName = "OHHTTPStubs iOS Tests"
+               BlueprintIdentifier = "7FD65B381AA30F79008DCA2C"
+               BuildableName = "OHHTTPStubs iOS Tests copy.xctest"
+               BlueprintName = "OHHTTPStubs iOS Framework Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </TestableReference>
