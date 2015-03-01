@@ -182,7 +182,6 @@
 		47AF337A1A37757B00158C9F /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
 		725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FD65B561AA30F79008DCA2C /* OHHTTPStubs iOS Framework Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Framework Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FD65B571AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OHHTTPStubs iOS Tests copy-Info.plist"; path = "/Users/ishkawa/dev/src/github.com/ishkawa/OHHTTPStubs/OHHTTPStubs/OHHTTPStubs iOS Tests copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,7 +248,6 @@
 				09110A5A19805F4800D175E4 /* UnitTests */,
 				09110A4319805F4800D175E4 /* Frameworks */,
 				09110A4219805F4800D175E4 /* Products */,
-				7FD65B571AA30F79008DCA2C /* OHHTTPStubs iOS Tests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
