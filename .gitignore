@@ -17,3 +17,4 @@ profile
 Podfile.lock
 Pods/
 *.workspace
+**/*.workspace
