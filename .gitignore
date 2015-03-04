@@ -16,5 +16,5 @@ profile
 # CocoaPods
 Podfile.lock
 Pods/
-*.workspace
-**/*.workspace
+*.xcworkspace
+!default.xcworkspace
