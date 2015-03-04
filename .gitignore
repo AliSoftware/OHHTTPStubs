@@ -16,3 +16,4 @@ profile
 # CocoaPods
 Podfile.lock
 Pods/
+*.workspace
