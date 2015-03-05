@@ -1,13 +1,12 @@
 source 'https://github.com/CocoaPods/Specs.git'
 xcodeproj 'OHHTTPStubs/OHHTTPStubs.xcodeproj'
 
-
 target 'OHHTTPStubs iOS Tests' do
-	platform :ios, '6.0'
+    platform :ios, '6.0'
     pod 'AFNetworking', '2.5.0'
 end
 
 target 'OHHTTPStubs Mac Tests' do
-	platform :osx, '10.8'
+    platform :osx, '10.8'
     pod 'AFNetworking', '2.5.0'
 end
