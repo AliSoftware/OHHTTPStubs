@@ -1,7 +1,6 @@
 language: objective-c
 
 before_install:
-  - gem install cocoapods -v 0.36.0 --no-rdoc --no-ri --no-document --quiet
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
 env:
@@ -11,5 +10,4 @@ env:
   - RAKETASK="osx[Mac Framework,x86_64,test]"
 
 script:
-  - pod install
   - rake "$RAKETASK"

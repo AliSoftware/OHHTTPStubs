@@ -1,5 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
-xcodeproj 'OHHTTPStubs/OHHTTPStubs.xcodeproj'
+
+xcodeproj 'OHHTTPStubs.xcodeproj'
 
 target 'OHHTTPStubs iOS Tests' do
     platform :ios, '6.0'
