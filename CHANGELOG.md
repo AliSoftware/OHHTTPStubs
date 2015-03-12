@@ -6,10 +6,11 @@ _You can download previous versions [here](https://github.com/AliSoftware/OHHTTP
 * Splitted the Xcode projects for more clarity (one dedicated to build the lib and run Unit Tests, and one for the Demo)
 * Got rid of the `git submodule` used for Unit Tests against [AFNetworking](https://github.com/AFNetworking/AFNetworking) — it is now imported using [CocoaPods](http://cocoapods.org) and only for the lib's Unit Tests targets ([@corinnekrych](https://github.com/corinnekrych), [#90](https://github.com/AliSoftware/OHHTTPStubs/pull/90))
 * Improved [Travis-CI](https://travis-ci.org/AliSoftware/OHHTTPStubs) integration. We now use a build matrix to have paralellized and independant builds for each scheme (iOS Static Lib, iOS Dynamic Framework, OSX Framework)
+* Fixed [#80](https://github.com/AliSoftware/OHHTTPStubs/issues/80) again (there was still an issue for people using Xcode 5 & SDK 7.1… if those people still exists)
 
 ## [3.1.10](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/3.1.10)
 
-* Fix headers for people still building with Xcode 5 & SDK 7 (#80)
+* Fix headers for people still building with Xcode 5 & SDK 7 ([#80](https://github.com/AliSoftware/OHHTTPStubs/issues/80))
 
 ## [3.1.9](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/3.1.9)
 
