@@ -25,7 +25,7 @@ def build(scheme, sdk, destination, action)
 
   cmd  = %W(
     xcodebuild
-    -project OHHTTPStubs/OHHTTPStubs.xcodeproj
+    -workspace OHHTTPStubs.xcworkspace
     -scheme "#{scheme}"
     -sdk #{sdk}
     -configuration Release
