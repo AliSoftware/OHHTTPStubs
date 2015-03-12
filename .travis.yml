@@ -11,4 +11,5 @@ env:
   - RAKETASK="osx[Mac Framework,x86_64,test]"
 
 script:
+  - pod install
   - rake "$RAKETASK"
