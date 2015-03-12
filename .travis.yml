@@ -4,6 +4,7 @@ before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
 env:
+  - RAKETASK="simlist"
   - RAKETASK="ios[iOS StaticLib,7.1,test]"
   - RAKETASK="ios[iOS StaticLib,latest,test]"
   - RAKETASK="ios[iOS Framework,latest,analyze]"

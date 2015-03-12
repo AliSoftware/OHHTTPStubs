@@ -1,14 +1,31 @@
 # Build & test OHHTTPStubs lib from the CLI
 
+desc 'Build an iOS scheme'
 task :ios, [:scheme, :ios_version, :action] do |_,args|
   destination = "platform=iOS Simulator,name=iPhone 5,OS=#{args.ios_version}"
   build("OHHTTPStubs #{args.scheme}", "iphonesimulator", destination, args.action)
 end
 
-
+desc 'Build an OSX scheme'
 task :osx, [:scheme, :arch, :action] do |_,args|
   destination = "platform=OS X,arch=#{args.arch}"
   build("OHHTTPStubs #{args.scheme}", "macosx", destination, args.action)
+end
+
+desc 'List installed simulators'
+task :simlist do
+  sh 'xcrun simctl list'
+end
+
+desc 'Run all travis env tasks locally'
+task :travis do
+  require 'YAML'
+  travis = YAML.load_file('.travis.yml')
+  travis['env'].each do |env|
+    arg = env.split('=')[1]
+    puts "\n" + ('-'*80) + "\n\n"
+    sh "rake #{arg}"
+  end
 end
 
 
@@ -25,7 +42,7 @@ def build(scheme, sdk, destination, action)
 
   cmd  = %W(
     xcodebuild
-    -workspace OHHTTPStubs.xcworkspace
+    -workspace OHHTTPStubs/OHHTTPStubs.xcworkspace
     -scheme "#{scheme}"
     -sdk #{sdk}
     -configuration Release
