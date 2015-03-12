@@ -1,7 +1,7 @@
 PODS:
-  - OHHTTPStubs (3.1.10):
-    - OHHTTPStubs/Core (= 3.1.10)
-  - OHHTTPStubs/Core (3.1.10)
+  - OHHTTPStubs (3.1.11):
+    - OHHTTPStubs/Core (= 3.1.11)
+  - OHHTTPStubs/Core (3.1.11)
 
 DEPENDENCIES:
   - OHHTTPStubs (from `../`)
@@ -11,6 +11,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: 00152a63400246fcbc4b772a2a547ea34c97cbd6
+  OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
 
 COCOAPODS: 0.36.0
