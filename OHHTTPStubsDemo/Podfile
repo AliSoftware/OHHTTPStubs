@@ -2,4 +2,4 @@ source 'https://github.com/CocoaPods/Specs.git'
 xcodeproj 'OHHTTPStubsDemo.xcodeproj'
 platform :ios, '6.0'
 
-pod 'OHHTTPStubs', '3.1.10'
+pod 'OHHTTPStubs', :path => '../'
