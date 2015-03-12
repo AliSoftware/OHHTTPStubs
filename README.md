@@ -120,26 +120,6 @@ _As far as I know, there's nothing we can do about those two limitations. Please
 But you generally only use stubs during the development phase and want to remove your stubs when submitting to the AppStore. So be careful to only include `OHHTTPStubs` in your test targets, or only use it in `#if DEBUG` portions, to avoid forgetting to remove it when the time comes that you release for the AppStore!
 
 
-# Building OHHTTPStubs
-
-## Building OHHTTPStubs
-To build (and run unit tests) `OHHTTPStubs`, use cocoapods. We are using [`AFNetworking`](https://github.com/AFNetworking/AFNetworking/) for unit tests only. No other dependencies are used for `OHHTTPStubs`.
-
-```bash
-pod install
-open OHHTTPStubs.xcworkspace
-```
-
-## Building OHHTTPStubsDemo
-To build (and run unit tests) `OHHTTPStubsDemo` use cocoapods.
-
-```bash
-cd OHHTTPStubsDemo
-pod install
-open OHHTTPStubsDemo.xcworkspace
-```
-
-**Every contribution to add more unit tests is welcome!**
 
 # License and Credits
 
