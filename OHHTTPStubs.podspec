@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "3.1.10"
+  s.version      = "4.0.0"
 
   s.summary      = "Stubbing framework for network requests."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -36,8 +36,8 @@ Pod::Spec.new do |s|
   s.frameworks = 'Foundation', 'CFNetwork'
 
   s.requires_arc = true
-  s.ios.deployment_target = '5.0'
-  s.osx.deployment_target = '10.7'
+  s.ios.deployment_target = '6.0'
+  s.osx.deployment_target = '10.8'
   s.xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'XCODE_VERSION=$(XCODE_VERSION_MAJOR)' }
 
 end
