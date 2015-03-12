@@ -21,7 +21,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		097935A1161B654E006DB5D5 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0984831417805426002A99FF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		098FBDCF15D704E800623941 /* OHHTTPStubsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OHHTTPStubsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		098FBDD315D704E800623941 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -61,7 +60,6 @@
 		098FBDC415D704E800623941 = {
 			isa = PBXGroup;
 			children = (
-				099C7342169016D800239880 /* Default-568h@2x.png */,
 				098FBDD915D704E800623941 /* OHHTTPStubsDemo */,
 				098FBDD215D704E800623941 /* Frameworks */,
 				098FBDD015D704E800623941 /* Products */,
@@ -109,17 +107,18 @@
 				098FBDDF15D704E800623941 /* main.m */,
 				098FBDE115D704E800623941 /* OHHTTPStubsDemo-Prefix.pch */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		098FBDFA15D70E2F00623941 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
-				097935A1161B654E006DB5D5 /* libOHHTTPStubs.a */,
+				099C7342169016D800239880 /* Default-568h@2x.png */,
 				098FBDF615D70E2600623941 /* stub.jpg */,
 				098FBDF715D70E2600623941 /* stub.txt */,
 			);
 			name = Stubs;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		DBC538A23E8B9FD8D58D30B1 /* Pods */ = {
@@ -333,13 +332,9 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OHHTTPStubsDemo-Prefix.pch";
-				INFOPLIST_FILE = "OHHTTPStubsDemo-Info.plist";
+				GCC_PREFIX_HEADER = "Supporting Files/OHHTTPStubsDemo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/OHHTTPStubsDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -351,13 +346,9 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OHHTTPStubsDemo-Prefix.pch";
-				INFOPLIST_FILE = "OHHTTPStubsDemo-Info.plist";
+				GCC_PREFIX_HEADER = "Supporting Files/OHHTTPStubsDemo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/OHHTTPStubsDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
