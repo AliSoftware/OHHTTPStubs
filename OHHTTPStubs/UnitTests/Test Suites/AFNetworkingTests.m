@@ -38,7 +38,7 @@
     [OHHTTPStubs removeAllStubs];
 }
 
--(void)test_AFHTTPRequestOperation
+-(void)test_AFHTTPRequestOperation_success
 {
     static const NSTimeInterval kRequestTime = 0.05;
     static const NSTimeInterval kResponseTime = 0.1;
@@ -69,6 +69,93 @@
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
+
+-(void)test_AFHTTPRequestOperation_multiple_choices
+{
+    static const NSTimeInterval kRequestTime = 0.05;
+    static const NSTimeInterval kResponseTime = 0.1;
+    NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:300 headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
+                requestTime:kRequestTime responseTime:kResponseTime];
+    }];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+    AFHTTPResponseSerializer* serializer = [AFHTTPResponseSerializer serializer];
+    [serializer  setAcceptableStatusCodes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 101)]];
+    [op setResponseSerializer:serializer];
+
+    __block __strong id response = nil;
+    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
+        if (redirectResponse == nil) {
+            return request;
+        }
+        XCTFail(@"Unexpected redirect");
+        return nil;
+    }];
+    
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        response = responseObject; // keep strong reference
+        [expectation fulfill];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        XCTFail(@"Unexpected network failure");
+        [expectation fulfill];
+    }];
+    [op start];
+    
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.8 handler:nil];
+    
+    XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
+}
+
+-(void)test_AFHTTPRequestOperation_redirect
+{
+    static const NSTimeInterval kRequestTime = 0.05;
+    static const NSTimeInterval kResponseTime = 0.1;
+    
+    NSURL* redirectURL = [NSURL URLWithString:@"http://www.iana.org/domains/another/example"];
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithData:nil statusCode:311 headers:@{@"Location":redirectURL.absoluteString}]
+                requestTime:kRequestTime responseTime:kResponseTime];
+    }];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+    [op setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    
+    __block __strong NSURL* url = nil;
+    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
+        if (redirectResponse == nil) {
+            return request;
+        }
+        url = request.URL;
+        [expectation fulfill];
+        return nil;
+    }];
+    
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        XCTFail(@"Unexpected response");
+        [expectation fulfill];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        XCTFail(@"Unexpected network failure");
+        [expectation fulfill];
+    }];
+    [op start];
+    
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.8 handler:nil];
+    
+    XCTAssertEqualObjects(url, redirectURL, @"Unexpected data received");
+}
+
 @end
 
 

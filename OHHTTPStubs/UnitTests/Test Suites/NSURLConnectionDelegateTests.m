@@ -142,6 +142,38 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     [cxn cancel];
 }
 
+-(void)test_NSURLConnectionDelegate_multiple_choices
+{
+    static const NSTimeInterval kRequestTime = 0.1;
+    static const NSTimeInterval kResponseTime = 0.5;
+    NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse responseWithData:testData
+                                           statusCode:300
+                                              headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
+                requestTime:kRequestTime responseTime:kResponseTime];
+    }];
+    
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    NSDate* startDate = [NSDate date];
+    
+    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+    
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+    
+    XCTAssertEqualObjects(_data, testData, @"Invalid data response");
+    XCTAssertNil(_error, @"Received unexpected network error %@", _error);
+    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    
+    // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
+    [cxn cancel];
+}
+
 -(void)test_NSURLConnectionDelegate_error
 {
     static const NSTimeInterval kResponseTime = 0.5;
