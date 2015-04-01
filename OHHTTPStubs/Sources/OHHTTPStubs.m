@@ -409,7 +409,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
             {
                 [client URLProtocol:self didFailWithError:responseStub.error];
             }
-        });
+        }];
     }
 }
 
