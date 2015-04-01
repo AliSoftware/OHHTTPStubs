@@ -280,6 +280,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 @interface OHHTTPStubsProtocol()
 @property(assign) BOOL stopped;
 @property(strong) OHHTTPStubsDescriptor* stub;
+@property(assign) CFRunLoopRef clientRunLoop;
+- (void)executeOnClientRunLoopAfterDelay:(NSTimeInterval)delayInSeconds block:(dispatch_block_t)block;
 @end
 
 @implementation OHHTTPStubsProtocol
@@ -309,6 +311,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 - (void)startLoading
 {
+    self.clientRunLoop = CFRunLoopGetCurrent();
     NSURLRequest* request = self.request;
     id<NSURLProtocolClient> client = self.client;
     
@@ -365,16 +368,16 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            execute_after(responseStub.requestTime, ^{
+            [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
                 }
-            });
+            }];
         }
         else
         {
-            execute_after(responseStub.requestTime,^{
+            [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
                 if (!self.stopped)
                 {
                     [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
@@ -397,11 +400,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                          }
                      }];
                 }
-            });
+            }];
         }
     } else {
         // Send the canned error
-        execute_after(responseStub.responseTime, ^{
+        [self executeOnClientRunLoopAfterDelay:responseStub.responseTime block:^{
             if (!self.stopped)
             {
                 [client URLProtocol:self didFailWithError:responseStub.error];
@@ -482,10 +485,10 @@ typedef struct {
         if (chunkSizeToRead == 0)
         {
             // Nothing to read at this pass, but probably later
-            execute_after(timingInfo.slotTime, ^{
+            [self executeOnClientRunLoopAfterDelay:timingInfo.slotTime block:^{
                 [self streamDataForClient:client fromStream:inputStream
                                timingInfo:timingInfo completion:completion];
-            });
+            }];
         } else {
             uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t)*chunkSizeToRead);
             NSInteger bytesRead = [inputStream read:buffer maxLength:chunkSizeToRead];
@@ -494,11 +497,11 @@ typedef struct {
                 NSData * data = [NSData dataWithBytes:buffer length:bytesRead];
                 // Wait for 'slotTime' seconds before sending the chunk.
                 // If bytesRead < chunkSizePerSlot (because we are near the EOF), adjust slotTime proportionally to the bytes remaining
-                execute_after(((double)bytesRead / (double)chunkSizeToRead) * timingInfo.slotTime, ^{
+                [self executeOnClientRunLoopAfterDelay:((double)bytesRead / (double)chunkSizeToRead) * timingInfo.slotTime block:^{
                     [client URLProtocol:self didLoadData:data];
                     [self streamDataForClient:client fromStream:inputStream
                                    timingInfo:timingInfo completion:completion];
-                });
+                }];
             }
             else
             {
@@ -526,10 +529,15 @@ typedef struct {
 // Delayed execution utility methods
 /////////////////////////////////////////////
 
-static void execute_after(NSTimeInterval delayInSeconds, dispatch_block_t block)
+- (void)executeOnClientRunLoopAfterDelay:(NSTimeInterval)delayInSeconds block:(dispatch_block_t)block
 {
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        CFRunLoopPerformBlock(self.clientRunLoop, kCFRunLoopDefaultMode, ^{
+            block();
+        });
+        CFRunLoopWakeUp(self.clientRunLoop);
+    });
 }
 
 @end
