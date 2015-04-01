@@ -3,13 +3,15 @@ Pod::Spec.new do |s|
   s.name         = "OHHTTPStubs"
   s.version      = "3.1.12"
 
-  s.summary      = "Stubbing framework for network requests."
+  s.summary      = "Stubbing framework for network requests (HTTP or any other protocol)."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
                     |A class to stub network requests easily:
                     |
                     | * Test your apps with fake network data (stubbed from file)
                     | * Use customized stubs depending on the requests
                     | * Use custom response time to simulate slow network.
+                    | * This works with any request (HTTP, HTTPS, or any protocol) sent using
+                    |   the iOS URL Loading System (NSURLConnection, NSURLSession, AFNetworking, …)
                  DESC
 
   s.homepage     = "https://github.com/AliSoftware/OHHTTPStubs"
