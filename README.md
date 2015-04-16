@@ -63,7 +63,7 @@ If you want to use `OHHTTPStubs` from Swift:
 
 ## Carthage
 
-Simply add `github AliSoftware/OHHTTPStubs` to your `Cartfile` then run `carthage update`.
+Simply add `github "AliSoftware/OHHTTPStubs"` to your `Cartfile` then run `carthage update`.
 
 ## Manual integration
 
