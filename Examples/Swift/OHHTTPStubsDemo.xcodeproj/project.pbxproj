@@ -15,6 +15,7 @@
 		099F743C1AE2D632001108A5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 099F743B1AE2D632001108A5 /* Default-568h@2x.png */; };
 		099F74401AE2D703001108A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F740E1AE2D049001108A5 /* MainViewController.swift */; };
 		099F74421AE2D7E0001108A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F74411AE2D7E0001108A5 /* AppDelegate.swift */; };
+		33ABB39721D2012BFC1F5077 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6C6334E088CD830EF8D38DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,9 @@
 		099F74381AE2D5FF001108A5 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
 		099F743B1AE2D632001108A5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Supporting Files/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
 		099F74411AE2D7E0001108A5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D1819A3B2BCA81021164F097 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DC1FF3E7FE2F711D9C9AD066 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F6C6334E088CD830EF8D38DB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33ABB39721D2012BFC1F5077 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,8 @@
 			children = (
 				099F74091AE2D049001108A5 /* OHHTTPStubsDemo */,
 				099F74081AE2D049001108A5 /* Products */,
+				11944CD1D5FC771F513B1E27 /* Pods */,
+				3116686BFC89EEC0587776C7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -89,6 +96,23 @@
 			path = Stubs;
 			sourceTree = "<group>";
 		};
+		11944CD1D5FC771F513B1E27 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D1819A3B2BCA81021164F097 /* Pods.debug.xcconfig */,
+				DC1FF3E7FE2F711D9C9AD066 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3116686BFC89EEC0587776C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F6C6334E088CD830EF8D38DB /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -96,9 +120,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 099F74261AE2D049001108A5 /* Build configuration list for PBXNativeTarget "OHHTTPStubsDemo" */;
 			buildPhases = (
+				BC9F93D044C7E42A3DAD6455 /* Check Pods Manifest.lock */,
 				099F74031AE2D049001108A5 /* Sources */,
 				099F74041AE2D049001108A5 /* Frameworks */,
 				099F74051AE2D049001108A5 /* Resources */,
+				D95367D5DC075A18A3D27355 /* Embed Pods Frameworks */,
+				5D1017B32E55D59BD180A034 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -155,6 +182,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5D1017B32E55D59BD180A034 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC9F93D044C7E42A3DAD6455 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D95367D5DC075A18A3D27355 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		099F74031AE2D049001108A5 /* Sources */ = {
@@ -254,6 +329,7 @@
 		};
 		099F74271AE2D049001108A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1819A3B2BCA81021164F097 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -265,6 +341,7 @@
 		};
 		099F74281AE2D049001108A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC1FF3E7FE2F711D9C9AD066 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";

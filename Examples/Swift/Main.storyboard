@@ -25,6 +25,9 @@
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l60-ZM-CS7">
                                 <rect key="frame" x="16" y="28" width="51" height="31"/>
+                                <connections>
+                                    <action selector="toggleStubs:" destination="BYZ-38-t0r" eventType="valueChanged" id="Ab8-ba-nES"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fake 2s Delay" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="BVp-fP-EX3">
                                 <rect key="frame" x="73" y="72" width="434" height="21"/>
@@ -43,6 +46,9 @@
                                 <state key="normal" title="Clear">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="clearResults" destination="BYZ-38-t0r" eventType="touchUpInside" id="aLh-6y-PPp"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q0d-yd-8pd">
                                 <rect key="frame" x="16" y="106" width="568" height="55"/>
@@ -55,6 +61,9 @@
                                         <state key="disabled" title="Downloading…">
                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="downloadText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HfU-ap-tEC"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" text="Stub installed?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZL-1L-SlS">
                                         <rect key="frame" x="485" y="2" width="63" height="20"/>
@@ -64,6 +73,9 @@
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eja-cQ-oUU">
                                         <rect key="frame" x="499" y="22" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="installTextStub:" destination="BYZ-38-t0r" eventType="valueChanged" id="2pl-wJ-iCQ"/>
+                                        </connections>
                                     </switch>
                                 </subviews>
                                 <color key="backgroundColor" white="0.94548357660000004" alpha="1" colorSpace="calibratedWhite"/>
@@ -103,9 +115,15 @@
                                         <state key="disabled" title="Downloading…">
                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="downloadImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UM4-Du-Bbb"/>
+                                        </connections>
                                     </button>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ji5-SF-Rck">
                                         <rect key="frame" x="499" y="22" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="installImageStub:" destination="BYZ-38-t0r" eventType="valueChanged" id="B56-KR-Iwy"/>
+                                        </connections>
                                     </switch>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Stub installed?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaM-eo-B4Y">
                                         <rect key="frame" x="485" y="2" width="63" height="20"/>
