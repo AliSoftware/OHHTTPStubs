@@ -43,7 +43,7 @@ class MainViewController: UIViewController {
         self.installImageStubSwitch.enabled = sender.on
         
         let state = sender.on ? "and enabled" : "but disabled"
-        println("Installed (\(state)) stubs: \(OHHTTPStubs.allStubs)");
+        println("Installed (\(state)) stubs: \(OHHTTPStubs.allStubs)")
     }
     
 
@@ -71,19 +71,20 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
             let isText = { (request: NSURLRequest!) in request.URL!.pathExtension == "txt" }
+            // Here we use the "trailing closure" syntax of Swift for convenience
             textStub = OHHTTPStubs.stubRequestsPassingTest(isText) { request in
                 let stubPath = NSBundle(forClass: self.dynamicType).pathForResource("stub", ofType: "txt")
                 return OHHTTPStubsResponse(
-                    fileAtPath: stubPath,
+                    fileAtPath: stubPath!,
                     statusCode: 200,
                     headers: ["Content-Type":"text/plain"]
                     )
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime:OHHTTPStubsDownloadSpeedWifi)
             }
-            textStub?.name = "Text stub";
+            textStub?.name = "Text stub"
         } else {
             // Uninstall
-            OHHTTPStubs.removeStub(textStub)
+            OHHTTPStubs.removeStub(textStub!)
         }
     }
     
@@ -109,10 +110,11 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
             let isImage = { (request: NSURLRequest!) -> Bool in request.URL!.pathExtension == "png" }
+            // Here we use the "trailing closure" syntax of Swift for convenience
             imageStub = OHHTTPStubs.stubRequestsPassingTest(isImage) { request in
                 let stubPath = NSBundle(forClass: self.dynamicType).pathForResource("stub", ofType: "jpg")
                 return OHHTTPStubsResponse(
-                    fileAtPath: stubPath,
+                    fileAtPath: stubPath!,
                     statusCode: 200,
                     headers: ["Content-Type":"image/jpeg"]
                     )
@@ -121,7 +123,7 @@ class MainViewController: UIViewController {
             imageStub?.name = "Image stub"
         } else {
             // Uninstall
-            OHHTTPStubs.removeStub(imageStub)
+            OHHTTPStubs.removeStub(imageStub!)
         }
     }
     
@@ -129,8 +131,8 @@ class MainViewController: UIViewController {
     // MARK: - Cleaning
     
     @IBAction func clearResults() {
-        self.textView.text = "";
-        self.imageView.image = nil;
+        self.textView.text = ""
+        self.imageView.image = nil
     }
     
 }
