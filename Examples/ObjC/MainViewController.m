@@ -95,7 +95,7 @@
             return [request.URL.pathExtension isEqualToString:@"txt"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub txt files with this
-            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.txt",nil)
+            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.txt", self.class)
                                                      statusCode:200
                                                         headers:@{@"Content-Type":@"text/plain"}]
                     requestTime:self.delaySwitch.on ? 2.f: 0.f
@@ -142,7 +142,7 @@
             return [request.URL.pathExtension isEqualToString:@"png"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             // Stub jpg files with this
-            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"stub.jpg",nil)
+            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.jpg", self.class)
                                                      statusCode:200
                                                         headers:@{@"Content-Type":@"image/jpeg"}]
                     requestTime:self.delaySwitch.on ? 2.f: 0.f
