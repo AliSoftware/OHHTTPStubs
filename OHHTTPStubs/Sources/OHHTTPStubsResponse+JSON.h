@@ -8,7 +8,7 @@
 
 #import "OHHTTPStubsResponse.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#pragma clang assume_nonnull begin
 
 /**
  *  Adds convenience methods to manipulate JSON objects directly.
@@ -36,4 +36,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+#pragma clang assume_nonnull end

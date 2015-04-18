@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#pragma clang assume_nonnull begin
 
 /**
  *  Useful function to build a path given a file name and a bundle.
@@ -50,4 +50,4 @@ NSString* __nullable OHPathForFileInDocumentsDir(NSString* fileName);
 NSBundle* __nullable OHResourceBundle(NSString* bundleBasename, Class inBundleForClass);
 
 
-NS_ASSUME_NONNULL_END
+#pragma clang assume_nonnull end

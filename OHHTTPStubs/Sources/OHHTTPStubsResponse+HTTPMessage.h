@@ -8,7 +8,7 @@
 
 #import "OHHTTPStubsResponse.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#pragma clang assume_nonnull begin
 
 /**
  *  Adds support for building stubs from "HTTP Messages" conforming to
@@ -51,4 +51,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+#pragma clang assume_nonnull end
