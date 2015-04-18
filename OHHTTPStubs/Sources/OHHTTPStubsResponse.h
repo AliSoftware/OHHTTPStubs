@@ -47,7 +47,7 @@ OHHTTPStubsDownloadSpeed3G,
 OHHTTPStubsDownloadSpeed3GPlus,
 OHHTTPStubsDownloadSpeedWifi;
 
-NS_ASSUME_NONNULL_BEGIN
+#pragma clang assume_nonnull begin
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
@@ -260,4 +260,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+#pragma clang assume_nonnull end
