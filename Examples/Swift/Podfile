@@ -1,0 +1,7 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+xcodeproj 'OHHTTPStubsDemo.xcodeproj'
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'OHHTTPStubs', :path => '../..'
