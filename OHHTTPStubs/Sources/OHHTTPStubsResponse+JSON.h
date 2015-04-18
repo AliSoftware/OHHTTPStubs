@@ -8,6 +8,8 @@
 
 #import "OHHTTPStubsResponse.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Adds convenience methods to manipulate JSON objects directly.
  *  Pass in an `NSDictionary` or `NSArray` to generate a corresponding JSON output.
@@ -30,6 +32,8 @@
  */
 + (instancetype)responseWithJSONObject:(id)jsonObject
                             statusCode:(int)statusCode
-                               headers:(NSDictionary *)httpHeaders;
+                               headers:(NSDictionary * __nullable)httpHeaders;
 
 @end
+
+NS_ASSUME_NONNULL_END

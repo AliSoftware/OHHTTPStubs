@@ -8,6 +8,8 @@
 
 #import "OHHTTPStubsResponse.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Adds support for building stubs from "HTTP Messages" conforming to
  *  the format output by `curl -is`
@@ -44,7 +46,9 @@
  */
 
 +(instancetype)responseNamed:(NSString*)responseName
-                    inBundle:(NSBundle*)bundleOrNil;
+                    inBundle:(NSBundle* __nullable)bundleOrNil;
 
 
 @end
+
+NS_ASSUME_NONNULL_END
