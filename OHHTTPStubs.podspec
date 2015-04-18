@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "3.1.12"
+  s.version      = "4.0.0"
 
   s.summary      = "Stubbing framework for network requests (HTTP or any other protocol)."
   s.description  = <<-DESC.gsub(/^ +\|/,'')

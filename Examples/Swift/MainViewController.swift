@@ -73,7 +73,7 @@ class MainViewController: UIViewController {
             let isText = { (request: NSURLRequest!) in request.URL!.pathExtension == "txt" }
             // Here we use the "trailing closure" syntax of Swift for convenience
             textStub = OHHTTPStubs.stubRequestsPassingTest(isText) { request in
-                let stubPath = NSBundle(forClass: self.dynamicType).pathForResource("stub", ofType: "txt")
+                let stubPath = OHPathForFile("stub.txt", self.dynamicType)
                 return OHHTTPStubsResponse(
                     fileAtPath: stubPath!,
                     statusCode: 200,
@@ -112,7 +112,7 @@ class MainViewController: UIViewController {
             let isImage = { (request: NSURLRequest!) -> Bool in request.URL!.pathExtension == "png" }
             // Here we use the "trailing closure" syntax of Swift for convenience
             imageStub = OHHTTPStubs.stubRequestsPassingTest(isImage) { request in
-                let stubPath = NSBundle(forClass: self.dynamicType).pathForResource("stub", ofType: "jpg")
+                let stubPath = OHPathForFile("stub.jpg", self.dynamicType)
                 return OHHTTPStubsResponse(
                     fileAtPath: stubPath!,
                     statusCode: 200,

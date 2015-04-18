@@ -39,6 +39,7 @@
 // Because this is supposed to be an umbrella header, we should import every public headers here
 #import "OHHTTPStubsResponse+HTTPMessage.h"
 #import "OHHTTPStubsResponse+JSON.h"
+#import "OHPathHelpers.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
