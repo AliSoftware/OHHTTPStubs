@@ -8,7 +8,13 @@
 
 #import "OHHTTPStubsResponse.h"
 
-#pragma clang assume_nonnull begin
+#ifdef NS_ASSUME_NONNULL_BEGIN
+  NS_ASSUME_NONNULL_BEGIN
+  #define _nullable_ __nullable
+#else
+  #define _nullable_
+#endif
+
 
 /**
  *  Adds support for building stubs from "HTTP Messages" conforming to
@@ -46,9 +52,11 @@
  */
 
 +(instancetype)responseNamed:(NSString*)responseName
-                    inBundle:(NSBundle* __nullable)bundleOrNil;
+                    inBundle:(NSBundle* _nullable_)bundleOrNil;
 
 
 @end
 
-#pragma clang assume_nonnull end
+#ifdef NS_ASSUME_NONNULL_END
+  NS_ASSUME_NONNULL_END
+#endif

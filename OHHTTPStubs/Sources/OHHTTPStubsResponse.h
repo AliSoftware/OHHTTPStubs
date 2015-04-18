@@ -47,7 +47,13 @@ OHHTTPStubsDownloadSpeed3G,
 OHHTTPStubsDownloadSpeed3GPlus,
 OHHTTPStubsDownloadSpeedWifi;
 
-#pragma clang assume_nonnull begin
+#ifdef NS_ASSUME_NONNULL_BEGIN
+  NS_ASSUME_NONNULL_BEGIN
+  #define _nullable_ __nullable
+#else
+  #define _nullable_
+#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Interface
@@ -64,7 +70,7 @@ OHHTTPStubsDownloadSpeedWifi;
 /**
  *  The headers to use for the fake response
  */
-@property(nonatomic, strong) NSDictionary* __nullable httpHeaders;
+@property(nonatomic, strong) NSDictionary* _nullable_ httpHeaders;
 /**
  *  The HTTP status code to use for the fake response
  */
@@ -73,7 +79,7 @@ OHHTTPStubsDownloadSpeedWifi;
  *  The inputStream used when sending the response.
  *  @note You generally don't manipulate this directly.
  */
-@property(nonatomic, strong) NSInputStream* __nullable inputStream;
+@property(nonatomic, strong) NSInputStream* _nullable_ inputStream;
 /**
  *  The size of the fake response body, in bytes.
  */
@@ -95,7 +101,7 @@ OHHTTPStubsDownloadSpeedWifi;
  *
  *  If `error` is non-`nil`, the request will result in a failure and no response will be sent.
  */
-@property(nonatomic, strong) NSError* __nullable error;
+@property(nonatomic, strong) NSError* _nullable_ error;
 
 
 
@@ -119,7 +125,7 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
-                        headers:(NSDictionary* __nullable)httpHeaders;
+                        headers:(NSDictionary* _nullable_)httpHeaders;
 
 
 /* -------------------------------------------------------------------------- */
@@ -139,7 +145,7 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 +(instancetype)responseWithFileAtPath:(NSString *)filePath
                            statusCode:(int)statusCode
-                              headers:(NSDictionary* __nullable)httpHeaders;
+                              headers:(NSDictionary* _nullable_)httpHeaders;
 
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building an error response
@@ -214,7 +220,7 @@ OHHTTPStubsDownloadSpeedWifi;
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
                         statusCode:(int)statusCode
-                           headers:(NSDictionary* __nullable)httpHeaders NS_DESIGNATED_INITIALIZER;
+                           headers:(NSDictionary* _nullable_)httpHeaders NS_DESIGNATED_INITIALIZER;
 
 
 /**
@@ -230,7 +236,7 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 -(instancetype)initWithFileAtPath:(NSString*)filePath
                        statusCode:(int)statusCode
-                          headers:(NSDictionary* __nullable)httpHeaders;
+                          headers:(NSDictionary* _nullable_)httpHeaders;
 
 
 /**
@@ -244,7 +250,7 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
-                    headers:(NSDictionary* __nullable)httpHeaders;
+                    headers:(NSDictionary* _nullable_)httpHeaders;
 
 
 /**
@@ -260,4 +266,6 @@ OHHTTPStubsDownloadSpeedWifi;
 
 @end
 
-#pragma clang assume_nonnull end
+#ifdef NS_ASSUME_NONNULL_END
+  NS_ASSUME_NONNULL_END
+#endif
