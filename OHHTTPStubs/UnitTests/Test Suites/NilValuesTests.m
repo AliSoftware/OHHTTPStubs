@@ -42,7 +42,10 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
         return [OHHTTPStubsResponse responseWithData:nil statusCode:400 headers:nil];
+#pragma clang diagnostic pop
     }];
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
@@ -91,8 +94,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
         return [[OHHTTPStubsResponse responseWithFileAtPath:nil statusCode:501 headers:nil]
                 requestTime:0.01 responseTime:0.01];
+#pragma clang diagnostic pop
     }];
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
@@ -141,7 +147,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSString* emptyFile = OHPathForFileInBundle(@"emptyfile.json", nil);
+        NSString* emptyFile = OHPathForFile(@"emptyfile.json", self.class);
         return [[OHHTTPStubsResponse responseWithFileAtPath:emptyFile statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
