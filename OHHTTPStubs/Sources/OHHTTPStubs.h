@@ -39,12 +39,15 @@
 // Because this is supposed to be an umbrella header, we should import every public headers here
 #import "OHHTTPStubsResponse+HTTPMessage.h"
 #import "OHHTTPStubsResponse+JSON.h"
+#import "OHPathHelpers.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
 typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
-typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
+typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
 
 /**
  *  This opaque type represents an installed stub and is used to uniquely
@@ -64,7 +67,7 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
  *  This is especially useful if you dump all installed stubs using `allStubs`
  *  or if you want to log which stubs are being triggered using `onStubActivation:`.
  */
-@property(nonatomic, strong) NSString* name;
+@property(nonatomic, strong) NSString* __nullable name;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -185,3 +188,4 @@ typedef OHHTTPStubsResponse*(^OHHTTPStubsResponseBlock)(NSURLRequest* request);
 
 @end
 
+NS_ASSUME_NONNULL_END
