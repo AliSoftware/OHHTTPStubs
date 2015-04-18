@@ -41,13 +41,20 @@
 #import "OHHTTPStubsResponse+JSON.h"
 #import "OHPathHelpers.h"
 
-#pragma clang assume_nonnull begin
+#ifdef NS_ASSUME_NONNULL_BEGIN
+  NS_ASSUME_NONNULL_BEGIN
+  #define _nullable_ __nullable
+  #define _nonnull_ __nonnull
+#else
+  #define _nullable_
+  #define _nonnull_
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
 typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
-typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
+typedef OHHTTPStubsResponse* _nonnull_ (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
 
 /**
  *  This opaque type represents an installed stub and is used to uniquely
@@ -67,7 +74,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  This is especially useful if you dump all installed stubs using `allStubs`
  *  or if you want to log which stubs are being triggered using `onStubActivation:`.
  */
-@property(nonatomic, strong) NSString* __nullable name;
+@property(nonatomic, strong) NSString* _nullable_ name;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,4 +195,6 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
 
 @end
 
-#pragma clang assume_nonnull end
+#ifdef NS_ASSUME_NONNULL_END
+  NS_ASSUME_NONNULL_END
+#endif

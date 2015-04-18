@@ -8,7 +8,13 @@
 
 #import "OHHTTPStubsResponse.h"
 
-#pragma clang assume_nonnull begin
+#ifdef NS_ASSUME_NONNULL_BEGIN
+  NS_ASSUME_NONNULL_BEGIN
+  #define _nullable_ __nullable
+#else
+  #define _nullable_
+#endif
+
 
 /**
  *  Adds convenience methods to manipulate JSON objects directly.
@@ -32,8 +38,10 @@
  */
 + (instancetype)responseWithJSONObject:(id)jsonObject
                             statusCode:(int)statusCode
-                               headers:(NSDictionary * __nullable)httpHeaders;
+                               headers:(NSDictionary * _nullable_)httpHeaders;
 
 @end
 
-#pragma clang assume_nonnull end
+#ifdef NS_ASSUME_NONNULL_END
+  NS_ASSUME_NONNULL_END
+#endif
