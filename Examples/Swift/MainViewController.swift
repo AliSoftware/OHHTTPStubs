@@ -70,9 +70,11 @@ class MainViewController: UIViewController {
     @IBAction func installTextStub(sender: UISwitch) {
         if sender.on {
             // Install
-            let isText = { (request: NSURLRequest!) in request.URL!.pathExtension == "txt" }
-            // Here we use the "trailing closure" syntax of Swift for convenience
-            textStub = OHHTTPStubs.stubRequestsPassingTest(isText) { request in
+
+            // - we use an inline closure for the test predicate with shorthand argument names
+            // - we also use the "trailing closure" syntax of Swift for convenience
+            // - we don't care about the 'request' parameter in the trailing closure so we use '_'
+            textStub = OHHTTPStubs.stubRequestsPassingTest({$0.URL!.pathExtension == "txt"}) { _ in
                 let stubPath = OHPathForFile("stub.txt", self.dynamicType)
                 return OHHTTPStubsResponse(
                     fileAtPath: stubPath!,
@@ -109,9 +111,14 @@ class MainViewController: UIViewController {
     @IBAction func installImageStub(sender: UISwitch) {
         if sender.on {
             // Install
-            let isImage = { (request: NSURLRequest!) -> Bool in request.URL!.pathExtension == "png" }
-            // Here we use the "trailing closure" syntax of Swift for convenience
-            imageStub = OHHTTPStubs.stubRequestsPassingTest(isImage) { request in
+            
+            let isImage = { (request: NSURLRequest!) -> Bool in
+                contains(["png","jpg","jpeg","gif"], request.URL?.pathExtension ?? "")
+            }
+            // - we use a separate block 'isImage' for the 'test' predicate for code readability
+            // - we use the "trailing closure" syntax of Swift for convenience
+            // - we don't care about the 'request' parameter in the trailing closure so we use '_'
+            imageStub = OHHTTPStubs.stubRequestsPassingTest(isImage) { _ in
                 let stubPath = OHPathForFile("stub.jpg", self.dynamicType)
                 return OHHTTPStubsResponse(
                     fileAtPath: stubPath!,
