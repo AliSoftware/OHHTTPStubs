@@ -122,7 +122,7 @@
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:nil statusCode:311 headers:@{@"Location":redirectURL.absoluteString}]
+        return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:311 headers:@{@"Location":redirectURL.absoluteString}]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
     
