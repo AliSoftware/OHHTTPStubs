@@ -11,6 +11,11 @@
 NSString* OHPathForFile(NSString* fileName, Class inBundleForClass)
 {
     NSBundle* bundle = [NSBundle bundleForClass:inBundleForClass];
+    return OHPathForFileInBundle(fileName, bundle);
+}
+
+NSString* OHPathForFileInBundle(NSString* fileName, NSBundle* bundle)
+{
     return [bundle pathForResource:[fileName stringByDeletingPathExtension]
                             ofType:[fileName pathExtension]];
 }

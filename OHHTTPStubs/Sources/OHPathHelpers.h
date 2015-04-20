@@ -17,7 +17,7 @@
 
 
 /**
- *  Useful function to build a path given a file name and a bundle.
+ *  Useful function to build a path given a file name and a class.
  *
  *  @param fileName The name of the file to get the path to, including file extension
  *  @param inBundleForClass The class of the caller, used to determine the current bundle
@@ -29,6 +29,22 @@
  */
 NSString* _nullable_ OHPathForFile(NSString* fileName, Class inBundleForClass);
 
+/**
+ *  Useful function to build a path given a file name and a bundle.
+ *
+ *  @param fileName The name of the file to get the path to, including file extension
+ *  @param bundle The bundle in which the file is supposed to be located.
+ *                This parameter can't be null.
+ *
+ *  @return The path of the given file in given bundle
+ *
+ *  @note You should avoid using `[NSBundle mainBundle]` for the `bundle` parameter,
+ *        as in the context of Unit Tests, this points to the Simulator's bundle,
+ *        not the bundle of the app under test. That's why `nil` is not an acceptable
+ *        value (so you won't expect it to default to the `mainBundle`).
+ *        You should use `[NSBundle bundleForClass:]` instead.
+ */
+NSString* _nullable_ OHPathForFileInBundle(NSString* fileName, NSBundle* bundle);
 
 /**
  *  Useful function to build a path to a file in the Documents's directory in the
