@@ -102,7 +102,7 @@ typedef OHHTTPStubsResponse* _nonnull_ (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with `removeStub:`.
  *
  *  @note The returned stub descriptor is retained (`__strong` reference) by `OHHTTPStubs`
- *        until it is removed (with one of the `removeStub:`/`removeLastStub`/`removeAllStubs`
+ *        until it is removed (with one of the `removeStub:` / `removeAllStubs`
  *        methods); it is thus recommended to keep it in a `__weak` storage (and not `__strong`)
  *        in your app code, to let the stub descriptor be destroyed and let the variable go
  *        back to `nil` automatically when the stub is removed.
@@ -120,11 +120,6 @@ typedef OHHTTPStubsResponse* _nonnull_ (^OHHTTPStubsResponseBlock)( NSURLRequest
  *          not a valid stub identifier
  */
 +(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc;
-
-/**
- *  Remove the last added stub from the stubs list
- */
-+(void)removeLastStub;
 
 /**
  *  Remove all the stubs from the stubs list.

@@ -141,10 +141,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     return [OHHTTPStubs.sharedInstance removeStub:stubDesc];
 }
-+(void)removeLastStub
-{
-    [OHHTTPStubs.sharedInstance removeLastStub];
-}
+
 +(void)removeAllStubs
 {
     [OHHTTPStubs.sharedInstance removeAllStubs];
@@ -228,14 +225,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         [_stubDescriptors removeObject:stubDesc];
     }
     return handlerFound;
-}
-
--(void)removeLastStub
-{
-    @synchronized(_stubDescriptors)
-    {
-        [_stubDescriptors removeLastObject];
-    }
 }
 
 -(void)removeAllStubs
