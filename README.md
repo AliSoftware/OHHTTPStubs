@@ -1,8 +1,9 @@
 OHHTTPStubs
 ===========
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Platform](http://cocoapod-badges.herokuapp.com/p/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
+[![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.png?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
@@ -59,22 +60,14 @@ OHHTTPStubs.stubRequestsPassingTest({$0.URL!.host == "mywebservice.com"}) { _ in
 
 `OHHTTPStubs` also works with iOS7's and OSX 10.9's `NSURLSession` mechanism.
 
-`OHHTTPStubs` is fully **Swift-compatible**. [Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have been added to allow a cleaner API when used from Swift. —  If you use CocoaPods 0.36+, simply add `use_frameworks!` to your `Podfile` (see "Installing in your projects" below for more details).
+`OHHTTPStubs` is fully **Swift-compatible**. [Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have been added to allow a cleaner API when used from Swift.
 
 # Installing in your projects
 
-## Cocoapods
+Using [CocoaPods](https://guides.cocoapods.org) is the recommended way.
+Simply add `pod 'OHHTTPStubs'` to your `Podfile`.
 
-Simply add `pod 'OHHTTPStubs'` to your `Podfile` then run `pod install` and you are ready to use it.
-
-If you want to use `OHHTTPStubs` from Swift:
-
-* With CocoaPods 0.36+, simply add `use_frameworks!` to your Podfile to use dynamic frameworks. Then use `import OHHTTPStubs` in your Swift source.
-* With CocoaPods 0.35, you have to have and Obj-C/Swift bridging file. As the import is done in briding-header, no import is needed in you Swift code.
-
-## Carthage
-
-Simply add `github "AliSoftware/OHHTTPStubs"` to your `Cartfile` then run `carthage update`.
+_`OHHTTPStubs` should also be compatible with Carthage — but I won't guarantee help/support for it as I don't use it personally._
 
 # Special Considerations
 
