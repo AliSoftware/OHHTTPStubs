@@ -28,6 +28,8 @@
 
 #import "AFHTTPRequestOperation.h"
 
+static const NSTimeInterval kResponseTimeTolerence = 1.0;
+
 @interface AFNetworkingTests : XCTestCase @end
 
 @implementation AFNetworkingTests
@@ -65,7 +67,7 @@
     }];
     [op start];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.8 handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
@@ -108,7 +110,7 @@
     }];
     [op start];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.8 handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
@@ -151,7 +153,7 @@
     }];
     [op start];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.8 handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     
     XCTAssertEqualObjects(url, redirectURL, @"Unexpected data received");
 }
@@ -206,7 +208,7 @@
                         [expectation fulfill];
                     }];
         
-        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+1.0 handler:nil];
+        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
         
         XCTAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
     }
