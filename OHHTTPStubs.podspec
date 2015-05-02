@@ -3,15 +3,20 @@ Pod::Spec.new do |s|
   s.name         = "OHHTTPStubs"
   s.version      = "4.0.0"
 
-  s.summary      = "Stubbing framework for network requests like HTTP or any other protocol."
+  s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
                     |A class to stub network requests easily:
                     |
                     | * Test your apps with fake network data (stubbed from file)
+                    | * You can also customize your response headers and status code
                     | * Use customized stubs depending on the requests
                     | * Use custom response time to simulate slow network.
                     | * This works with any request (HTTP, HTTPS, or any protocol) sent using
                     |   the iOS URL Loading System (NSURLConnection, NSURLSession, AFNetworking, …)
+                    | * This is really useful in unit testing, when you need to test network features
+                    |   but don't want to hit the real network and fake some response data instead.
+                    | * Has useful convenience methods to stub JSON content or fixture from a file
+                    | * Compatible with Swift
                  DESC
 
   s.homepage     = "https://github.com/AliSoftware/OHHTTPStubs"
