@@ -1,5 +1,5 @@
 PODS:
-  - OHHTTPStubs (4.0.0)
+  - OHHTTPStubs (4.0.1)
 
 DEPENDENCIES:
   - OHHTTPStubs (from `../..`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: 3d65d31dd8389a8adabcc086ff2cc99c02e49bcc
+  OHHTTPStubs: 69b1d48b7dfe838a355fdf48d8592d1042e3d85f
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.0
