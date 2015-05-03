@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 xcodeproj 'OHHTTPStubs.xcodeproj'
+inhibit_all_warnings!
 
 target 'OHHTTPStubs iOS Tests' do
     platform :ios, '6.0'
