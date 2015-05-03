@@ -41,6 +41,8 @@
 
 -(void)setUp
 {
+    [super setUp];
+
     _data = [NSMutableData new];
     _error = nil;
 //    _didReceiveResponseTS = nil;
