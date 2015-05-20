@@ -97,7 +97,7 @@ _As far as I know, there's nothing we can do about those two limitations. Please
 
 ## Submitting to the AppStore
 
-`OHHTTPStubs` **can be used** on apps subbmiting **on the AppStore**. It does not use any private API and nothing prevents you from shipping it.
+`OHHTTPStubs` **can be used** on apps submitted **on the AppStore**. It does not use any private API and nothing prevents you from shipping it.
 
 But you generally only use stubs during the development phase and want to remove your stubs when submitting to the AppStore. So be careful to only include `OHHTTPStubs` when needed (only in your test targets, or only inside `#if DEBUG` portions, or by using [per-Build-Configuration pods](https://guides.cocoapods.org/syntax/podfile.html#pod)) to avoid forgetting to remove it when the time comes that you release for the AppStore and you want your requests to hit the net!
 
