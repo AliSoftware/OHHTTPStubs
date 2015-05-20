@@ -27,7 +27,7 @@ NSString* OHPathForFileInDocumentsDir(NSString* fileName)
     return [basePath stringByAppendingPathComponent:fileName];
 }
 
-NSBundle* OHResourceBundleForClass(NSString* bundleBasename, Class inBundleForClass)
+NSBundle* OHResourceBundle(NSString* bundleBasename, Class inBundleForClass)
 {
     NSBundle* classBundle = [NSBundle bundleForClass:inBundleForClass];
     return [NSBundle bundleWithPath:[classBundle pathForResource:bundleBasename
