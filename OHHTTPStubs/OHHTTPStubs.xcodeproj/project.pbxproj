@@ -51,6 +51,12 @@
 		095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */; };
 		095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
 		0DB397E35DDB6808A5496D53 /* libPods-OHHTTPStubs Mac Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F49690D948DE88BBB4A36B11 /* libPods-OHHTTPStubs Mac Tests.a */; };
+		1D664C881B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D664C871B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m */; };
+		1D664C8A1B6A9BCC0053CD7E /* MocktailFolder in Resources */ = {isa = PBXBuildFile; fileRef = 1D664C891B6A9BCC0053CD7E /* MocktailFolder */; };
+		1D664C921B6A9EAC0053CD7E /* login.tail in Resources */ = {isa = PBXBuildFile; fileRef = 1D664C7F1B6A98080053CD7E /* login.tail */; };
+		1D664C931B6A9EAD0053CD7E /* login.tail in Resources */ = {isa = PBXBuildFile; fileRef = 1D664C7F1B6A98080053CD7E /* login.tail */; };
+		1D664C941B6A9EB50053CD7E /* MocktailFolder in Resources */ = {isa = PBXBuildFile; fileRef = 1D664C891B6A9BCC0053CD7E /* MocktailFolder */; };
+		1DFED98D1B618A5B00833CB1 /* MocktailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DFED98C1B618A5B00833CB1 /* MocktailTests.m */; };
 		221C34A51B0CCF0600FCA8FF /* OHPathHelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */; };
 		221C34A71B0CCF9D00FCA8FF /* empty.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 221C34A61B0CCF9D00FCA8FF /* empty.bundle */; };
 		221C34A81B0CCF9D00FCA8FF /* empty.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 221C34A61B0CCF9D00FCA8FF /* empty.bundle */; };
@@ -135,6 +141,11 @@
 		095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpers.m; sourceTree = "<group>"; };
 		0F72EA0B0A785AE724116B35 /* Pods-OHHTTPStubs iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubs iOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubs iOS Tests/Pods-OHHTTPStubs iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		1D664C7F1B6A98080053CD7E /* login.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login.tail; sourceTree = "<group>"; };
+		1D664C861B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs+Mocktail.h"; sourceTree = "<group>"; };
+		1D664C871B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+Mocktail.m"; sourceTree = "<group>"; };
+		1D664C891B6A9BCC0053CD7E /* MocktailFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MocktailFolder; sourceTree = "<group>"; };
+		1DFED98C1B618A5B00833CB1 /* MocktailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MocktailTests.m; path = "Test Suites/MocktailTests.m"; sourceTree = "<group>"; };
 		221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		221C34A61B0CCF9D00FCA8FF /* empty.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = empty.bundle; sourceTree = "<group>"; };
 		446DA13BA37A8466FF4F9D35 /* libPods-OHHTTPStubs iOS Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OHHTTPStubs iOS Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,6 +245,8 @@
 			children = (
 				09110A6A1980605A00D175E4 /* OHHTTPStubs.h */,
 				09110A6B1980605A00D175E4 /* OHHTTPStubs.m */,
+				1D664C861B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.h */,
+				1D664C871B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m */,
 				09110A6D1980605D00D175E4 /* OHHTTPStubsResponse */,
 				09110A771980607200D175E4 /* NSURLSession Support */,
 				095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */,
@@ -256,6 +269,8 @@
 		09110A5B19805F4800D175E4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1D664C891B6A9BCC0053CD7E /* MocktailFolder */,
+				1D664C7F1B6A98080053CD7E /* login.tail */,
 				095981471980665400807DBE /* UnitTests-Prefix.pch */,
 				095981451980657C00807DBE /* UnitTests-Info.plist */,
 			);
@@ -294,6 +309,7 @@
 				221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */,
 				0959814D1980668E00807DBE /* TimingTests.m */,
 				0959814E1980668E00807DBE /* WithContentsOfURLTests.m */,
+				1DFED98C1B618A5B00833CB1 /* MocktailTests.m */,
 			);
 			name = "Test Suites";
 			sourceTree = "<group>";
@@ -505,8 +521,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D664C8A1B6A9BCC0053CD7E /* MocktailFolder in Resources */,
 				47AF337B1A3775B600158C9F /* emptyfile.json in Resources */,
 				221C34A71B0CCF9D00FCA8FF /* empty.bundle in Resources */,
+				1D664C921B6A9EAC0053CD7E /* login.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +548,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D664C941B6A9EB50053CD7E /* MocktailFolder in Resources */,
+				1D664C931B6A9EAD0053CD7E /* login.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D664C881B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m in Sources */,
 				09110A751980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 				09110A761980606A00D175E4 /* OHHTTPStubsResponse+JSON.m in Sources */,
 				09110A791980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
@@ -623,6 +644,7 @@
 				095981881980682800807DBE /* AFNetworkingTests.m in Sources */,
 				0959818C1980682E00807DBE /* NSURLSessionTests.m in Sources */,
 				0959818B1980682E00807DBE /* NSURLConnectionTests.m in Sources */,
+				1DFED98D1B618A5B00833CB1 /* MocktailTests.m in Sources */,
 				095981891980682E00807DBE /* NilValuesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

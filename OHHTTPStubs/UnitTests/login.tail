@@ -1,0 +1,10 @@
+GET|POST
+.*/users
+200
+application/json
+
+{
+"user_id":    "wallet-id",
+"user_token": "wallet-token",
+"status": "SUCCESS"
+}
