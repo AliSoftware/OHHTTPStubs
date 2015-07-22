@@ -411,6 +411,7 @@ typedef struct {
     NSTimeInterval slotTime;
     double chunkSizePerSlot;
     double cumulativeChunkSize;
+    unsigned long long bodyOffset;
 } OHHTTPStubsStreamTimingInfo;
 
 - (void)streamDataForClient:(id<NSURLProtocolClient>)client
@@ -442,6 +443,8 @@ typedef struct {
             // Bytes send each 'slotTime' seconds = (Whole size in bytes / response time) * slotTime = speed in bps * slotTime in seconds
             timingInfo.chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * timingInfo.slotTime);
         }
+        
+        timingInfo.bodyOffset = stubResponse.bodyOffset;
         
         [self streamDataForClient:client
                        fromStream:stubResponse.inputStream
@@ -479,6 +482,13 @@ typedef struct {
                                timingInfo:timingInfo completion:completion];
             }];
         } else {
+            if(timingInfo.bodyOffset > 0){
+                //skip contenst until it reaches timeingInfo.bodyOffset
+                uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t)*timingInfo.bodyOffset);
+                [inputStream read:buffer maxLength:timingInfo.bodyOffset];
+                timingInfo.bodyOffset = 0;
+            }
+            
             uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t)*chunkSizeToRead);
             NSInteger bytesRead = [inputStream read:buffer maxLength:chunkSizeToRead];
             if (bytesRead > 0)
