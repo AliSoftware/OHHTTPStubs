@@ -41,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
-typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* __nonnull request);
-typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* __nonnull request);
+typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
+typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
 
 /**
  *  This opaque type represents an installed stub and is used to uniquely
