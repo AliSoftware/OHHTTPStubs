@@ -204,6 +204,8 @@ OHHTTPStubsDownloadSpeedWifi;
 #pragma mark - Initializers
 /*! @name Initializers */
 
+-(instancetype)init NS_DESIGNATED_INITIALIZER;
+
 /**
  *  Designed initializer. Initialize a response with the given input stream, dataSize, 
  *  statusCode and headers.

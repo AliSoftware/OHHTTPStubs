@@ -102,6 +102,12 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initializers
 
+-(instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
                         statusCode:(int)statusCode
