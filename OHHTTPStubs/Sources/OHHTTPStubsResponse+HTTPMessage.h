@@ -22,21 +22,20 @@
  *
  ***********************************************************************************/
 
-#if ! TARGET_OS_NANO
+
+/* This category is not available on watchOS because CFNetwork is needed for its implementation but isn't available on Nano */
+#if __has_include(<CFNetwork/CFNetwork.h>)
 
 #import "OHHTTPStubsResponse.h"
+#import "Compatibility.h"
 
-#ifdef NS_ASSUME_NONNULL_BEGIN
-  NS_ASSUME_NONNULL_BEGIN
-  #define _nullable_ __nullable
-#else
-  #define _nullable_
-#endif
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Adds support for building stubs from "HTTP Messages" conforming to
  *  the format output by `curl -is`
+ *
+ *  @note This category is not available on watchOS
  */
 @interface OHHTTPStubsResponse (HTTPMessage)
 
@@ -70,13 +69,11 @@
  */
 
 +(instancetype)responseNamed:(NSString*)responseName
-                    inBundle:(NSBundle* _nullable_)bundleOrNil;
+                    inBundle:(nullable NSBundle*)bundleOrNil;
 
 
 @end
 
-#ifdef NS_ASSUME_NONNULL_END
-  NS_ASSUME_NONNULL_END
-#endif
+NS_ASSUME_NONNULL_END
 
 #endif

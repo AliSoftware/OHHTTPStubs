@@ -22,7 +22,9 @@
  *
  ***********************************************************************************/
 
-#if ! TARGET_OS_NANO
+
+#if __has_include(<CFNetwork/CFNetwork.h>)
+#import <CFNetwork/CFNetwork.h>
 
 #import "OHHTTPStubsResponse+HTTPMessage.h"
 
@@ -58,7 +60,7 @@
 }
 
 +(instancetype)responseNamed:(NSString*)responseName
-                    inBundle:(NSBundle*)responsesBundle
+                    inBundle:(nullable NSBundle*)responsesBundle
 {
     NSURL *responseURL = [responsesBundle?:[NSBundle bundleForClass:self.class] URLForResource:responseName
                                                                                    withExtension:@"response"];
