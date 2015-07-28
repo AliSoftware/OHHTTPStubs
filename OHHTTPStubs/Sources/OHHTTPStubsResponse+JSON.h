@@ -22,15 +22,11 @@
  *
  ***********************************************************************************/
 
+
 #import "OHHTTPStubsResponse.h"
+#import "Compatibility.h"
 
-#ifdef NS_ASSUME_NONNULL_BEGIN
-  NS_ASSUME_NONNULL_BEGIN
-  #define _nullable_ __nullable
-#else
-  #define _nullable_
-#endif
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Adds convenience methods to manipulate JSON objects directly.
@@ -54,10 +50,8 @@
  */
 + (instancetype)responseWithJSONObject:(id)jsonObject
                             statusCode:(int)statusCode
-                               headers:(NSDictionary * _nullable_)httpHeaders;
+                               headers:(nullable NSDictionary *)httpHeaders;
 
 @end
 
-#ifdef NS_ASSUME_NONNULL_END
-  NS_ASSUME_NONNULL_END
-#endif
+NS_ASSUME_NONNULL_END

@@ -22,15 +22,11 @@
  *
  ***********************************************************************************/
 
+
 #import <Foundation/Foundation.h>
+#import "Compatibility.h"
 
-#ifdef NS_ASSUME_NONNULL_BEGIN
-  NS_ASSUME_NONNULL_BEGIN
-  #define _nullable_ __nullable
-#else
-  #define _nullable_
-#endif
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Useful function to build a path given a file name and a class.
@@ -43,7 +39,7 @@
  *
  *  @return The path of the given file in the same bundle as the inBundleForClass class
  */
-NSString* _nullable_ OHPathForFile(NSString* fileName, Class inBundleForClass);
+NSString* __nullable OHPathForFile(NSString* fileName, Class inBundleForClass);
 
 /**
  *  Useful function to build a path given a file name and a bundle.
@@ -60,7 +56,7 @@ NSString* _nullable_ OHPathForFile(NSString* fileName, Class inBundleForClass);
  *        value (so you won't expect it to default to the `mainBundle`).
  *        You should use `[NSBundle bundleForClass:]` instead.
  */
-NSString* _nullable_ OHPathForFileInBundle(NSString* fileName, NSBundle* bundle);
+NSString* __nullable OHPathForFileInBundle(NSString* fileName, NSBundle* bundle);
 
 /**
  *  Useful function to build a path to a file in the Documents's directory in the
@@ -70,7 +66,7 @@ NSString* _nullable_ OHPathForFileInBundle(NSString* fileName, NSBundle* bundle)
  *
  *  @return The path of the file in the Documents directory in your App Sandbox
  */
-NSString* _nullable_ OHPathForFileInDocumentsDir(NSString* fileName);
+NSString* __nullable OHPathForFileInDocumentsDir(NSString* fileName);
 
 
 
@@ -85,9 +81,6 @@ NSString* _nullable_ OHPathForFileInDocumentsDir(NSString* fileName);
  *
  *  @return The NSBundle object representing the bundle with the given basename located in your application's resources.
  */
-NSBundle* _nullable_ OHResourceBundle(NSString* bundleBasename, Class inBundleForClass);
+NSBundle* __nullable OHResourceBundle(NSString* bundleBasename, Class inBundleForClass);
 
-
-#ifdef NS_ASSUME_NONNULL_END
-  NS_ASSUME_NONNULL_END
-#endif
+NS_ASSUME_NONNULL_END
