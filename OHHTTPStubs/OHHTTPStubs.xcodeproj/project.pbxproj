@@ -50,6 +50,9 @@
 		095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */; };
 		095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */; };
 		095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
+		09D0D2991B67FED3004E7213 /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 09D0D2981B67FED3004E7213 /* Compatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		09D0D29A1B67FED3004E7213 /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 09D0D2981B67FED3004E7213 /* Compatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		09D0D29B1B67FF06004E7213 /* Compatibility.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D0D2981B67FED3004E7213 /* Compatibility.h */; };
 		0DB397E35DDB6808A5496D53 /* libPods-OHHTTPStubs Mac Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F49690D948DE88BBB4A36B11 /* libPods-OHHTTPStubs Mac Tests.a */; };
 		221C34A51B0CCF0600FCA8FF /* OHPathHelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */; };
 		221C34A71B0CCF9D00FCA8FF /* empty.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 221C34A61B0CCF9D00FCA8FF /* empty.bundle */; };
@@ -93,6 +96,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				09D0D29B1B67FF06004E7213 /* Compatibility.h in CopyFiles */,
 				095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */,
 				095981FC19806AF300807DBE /* OHHTTPStubs.h in CopyFiles */,
 				095981FD19806AF300807DBE /* OHHTTPStubsResponse.h in CopyFiles */,
@@ -134,6 +138,7 @@
 		095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs Mac Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpers.m; sourceTree = "<group>"; };
+		09D0D2981B67FED3004E7213 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
 		0F72EA0B0A785AE724116B35 /* Pods-OHHTTPStubs iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubs iOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubs iOS Tests/Pods-OHHTTPStubs iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		221C34A61B0CCF9D00FCA8FF /* empty.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = empty.bundle; sourceTree = "<group>"; };
@@ -232,6 +237,7 @@
 		09110A4619805F4800D175E4 /* OHHTTPStubs */ = {
 			isa = PBXGroup;
 			children = (
+				09D0D2981B67FED3004E7213 /* Compatibility.h */,
 				09110A6A1980605A00D175E4 /* OHHTTPStubs.h */,
 				09110A6B1980605A00D175E4 /* OHHTTPStubs.m */,
 				09110A6D1980605D00D175E4 /* OHHTTPStubsResponse */,
@@ -348,6 +354,7 @@
 				0959820019806B1700807DBE /* OHHTTPStubsResponse.h in Headers */,
 				095B1AD71AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
 				095981FB19806AB700807DBE /* OHHTTPStubs.h in Headers */,
+				09D0D29A1B67FED3004E7213 /* Compatibility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +367,7 @@
 				725CD9BB1A9EB71A00F84C8B /* OHHTTPStubsResponse+JSON.h in Headers */,
 				725CD9BC1A9EB71D00F84C8B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				095B1AD61AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
+				09D0D2991B67FED3004E7213 /* Compatibility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

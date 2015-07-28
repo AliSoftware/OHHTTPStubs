@@ -1,6 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/OHHTTPStubs"
 OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/OHHTTPStubs"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"Pods-OHHTTPStubs" -framework "CFNetwork" -framework "Foundation"
-OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+OTHER_LDFLAGS = $(inherited) -ObjC -l"OHHTTPStubs" -framework "CFNetwork" -framework "Foundation"
 PODS_ROOT = ${SRCROOT}/Pods
