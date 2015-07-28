@@ -43,4 +43,5 @@
   #define NS_ASSUME_NONNULL_END
   #define nullable
   #define __nullable
+  #define __nonnull
 #endif
