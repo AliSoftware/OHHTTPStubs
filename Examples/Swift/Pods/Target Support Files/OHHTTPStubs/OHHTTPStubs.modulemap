@@ -1,5 +1,5 @@
 framework module OHHTTPStubs {
-  umbrella header "Pods-OHHTTPStubs-umbrella.h"
+  umbrella header "OHHTTPStubs-umbrella.h"
 
   export *
   module * { export * }
