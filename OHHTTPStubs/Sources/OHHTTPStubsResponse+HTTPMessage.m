@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 AliSoftware. All rights reserved.
 //
 
+#if ! TARGET_OS_NANO
+
 #import "OHHTTPStubsResponse+HTTPMessage.h"
 
 @implementation OHHTTPStubsResponse (HTTPMessage)
@@ -52,3 +54,5 @@
 }
 
 @end
+
+#endif

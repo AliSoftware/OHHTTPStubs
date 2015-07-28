@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 AliSoftware. All rights reserved.
 //
 
+#if ! TARGET_OS_NANO
+
 #import "OHHTTPStubsResponse.h"
 
 #ifdef NS_ASSUME_NONNULL_BEGIN
@@ -59,4 +61,6 @@
 
 #ifdef NS_ASSUME_NONNULL_END
   NS_ASSUME_NONNULL_END
+#endif
+
 #endif
