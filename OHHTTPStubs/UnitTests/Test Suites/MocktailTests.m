@@ -30,12 +30,16 @@
 }
 
 - (void)testMoctTailLoginSuccess {
-    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login.tail"];
+    NSError *error = nil;
+    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login.tail" error: &error];
+    XCTAssertNil(error, @"Error while stubbing 'login.tail':%@", [error localizedDescription]);
     [self runLogin];
 }
 
 - (void)testMocktailsAtFolder{
-    [OHHTTPStubs stubRequestsUsingMocktailsAt:[NSURL fileURLWithPath:OHPathForFile(@"MocktailFolder", [self class])]];
+    NSError *error = nil;
+    [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"MocktailFolder" error:&error];
+    XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
     [self runLogin];
     [self runGetCards];
 }
