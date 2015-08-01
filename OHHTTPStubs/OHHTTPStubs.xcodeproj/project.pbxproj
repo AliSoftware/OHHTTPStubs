@@ -51,6 +51,7 @@
 		095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */; };
 		095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
 		0DB397E35DDB6808A5496D53 /* libPods-OHHTTPStubs Mac Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F49690D948DE88BBB4A36B11 /* libPods-OHHTTPStubs Mac Tests.a */; };
+		1D0F8E6B1B6D89890049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D664C871B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m */; };
 		1D664C881B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D664C871B6A9AC00053CD7E /* OHHTTPStubs+Mocktail.m */; };
 		1D664C8A1B6A9BCC0053CD7E /* MocktailFolder in Resources */ = {isa = PBXBuildFile; fileRef = 1D664C891B6A9BCC0053CD7E /* MocktailFolder */; };
 		1D664C921B6A9EAC0053CD7E /* login.tail in Resources */ = {isa = PBXBuildFile; fileRef = 1D664C7F1B6A98080053CD7E /* login.tail */; };
@@ -686,6 +687,7 @@
 				725CD9B71A9EB6FD00F84C8B /* OHHTTPStubsResponse+JSON.m in Sources */,
 				725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 				095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */,
+				1D0F8E6B1B6D89890049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

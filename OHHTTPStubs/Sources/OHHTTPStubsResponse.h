@@ -85,10 +85,6 @@ OHHTTPStubsDownloadSpeedWifi;
  */
 @property(nonatomic, assign) unsigned long long dataSize;
 /**
- *  The offset of the fake response body, in bytes.
- */
-@property(nonatomic, assign) unsigned long long bodyOffset;
-/**
  *  The duration to wait before faking receiving the response headers.
  *
  *  Defaults to 0.0.

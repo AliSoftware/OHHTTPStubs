@@ -8,6 +8,19 @@
 
 #import "OHHTTPStubs.h"
 
+typedef enum : NSInteger {
+    kErrorPathDoesNotExist = 1,
+    kErrorPathIsNotFolder,
+    kErrorPathDoesNotRead,
+    kErrorFileDoesNotExist,
+    kErrorFileDoesNotRead,
+    kErrorFileFormatInvalid,
+    kErrorFileHeaderInvalid,
+    kErrorFileInternalError
+} Stub_Mocktail_Error_TYPE;
+
+extern NSString* const MocktailErrorDomain;
+
 @interface OHHTTPStubs (Mocktail)
 
 /**
@@ -22,7 +35,7 @@
  * @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
  */
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName;
++(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName error:(NSError **)error;
 
 /**
  * Add a stub given a file URL in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
@@ -36,7 +49,7 @@
  * @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
  */
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL;
++(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error;
 
 /**
  * Add stubs using files under a folder URL in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
@@ -50,6 +63,6 @@
  * @return an array of stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
  */
-+(NSArray *)stubRequestsUsingMocktailsAt:(NSURL*)dirURL;
++(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path error:(NSError **)error;
 
 @end
