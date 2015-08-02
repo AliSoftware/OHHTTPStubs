@@ -51,6 +51,15 @@
 		095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */; };
 		095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
 		0DB397E35DDB6808A5496D53 /* libPods-OHHTTPStubs Mac Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F49690D948DE88BBB4A36B11 /* libPods-OHHTTPStubs Mac Tests.a */; };
+		1D0F8E771B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D0F8E751B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1D0F8E781B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D0F8E751B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1D0F8E791B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0F8E761B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m */; };
+		1D0F8E7A1B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0F8E761B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m */; };
+		1D0F8E7B1B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0F8E761B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m */; };
+		1D0F8E7C1B6E314F0049A7D2 /* OHHTTPStubs+Mocktail.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1D0F8E751B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h */; };
+		1D0F8E7E1B6E31850049A7D2 /* MocktailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0F8E7D1B6E31850049A7D2 /* MocktailTests.m */; };
+		1D0F8E801B6E31A70049A7D2 /* login.tail in Resources */ = {isa = PBXBuildFile; fileRef = 1D0F8E7F1B6E31A70049A7D2 /* login.tail */; };
+		1D0F8E821B6E31B00049A7D2 /* MocktailFolder in Resources */ = {isa = PBXBuildFile; fileRef = 1D0F8E811B6E31B00049A7D2 /* MocktailFolder */; };
 		221C34A51B0CCF0600FCA8FF /* OHPathHelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */; };
 		221C34A71B0CCF9D00FCA8FF /* empty.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 221C34A61B0CCF9D00FCA8FF /* empty.bundle */; };
 		221C34A81B0CCF9D00FCA8FF /* empty.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 221C34A61B0CCF9D00FCA8FF /* empty.bundle */; };
@@ -93,6 +102,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				1D0F8E7C1B6E314F0049A7D2 /* OHHTTPStubs+Mocktail.h in CopyFiles */,
 				095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */,
 				095981FC19806AF300807DBE /* OHHTTPStubs.h in CopyFiles */,
 				095981FD19806AF300807DBE /* OHHTTPStubsResponse.h in CopyFiles */,
@@ -135,6 +145,11 @@
 		095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpers.m; sourceTree = "<group>"; };
 		0F72EA0B0A785AE724116B35 /* Pods-OHHTTPStubs iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubs iOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubs iOS Tests/Pods-OHHTTPStubs iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		1D0F8E751B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs+Mocktail.h"; sourceTree = "<group>"; };
+		1D0F8E761B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+Mocktail.m"; sourceTree = "<group>"; };
+		1D0F8E7D1B6E31850049A7D2 /* MocktailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MocktailTests.m; path = "Test Suites/MocktailTests.m"; sourceTree = "<group>"; };
+		1D0F8E7F1B6E31A70049A7D2 /* login.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login.tail; sourceTree = "<group>"; };
+		1D0F8E811B6E31B00049A7D2 /* MocktailFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MocktailFolder; sourceTree = "<group>"; };
 		221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		221C34A61B0CCF9D00FCA8FF /* empty.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = empty.bundle; sourceTree = "<group>"; };
 		446DA13BA37A8466FF4F9D35 /* libPods-OHHTTPStubs iOS Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OHHTTPStubs iOS Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,6 +249,8 @@
 			children = (
 				09110A6A1980605A00D175E4 /* OHHTTPStubs.h */,
 				09110A6B1980605A00D175E4 /* OHHTTPStubs.m */,
+				1D0F8E751B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h */,
+				1D0F8E761B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m */,
 				09110A6D1980605D00D175E4 /* OHHTTPStubsResponse */,
 				09110A771980607200D175E4 /* NSURLSession Support */,
 				095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */,
@@ -256,6 +273,8 @@
 		09110A5B19805F4800D175E4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1D0F8E7F1B6E31A70049A7D2 /* login.tail */,
+				1D0F8E811B6E31B00049A7D2 /* MocktailFolder */,
 				095981471980665400807DBE /* UnitTests-Prefix.pch */,
 				095981451980657C00807DBE /* UnitTests-Info.plist */,
 			);
@@ -287,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				095981481980668E00807DBE /* AFNetworkingTests.m */,
+				1D0F8E7D1B6E31850049A7D2 /* MocktailTests.m */,
 				095981491980668E00807DBE /* NilValuesTests.m */,
 				0959814A1980668E00807DBE /* NSURLConnectionDelegateTests.m */,
 				0959814B1980668E00807DBE /* NSURLConnectionTests.m */,
@@ -344,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0959820219806B2200807DBE /* OHHTTPStubsResponse+JSON.h in Headers */,
+				1D0F8E781B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h in Headers */,
 				0959820119806B1E00807DBE /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				0959820019806B1700807DBE /* OHHTTPStubsResponse.h in Headers */,
 				095B1AD71AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
@@ -356,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				725CD9B91A9EB71000F84C8B /* OHHTTPStubs.h in Headers */,
+				1D0F8E771B6E31150049A7D2 /* OHHTTPStubs+Mocktail.h in Headers */,
 				725CD9BA1A9EB71500F84C8B /* OHHTTPStubsResponse.h in Headers */,
 				725CD9BB1A9EB71A00F84C8B /* OHHTTPStubsResponse+JSON.h in Headers */,
 				725CD9BC1A9EB71D00F84C8B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
@@ -507,6 +529,8 @@
 			files = (
 				47AF337B1A3775B600158C9F /* emptyfile.json in Resources */,
 				221C34A71B0CCF9D00FCA8FF /* empty.bundle in Resources */,
+				1D0F8E821B6E31B00049A7D2 /* MocktailFolder in Resources */,
+				1D0F8E801B6E31A70049A7D2 /* login.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +633,7 @@
 				09110A6C1980605A00D175E4 /* OHHTTPStubs.m in Sources */,
 				09110A741980606A00D175E4 /* OHHTTPStubsResponse.m in Sources */,
 				095B1AD51AE30BA7009D1B56 /* OHPathHelpers.m in Sources */,
+				1D0F8E791B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +646,7 @@
 				0959818A1980682E00807DBE /* NSURLConnectionDelegateTests.m in Sources */,
 				0959818E1980682E00807DBE /* WithContentsOfURLTests.m in Sources */,
 				095981881980682800807DBE /* AFNetworkingTests.m in Sources */,
+				1D0F8E7E1B6E31850049A7D2 /* MocktailTests.m in Sources */,
 				0959818C1980682E00807DBE /* NSURLSessionTests.m in Sources */,
 				0959818B1980682E00807DBE /* NSURLConnectionTests.m in Sources */,
 				095981891980682E00807DBE /* NilValuesTests.m in Sources */,
@@ -637,6 +663,7 @@
 				095981F919806AAC00807DBE /* OHHTTPStubsResponse+JSON.m in Sources */,
 				095981FA19806AAC00807DBE /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */,
+				1D0F8E7B1B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +691,7 @@
 				725CD9B71A9EB6FD00F84C8B /* OHHTTPStubsResponse+JSON.m in Sources */,
 				725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 				095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */,
+				1D0F8E7A1B6E31150049A7D2 /* OHHTTPStubs+Mocktail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
