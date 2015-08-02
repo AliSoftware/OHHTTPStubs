@@ -3,7 +3,6 @@
 //  CardCompanion
 //
 //  Created by Wang, Sunny on 7/30/15.
-//  Copyright (c) 2015 Capital One. All rights reserved.
 //
 
 #import "OHHTTPStubs.h"
