@@ -25,11 +25,11 @@ extern NSString* const MocktailErrorDomain;
 /**
  * Add a stub given a file in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
  *
- * The response file is expected to be in the specified bundle (or the application bundle if nil).
  * This method will split the HTTP method Regex, the absolute URL Regex, the headers, the HTTP status code and
  * response body, and use them to add a stub.
  *
  * @param fileName The name of the `"*.tail"` file (with extension) in the Mocktail format.
+ * @param error An out value that returns any error encountered during stubbing. Returns an NSError object if any error; otherwise returns nil.
  *
  * @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
@@ -39,11 +39,11 @@ extern NSString* const MocktailErrorDomain;
 /**
  * Add a stub given a file URL in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
  *
- * The response file is expected to be in the specified bundle (or the application bundle if nil).
  * This method will split the HTTP method Regex, the absolute URL Regex, the headers, the HTTP status code and
  * response body, and use them to add a stub.
  *
- * @param fileName The name of the `"*.tail"` file (with extension) in the Mocktail format.
+ * @param fileURL The URL pointing to the file in the Mocktail format.
+ * @param error An out value that returns any error encountered during stubbing. Returns an NSError object if any error; otherwise returns nil.
  *
  * @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
@@ -51,13 +51,12 @@ extern NSString* const MocktailErrorDomain;
 +(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error;
 
 /**
- * Add stubs using files under a folder URL in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
+ * Add stubs using files under a folder in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
  *
- * The response file is expected to be in the specified bundle (or the application bundle if nil).
- * This method will split the HTTP method Regex, the absolute URL Regex, the headers, the HTTP status code and
- * response body, and use them to add a stub.
+ * This method will retrieve all the files under the folder; for each file with surfix of ".tail", it will split the HTTP method Regex, the absolute URL Regex, the headers, the HTTP status code and response body, and use them to add a stub.
  *
- * @param fileName The name of the `"*.tail"` file (with extension) in the Mocktail format.
+ * @param path The name of the folder containing files in the Mocktail format.
+ * @param error An out value that returns any error encountered during stubbing. Returns an NSError object if any error; otherwise returns nil.
  *
  * @return an array of stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
