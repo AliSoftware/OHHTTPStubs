@@ -106,6 +106,7 @@
 			dstSubfolderSpec = 16;
 			files = (
 				09D0D29B1B67FF06004E7213 /* Compatibility.h in CopyFiles */,
+				095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */,
 				1D0F8E7C1B6E314F0049A7D2 /* OHHTTPStubs+Mocktail.h in CopyFiles */,				095B1ADA1AE313E0009D1B56 /* OHPathHelpers.h in CopyFiles */,
 				095981FC19806AF300807DBE /* OHHTTPStubs.h in CopyFiles */,
 				095981FD19806AF300807DBE /* OHHTTPStubsResponse.h in CopyFiles */,
