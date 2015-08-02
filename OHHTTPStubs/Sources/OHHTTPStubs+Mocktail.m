@@ -3,7 +3,6 @@
 //  CardCompanion
 //
 //  Created by Wang, Sunny on 7/30/15.
-//  Copyright (c) 2015 Capital One. All rights reserved.
 //
 
 #import "OHHTTPStubs+Mocktail.h"
@@ -142,7 +141,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fileURL.path
                                                                          statusCode:(int)statusCode headers:headers];
-        [response.inputStream setProperty:[NSNumber numberWithUnsignedLongLong:([headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2)] forKey:NSStreamFileCurrentOffsetKey];
+        [response.inputStream setProperty:@([headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2) forKey:NSStreamFileCurrentOffsetKey];
         return response;
     }];
 }
