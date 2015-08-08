@@ -127,6 +127,9 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
     }
     
+    //handle binary which is base64 encoded
+    unsigned long long bodyOffset = [headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2;
+    
     return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSString *absoluteURL = [request.URL absoluteString];
         NSString *method = request.HTTPMethod;
@@ -139,10 +142,23 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         
         return NO;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fileURL.path
-                                                                         statusCode:(int)statusCode headers:headers];
-        [response.inputStream setProperty:@([headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2) forKey:NSStreamFileCurrentOffsetKey];
-        return response;
+        if([headers[@"Content-Type"] hasSuffix:@";base64"]) {
+            NSString *type = headers[@"Content-Type"];
+            NSString *newType = [type substringWithRange:NSMakeRange(0, type.length - 7)];
+            headers[@"Content-Type"] = newType;
+            
+            NSData *body = [NSData dataWithContentsOfURL:fileURL];
+            body = [body subdataWithRange:NSMakeRange(bodyOffset, body.length - bodyOffset)];
+            body = [[NSData alloc] initWithBase64EncodedData:body options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            
+            OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithData:body statusCode:(int)statusCode headers:headers];
+            return response;
+        } else {
+            OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fileURL.path
+                                                                             statusCode:(int)statusCode headers:headers];
+            [response.inputStream setProperty:@(bodyOffset) forKey:NSStreamFileCurrentOffsetKey];
+            return response;
+        }
     }];
 }
 
