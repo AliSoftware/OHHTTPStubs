@@ -57,12 +57,11 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    [request setHTTPMethod:@"POST"];
-    NSDictionary *mapData = [[NSDictionary alloc] initWithObjectsAndKeys: @"walletuser", @"iloveit",
-                             @"username", @"password",
-                             nil];
+    request.HTTPMethod = @"POST";
+    NSDictionary *mapData = @{@"iloveit": @"walletuser",
+                             @"password": @"username"};
     NSData *postData = [NSJSONSerialization dataWithJSONObject:mapData options:0 error:NULL];
-    [request setHTTPBody:postData];
+    request.HTTPBody = postData;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
     
@@ -98,7 +97,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    [request setHTTPMethod:@"GET"];
+    request.HTTPMethod = @"GET";
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
     

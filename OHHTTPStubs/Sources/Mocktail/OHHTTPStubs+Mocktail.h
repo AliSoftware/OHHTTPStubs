@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum : NSInteger {
+typedef NS_ENUM(NSInteger, Stub_Mocktail_Error_TYPE) {
     kErrorPathDoesNotExist = 1,
     kErrorPathIsNotFolder,
     kErrorPathDoesNotRead,
@@ -19,7 +19,7 @@ typedef enum : NSInteger {
     kErrorFileFormatInvalid,
     kErrorFileHeaderInvalid,
     kErrorFileInternalError
-} Stub_Mocktail_Error_TYPE;
+};
 
 extern NSString* const MocktailErrorDomain;
 
