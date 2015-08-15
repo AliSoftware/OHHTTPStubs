@@ -19,7 +19,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
         }
         return nil;
     }
@@ -32,7 +32,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
         }
         return nil;
     }
@@ -41,7 +41,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathIsNotFolder userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' is not a folder.", path]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathIsNotFolder userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' is not a folder.", path]}];
         }
         return nil;
     }
@@ -55,7 +55,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathDoesNotRead userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Error reading path '%@'.", dirURL.absoluteString]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathFailedToRead userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Error reading path '%@'.", dirURL.absoluteString]}];
         }
         return nil;
     }
@@ -85,7 +85,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' does not exist.", fileName]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' does not exist.", fileName]}];
         }
         return nil;
     }
@@ -105,7 +105,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileDoesNotRead userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' does not read.", fileURL.absoluteString]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathFailedToRead userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' does not read.", fileURL.absoluteString]}];
         }
         return nil;
     }
@@ -118,7 +118,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileFormatInvalid userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid amount of lines:%u.", fileURL.absoluteString, (unsigned)lines.count]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileFormat userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid amount of lines:%u.", fileURL.absoluteString, (unsigned)lines.count]}];
         }
         return nil;
     }
@@ -131,7 +131,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileFormatInvalid userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid method regular expression pattern: %@.", fileURL.absoluteString,  lines[0]]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileFormat userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid method regular expression pattern: %@.", fileURL.absoluteString,  lines[0]]}];
         }
         return nil;
     }
@@ -142,7 +142,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileFormatInvalid userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid URL regular expression pattern: %@.", fileURL.absoluteString,  lines[1]]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileFormat userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid URL regular expression pattern: %@.", fileURL.absoluteString,  lines[1]]}];
         }
         return nil;
     }
@@ -157,7 +157,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     {
         if (error)
         {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileInternalError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Internal error while stubbing file '%@'.", fileURL.absoluteString]}];
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInternalError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Internal error while stubbing file '%@'.", fileURL.absoluteString]}];
         }
         return nil;
     }
@@ -176,7 +176,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         {
             if (error)
             {
-                *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileHeaderInvalid userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid header: %@.", fileURL.absoluteString, headerLine]}];
+                *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileHeader userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid header: %@.", fileURL.absoluteString, headerLine]}];
             }
             return nil;
         }

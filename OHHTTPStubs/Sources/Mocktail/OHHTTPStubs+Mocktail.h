@@ -10,15 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, Stub_Mocktail_Error_TYPE) {
-    kErrorPathDoesNotExist = 1,
-    kErrorPathIsNotFolder,
-    kErrorPathDoesNotRead,
-    kErrorFileDoesNotExist,
-    kErrorFileDoesNotRead,
-    kErrorFileFormatInvalid,
-    kErrorFileHeaderInvalid,
-    kErrorFileInternalError
+typedef NS_ENUM(NSInteger, OHHTTPStubsMocktailError) {
+    OHHTTPStubsMocktailErrorPathDoesNotExist = 1,
+    OHHTTPStubsMocktailErrorPathFailedToRead,
+    OHHTTPStubsMocktailErrorPathIsNotFolder,
+    OHHTTPStubsMocktailErrorInvalidFileFormat,
+    OHHTTPStubsMocktailErrorInvalidFileHeader,
+    OHHTTPStubsMocktailErrorInternalError
 };
 
 extern NSString* const MocktailErrorDomain;
