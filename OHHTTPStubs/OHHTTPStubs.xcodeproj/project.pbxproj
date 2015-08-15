@@ -22,6 +22,10 @@
 		094906D91B7F523500B047DA /* MocktailFolder in Resources */ = {isa = PBXBuildFile; fileRef = 1D0F8E811B6E31B00049A7D2 /* MocktailFolder */; };
 		094906DA1B7F523900B047DA /* login.tail in Resources */ = {isa = PBXBuildFile; fileRef = 1D0F8E7F1B6E31A70049A7D2 /* login.tail */; };
 		094906DB1B7F527A00B047DA /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981481980668E00807DBE /* AFNetworkingTests.m */; };
+		094906DC1B7F60D100B047DA /* OHHTTPStubs+Mocktail.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; };
+		094906DD1B7F60D100B047DA /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
+		094906DE1B7F60E200B047DA /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		094906DF1B7F60EE00B047DA /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		095981881980682800807DBE /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981481980668E00807DBE /* AFNetworkingTests.m */; };
 		095981891980682E00807DBE /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981491980668E00807DBE /* NilValuesTests.m */; };
 		0959818A1980682E00807DBE /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814A1980668E00807DBE /* NSURLConnectionDelegateTests.m */; };
@@ -108,8 +112,10 @@
 				09D0D29B1B67FF06004E7213 /* Compatibility.h in CopyFiles */,
 				095981FC19806AF300807DBE /* OHHTTPStubs.h in CopyFiles */,
 				095981FD19806AF300807DBE /* OHHTTPStubsResponse.h in CopyFiles */,
-				095981FE19806AF300807DBE /* OHHTTPStubsResponse+HTTPMessage.h in CopyFiles */,
 				095981FF19806AF300807DBE /* OHHTTPStubsResponse+JSON.h in CopyFiles */,
+				095981FE19806AF300807DBE /* OHHTTPStubsResponse+HTTPMessage.h in CopyFiles */,
+				094906DC1B7F60D100B047DA /* OHHTTPStubs+Mocktail.h in CopyFiles */,
+				094906DD1B7F60D100B047DA /* OHPathHelpers.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,12 +381,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D0D29A1B67FED3004E7213 /* Compatibility.h in Headers */,
+				095981FB19806AB700807DBE /* OHHTTPStubs.h in Headers */,
+				0959820019806B1700807DBE /* OHHTTPStubsResponse.h in Headers */,
 				0959820219806B2200807DBE /* OHHTTPStubsResponse+JSON.h in Headers */,
 				0959820119806B1E00807DBE /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
-				0959820019806B1700807DBE /* OHHTTPStubsResponse.h in Headers */,
+				094906DF1B7F60EE00B047DA /* OHHTTPStubs+Mocktail.h in Headers */,
 				095B1AD71AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
-				095981FB19806AB700807DBE /* OHHTTPStubs.h in Headers */,
-				09D0D29A1B67FED3004E7213 /* Compatibility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,12 +395,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D0D2991B67FED3004E7213 /* Compatibility.h in Headers */,
 				725CD9B91A9EB71000F84C8B /* OHHTTPStubs.h in Headers */,
 				725CD9BA1A9EB71500F84C8B /* OHHTTPStubsResponse.h in Headers */,
 				725CD9BB1A9EB71A00F84C8B /* OHHTTPStubsResponse+JSON.h in Headers */,
 				725CD9BC1A9EB71D00F84C8B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
+				094906DE1B7F60E200B047DA /* OHHTTPStubs+Mocktail.h in Headers */,
 				095B1AD61AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
-				09D0D2991B67FED3004E7213 /* Compatibility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
