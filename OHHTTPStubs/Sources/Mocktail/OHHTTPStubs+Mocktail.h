@@ -6,6 +6,9 @@
 //
 
 #import "OHHTTPStubs.h"
+#import "Compatibility.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef enum : NSInteger {
     kErrorPathDoesNotExist = 1,
@@ -64,3 +67,5 @@ extern NSString* const MocktailErrorDomain;
 +(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
