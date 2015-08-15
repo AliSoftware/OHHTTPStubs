@@ -182,8 +182,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:nil];
-    [req setHTTPShouldHandleCookies:handleCookiesEnabled];
+#pragma clang diagnostic pop
+    req.HTTPShouldHandleCookies = handleCookiesEnabled;
     
     __block NSData* response = nil;
     

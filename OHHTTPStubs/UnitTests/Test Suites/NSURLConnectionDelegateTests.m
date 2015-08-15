@@ -69,7 +69,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     {
         if ([response isKindOfClass:NSHTTPURLResponse.class])
         {
-            _redirectResponseStatusCode = [((NSHTTPURLResponse *) response) statusCode];
+            _redirectResponseStatusCode = ((NSHTTPURLResponse *) response).statusCode;
         }
         else
         {
@@ -85,7 +85,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [_data setLength:0U];
+    _data.length = 0U;
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -268,7 +268,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
     NSHTTPCookieStorage* cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage;
     NSHTTPCookieAcceptPolicy previousAcceptPolicy = cookieStorage.cookieAcceptPolicy; // keep it to restore later
-    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain];
+    cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain;
     
     // Send the request and wait for the response containing the Set-Cookie headers
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
@@ -292,7 +292,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
 
     // As a courtesy, restore previous policy before leaving
-    [cookieStorage setCookieAcceptPolicy:previousAcceptPolicy];
+    cookieStorage.cookieAcceptPolicy = previousAcceptPolicy;
 
 }
 
@@ -315,7 +315,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
     NSHTTPCookieStorage* cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage;
     NSHTTPCookieAcceptPolicy previousAcceptPolicy = cookieStorage.cookieAcceptPolicy; // keep it to restore later
-    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain];
+    cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain;
     
     NSString* endCookieName = @"googleCookie";
     NSString* endCookieValue = [NSProcessInfo.processInfo globallyUniqueString];
@@ -388,7 +388,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     
     // As a courtesy, restore previous policy before leaving
-    [cookieStorage setCookieAcceptPolicy:previousAcceptPolicy];
+    cookieStorage.cookieAcceptPolicy = previousAcceptPolicy;
 }
 
 @end
