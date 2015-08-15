@@ -15,7 +15,8 @@
 
 @implementation MocktailTests
 
-- (void)setUp {
+- (void)setUp
+{
     [super setUp];
     [OHHTTPStubs removeAllStubs];
     
@@ -23,19 +24,22 @@
     self.session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
 }
 
-- (void)tearDown{
+- (void)tearDown
+{
     [super tearDown];
     self.session = nil;
 }
 
-- (void)testMoctTailLoginSuccess {
+- (void)testMoctTailLoginSuccess
+{
     NSError *error = nil;
     [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login.tail" error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login.tail':%@", [error localizedDescription]);
     [self runLogin];
 }
 
-- (void)testMocktailsAtFolder{
+- (void)testMocktailsAtFolder
+{
     NSError *error = nil;
     [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"MocktailFolder" error:&error];
     XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
@@ -43,7 +47,8 @@
     [self runGetCards];
 }
 
-- (void)runLogin{
+- (void)runLogin
+{
     NSURL *url = [NSURL URLWithString:@"https://int-wallet.kdc.capitalone.com/dw/service/users"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -83,7 +88,8 @@
     [self waitForExpectationsWithTimeout:10 handler:nil];
 }
 
-- (void)runGetCards{
+- (void)runGetCards
+{
     NSURL *url = [NSURL URLWithString:@"https://int-wallet.kdc.capitalone.com/dw/service/cards"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
