@@ -51,7 +51,7 @@
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [_data setLength:0U];
+    _data.length = 0U;
     // NOTE: This timing info is not reliable as Cocoa always calls the connection:didReceiveResponse: delegate method just before
     // calling the first "connection:didReceiveData:", even if the [id<NSURLProtocolClient> URLProtocol:didReceiveResponse:…] method was called way before. So we are not testing this
 //    _didReceiveResponseTS = [NSDate date];

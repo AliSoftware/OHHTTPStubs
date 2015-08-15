@@ -186,7 +186,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 #pragma clang diagnostic ignored "-Wnonnull"
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:nil];
 #pragma clang diagnostic pop
-    [req setHTTPShouldHandleCookies:handleCookiesEnabled];
+    req.HTTPShouldHandleCookies = handleCookiesEnabled;
     
     __block NSData* response = nil;
     
