@@ -12,45 +12,65 @@ NSString* const MocktailErrorDomain = @"Mocktail";
 @implementation OHHTTPStubs (Mocktail)
 
 
-+(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path error:(NSError **)error{
++(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path error:(NSError **)error
+{
     NSString *dirPath = OHPathForFile(path, [self class]);
-    if(!dirPath){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathDoesNotExist userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Path '%@' does not exist.", path] forKey:NSLocalizedDescriptionKey]];
+    if (!dirPath)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
+        }
         return nil;
     }
     
-    //make sure path points to a directory
+    // Make sure path points to a directory
     BOOL isDir = NO, exists = NO;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     exists = [fileManager fileExistsAtPath:dirPath isDirectory:&isDir];
-    if(!exists){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathDoesNotExist userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Path '%@' does not exist.", path] forKey:NSLocalizedDescriptionKey]];
+    if (!exists)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
+        }
         return nil;
     }
     
-    if(!isDir){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathIsNotFolder userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Path '%@' is not a folder.", path] forKey:NSLocalizedDescriptionKey]];
+    if (!isDir)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathIsNotFolder userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' is not a folder.", path]}];
+        }
         return nil;
     }
     
-    //read the content of the directory
+    // Read the content of the directory
     NSError *bError = nil;
     NSURL *dirURL = [NSURL fileURLWithPath:dirPath];
     NSArray *fileURLs = [fileManager contentsOfDirectoryAtURL:dirURL includingPropertiesForKeys:nil options:0 error:&bError];
 
-    if(bError){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorPathDoesNotRead userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Error reading path '%@'.", dirURL.absoluteString] forKey:NSLocalizedDescriptionKey]];
+    if (bError)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathFailedToRead userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Error reading path '%@'.", dirURL.absoluteString]}];
+        }
         return nil;
     }
     
     //stub the Mocktail-formatted requests
     NSMutableArray *descriptorArray = [[NSMutableArray alloc] initWithCapacity:fileURLs.count];
-    for (NSURL *fileURL in fileURLs) {
-        if (![[fileURL absoluteString] hasSuffix:@".tail"]) {
+    for (NSURL *fileURL in fileURLs)
+    {
+        if (![fileURL.absoluteString hasSuffix:@".tail"])
+        {
             continue;
         }
         id<OHHTTPStubsDescriptor> descriptor = [[self class] stubRequestsUsingMocktail:fileURL error: &bError];
-        if(descriptor && !bError){
+        if (descriptor && !bError)
+        {
             [descriptorArray addObject:descriptor];
         }
     }
@@ -58,23 +78,35 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     return descriptorArray;
 }
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName error:(NSError **)error{
++(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName error:(NSError **)error
+{
     NSString *path = OHPathForFile(fileName, [self class]);
-    if(!path || ![[NSFileManager defaultManager] fileExistsAtPath:path]){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileDoesNotExist userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"File '%@' does not exist.", fileName] forKey:NSLocalizedDescriptionKey]];
+    if (!path || ![[NSFileManager defaultManager] fileExistsAtPath:path])
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' does not exist.", fileName]}];
+        }
         return nil;
-    } else {
+    }
+    else
+    {
         return [[self class] stubRequestsUsingMocktail:[NSURL fileURLWithPath:path] error:error];
     }
 }
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error{
++(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error
+{
     NSError *bError = nil;
     NSStringEncoding originalEncoding;
     NSString *contentsOfFile = [NSString stringWithContentsOfURL:fileURL usedEncoding:&originalEncoding error:&bError];
     
-    if (!contentsOfFile || bError) {
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileDoesNotRead userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"File '%@' does not read.", fileURL.absoluteString] forKey:NSLocalizedDescriptionKey]];
+    if (!contentsOfFile || bError)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathFailedToRead userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' does not read.", fileURL.absoluteString]}];
+        }
         return nil;
     }
     
@@ -82,23 +114,36 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     NSString *headerMatter = nil;
     [scanner scanUpToString:@"\n\n" intoString:&headerMatter];
     NSArray *lines = [headerMatter componentsSeparatedByString:@"\n"];
-    if ([lines count] < 4) {
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileFormatInvalid userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"File '%@' has invalid amount of lines:%u.", fileURL.absoluteString, (unsigned)[lines count]] forKey:NSLocalizedDescriptionKey]];
+    if (lines.count < 4)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileFormat userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid amount of lines:%u.", fileURL.absoluteString, (unsigned)lines.count]}];
+        }
         return nil;
     }
     
-    /*handle Mocktail format, adapted from Mocktail implementation, for more details on the file format, check out: https://github.com/square/objc-Mocktail*/
+    /* Handle Mocktail format, adapted from Mocktail implementation
+       For more details on the file format, check out: https://github.com/square/objc-Mocktail */
     NSRegularExpression *methodRegex = [NSRegularExpression regularExpressionWithPattern:lines[0] options:NSRegularExpressionCaseInsensitive error:&bError];
     
-    if(bError){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileFormatInvalid userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"File '%@' has invalid method regular expression pattern: %@.", fileURL.absoluteString,  lines[0]] forKey:NSLocalizedDescriptionKey]];
+    if (bError)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileFormat userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid method regular expression pattern: %@.", fileURL.absoluteString,  lines[0]]}];
+        }
         return nil;
     }
     
     NSRegularExpression *absoluteURLRegex = [NSRegularExpression regularExpressionWithPattern:lines[1] options:NSRegularExpressionCaseInsensitive error:&bError];
     
-    if(bError){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileFormatInvalid userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"File '%@' has invalid URL regular expression pattern: %@.", fileURL.absoluteString,  lines[1]] forKey:NSLocalizedDescriptionKey]];
+    if (bError)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileFormat userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid URL regular expression pattern: %@.", fileURL.absoluteString,  lines[1]]}];
+        }
         return nil;
     }
     
@@ -108,8 +153,12 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     
     // From line 5 to '\n\n', expect HTTP response headers.
     NSRegularExpression *headerPattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\s+(.*)" options:0 error:&bError];
-    if(bError){
-        *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileInternalError userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Internal error while stubbing file '%@'.", fileURL.absoluteString] forKey:NSLocalizedDescriptionKey]];
+    if (bError)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInternalError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Internal error while stubbing file '%@'.", fileURL.absoluteString]}];
+        }
         return nil;
     }
     
@@ -117,32 +166,41 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         NSString *headerLine = lines[line];
         NSTextCheckingResult *match = [headerPattern firstMatchInString:headerLine options:0 range:NSMakeRange(0, headerLine.length)];
         
-        if (match) {
+        if (match)
+        {
             NSString *key = [headerLine substringWithRange:[match rangeAtIndex:1]];
             NSString *value = [headerLine substringWithRange:[match rangeAtIndex:2]];
             headers[key] = value;
-        } else {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:kErrorFileHeaderInvalid userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"File '%@' has invalid header: %@.", fileURL.absoluteString, headerLine] forKey:NSLocalizedDescriptionKey]];
+        }
+        else
+        {
+            if (error)
+            {
+                *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInvalidFileHeader userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"File '%@' has invalid header: %@.", fileURL.absoluteString, headerLine]}];
+            }
             return nil;
         }
     }
     
-    //handle binary which is base64 encoded
+    // Handle binary which is base64 encoded
     unsigned long long bodyOffset = [headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2;
     
     return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSString *absoluteURL = [request.URL absoluteString];
+        NSString *absoluteURL = (request.URL).absoluteString;
         NSString *method = request.HTTPMethod;
         
-        if ([absoluteURLRegex numberOfMatchesInString:absoluteURL options:0 range:NSMakeRange(0, absoluteURL.length)] > 0) {
-            if ([methodRegex numberOfMatchesInString:method options:0 range:NSMakeRange(0, method.length)] > 0) {
+        if ([absoluteURLRegex numberOfMatchesInString:absoluteURL options:0 range:NSMakeRange(0, absoluteURL.length)] > 0)
+        {
+            if ([methodRegex numberOfMatchesInString:method options:0 range:NSMakeRange(0, method.length)] > 0)
+            {
                 return YES;
             }
         }
         
         return NO;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        if([headers[@"Content-Type"] hasSuffix:@";base64"]) {
+        if([headers[@"Content-Type"] hasSuffix:@";base64"])
+        {
             NSString *type = headers[@"Content-Type"];
             NSString *newType = [type substringWithRange:NSMakeRange(0, type.length - 7)];
             headers[@"Content-Type"] = newType;
@@ -153,7 +211,9 @@ NSString* const MocktailErrorDomain = @"Mocktail";
             
             OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithData:body statusCode:(int)statusCode headers:headers];
             return response;
-        } else {
+        }
+        else
+        {
             OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fileURL.path
                                                                              statusCode:(int)statusCode headers:headers];
             [response.inputStream setProperty:@(bodyOffset) forKey:NSStreamFileCurrentOffsetKey];

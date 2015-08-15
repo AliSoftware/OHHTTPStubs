@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 AliSoftware. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "OHHTTPStubs+Mocktail.h"
 
@@ -16,7 +15,8 @@
 
 @implementation MocktailTests
 
-- (void)setUp {
+- (void)setUp
+{
     [super setUp];
     [OHHTTPStubs removeAllStubs];
     
@@ -24,19 +24,22 @@
     self.session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
 }
 
-- (void)tearDown{
+- (void)tearDown
+{
     [super tearDown];
     self.session = nil;
 }
 
-- (void)testMoctTailLoginSuccess {
+- (void)testMoctTailLoginSuccess
+{
     NSError *error = nil;
     [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login.tail" error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login.tail':%@", [error localizedDescription]);
     [self runLogin];
 }
 
-- (void)testMocktailsAtFolder{
+- (void)testMocktailsAtFolder
+{
     NSError *error = nil;
     [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"MocktailFolder" error:&error];
     XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
@@ -44,7 +47,8 @@
     [self runGetCards];
 }
 
-- (void)runLogin{
+- (void)runLogin
+{
     NSURL *url = [NSURL URLWithString:@"https://int-wallet.kdc.capitalone.com/dw/service/users"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -53,12 +57,11 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    [request setHTTPMethod:@"POST"];
-    NSDictionary *mapData = [[NSDictionary alloc] initWithObjectsAndKeys: @"walletuser", @"iloveit",
-                             @"username", @"password",
-                             nil];
+    request.HTTPMethod = @"POST";
+    NSDictionary *mapData = @{@"iloveit": @"walletuser",
+                             @"password": @"username"};
     NSData *postData = [NSJSONSerialization dataWithJSONObject:mapData options:0 error:NULL];
-    [request setHTTPBody:postData];
+    request.HTTPBody = postData;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
     
@@ -84,7 +87,8 @@
     [self waitForExpectationsWithTimeout:10 handler:nil];
 }
 
-- (void)runGetCards{
+- (void)runGetCards
+{
     NSURL *url = [NSURL URLWithString:@"https://int-wallet.kdc.capitalone.com/dw/service/cards"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -93,7 +97,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    [request setHTTPMethod:@"GET"];
+    request.HTTPMethod = @"GET";
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
     

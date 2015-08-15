@@ -68,7 +68,7 @@
         __block __strong id dataResponse = nil;
         __block __strong NSError* errorResponse = nil;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
-        [request setHTTPMethod:@"GET"];
+        request.HTTPMethod = @"GET";
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
