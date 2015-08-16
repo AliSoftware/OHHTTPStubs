@@ -33,7 +33,8 @@
 - (void)testMoctTailLoginSuccess
 {
     NSError *error = nil;
-    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login.tail" error: &error];
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login" inBundle:bundle error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login.tail':%@", [error localizedDescription]);
     [self runLogin];
 }
@@ -41,7 +42,8 @@
 - (void)testMocktailsAtFolder
 {
     NSError *error = nil;
-    [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"MocktailFolder" error:&error];
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"MocktailFolder" inBundle:bundle error:&error];
     XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
     [self runLogin];
     [self runGetCards];
