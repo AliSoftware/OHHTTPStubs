@@ -142,6 +142,7 @@
 		099F73FF1AE2D049001108A5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = AliSoftware;
 				TargetAttributes = {
