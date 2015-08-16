@@ -12,10 +12,10 @@ NSString* const MocktailErrorDomain = @"Mocktail";
 @implementation OHHTTPStubs (Mocktail)
 
 
-+(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path error:(NSError **)error
++(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
 {
-    NSString *dirPath = OHPathForFile(path, [self class]);
-    if (!dirPath)
+    NSURL *dirURL = [bundleOrNil?:[NSBundle bundleForClass:self.class] URLForResource:path withExtension:nil];
+    if (!dirURL)
     {
         if (error)
         {
@@ -25,17 +25,9 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     }
     
     // Make sure path points to a directory
-    BOOL isDir = NO, exists = NO;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    exists = [fileManager fileExistsAtPath:dirPath isDirectory:&isDir];
-    if (!exists)
-    {
-        if (error)
-        {
-            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorPathDoesNotExist userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Path '%@' does not exist.", path]}];
-        }
-        return nil;
-    }
+    NSNumber *isDirectory;
+    BOOL success = [dirURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
+    BOOL isDir = (success && [isDirectory boolValue]);
     
     if (!isDir)
     {
@@ -48,7 +40,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     
     // Read the content of the directory
     NSError *bError = nil;
-    NSURL *dirURL = [NSURL fileURLWithPath:dirPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *fileURLs = [fileManager contentsOfDirectoryAtURL:dirURL includingPropertiesForKeys:nil options:0 error:&bError];
 
     if (bError)
@@ -78,10 +70,11 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     return descriptorArray;
 }
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName error:(NSError **)error
++(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
 {
-    NSString *path = OHPathForFile(fileName, [self class]);
-    if (!path || ![[NSFileManager defaultManager] fileExistsAtPath:path])
+    NSURL *responseURL = [bundleOrNil?:[NSBundle bundleForClass:self.class] URLForResource:fileName withExtension:@"tail"];
+    
+    if (!responseURL)
     {
         if (error)
         {
@@ -91,7 +84,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     }
     else
     {
-        return [[self class] stubRequestsUsingMocktail:[NSURL fileURLWithPath:path] error:error];
+        return [[self class] stubRequestsUsingMocktail:responseURL error:error];
     }
 }
 
