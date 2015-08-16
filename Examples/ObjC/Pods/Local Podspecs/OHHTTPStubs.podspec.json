@@ -12,8 +12,6 @@
     "git": "https://github.com/AliSoftware/OHHTTPStubs.git",
     "tag": "4.1.0"
   },
-  "source_files": "OHHTTPStubs/Sources/*.{h,m}",
-  "public_header_files": "OHHTTPStubs/Sources/*.h",
   "frameworks": [
     "Foundation",
     "CFNetwork"
@@ -23,5 +21,23 @@
     "ios": "5.0",
     "osx": "10.7",
     "watchos": "2.0"
-  }
+  },
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "OHHTTPStubs/Sources/*.{h,m}",
+      "public_header_files": "OHHTTPStubs/Sources/*.h"
+    },
+    {
+      "name": "Mocktail",
+      "dependencies": {
+        "OHHTTPStubs/Core": [
+
+        ]
+      },
+      "source_files": "OHHTTPStubs/Sources/Mocktail/*.{h,m}",
+      "public_header_files": "OHHTTPStubs/Mocktail/Mocktail/*.h"
+    }
+  ]
 }
