@@ -23,7 +23,7 @@
  ***********************************************************************************/
 
 
-#import "OHPathHelpers.h"
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 NSString* __nullable OHPathForFile(NSString* fileName, Class inBundleForClass)
 {

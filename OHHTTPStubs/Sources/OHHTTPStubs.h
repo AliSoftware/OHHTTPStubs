@@ -28,8 +28,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Compatibility.h"
-#import "OHHTTPStubsResponse.h"
+#import <OHHTTPStubs/Compatibility.h>
+#import <OHHTTPStubs/OHHTTPStubsResponse.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -181,13 +181,13 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Umbrella Header Imports
 
 // Because this is supposed to be an umbrella header, we should also import every public headers here
-#if __has_include("OHHTTPStubs/OHHTTPStubsResponse+JSON.h")
-  #import "OHHTTPStubs/OHHTTPStubsResponse+JSON.h"
+#if __has_include(<OHHTTPStubs/OHHTTPStubsResponse+JSON.h>)
+  #import <OHHTTPStubs/OHHTTPStubsResponse+JSON.h>
 #endif
-#if __has_include("OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h")
-  #import "OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h"
+#if __has_include(<OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>)
+  #import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
 #endif
-#if __has_include("OHHTTPStubs/OHHTTPStubs+Mocktail.h")
-  #import "OHHTTPStubs/OHHTTPStubs+Mocktail.h"
+#if __has_include(<OHHTTPStubs/OHHTTPStubs+Mocktail.h>)
+  #import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
 #endif
-#import "OHPathHelpers.h"
+#import <OHHTTPStubs/OHPathHelpers.h>

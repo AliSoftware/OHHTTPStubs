@@ -48,7 +48,7 @@ def build(scheme, sdk, destination, action)
     -configuration Release
     ONLY_ACTIVE_ARCH=NO
     -destination '#{destination}'
-    #{action}
+    clean #{action}
   )
 
   sh "set -o pipefail && #{cmd.join(' ')} | xcpretty -c"

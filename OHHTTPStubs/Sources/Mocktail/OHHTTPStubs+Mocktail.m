@@ -5,7 +5,7 @@
 //  Created by Wang, Sunny on 7/30/15.
 //
 
-#import "OHHTTPStubs+Mocktail.h"
+#import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
 
 NSString* const MocktailErrorDomain = @"Mocktail";
 
