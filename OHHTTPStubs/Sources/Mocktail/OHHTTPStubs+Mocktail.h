@@ -10,12 +10,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Error codes for the OHHTTPStubs Mocktail category
+ */
 typedef NS_ENUM(NSInteger, OHHTTPStubsMocktailError) {
+    /** The specified path does not exist */
     OHHTTPStubsMocktailErrorPathDoesNotExist = 1,
+    /** The specified path was not readable */
     OHHTTPStubsMocktailErrorPathFailedToRead,
+    /** The specified path is not a directory */
     OHHTTPStubsMocktailErrorPathIsNotFolder,
+    /** The specified file is not a valid Mocktail file */
     OHHTTPStubsMocktailErrorInvalidFileFormat,
+    /** The specified Mocktail file has invalid headers */
     OHHTTPStubsMocktailErrorInvalidFileHeader,
+    /** An unexpected internal error occured */
     OHHTTPStubsMocktailErrorInternalError
 };
 

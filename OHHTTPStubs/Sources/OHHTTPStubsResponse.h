@@ -190,6 +190,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Initializers
 /*! @name Initializers */
 
+/**
+ * Designated empty initializer
+ *
+ * @return An empty `OHHTTPStubsResponse` on which you need to set either an error or a statusCode, httpHeaders, inputStream and dataSize.
+ *
+ * @note This is not recommended to use this method directly. You should use `initWithInputStream:dataSize:statusCode:headers:` instead.
+ */
 -(instancetype)init NS_DESIGNATED_INITIALIZER;
 
 /**
