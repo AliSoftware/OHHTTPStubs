@@ -300,8 +300,7 @@
 				1D6DB84D1B763B7A00FCF855 /* Mocktail */,
 				09110A6D1980605D00D175E4 /* OHHTTPStubsResponse */,
 				09110A771980607200D175E4 /* NSURLSession Support */,
-				095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */,
-				095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */,
+				093443011B80F88700A91535 /* OHPathHelpers */,
 			);
 			name = OHHTTPStubs;
 			path = Sources;
@@ -331,10 +330,8 @@
 			children = (
 				09110A6E1980606A00D175E4 /* OHHTTPStubsResponse.h */,
 				09110A6F1980606A00D175E4 /* OHHTTPStubsResponse.m */,
-				09110A701980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.h */,
-				09110A711980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m */,
-				09110A721980606A00D175E4 /* OHHTTPStubsResponse+JSON.h */,
-				09110A731980606A00D175E4 /* OHHTTPStubsResponse+JSON.m */,
+				093442FF1B80F85700A91535 /* JSON */,
+				093442FE1B80F84800A91535 /* HTTPMessage */,
 			);
 			name = OHHTTPStubsResponse;
 			sourceTree = "<group>";
@@ -345,6 +342,34 @@
 				09110A781980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m */,
 			);
 			name = "NSURLSession Support";
+			path = NSURLSession;
+			sourceTree = "<group>";
+		};
+		093442FE1B80F84800A91535 /* HTTPMessage */ = {
+			isa = PBXGroup;
+			children = (
+				09110A701980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.h */,
+				09110A711980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m */,
+			);
+			path = HTTPMessage;
+			sourceTree = "<group>";
+		};
+		093442FF1B80F85700A91535 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				09110A721980606A00D175E4 /* OHHTTPStubsResponse+JSON.h */,
+				09110A731980606A00D175E4 /* OHHTTPStubsResponse+JSON.m */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		093443011B80F88700A91535 /* OHPathHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */,
+				095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */,
+			);
+			path = OHPathHelpers;
 			sourceTree = "<group>";
 		};
 		095981461980663000807DBE /* Test Suites */ = {

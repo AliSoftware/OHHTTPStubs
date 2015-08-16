@@ -190,4 +190,6 @@ NS_ASSUME_NONNULL_END
 #if __has_include(<OHHTTPStubs/OHHTTPStubs+Mocktail.h>)
   #import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
 #endif
+#if __has_include(<OHHTTPStubs/OHPathHelpers.h>)
 #import <OHHTTPStubs/OHPathHelpers.h>
+#endif
