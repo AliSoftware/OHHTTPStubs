@@ -23,7 +23,7 @@
  ***********************************************************************************/
 
 #import <XCTest/XCTest.h>
-#import "OHHTTPStubs.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 @interface NSURLConnectionDelegateTests : XCTestCase <NSURLConnectionDataDelegate> @end
 

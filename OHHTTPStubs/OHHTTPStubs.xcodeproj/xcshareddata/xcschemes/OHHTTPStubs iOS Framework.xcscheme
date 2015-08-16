@@ -20,6 +20,20 @@
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "093442DD1B80EC4A00A91535"
+               BuildableName = "OHHTTPStubs iOS Fmk Tests.xctest"
+               BlueprintName = "OHHTTPStubs iOS Fmk Tests"
+               ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,6 +42,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "093442DD1B80EC4A00A91535"
+               BuildableName = "OHHTTPStubs iOS Fmk Tests.xctest"
+               BlueprintName = "OHHTTPStubs iOS Fmk Tests"
+               ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
