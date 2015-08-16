@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "OHHTTPStubs+Mocktail.h"
+#import "OHHTTPStubs.h"
 
 @interface MocktailTests : XCTestCase
 @property(nonatomic, strong) NSURLSession *session;
