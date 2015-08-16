@@ -23,8 +23,7 @@
  ***********************************************************************************/
 
 #import <XCTest/XCTest.h>
-#import "OHHTTPStubs.h"
-#import "OHHTTPStubsResponse+JSON.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 #import "AFHTTPRequestOperation.h"
 
