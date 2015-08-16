@@ -176,7 +176,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     }
     
     // Handle binary which is base64 encoded
-    unsigned long long bodyOffset = [headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2;
+    NSUInteger bodyOffset = [headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2;
     
     return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSString *absoluteURL = (request.URL).absoluteString;
