@@ -1,5 +1,5 @@
 #import <XCTest/XCTest.h>
-#import "OHPathHelpers.h"
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 @interface OHPathHelpersTests : XCTestCase
 

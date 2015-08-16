@@ -7,7 +7,7 @@ env:
   #- RAKETASK="simlist"
   #- RAKETASK="ios[iOS StaticLib,7.1,test]"
   - RAKETASK="ios[iOS StaticLib,latest,test]"
-  - RAKETASK="ios[iOS Framework,latest,analyze]"
+  - RAKETASK="ios[iOS Framework,latest,test]"
   - RAKETASK="osx[Mac Framework,x86_64,test]"
 
 script:

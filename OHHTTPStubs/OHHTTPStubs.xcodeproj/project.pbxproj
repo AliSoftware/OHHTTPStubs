@@ -750,13 +750,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09110A751980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
-				09110A761980606A00D175E4 /* OHHTTPStubsResponse+JSON.m in Sources */,
-				09110A791980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				09110A6C1980605A00D175E4 /* OHHTTPStubs.m in Sources */,
-				09110A741980606A00D175E4 /* OHHTTPStubsResponse.m in Sources */,
-				095B1AD51AE30BA7009D1B56 /* OHPathHelpers.m in Sources */,
+				09110A791980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				1D6DB8501B763B7A00FCF855 /* OHHTTPStubs+Mocktail.m in Sources */,
+				09110A741980606A00D175E4 /* OHHTTPStubsResponse.m in Sources */,
+				09110A761980606A00D175E4 /* OHHTTPStubsResponse+JSON.m in Sources */,
+				09110A751980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				095B1AD51AE30BA7009D1B56 /* OHPathHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,13 +796,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				095981F719806AAC00807DBE /* OHHTTPStubsResponse.m in Sources */,
-				095981F819806AAC00807DBE /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 				095981F619806AAC00807DBE /* OHHTTPStubs.m in Sources */,
-				095981F919806AAC00807DBE /* OHHTTPStubsResponse+JSON.m in Sources */,
 				095981FA19806AAC00807DBE /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
-				095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */,
 				094906D81B7F520200B047DA /* OHHTTPStubs+Mocktail.m in Sources */,
+				095981F719806AAC00807DBE /* OHHTTPStubsResponse.m in Sources */,
+				095981F919806AAC00807DBE /* OHHTTPStubsResponse+JSON.m in Sources */,
+				095981F819806AAC00807DBE /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,11 +828,11 @@
 			files = (
 				725CD9B41A9EB6F600F84C8B /* OHHTTPStubs.m in Sources */,
 				725CD9B81A9EB70000F84C8B /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
+				094906D71B7F520200B047DA /* OHHTTPStubs+Mocktail.m in Sources */,
 				725CD9B51A9EB6F800F84C8B /* OHHTTPStubsResponse.m in Sources */,
 				725CD9B71A9EB6FD00F84C8B /* OHHTTPStubsResponse+JSON.m in Sources */,
 				725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 				095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */,
-				094906D71B7F520200B047DA /* OHHTTPStubs+Mocktail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1004,7 +1004,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1026,7 +1026,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

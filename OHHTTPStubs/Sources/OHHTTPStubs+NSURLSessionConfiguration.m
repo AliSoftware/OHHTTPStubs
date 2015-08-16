@@ -28,7 +28,7 @@
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 
 #import <objc/runtime.h>
-#import "OHHTTPStubs.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

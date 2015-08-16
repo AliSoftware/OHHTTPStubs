@@ -5,8 +5,8 @@
 //  Created by Wang, Sunny on 7/30/15.
 //
 
-#import "OHHTTPStubs.h"
-#import "Compatibility.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/Compatibility.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
