@@ -1,6 +1,5 @@
 //
 //  OHHTTPStubs+Mocktail.h
-//  CardCompanion
 //
 //  Created by Wang, Sunny on 7/30/15.
 //

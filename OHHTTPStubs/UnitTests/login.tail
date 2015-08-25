@@ -4,7 +4,7 @@ GET|POST
 application/json
 
 {
-"user_id":    "wallet-id",
-"user_token": "wallet-token",
+"user_id":    "happyuser1",
+"user_token": "happytoken",
 "status": "SUCCESS"
 }
