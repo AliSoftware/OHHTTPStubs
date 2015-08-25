@@ -1,5 +1,5 @@
 GET
-https://qa-content.kdc.capitalone.com/Mobile/ETS/logos/ebay.png
+ebay.png
 200
 image/png;base64
 
