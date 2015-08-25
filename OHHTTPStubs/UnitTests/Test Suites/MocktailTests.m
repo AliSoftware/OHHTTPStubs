@@ -2,8 +2,7 @@
 //  MockTailTests.m
 //  OHHTTPStubs
 //
-//  Created by Wang, Sunny on 7/23/15.
-//  Copyright (c) 2015 AliSoftware. All rights reserved.
+//  Created by Wang, Sunny on 7/30/15.
 //
 
 #import <XCTest/XCTest.h>
@@ -51,7 +50,7 @@
 
 - (void)runLogin
 {
-    NSURL *url = [NSURL URLWithString:@"https://int-wallet.kdc.capitalone.com/dw/service/users"];
+    NSURL *url = [NSURL URLWithString:@"http://happywebservice.com/users"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:60.0];
@@ -60,7 +59,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
     request.HTTPMethod = @"POST";
-    NSDictionary *mapData = @{@"iloveit": @"walletuser",
+    NSDictionary *mapData = @{@"iloveit": @"happyuser1",
                              @"password": @"username"};
     NSData *postData = [NSJSONSerialization dataWithJSONObject:mapData options:0 error:NULL];
     request.HTTPBody = postData;
@@ -91,7 +90,7 @@
 
 - (void)runGetCards
 {
-    NSURL *url = [NSURL URLWithString:@"https://int-wallet.kdc.capitalone.com/dw/service/cards"];
+    NSURL *url = [NSURL URLWithString:@"http://happywebservice.com/cards"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:60.0];
@@ -115,7 +114,7 @@
         
         XCTAssertNotNil(json, @"The response is not a json object");
         XCTAssertEqual(json.count, 2, @"The response does not contain 2 cards");
-        XCTAssertEqualObjects([json firstObject][@"embossed_name"], @"John C Smith", @"The first card owner name does not match");
+        XCTAssertEqualObjects([json firstObject][@"amount"], @"$25.28", @"The first card amount does not match");
         
         [expectation fulfill];
     }];
