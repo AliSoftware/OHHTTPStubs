@@ -2,7 +2,7 @@ _You can download previous versions [here](https://github.com/AliSoftware/OHHTTP
 
 ## [4.3.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.3.0)
 
-* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStus` from Swift ([#111](https://github.com/AliSoftware/OHHTTPStubs/issue/111))
+* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStus` from Swift ([#111](https://github.com/AliSoftware/OHHTTPStubs/issues/111))
 * Added two new constants for download speed: `OHHTTPStubsDownloadSpeed1KBPS` = 1kbps and `OHHTTPStubsDownloadSpeedSLOW` = 1.5 kpbs. ([mikelupo](https://github.com/mikelupo), [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114))
 
 ## [4.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.0)
