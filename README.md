@@ -22,6 +22,9 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
 `OHHTTPStubs` headers are fully documented using Appledoc-like / Headerdoc-like comments in the header files. You can also [read the **online documentation** here](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 
+## Swift support
+
+`OHHTTPStubs` is compatible with Swift out of the box: you can use it with the same API as you would use in Objective-C. But you might also want to include the `OHHTTPStubs/Swift` subspec in your `Podfile`, which adds some global function helpers (see `OHHTTPStubsSwift.swift`) to make the use of `OHHTTPStubs` more compact and Swift-like.
 
 ## Basic example
 
@@ -40,14 +43,17 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
 
 ### In Swift
 
+This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec
+ 
 ```swift
-OHHTTPStubs.stubRequestsPassingTest({$0.URL!.host == "mywebservice.com"}) { _ in
+stub(isHost("mywebservice.com")) { _ in
   // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
-  let fixture = OHPathForFile("wsresponse.json", self.dynamicType)
-  return OHHTTPStubsResponse(fileAtPath: fixture!,
-    statusCode: 200, headers: ["Content-Type":"application/json"])
+  let stubPath = OHPathForFile("wsresponse.json", self.dynamicType)
+  return fixture(stubPath!, headers: ["Content-Type":"application/json"])
 }
 ```
+
+Note: Using `OHHTTPStubsSwift.swift` you could also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
 
 ## More examples & Help Topics
     

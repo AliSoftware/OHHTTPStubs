@@ -2,6 +2,7 @@
 
 ## Master
 
+* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStubs` from Swift ([#111](https://github.com/AliSoftware/OHHTTPStubs/issues/111))
 * Added two new constants for download speed: `OHHTTPStubsDownloadSpeed1KBPS` = 1kbps and `OHHTTPStubsDownloadSpeedSLOW` = 1.5 kpbs. ([mikelupo](https://github.com/mikelupo), [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114))
 
 ## [4.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.0)
