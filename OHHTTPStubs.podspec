@@ -77,4 +77,9 @@ Pod::Spec.new do |s|
     pathhelper.public_header_files = "OHHTTPStubs/Sources/OHPathHelpers/*.h", "OHHTTPStubs/Sources/Compatibility.h"
   end
 
+  s.subspec 'Swift' do |swift|
+    swift.dependency 'OHHTTPStubs/Core'
+    swift.source_files = "OHHTTPStubs/Sources/Swift/*.swift"
+  end
+
 end

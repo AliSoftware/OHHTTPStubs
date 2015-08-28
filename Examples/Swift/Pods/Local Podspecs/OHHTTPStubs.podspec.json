@@ -95,6 +95,15 @@
         "OHHTTPStubs/Sources/OHPathHelpers/*.h",
         "OHHTTPStubs/Sources/Compatibility.h"
       ]
+    },
+    {
+      "name": "Swift",
+      "dependencies": {
+        "OHHTTPStubs/Core": [
+
+        ]
+      },
+      "source_files": "OHHTTPStubs/Sources/Swift/*.swift"
     }
   ]
 }

@@ -72,16 +72,9 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
 
-            // - we use an inline closure for the test predicate with shorthand argument names
-            // - we also use the "trailing closure" syntax of Swift for convenience
-            // - we don't care about the 'request' parameter in the trailing closure so we use '_'
-            textStub = OHHTTPStubs.stubRequestsPassingTest({$0.URL!.pathExtension! == "txt"}) { _ in
+            textStub = stub(isExtension("txt")) { _ in
                 let stubPath = OHPathForFile("stub.txt", self.dynamicType)
-                return OHHTTPStubsResponse(
-                    fileAtPath: stubPath!,
-                    statusCode: 200,
-                    headers: ["Content-Type":"text/plain"]
-                    )
+                return fixture(stubPath!, status: 200, headers: ["Content-Type":"text/plain"])
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime:OHHTTPStubsDownloadSpeedWifi)
             }
             textStub?.name = "Text stub"
@@ -115,20 +108,9 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
             
-            let isImage = { (request: NSURLRequest!) -> Bool in
-                let validExtensions: [String] = ["png","jpg","jpeg","gif"]
-                return validExtensions.contains(request.URL?.pathExtension ?? "")
-            }
-            // - we use a separate block 'isImage' for the 'test' predicate for code readability
-            // - we use the "trailing closure" syntax of Swift for convenience
-            // - we don't care about the 'request' parameter in the trailing closure so we use '_'
-            imageStub = OHHTTPStubs.stubRequestsPassingTest(isImage) { (_:NSURLRequest) -> OHHTTPStubsResponse in
+            imageStub = stub(isExtension("png") || isExtension("jpg") || isExtension("gif")) { _ in
                 let stubPath = OHPathForFile("stub.jpg", self.dynamicType)
-                return OHHTTPStubsResponse(
-                    fileAtPath: stubPath!,
-                    statusCode: 200,
-                    headers: ["Content-Type":"image/jpeg"]
-                    )
+                return fixture(stubPath!, status: 200, headers: ["Content-Type":"image/jpeg"])
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
             }
             imageStub?.name = "Image stub"
