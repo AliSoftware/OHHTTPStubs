@@ -181,15 +181,18 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Umbrella Header Imports
 
 // Because this is supposed to be an umbrella header, we should also import every public headers here
-#if __has_include(<OHHTTPStubs/OHHTTPStubsResponse+JSON.h>)
-  #import <OHHTTPStubs/OHHTTPStubsResponse+JSON.h>
-#endif
-#if __has_include(<OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>)
-  #import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
-#endif
-#if __has_include(<OHHTTPStubs/OHHTTPStubs+Mocktail.h>)
-  #import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
-#endif
-#if __has_include(<OHHTTPStubs/OHPathHelpers.h>)
-#import <OHHTTPStubs/OHPathHelpers.h>
+// (Except if we use CocoaPods which generates the umbrella header properly just for us)
+#ifndef COCOAPODS
+  #if __has_include(<OHHTTPStubs/OHHTTPStubsResponse+JSON.h>)
+    #import <OHHTTPStubs/OHHTTPStubsResponse+JSON.h>
+  #endif
+  #if __has_include(<OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>)
+    #import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
+  #endif
+  #if __has_include(<OHHTTPStubs/OHHTTPStubs+Mocktail.h>)
+    #import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
+  #endif
+  #if __has_include(<OHHTTPStubs/OHPathHelpers.h>)
+  #import <OHHTTPStubs/OHPathHelpers.h>
+  #endif
 #endif

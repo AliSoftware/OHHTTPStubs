@@ -12,15 +12,18 @@ PODS:
   - OHHTTPStubs/NSURLSession (4.2.0):
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (4.2.0)
+  - OHHTTPStubs/Swift (4.2.0):
+    - OHHTTPStubs/Core
 
 DEPENDENCIES:
   - OHHTTPStubs (from `../..`)
+  - OHHTTPStubs/Swift (from `../..`)
 
 EXTERNAL SOURCES:
   OHHTTPStubs:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: f639130b83fb5f4f022d38f841141b0a6fa77249
+  OHHTTPStubs: 4836b8f751d9ee545f1fb59111e1f2fb8d2cb341
 
 COCOAPODS: 0.38.2
