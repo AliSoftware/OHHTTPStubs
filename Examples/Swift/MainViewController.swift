@@ -75,7 +75,7 @@ class MainViewController: UIViewController {
             // - we use an inline closure for the test predicate with shorthand argument names
             // - we also use the "trailing closure" syntax of Swift for convenience
             // - we don't care about the 'request' parameter in the trailing closure so we use '_'
-            textStub = OHHTTPStubs.stubRequestsPassingTest({ObjCBool($0.URL!.pathExtension! == "txt")}) { _ in
+            textStub = OHHTTPStubs.stubRequestsPassingTest({$0.URL!.pathExtension! == "txt"}) { _ in
                 let stubPath = OHPathForFile("stub.txt", self.dynamicType)
                 return OHHTTPStubsResponse(
                     fileAtPath: stubPath!,
@@ -115,10 +115,9 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
             
-            let isImage = { (request: NSURLRequest!) -> ObjCBool in
+            let isImage = { (request: NSURLRequest!) -> Bool in
                 let validExtensions: [String] = ["png","jpg","jpeg","gif"]
-                let ok = validExtensions.contains(request.URL?.pathExtension ?? "")
-                return ObjCBool(ok)
+                return validExtensions.contains(request.URL?.pathExtension ?? "")
             }
             // - we use a separate block 'isImage' for the 'test' predicate for code readability
             // - we use the "trailing closure" syntax of Swift for convenience
