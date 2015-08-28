@@ -20,20 +20,6 @@
                ReferencedContainer = "container:OHHTTPStubsDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09110A5019805F4800D175E4"
-               BuildableName = "OHHTTPStubs iOS Tests.xctest"
-               BlueprintName = "OHHTTPStubs iOS Tests"
-               ReferencedContainer = "container:../OHHTTPStubs/OHHTTPStubs.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09110A5019805F4800D175E4"
-               BuildableName = "OHHTTPStubs iOS Tests.xctest"
-               BlueprintName = "OHHTTPStubs iOS Tests"
-               ReferencedContainer = "container:../OHHTTPStubs/OHHTTPStubs.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
