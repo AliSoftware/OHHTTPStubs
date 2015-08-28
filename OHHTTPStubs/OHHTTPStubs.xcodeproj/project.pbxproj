@@ -148,7 +148,7 @@
 /* Begin PBXFileReference section */
 		09110A4119805F4800D175E4 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		09110A4419805F4800D175E4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09110A5119805F4800D175E4 /* OHHTTPStubs iOS Lib Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Lib Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09110A5219805F4800D175E4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		09110A6A1980605A00D175E4 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
 		09110A6B1980605A00D175E4 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
@@ -161,6 +161,7 @@
 		09110A781980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		093442DC1B80EC3B00A91535 /* OHHTTPStubs iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OHHTTPStubs iOS-Info.plist"; sourceTree = "<group>"; };
 		093442F91B80EC4A00A91535 /* OHHTTPStubs iOS Fmk Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Fmk Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OHHTTPStubsSwift.swift; sourceTree = "<group>"; };
 		095981451980657C00807DBE /* UnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		095981471980665400807DBE /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		095981481980668E00807DBE /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkingTests.m; path = "Test Suites/AFNetworkingTests.m"; sourceTree = "<group>"; };
@@ -270,7 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				09110A4119805F4800D175E4 /* libOHHTTPStubs.a */,
-				09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */,
+				09110A5119805F4800D175E4 /* OHHTTPStubs iOS Lib Tests.xctest */,
 				095981C219806A7900807DBE /* OHHTTPStubs.framework */,
 				095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */,
 				725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */,
@@ -301,6 +302,7 @@
 				09110A6D1980605D00D175E4 /* OHHTTPStubsResponse */,
 				09110A771980607200D175E4 /* NSURLSession Support */,
 				093443011B80F88700A91535 /* OHPathHelpers */,
+				095569991B90E4EA00503ADC /* Swift */,
 			);
 			name = OHHTTPStubs;
 			path = Sources;
@@ -370,6 +372,14 @@
 				095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */,
 			);
 			path = OHPathHelpers;
+			sourceTree = "<group>";
+		};
+		095569991B90E4EA00503ADC /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */,
+			);
+			path = Swift;
 			sourceTree = "<group>";
 		};
 		095981461980663000807DBE /* Test Suites */ = {
@@ -506,7 +516,7 @@
 			);
 			name = "OHHTTPStubs iOS Lib Tests";
 			productName = OHHTTPStubsTests;
-			productReference = 09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */;
+			productReference = 09110A5119805F4800D175E4 /* OHHTTPStubs iOS Lib Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		093442DD1B80EC4A00A91535 /* OHHTTPStubs iOS Fmk Tests */ = {
