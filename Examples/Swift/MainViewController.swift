@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
 
             textStub = stub(isExtension("txt")) { _ in
                 let stubPath = OHPathForFile("stub.txt", self.dynamicType)
-                return fixture(stubPath!, status: 200, headers: ["Content-Type":"text/plain"])
+                return fixture(stubPath!, headers: ["Content-Type":"text/plain"])
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime:OHHTTPStubsDownloadSpeedWifi)
             }
             textStub?.name = "Text stub"
@@ -110,7 +110,7 @@ class MainViewController: UIViewController {
             
             imageStub = stub(isExtension("png") || isExtension("jpg") || isExtension("gif")) { _ in
                 let stubPath = OHPathForFile("stub.jpg", self.dynamicType)
-                return fixture(stubPath!, status: 200, headers: ["Content-Type":"image/jpeg"])
+                return fixture(stubPath!, headers: ["Content-Type":"image/jpeg"])
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
             }
             imageStub?.name = "Image stub"
