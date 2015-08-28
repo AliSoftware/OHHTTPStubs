@@ -32,6 +32,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
 
+// Non-standard download speeds
+extern const double
+OHHTTPStubsDownloadSpeed1KBPS,					// 1.0 KB per second
+OHHTTPStubsDownloadSpeedSLOW;					// 1.5 KB per second
+
 // Standard download speeds.
 extern const double
 OHHTTPStubsDownloadSpeedGPRS,

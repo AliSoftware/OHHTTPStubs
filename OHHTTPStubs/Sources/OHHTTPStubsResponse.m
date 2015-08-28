@@ -33,7 +33,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
-
+const double OHHTTPStubsDownloadSpeed1KBPS  =-     8 / 8; // kbps -> KB/s
+const double OHHTTPStubsDownloadSpeedSLOW   =-    12 / 8; // kbps -> KB/s
 const double OHHTTPStubsDownloadSpeedGPRS   =-    56 / 8; // kbps -> KB/s
 const double OHHTTPStubsDownloadSpeedEDGE   =-   128 / 8; // kbps -> KB/s
 const double OHHTTPStubsDownloadSpeed3G     =-  3200 / 8; // kbps -> KB/s
