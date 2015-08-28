@@ -22,7 +22,6 @@
 *
 ***********************************************************************************/
 
-import OHHTTPStubs
 
 /**
  * Matcher for a request Scheme
@@ -129,7 +128,7 @@ public func &&(lhs: OHHTTPStubsTestBlock, rhs: OHHTTPStubsTestBlock) -> OHHTTPSt
  *
  * @param headers the HTTP headers to use for the response
  */
-public func fixture(filePath: String, status: Int32 = 200, #headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
+public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
     return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
 }
 
