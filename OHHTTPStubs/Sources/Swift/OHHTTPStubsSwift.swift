@@ -79,7 +79,7 @@ public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
  * @returns a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains
  *          the given query parameters with the given value.
  */
-public func hasQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
+public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
     return { req in
         if let url = req.URL {
             let comps = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)
@@ -87,6 +87,7 @@ public func hasQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
                 for (k,v) in params {
                     if queryItems.filter({ qi in qi.name == k && qi.value == v }).count == 0 { return false }
                 }
+                return true
             }
         }
         return false
