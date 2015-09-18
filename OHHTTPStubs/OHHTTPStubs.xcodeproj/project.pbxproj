@@ -148,7 +148,7 @@
 /* Begin PBXFileReference section */
 		09110A4119805F4800D175E4 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		09110A4419805F4800D175E4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09110A5119805F4800D175E4 /* OHHTTPStubs iOS Lib Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Lib Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09110A5219805F4800D175E4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		09110A6A1980605A00D175E4 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
 		09110A6B1980605A00D175E4 /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
@@ -270,7 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				09110A4119805F4800D175E4 /* libOHHTTPStubs.a */,
-				09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */,
+				09110A5119805F4800D175E4 /* OHHTTPStubs iOS Lib Tests.xctest */,
 				095981C219806A7900807DBE /* OHHTTPStubs.framework */,
 				095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */,
 				725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */,
@@ -506,7 +506,7 @@
 			);
 			name = "OHHTTPStubs iOS Lib Tests";
 			productName = OHHTTPStubsTests;
-			productReference = 09110A5119805F4800D175E4 /* OHHTTPStubs iOS Tests.xctest */;
+			productReference = 09110A5119805F4800D175E4 /* OHHTTPStubs iOS Lib Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		093442DD1B80EC4A00A91535 /* OHHTTPStubs iOS Fmk Tests */ = {
