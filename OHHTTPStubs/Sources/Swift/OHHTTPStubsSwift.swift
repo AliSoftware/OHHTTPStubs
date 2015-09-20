@@ -121,6 +121,17 @@ public func && (lhs: OHHTTPStubsTestBlock, rhs: OHHTTPStubsTestBlock) -> OHHTTPS
 }
 
 /**
+ * Create the opposite of a given matcher
+ *
+ * @param expr the matcher to negate
+ *
+ * @returns a matcher (OHHTTPStubsTestBlock) that only succeeds if the expr matcher fails
+ */
+public prefix func ! (expr: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+    return { req in !expr(req) }
+}
+
+/**
  * Helper to return a response given a fixture path and status code
  *
  * @param filePath the path of the file fixture to use for the response

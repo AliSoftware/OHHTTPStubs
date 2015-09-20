@@ -42,6 +42,8 @@
 		094906DD1B7F60D100B047DA /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
 		094906DE1B7F60E200B047DA /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		094906DF1B7F60EE00B047DA /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		095925D41BAEBEAA00DD7F0B /* OHHTTPStubsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */; settings = {ASSET_TAGS = (); }; };
+		095925D61BAEC00200DD7F0B /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095925D51BAEC00200DD7F0B /* SwiftHelpersTests.swift */; settings = {ASSET_TAGS = (); }; };
 		095981881980682800807DBE /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981481980668E00807DBE /* AFNetworkingTests.m */; };
 		095981891980682E00807DBE /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981491980668E00807DBE /* NilValuesTests.m */; };
 		0959818A1980682E00807DBE /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814A1980668E00807DBE /* NSURLConnectionDelegateTests.m */; };
@@ -162,6 +164,7 @@
 		093442DC1B80EC3B00A91535 /* OHHTTPStubs iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OHHTTPStubs iOS-Info.plist"; sourceTree = "<group>"; };
 		093442F91B80EC4A00A91535 /* OHHTTPStubs iOS Fmk Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs iOS Fmk Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OHHTTPStubsSwift.swift; sourceTree = "<group>"; };
+		095925D51BAEC00200DD7F0B /* SwiftHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftHelpersTests.swift; path = "Test Suites/SwiftHelpersTests.swift"; sourceTree = "<group>"; };
 		095981451980657C00807DBE /* UnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		095981471980665400807DBE /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		095981481980668E00807DBE /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkingTests.m; path = "Test Suites/AFNetworkingTests.m"; sourceTree = "<group>"; };
@@ -400,6 +403,7 @@
 				221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */,
 				0959814D1980668E00807DBE /* TimingTests.m */,
 				0959814E1980668E00807DBE /* WithContentsOfURLTests.m */,
+				095925D51BAEC00200DD7F0B /* SwiftHelpersTests.swift */,
 			);
 			name = "Test Suites";
 			sourceTree = "<group>";
@@ -609,7 +613,8 @@
 		09110A3919805F4800D175E4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = AliSoftware;
 				TargetAttributes = {
 					09110A5019805F4800D175E4 = {
@@ -826,6 +831,7 @@
 				093442E21B80EC4A00A91535 /* TimingTests.m in Sources */,
 				093442E31B80EC4A00A91535 /* OHPathHelpersTests.m in Sources */,
 				093442E41B80EC4A00A91535 /* NSURLConnectionDelegateTests.m in Sources */,
+				095925D61BAEC00200DD7F0B /* SwiftHelpersTests.swift in Sources */,
 				093442E51B80EC4A00A91535 /* WithContentsOfURLTests.m in Sources */,
 				093442E61B80EC4A00A91535 /* AFNetworkingTests.m in Sources */,
 				093442E71B80EC4A00A91535 /* MocktailTests.m in Sources */,
@@ -875,6 +881,7 @@
 				725CD9B51A9EB6F800F84C8B /* OHHTTPStubsResponse.m in Sources */,
 				725CD9B71A9EB6FD00F84C8B /* OHHTTPStubsResponse+JSON.m in Sources */,
 				725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				095925D41BAEBEAA00DD7F0B /* OHHTTPStubsSwift.swift in Sources */,
 				095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -917,6 +924,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1009,6 +1017,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1026,6 +1035,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1036,6 +1046,7 @@
 			baseConfigurationReference = 78215AC3F712A93089D77E60 /* Pods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1048,11 +1059,14 @@
 				);
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1062,6 +1076,7 @@
 			baseConfigurationReference = DB9708EFC7D95D8EAE91EA78 /* Pods-OHHTTPStubs iOS Fmk Tests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1070,10 +1085,12 @@
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1099,6 +1116,7 @@
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1122,6 +1140,7 @@
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1200,6 +1219,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1221,6 +1241,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
