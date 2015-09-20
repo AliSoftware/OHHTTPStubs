@@ -3,8 +3,13 @@ source 'https://github.com/CocoaPods/Specs.git'
 xcodeproj 'OHHTTPStubs.xcodeproj'
 inhibit_all_warnings!
 
-target 'OHHTTPStubs iOS Tests' do
+target 'OHHTTPStubs iOS Lib Tests' do
     platform :ios, '6.0'
+    pod 'AFNetworking', '2.5.0'
+end
+
+target 'OHHTTPStubs iOS Fmk Tests' do
+    platform :ios, '8.0'
     pod 'AFNetworking', '2.5.0'
 end
 
