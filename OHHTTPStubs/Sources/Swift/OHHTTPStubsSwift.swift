@@ -22,62 +22,107 @@
 *
 ***********************************************************************************/
 
+/**
+ * Swift Helpers
+ */
+
+
+
+// MARK: Syntaxic Sugar for OHHTTPStubs
 
 /**
- * Matcher for a request Scheme
+ * Helper to return a `OHHTTPStubsResponse` given a fixture path, status code and optional headers.
  *
- * @param scheme The scheme to match
+ * - Parameter filePath: the path of the file fixture to use for the response
+ * - Parameter status: the status code to use for the response
+ * - Parameter headers: the HTTP headers to use for the response
  *
- * @returns a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
- *          has the given scheme
+ * - Returns: The `OHHTTPStubsResponse` instance that will stub with the given status code
+ *            & headers, and use the file content as the response body.
+ */
+public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
+    return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
+}
+
+/**
+ * Helper to call the stubbing function in a more concise way?
+ *
+ * - Parameter condition: the matcher block that determine if the request will be stubbed
+ * - Parameter response: the stub reponse to use if the request is stubbed
+ *
+ * - Returns: The opaque `OHHTTPStubsDescriptor` that uniquely identifies the stub
+ *            and can be later used to remove it with `removeStub:`
+ */
+public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+    return OHHTTPStubs.stubRequestsPassingTest(condition, withStubResponse: response)
+}
+
+
+
+// MARK: Create OHHTTPStubsTestBlock matchers
+
+/**
+ * Matcher for testing an `NSURLRequest`'s **scheme**.
+ *
+ * - Parameter scheme: The scheme to match
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            has the given scheme
  */
 public func isScheme(scheme: String) -> OHHTTPStubsTestBlock {
     return { req in req.URL?.scheme == scheme }
 }
 
 /**
- * Matcher for a request Host
+ * Matcher for testing an `NSURLRequest`'s **host**.
  *
- * @param host The host to match
+ * - Parameter host: The host to match
  *
- * @returns a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
- *          has the given host
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            has the given host
  */
 public func isHost(host: String) -> OHHTTPStubsTestBlock {
     return { req in req.URL?.host == host }
 }
 
 /**
- * Matcher for a request Path
+ * Matcher for testing an `NSURLRequest`'s **path**.
  *
- * @param path The path to match
+ * - Parameter path: The path to match
  *
- * @returns a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
- *          has exactly the given path
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            has exactly the given path
+ *
+ * - Note: URL paths are usually absolute and thus starts with a '/' (which you
+ *         should include in the `path` parameter unless you're testing relative URLs)
  */
 public func isPath(path: String) -> OHHTTPStubsTestBlock {
     return { req in req.URL?.path == path }
 }
 
 /**
- * Matcher for a request path extension
+ * Matcher for testing an `NSURLRequest`'s **path extension**.
  *
- * @param ext The file extension to match (without the dot)
+ * - Parameter ext: The file extension to match (without the dot)
  *
- * @returns a matcher (OHHTTPStubsTestBlock) that succeeds only if the request path
- *          ends with the given extension
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request path
+ *            ends with the given extension
  */
 public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
     return { req in req.URL?.pathExtension == ext }
 }
 
 /**
- * Matcher for a request query parameters
+ * Matcher for testing an `NSURLRequest`'s **query parameters**.
  *
- * @param params The dictionary of query parameters to check the presence for
+ * - Parameter params: The dictionary of query parameters to check the presence for
  *
- * @returns a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains
- *          the given query parameters with the given value.
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains
+ *            the given query parameters with the given value.
+ *
+ * - Note: There is a difference between:
+ *          (1) using `[q:""]`, which matches a query parameter "?q=" with an empty value, and
+ *          (2) using `[q:nil]`, which matches a query parameter "?q" without a value at all
  */
 public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
     return { req in
@@ -94,63 +139,41 @@ public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBloc
     }
 }
 
+
+
+// MARK: Operators on OHHTTPStubsTestBlock
+
 /**
- * Combine different matchers with an 'OR' operation
+ * Combine different `OHHTTPStubsTestBlock` matchers with an 'OR' operation.
  *
- * @param lhs the first matcher to test
+ * - Parameter lhs: the first matcher to test
+ * - Parameter rhs: the second matcher to test
  *
- * @param rhs the second matcher to test
- *
- * @returns a matcher (OHHTTPStubsTestBlock) that succeeds if either of the given matchers succeeds
+ * - Returns: a matcher (`OHHTTPStubsTestBlock`) that succeeds if either of the given matchers succeeds
  */
 public func || (lhs: OHHTTPStubsTestBlock, rhs: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
     return { req in lhs(req) || rhs(req) }
 }
 
 /**
- * Combine different matchers with an 'AND' operation
+ * Combine different `OHHTTPStubsTestBlock` matchers with an 'AND' operation.
  *
- * @param lhs the first matcher to test
+ * - Parameter lhs: the first matcher to test
+ * - Parameter rhs: the second matcher to test
  *
- * @param rhs the second matcher to test
- *
- * @returns a matcher (OHHTTPStubsTestBlock) that only succeeds if both of the given matchers succeeds
+ * - Returns: a matcher (`OHHTTPStubsTestBlock`) that only succeeds if both of the given matchers succeeds
  */
 public func && (lhs: OHHTTPStubsTestBlock, rhs: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
     return { req in lhs(req) && rhs(req) }
 }
 
 /**
- * Create the opposite of a given matcher
+ * Create the opposite of a given `OHHTTPStubsTestBlock` matcher.
  *
- * @param expr the matcher to negate
+ * - Parameter expr: the matcher to negate
  *
- * @returns a matcher (OHHTTPStubsTestBlock) that only succeeds if the expr matcher fails
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that only succeeds if the expr matcher fails
  */
 public prefix func ! (expr: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
     return { req in !expr(req) }
-}
-
-/**
- * Helper to return a response given a fixture path and status code
- *
- * @param filePath the path of the file fixture to use for the response
- *
- * @param status the status code to use for the response
- *
- * @param headers the HTTP headers to use for the response
- */
-public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
-    return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
-}
-
-/**
- * Helper to call the stubbing function in a more concise way
- *
- * @param condition the matcher block that determine if the request will be stubbed
- *
- * @param response the stub reponse to use if the request is stubbed
- */
-public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
-    return OHHTTPStubs.stubRequestsPassingTest(condition, withStubResponse: response)
 }
