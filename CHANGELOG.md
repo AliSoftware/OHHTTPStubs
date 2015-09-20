@@ -2,7 +2,10 @@
 
 ## [4.3.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.3.0)
 
-* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStubs` from Swift ([#111](https://github.com/AliSoftware/OHHTTPStubs/issues/111))
+* Xcode projects updated to Xcode 7.0 Final
+* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStubs` from Swift 2.0 ([#111](https://github.com/AliSoftware/OHHTTPStubs/issues/111))
+
+> If you're using `OHHTTPStubs` in a **Swift 2.0** project, it's recommended to add `pod 'OHHTTPStubs/Swift` to your `Podfile` so you can use those handy helpers.
 
 ## [4.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.1)
 
