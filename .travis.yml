@@ -1,4 +1,5 @@
 language: objective-c
+osx_image: xcode7
 
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
