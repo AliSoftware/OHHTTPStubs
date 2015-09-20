@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "4.2.1"
+  s.version      = "4.3.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -75,6 +75,12 @@ Pod::Spec.new do |s|
   s.subspec 'OHPathHelpers' do |pathhelper|
     pathhelper.source_files = "OHHTTPStubs/Sources/OHPathHelpers/*.{h,m}", "OHHTTPStubs/Sources/Compatibility.h"
     pathhelper.public_header_files = "OHHTTPStubs/Sources/OHPathHelpers/*.h", "OHHTTPStubs/Sources/Compatibility.h"
+  end
+
+  s.subspec 'Swift' do |swift|
+    swift.ios.deployment_target = '8.0'
+    swift.dependency 'OHHTTPStubs/Core'
+    swift.source_files = "OHHTTPStubs/Sources/Swift/*.swift"
   end
 
 end

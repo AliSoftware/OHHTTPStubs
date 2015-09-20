@@ -5,3 +5,4 @@ platform :ios, '8.0'
 use_frameworks!
 
 pod 'OHHTTPStubs', :path => '../..'
+pod 'OHHTTPStubs/Swift', :path => '../..'
