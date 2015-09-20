@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
         installTextStub(self.installTextStubSwitch)
         installImageStub(self.installImageStubSwitch)
         OHHTTPStubs.onStubActivation { (request: NSURLRequest!, stub: OHHTTPStubsDescriptor!) in
-            println("[OHHTTPStubs] Request to \(request.URL!) has been stubbed with \(stub.name)")
+            print("[OHHTTPStubs] Request to \(request.URL!) has been stubbed with \(stub.name)")
         }
     }
 
@@ -43,7 +43,7 @@ class MainViewController: UIViewController {
         self.installImageStubSwitch.enabled = sender.on
         
         let state = sender.on ? "and enabled" : "but disabled"
-        println("Installed (\(state)) stubs: \(OHHTTPStubs.allStubs)")
+        print("Installed (\(state)) stubs: \(OHHTTPStubs.allStubs)")
     }
     
 
@@ -61,8 +61,9 @@ class MainViewController: UIViewController {
 
         NSURLConnection.sendAsynchronousRequest(req, queue: NSOperationQueue.mainQueue()) { (_, data, _) in
             sender.enabled = true
-            let receivedText = NSString(data: data, encoding: NSASCIIStringEncoding)
-            self.textView.text = receivedText! as String
+            if let receivedData = data, receivedText = NSString(data: receivedData, encoding: NSASCIIStringEncoding) {
+                self.textView.text = receivedText as String
+            }
         }
     }
 
@@ -71,16 +72,9 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
 
-            // - we use an inline closure for the test predicate with shorthand argument names
-            // - we also use the "trailing closure" syntax of Swift for convenience
-            // - we don't care about the 'request' parameter in the trailing closure so we use '_'
-            textStub = OHHTTPStubs.stubRequestsPassingTest({$0.URL!.pathExtension == "txt"}) { _ in
+            textStub = stub(isExtension("txt")) { _ in
                 let stubPath = OHPathForFile("stub.txt", self.dynamicType)
-                return OHHTTPStubsResponse(
-                    fileAtPath: stubPath!,
-                    statusCode: 200,
-                    headers: ["Content-Type":"text/plain"]
-                    )
+                return fixture(stubPath!, headers: ["Content-Type":"text/plain"])
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime:OHHTTPStubsDownloadSpeedWifi)
             }
             textStub?.name = "Text stub"
@@ -103,7 +97,9 @@ class MainViewController: UIViewController {
 
         NSURLConnection.sendAsynchronousRequest(req, queue: NSOperationQueue.mainQueue()) { (_, data, _) in
             sender.enabled = true
-            self.imageView.image = UIImage(data: data)
+            if let receivedData = data {
+                self.imageView.image = UIImage(data: receivedData)
+            }
         }
     }
     
@@ -112,19 +108,9 @@ class MainViewController: UIViewController {
         if sender.on {
             // Install
             
-            let isImage = { (request: NSURLRequest!) -> Bool in
-                contains(["png","jpg","jpeg","gif"], request.URL?.pathExtension ?? "")
-            }
-            // - we use a separate block 'isImage' for the 'test' predicate for code readability
-            // - we use the "trailing closure" syntax of Swift for convenience
-            // - we don't care about the 'request' parameter in the trailing closure so we use '_'
-            imageStub = OHHTTPStubs.stubRequestsPassingTest(isImage) { _ in
+            imageStub = stub(isExtension("png") || isExtension("jpg") || isExtension("gif")) { _ in
                 let stubPath = OHPathForFile("stub.jpg", self.dynamicType)
-                return OHHTTPStubsResponse(
-                    fileAtPath: stubPath!,
-                    statusCode: 200,
-                    headers: ["Content-Type":"image/jpeg"]
-                    )
+                return fixture(stubPath!, headers: ["Content-Type":"image/jpeg"])
                     .requestTime(self.delaySwitch.on ? 2.0 : 0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
             }
             imageStub?.name = "Image stub"
