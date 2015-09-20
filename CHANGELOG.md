@@ -1,7 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## [4.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.1)
 
+* Fix the Examples Xcode project + lib Podfile that were referencing old target names ([mikelupo](https://github.com/mikelupo), [#117](https://github.com/AliSoftware/OHHTTPStubs/pull/117))
 * Added two new constants for download speed: `OHHTTPStubsDownloadSpeed1KBPS` = 1kbps and `OHHTTPStubsDownloadSpeedSLOW` = 1.5 kpbs. ([mikelupo](https://github.com/mikelupo), [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114))
 
 ## [4.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.0)
