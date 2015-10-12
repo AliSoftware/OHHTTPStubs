@@ -29,8 +29,8 @@
 #import <Foundation/Foundation.h>
 
 #import <OHHTTPStubs/Compatibility.h>
-#import <OHHTTPStubs/OHHTTPStubsResponse.h>
 
+@class OHHTTPStubsResponse;
 
 NS_ASSUME_NONNULL_BEGIN
 
