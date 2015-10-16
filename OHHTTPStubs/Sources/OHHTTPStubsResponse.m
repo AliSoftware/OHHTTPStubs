@@ -75,6 +75,15 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
++(instancetype)responseWithURL:(NSURL *)url
+                    statusCode:(int)statusCode
+                       headers:(nullable NSDictionary *)httpHeaders
+{
+    OHHTTPStubsResponse* response = [[self alloc] initWithURL:url
+                                                   statusCode:statusCode
+                                                      headers:httpHeaders];
+    return response;
+}
 
 #pragma mark > Building an error response
 
@@ -152,6 +161,37 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                             dataSize:fileSize
                           statusCode:statusCode
                              headers:httpHeaders];
+    return self;
+}
+
+-(instancetype)initWithURL:(NSURL *)url
+                statusCode:(int)statusCode
+                   headers:(nullable NSDictionary *)httpHeaders {
+    NSInputStream* inputStream;
+    if (url)
+    {
+        inputStream = [NSInputStream inputStreamWithURL:url];
+    }
+    else
+    {
+        NSLog(@"%s: nil URL. Returning empty data", __PRETTY_FUNCTION__);
+        inputStream = [NSInputStream inputStreamWithData:[NSData data]];
+    }
+    
+    NSError *error;
+    NSNumber *fileSize;
+    [url getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
+    
+    if (error) {
+        NSLog(@"%s: Error getting file size for URL. Returning empty data", __PRETTY_FUNCTION__);
+        inputStream = [NSInputStream inputStreamWithData:[NSData data]];
+    } else {
+        self = [self initWithInputStream:inputStream
+                                dataSize:[fileSize unsignedLongLongValue]
+                              statusCode:statusCode
+                                 headers:httpHeaders];
+    }
+    
     return self;
 }
 
