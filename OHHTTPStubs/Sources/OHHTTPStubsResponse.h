@@ -138,6 +138,22 @@ NS_ASSUME_NONNULL_BEGIN
                            statusCode:(int)statusCode
                               headers:(nullable NSDictionary*)httpHeaders;
 
+
+/**
+ *  Builds a response given a URL, the status code, and headers.
+ *
+ *  @param url         The URL for the data to reutrn in the response
+ *  @param statusCode  The HTTP Status Code to use in the response
+ *  @param httpHeaders The HTTP Headers to return in the response
+ *
+ *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *
+ *  @note This method applies only to URLs that represent file system resources
+ */
++(instancetype)responseWithURL:(NSURL *)url
+                    statusCode:(int)statusCode
+                       headers:(nullable NSDictionary *)httpHeaders;
+
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building an error response
 
@@ -238,6 +254,21 @@ NS_ASSUME_NONNULL_BEGIN
                        statusCode:(int)statusCode
                           headers:(nullable NSDictionary*)httpHeaders;
 
+
+/**
+ *  Initialize a response with a given URL, statusCode and headers.
+ *
+ *  @param url         The URL for the data to reutrn in the response
+ *  @param statusCode  The HTTP Status Code to use in the response
+ *  @param httpHeaders The HTTP Headers to return in the response
+ *
+ *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *
+ *  @note This method applies only to URLs that represent file system resources
+ */
+-(instancetype)initWithURL:(NSURL *)url
+                statusCode:(int)statusCode
+                   headers:(nullable NSDictionary *)httpHeaders;
 
 /**
  *  Initialize a response with the given data, statusCode and headers.
