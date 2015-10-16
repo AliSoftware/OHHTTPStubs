@@ -175,7 +175,9 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithFileURL:[NSURL URLWithString:@"-invalid-url"] statusCode:501 headers:nil]
+        NSURL *url = [NSURL URLWithString:@"file://foo/bar"];
+        NSAssert(url , @"If the URL is nil, this test is just duplicating test_NilPathWithURL");
+        return [[OHHTTPStubsResponse responseWithFileURL:url statusCode:501 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
     
