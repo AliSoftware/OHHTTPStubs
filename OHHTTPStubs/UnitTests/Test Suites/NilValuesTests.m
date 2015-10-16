@@ -124,7 +124,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-        return [[OHHTTPStubsResponse responseWithURL:nil statusCode:501 headers:nil]
+        return [[OHHTTPStubsResponse responseWithFileURL:nil statusCode:501 headers:nil]
                 requestTime:0.01 responseTime:0.01];
 #pragma clang diagnostic pop
     }];
@@ -175,7 +175,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithURL:[NSURL URLWithString:@"-invalid-url"] statusCode:501 headers:nil]
+        return [[OHHTTPStubsResponse responseWithFileURL:[NSURL URLWithString:@"-invalid-url"] statusCode:501 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
     
@@ -227,8 +227,8 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"emptyfile" withExtension:@"json"];
-        return [[OHHTTPStubsResponse responseWithURL:url statusCode:500 headers:nil]
+        NSURL *fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"emptyfile" withExtension:@"json"];
+        return [[OHHTTPStubsResponse responseWithFileURL:fileURL statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
     
