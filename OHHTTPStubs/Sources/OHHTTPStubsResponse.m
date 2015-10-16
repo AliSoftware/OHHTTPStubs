@@ -75,13 +75,13 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
-+(instancetype)responseWithURL:(NSURL *)url
-                    statusCode:(int)statusCode
-                       headers:(nullable NSDictionary *)httpHeaders
++(instancetype)responseWithFileURL:(NSURL *)fileURL
+                        statusCode:(int)statusCode
+                           headers:(nullable NSDictionary *)httpHeaders
 {
-    OHHTTPStubsResponse* response = [[self alloc] initWithURL:url
-                                                   statusCode:statusCode
-                                                      headers:httpHeaders];
+    OHHTTPStubsResponse* response = [[self alloc] initWithFileURL:fileURL
+                                                       statusCode:statusCode
+                                                          headers:httpHeaders];
     return response;
 }
 
@@ -164,13 +164,13 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return self;
 }
 
--(instancetype)initWithURL:(NSURL *)url
-                statusCode:(int)statusCode
-                   headers:(nullable NSDictionary *)httpHeaders {
+-(instancetype)initWithFileURL:(NSURL *)fileURL
+                    statusCode:(int)statusCode
+                       headers:(nullable NSDictionary *)httpHeaders {
     NSInputStream* inputStream;
-    if (url)
+    if (fileURL)
     {
-        inputStream = [NSInputStream inputStreamWithURL:url];
+        inputStream = [NSInputStream inputStreamWithURL:fileURL];
     }
     else
     {
@@ -180,7 +180,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     
     NSError *error;
     NSNumber *fileSize;
-    [url getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
+    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
     
     if (error) {
         NSLog(@"%s: Error getting file size for URL. Returning empty data", __PRETTY_FUNCTION__);

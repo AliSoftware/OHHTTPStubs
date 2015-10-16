@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Builds a response given a URL, the status code, and headers.
  *
- *  @param url         The URL for the data to reutrn in the response
+ *  @param fileURL     The URL for the data to return in the response
  *  @param statusCode  The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
@@ -150,9 +150,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @note This method applies only to URLs that represent file system resources
  */
-+(instancetype)responseWithURL:(NSURL *)url
-                    statusCode:(int)statusCode
-                       headers:(nullable NSDictionary *)httpHeaders;
++(instancetype)responseWithFileURL:(NSURL *)fileURL
+                        statusCode:(int)statusCode
+                           headers:(nullable NSDictionary *)httpHeaders;
 
 /* -------------------------------------------------------------------------- */
 #pragma mark > Building an error response
@@ -258,7 +258,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Initialize a response with a given URL, statusCode and headers.
  *
- *  @param url         The URL for the data to reutrn in the response
+ *  @param fileURL     The URL for the data to return in the response
  *  @param statusCode  The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
@@ -266,9 +266,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @note This method applies only to URLs that represent file system resources
  */
--(instancetype)initWithURL:(NSURL *)url
-                statusCode:(int)statusCode
-                   headers:(nullable NSDictionary *)httpHeaders;
+-(instancetype)initWithFileURL:(NSURL *)fileURL
+                    statusCode:(int)statusCode
+                       headers:(nullable NSDictionary *)httpHeaders;
 
 /**
  *  Initialize a response with the given data, statusCode and headers.
