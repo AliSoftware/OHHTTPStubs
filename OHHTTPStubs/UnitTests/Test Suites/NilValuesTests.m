@@ -147,21 +147,24 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 
 - (void)test_InvalidPath
 {
-    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileAtPath:@"foo/bar" statusCode:501 headers:nil], NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileAtPath:@"foo/bar" statusCode:501 headers:nil]
+                                 , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
 - (void)test_InvalidPathWithURL
 {
     NSURL *httpURL = [NSURL fileURLWithPath:@"foo/bar"];
     NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
-    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil], NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
+                                 , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
 - (void)test_NonFileURL
 {
     NSURL *httpURL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
     NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
-    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil], NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
+                                 , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
 
