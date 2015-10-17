@@ -79,6 +79,8 @@ Pod::Spec.new do |s|
 
   s.subspec 'Swift' do |swift|
     swift.ios.deployment_target = '8.0'
+    swift.osx.deployment_target = '10.9'
+  
     swift.dependency 'OHHTTPStubs/Core'
     swift.source_files = "OHHTTPStubs/Sources/Swift/*.swift"
   end
