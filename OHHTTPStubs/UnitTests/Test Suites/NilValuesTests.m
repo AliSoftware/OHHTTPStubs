@@ -197,6 +197,13 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
 }
 
+- (void)test_NonFileURL
+{
+    NSURL *httpURL = [NSURL URLWithString:@"http://example.com"];
+    NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil], NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+}
+
 
 - (void)test_EmptyFile
 {
