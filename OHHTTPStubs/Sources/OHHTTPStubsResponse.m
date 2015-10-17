@@ -157,7 +157,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     NSInputStream* inputStream;
     if (fileURL)
     {
-        NSAssert(fileURL.fileURL, @"Only file URLs may be passed to %@", NSStringFromSelector(_cmd));
+        NSAssert(fileURL.isFileURL, @"Only file URLs may be passed to %@", NSStringFromSelector(_cmd));
         inputStream = [NSInputStream inputStreamWithURL:fileURL];
     }
     else
