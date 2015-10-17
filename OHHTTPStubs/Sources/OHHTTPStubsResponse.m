@@ -75,6 +75,15 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     return response;
 }
 
++(instancetype)responseWithFileURL:(NSURL *)fileURL
+                        statusCode:(int)statusCode
+                           headers:(nullable NSDictionary *)httpHeaders
+{
+    OHHTTPStubsResponse* response = [[self alloc] initWithFileURL:fileURL
+                                                       statusCode:statusCode
+                                                          headers:httpHeaders];
+    return response;
+}
 
 #pragma mark > Building an error response
 
@@ -135,24 +144,41 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                        statusCode:(int)statusCode
                           headers:(nullable NSDictionary*)httpHeaders
 {
-    NSInputStream* inputStream;
-    if (filePath)
-    {
-        inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
-    }
-    else
-    {
+    NSURL *fileURL = filePath ? [NSURL fileURLWithPath:filePath] : nil;
+    self = [self initWithFileURL:fileURL
+                      statusCode:statusCode
+                         headers:httpHeaders];
+    return self;
+}
+
+-(instancetype)initWithFileURL:(NSURL *)fileURL
+                    statusCode:(int)statusCode
+                       headers:(nullable NSDictionary *)httpHeaders {
+    if (!fileURL) {
         NSLog(@"%s: nil file path. Returning empty data", __PRETTY_FUNCTION__);
-        inputStream = [NSInputStream inputStreamWithData:[NSData data]];
+        return [self initWithInputStream:[NSInputStream inputStreamWithData:[NSData data]]
+                                dataSize:0
+                              statusCode:statusCode
+                                 headers:httpHeaders];
     }
     
-    NSDictionary* attributes = [NSFileManager.defaultManager attributesOfItemAtPath:filePath error:nil];
-    unsigned long long fileSize = [[attributes valueForKey:NSFileSize] unsignedLongLongValue];
-    self = [self initWithInputStream:inputStream
-                            dataSize:fileSize
+    // [NSURL -isFileURL] is only available on iOS 8+
+    NSAssert([fileURL.scheme isEqualToString:NSURLFileScheme], @"%s: Only file URLs may be passed to this method.",__PRETTY_FUNCTION__);
+    
+    NSNumber *fileSize;
+    NSError *error;
+    const BOOL success = [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
+    
+    NSAssert(success && fileSize, @"%s Couldn't get the file size for URL. \
+The URL was: %@. \
+The operation to retrieve the file size was %@. \
+The error associated with that operation was: %@",
+             __PRETTY_FUNCTION__, fileURL, success ? @"successful" : @"unsuccessful", error);
+    
+    return [self initWithInputStream:[NSInputStream inputStreamWithURL:fileURL]
+                            dataSize:[fileSize unsignedLongLongValue]
                           statusCode:statusCode
                              headers:httpHeaders];
-    return self;
 }
 
 -(instancetype)initWithData:(NSData*)data
