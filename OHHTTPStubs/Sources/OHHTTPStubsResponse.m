@@ -157,7 +157,12 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     NSInputStream* inputStream;
     if (fileURL)
     {
-        NSAssert(fileURL.isFileURL, @"Only file URLs may be passed to %@", NSStringFromSelector(_cmd));
+        // [NSURL -isFileURL] is only available on iOS 8+
+        if (![fileURL.scheme isEqualToString:NSURLFileScheme]) {
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                           reason:[NSString stringWithFormat:@"Only file URLs may be passed to %@", NSStringFromSelector(_cmd)]
+                                         userInfo:nil];
+        }
         inputStream = [NSInputStream inputStreamWithURL:fileURL];
     }
     else
