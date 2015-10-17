@@ -45,7 +45,7 @@ def build(scheme, sdk, destination, action)
     -workspace OHHTTPStubs/OHHTTPStubs.xcworkspace
     -scheme "#{scheme}"
     -sdk #{sdk}
-    -configuration Release
+    -configuration Debug
     ONLY_ACTIVE_ARCH=NO
     -destination '#{destination}'
     clean #{action}
