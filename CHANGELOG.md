@@ -1,5 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
+## [4.4.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.4.0)
+
+* Added methods for creating `OHHTTPStubsResponse`s from `NSURL`s that represent file system resources ([@MaxGabriel](https://github.com/MaxGabriel), [#129](https://github.com/AliSoftware/OHHTTPStubs/pull/129))
+
 ## [4.3.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.3.0)
 
 * Xcode projects updated to Xcode 7.0 Final

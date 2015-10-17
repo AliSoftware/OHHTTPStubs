@@ -117,13 +117,16 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
 }
 
-- (void)test_InvalidPath
+- (void)test_NilPathWithURL
 {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithFileAtPath:@"-invalid-path-" statusCode:500 headers:nil]
-        requestTime:0.01 responseTime:0.01];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+        return [[OHHTTPStubsResponse responseWithFileURL:nil statusCode:501 headers:nil]
+                requestTime:0.01 responseTime:0.01];
+#pragma clang diagnostic pop
     }];
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
@@ -142,6 +145,29 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
 }
 
+- (void)test_InvalidPath
+{
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileAtPath:@"foo/bar" statusCode:501 headers:nil]
+                                 , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+}
+
+- (void)test_InvalidPathWithURL
+{
+    NSURL *httpURL = [NSURL fileURLWithPath:@"foo/bar"];
+    NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
+                                 , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+}
+
+- (void)test_NonFileURL
+{
+    NSURL *httpURL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
+    NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
+    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
+                                 , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
+}
+
+
 - (void)test_EmptyFile
 {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -149,6 +175,32 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* emptyFile = OHPathForFile(@"emptyfile.json", self.class);
         return [[OHHTTPStubsResponse responseWithFileAtPath:emptyFile statusCode:500 headers:nil]
+                requestTime:0.01 responseTime:0.01];
+    }];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
+    
+    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+    
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+     {
+         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
+         
+         [expectation fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+}
+
+- (void)test_EmptyFileWithURL
+{
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        NSURL *fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"emptyfile" withExtension:@"json"];
+        return [[OHHTTPStubsResponse responseWithFileURL:fileURL statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
     
