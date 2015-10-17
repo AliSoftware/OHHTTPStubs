@@ -30,6 +30,7 @@
 #pragma mark - Imports
 
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHHTTPStubsResponse.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types & Constants
