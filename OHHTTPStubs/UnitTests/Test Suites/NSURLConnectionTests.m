@@ -23,7 +23,12 @@
  ***********************************************************************************/
 
 #import <XCTest/XCTest.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
+
+#if OHHTTPSTUBS_USE_STATIC_LIBRARY
+#import "OHHTTPStubs.h"
+#else
+@import OHHTTPStubs;
+#endif
 
 @interface NSURLConnectionTests : XCTestCase @end
 

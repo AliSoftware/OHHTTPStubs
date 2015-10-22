@@ -22,11 +22,12 @@
  *
  ***********************************************************************************/
 
+#import "Compatibility.h"
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse.h"
 
 #import "OHHTTPStubsResponse+JSON.h"
-#import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
-#import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
-#import <OHHTTPStubs/OHPathHelpers.h>
+#import "OHHTTPStubsResponse+HTTPMessage.h"
+#import "OHHTTPStubs+Mocktail.h"
+#import "OHPathHelpers.h"
 
