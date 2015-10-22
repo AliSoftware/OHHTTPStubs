@@ -18,6 +18,7 @@
 		09110A791980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A781980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
 		09199FCF1BD974F10014376D /* OHHTTPStubsUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 09199FCC1BD973800014376D /* OHHTTPStubsUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		09199FD01BD974F20014376D /* OHHTTPStubsUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 09199FCC1BD973800014376D /* OHHTTPStubsUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		09199FD11BD98D1C0014376D /* OHHTTPStubsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */; };
 		093442E21B80EC4A00A91535 /* TimingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814D1980668E00807DBE /* TimingTests.m */; };
 		093442E31B80EC4A00A91535 /* OHPathHelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */; };
 		093442E41B80EC4A00A91535 /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0959814A1980668E00807DBE /* NSURLConnectionDelegateTests.m */; };
@@ -44,7 +45,6 @@
 		094906DD1B7F60D100B047DA /* OHPathHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */; };
 		094906DE1B7F60E200B047DA /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		094906DF1B7F60EE00B047DA /* OHHTTPStubs+Mocktail.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		095925D41BAEBEAA00DD7F0B /* OHHTTPStubsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */; };
 		095925D61BAEC00200DD7F0B /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095925D51BAEC00200DD7F0B /* SwiftHelpersTests.swift */; };
 		095981881980682800807DBE /* AFNetworkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981481980668E00807DBE /* AFNetworkingTests.m */; };
 		095981891980682E00807DBE /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095981491980668E00807DBE /* NilValuesTests.m */; };
@@ -897,7 +897,7 @@
 				725CD9B51A9EB6F800F84C8B /* OHHTTPStubsResponse.m in Sources */,
 				725CD9B71A9EB6FD00F84C8B /* OHHTTPStubsResponse+JSON.m in Sources */,
 				725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
-				095925D41BAEBEAA00DD7F0B /* OHHTTPStubsSwift.swift in Sources */,
+				09199FD11BD98D1C0014376D /* OHHTTPStubsSwift.swift in Sources */,
 				095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -946,7 +946,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"XCODE_VERSION=$(XCODE_VERSION_MAJOR)",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -982,10 +981,6 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"XCODE_VERSION=$(XCODE_VERSION_MAJOR)",
-					"$(inherited)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1026,8 +1021,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"OHHTTPSTUBS_USE_STATIC_LIBRARY=1",
 				);
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1047,6 +1042,11 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"OHHTTPSTUBS_USE_STATIC_LIBRARY=1",
+				);
 				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
