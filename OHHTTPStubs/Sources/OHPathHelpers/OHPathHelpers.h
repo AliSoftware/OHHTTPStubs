@@ -24,7 +24,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import <OHHTTPStubs/Compatibility.h>
+#import "Compatibility.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

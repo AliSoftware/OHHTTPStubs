@@ -28,8 +28,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <OHHTTPStubs/Compatibility.h>
-#import <OHHTTPStubs/OHHTTPStubsResponse.h>
+#import "Compatibility.h"
+#import "OHHTTPStubsResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
