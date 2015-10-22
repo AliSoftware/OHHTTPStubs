@@ -27,7 +27,7 @@
 #pragma mark - Imports
 
 #import <Foundation/Foundation.h>
-#import <OHHTTPStubs/Compatibility.h>
+#import "Compatibility.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
