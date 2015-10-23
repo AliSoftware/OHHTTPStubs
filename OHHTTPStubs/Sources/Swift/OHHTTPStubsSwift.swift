@@ -124,6 +124,7 @@ public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
  *          (1) using `[q:""]`, which matches a query parameter "?q=" with an empty value, and
  *          (2) using `[q:nil]`, which matches a query parameter "?q" without a value at all
  */
+@available(iOS 8.0, OSX 10.10, *)
 public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
     return { req in
         if let url = req.URL {
