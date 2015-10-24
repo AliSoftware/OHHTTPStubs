@@ -2,6 +2,7 @@
 
 ## [4.4.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.4.0)
 
+* Fixed issue with Umbrella Headers ([#127](https://github.com/AliSoftware/OHHTTPStubs/issues/127), [#131](https://github.com/AliSoftware/OHHTTPStubs/pull/131))
 * Added methods for creating `OHHTTPStubsResponse`s from `NSURL`s that represent file system resources ([@MaxGabriel](https://github.com/MaxGabriel), [#129](https://github.com/AliSoftware/OHHTTPStubs/pull/129))
 * Bumped Swift subspec compatibility to OSX 10.9 instead of 10.7.
 
