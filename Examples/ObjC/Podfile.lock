@@ -1,26 +1,26 @@
 PODS:
-  - OHHTTPStubs (4.3.0):
-    - OHHTTPStubs/Default (= 4.3.0)
-  - OHHTTPStubs/Core (4.3.0)
-  - OHHTTPStubs/Default (4.3.0):
+  - OHHTTPStubs (4.4.0):
+    - OHHTTPStubs/Default (= 4.4.0)
+  - OHHTTPStubs/Core (4.4.0)
+  - OHHTTPStubs/Default (4.4.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.3.0):
+  - OHHTTPStubs/JSON (4.4.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.3.0):
+  - OHHTTPStubs/NSURLSession (4.4.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.3.0)
+  - OHHTTPStubs/OHPathHelpers (4.4.0)
 
 DEPENDENCIES:
   - OHHTTPStubs (from `../..`)
 
 EXTERNAL SOURCES:
   OHHTTPStubs:
-    :path: "../.."
+    :path: ../..
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
+  OHHTTPStubs: 1a95a653b78287a1fdb44eb38364b43257ac3550
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

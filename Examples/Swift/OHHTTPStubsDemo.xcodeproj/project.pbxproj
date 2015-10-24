@@ -15,7 +15,7 @@
 		099F743C1AE2D632001108A5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 099F743B1AE2D632001108A5 /* Default-568h@2x.png */; };
 		099F74401AE2D703001108A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F740E1AE2D049001108A5 /* MainViewController.swift */; };
 		099F74421AE2D7E0001108A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F74411AE2D7E0001108A5 /* AppDelegate.swift */; };
-		33ABB39721D2012BFC1F5077 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6C6334E088CD830EF8D38DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		33ABB39721D2012BFC1F5077 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6C6334E088CD830EF8D38DB /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
