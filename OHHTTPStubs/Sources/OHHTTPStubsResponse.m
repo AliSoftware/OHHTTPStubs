@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
 
-#import <OHHTTPStubs/OHHTTPStubsResponse.h>
+#import "OHHTTPStubsResponse.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
@@ -167,7 +167,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
     
     NSNumber *fileSize;
     NSError *error;
-    const BOOL success = [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
+    const BOOL success __unused = [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
     
     NSAssert(success && fileSize, @"%s Couldn't get the file size for URL. \
 The URL was: %@. \

@@ -23,7 +23,13 @@
  ***********************************************************************************/
 
 #import <XCTest/XCTest.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
+
+#if OHHTTPSTUBS_USE_STATIC_LIBRARY
+#import "OHHTTPStubs.h"
+#import "OHPathHelpers.h"
+#else
+@import OHHTTPStubs;
+#endif
 
 static const NSTimeInterval kResponseTimeTolerence = 0.3;
 

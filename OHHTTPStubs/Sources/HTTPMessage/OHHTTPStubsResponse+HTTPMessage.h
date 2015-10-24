@@ -26,8 +26,8 @@
 /* This category is not available on watchOS because CFNetwork is needed for its implementation but isn't available on Nano */
 #if __has_include(<CFNetwork/CFNetwork.h>)
 
-#import <OHHTTPStubs/OHHTTPStubsResponse.h>
-#import <OHHTTPStubs/Compatibility.h>
+#import "OHHTTPStubsResponse.h"
+#import "Compatibility.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

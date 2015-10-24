@@ -25,7 +25,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#import <OHHTTPStubs/OHHTTPStubs+Mocktail.h>
+#import "OHHTTPStubs+Mocktail.h"
 
 NSString* const MocktailErrorDomain = @"Mocktail";
 
