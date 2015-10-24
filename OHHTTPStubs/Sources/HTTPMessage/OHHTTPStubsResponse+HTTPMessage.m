@@ -26,7 +26,7 @@
 #if __has_include(<CFNetwork/CFNetwork.h>)
 #import <CFNetwork/CFNetwork.h>
 
-#import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
+#import "OHHTTPStubsResponse+HTTPMessage.h"
 
 @implementation OHHTTPStubsResponse (HTTPMessage)
 

@@ -22,31 +22,12 @@
  *
  ***********************************************************************************/
 
+#import "Compatibility.h"
+#import "OHHTTPStubs.h"
+#import "OHHTTPStubsResponse.h"
 
+#import "OHHTTPStubsResponse+JSON.h"
+#import "OHHTTPStubsResponse+HTTPMessage.h"
+#import "OHHTTPStubs+Mocktail.h"
 #import "OHPathHelpers.h"
 
-NSString* __nullable OHPathForFile(NSString* fileName, Class inBundleForClass)
-{
-    NSBundle* bundle = [NSBundle bundleForClass:inBundleForClass];
-    return OHPathForFileInBundle(fileName, bundle);
-}
-
-NSString* __nullable OHPathForFileInBundle(NSString* fileName, NSBundle* bundle)
-{
-    return [bundle pathForResource:[fileName stringByDeletingPathExtension]
-                            ofType:[fileName pathExtension]];
-}
-
-NSString* __nullable OHPathForFileInDocumentsDir(NSString* fileName)
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = (paths.count > 0) ? paths[0] : nil;
-    return [basePath stringByAppendingPathComponent:fileName];
-}
-
-NSBundle* __nullable OHResourceBundle(NSString* bundleBasename, Class inBundleForClass)
-{
-    NSBundle* classBundle = [NSBundle bundleForClass:inBundleForClass];
-    return [NSBundle bundleWithPath:[classBundle pathForResource:bundleBasename
-                                                         ofType:@"bundle"]];
-}

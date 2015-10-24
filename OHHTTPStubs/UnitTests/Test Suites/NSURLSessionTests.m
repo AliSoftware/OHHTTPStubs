@@ -29,7 +29,13 @@
  || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
 #import <XCTest/XCTest.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
+
+#if OHHTTPSTUBS_USE_STATIC_LIBRARY
+#import "OHHTTPStubs.h"
+#import "OHHTTPStubsResponse+JSON.h"
+#else
+@import OHHTTPStubs;
+#endif
 
 @interface NSURLSessionTests : XCTestCase <NSURLSessionDataDelegate> @end
 
