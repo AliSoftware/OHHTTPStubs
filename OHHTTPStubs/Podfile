@@ -4,16 +4,16 @@ xcodeproj 'OHHTTPStubs.xcodeproj'
 inhibit_all_warnings!
 
 target 'OHHTTPStubs iOS Lib Tests' do
-    platform :ios, '6.0'
-    pod 'AFNetworking', '2.5.0'
+    platform :ios, '7.0'
+    pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :branch => '3_0_0_branch'
 end
 
 target 'OHHTTPStubs iOS Fmk Tests' do
     platform :ios, '8.0'
-    pod 'AFNetworking', '2.5.0'
+    pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :branch => '3_0_0_branch'
 end
 
 target 'OHHTTPStubs Mac Tests' do
-    platform :osx, '10.8'
-    pod 'AFNetworking', '2.5.0'
+    platform :osx, '10.9'
+    pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :branch => '3_0_0_branch'
 end
