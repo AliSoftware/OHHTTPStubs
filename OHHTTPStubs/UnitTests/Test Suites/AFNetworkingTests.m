@@ -31,7 +31,7 @@
 @import OHHTTPStubs;
 #endif
 
-#import "AFHTTPRequestOperation.h"
+#import "AFHTTPSessionManager.h"
 
 static const NSTimeInterval kResponseTimeTolerence = 1.0;
 
@@ -59,18 +59,18 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
     
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-    [op setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    NSURL *URL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
+    
     __block __strong id response = nil;
-    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    [manager GET:URL.absoluteString parameters:nil success:^(NSURLSessionTask *task, id responseObject) {
         response = responseObject; // keep strong reference
         [expectation fulfill];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *operation, NSError *error) {
         XCTFail(@"Unexpected network failure");
         [expectation fulfill];
     }];
-    [op start];
     
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     
@@ -91,29 +91,29 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
     
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-    AFHTTPResponseSerializer* serializer = [AFHTTPResponseSerializer serializer];
-    [serializer  setAcceptableStatusCodes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 101)]];
-    [op setResponseSerializer:serializer];
-
+//    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+//    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+//    AFHTTPResponseSerializer* serializer = [AFHTTPResponseSerializer serializer];
+//    [serializer  setAcceptableStatusCodes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 101)]];
+//    [op setResponseSerializer:serializer];
+//
     __block __strong id response = nil;
-    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
-        if (redirectResponse == nil) {
-            return request;
-        }
-        XCTFail(@"Unexpected redirect");
-        return nil;
-    }];
-    
-    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        response = responseObject; // keep strong reference
-        [expectation fulfill];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        XCTFail(@"Unexpected network failure");
-        [expectation fulfill];
-    }];
-    [op start];
+//    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
+//        if (redirectResponse == nil) {
+//            return request;
+//        }
+//        XCTFail(@"Unexpected redirect");
+//        return nil;
+//    }];
+//    
+//    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        response = responseObject; // keep strong reference
+//        [expectation fulfill];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        XCTFail(@"Unexpected network failure");
+//        [expectation fulfill];
+//    }];
+//    [op start];
     
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     
@@ -135,28 +135,28 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
     
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-    [op setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    
+//    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
+//    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
+//    [op setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+//    
     __block __strong NSURL* url = nil;
-    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
-        if (redirectResponse == nil) {
-            return request;
-        }
-        url = request.URL;
-        [expectation fulfill];
-        return nil;
-    }];
-    
-    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        XCTFail(@"Unexpected response");
-        [expectation fulfill];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        XCTFail(@"Unexpected network failure");
-        [expectation fulfill];
-    }];
-    [op start];
+//    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
+//        if (redirectResponse == nil) {
+//            return request;
+//        }
+//        url = request.URL;
+//        [expectation fulfill];
+//        return nil;
+//    }];
+//    
+//    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        XCTFail(@"Unexpected response");
+//        [expectation fulfill];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        XCTFail(@"Unexpected network failure");
+//        [expectation fulfill];
+//    }];
+//    [op start];
     
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     

@@ -1,6 +1,8 @@
-// UIKit+AFNetworking.h
 //
-// Copyright (c) 2013 AFNetworking (http://afnetworking.com/)
+//  UIImage+AFNetworking.h
+//  
+//
+//  Created by Paulo Ferreira on 08/07/15.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +23,13 @@
 // THE SOFTWARE.
 
 #if TARGET_OS_IOS || TARGET_OS_TV
+
 #import <UIKit/UIKit.h>
 
-#ifndef _UIKIT_AFNETWORKING_
-    #define _UIKIT_AFNETWORKING_
+@interface UIImage (AFNetworking)
 
-#if TARGET_OS_IOS
-    #import "AFAutoPurgingImageCache.h"
-    #import "AFImageDownloader.h"
-    #import "AFNetworkActivityIndicatorManager.h"
-    #import "UIRefreshControl+AFNetworking.h"
-    #import "UIWebView+AFNetworking.h"
-#endif
++ (UIImage*) safeImageWithData:(NSData*)data;
 
-    #import "UIActivityIndicatorView+AFNetworking.h"
-    #import "UIButton+AFNetworking.h"
-    #import "UIImageView+AFNetworking.h"
-    #import "UIProgressView+AFNetworking.h"
-#endif /* _UIKIT_AFNETWORKING_ */
+@end
+
 #endif
