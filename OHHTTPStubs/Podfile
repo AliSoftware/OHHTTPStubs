@@ -17,3 +17,8 @@ target 'OHHTTPStubs Mac Tests' do
     platform :osx, '10.9'
     pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :branch => '3_0_0_branch'
 end
+
+target 'OHHTTPStubs tvOS Fmk Tests' do
+    platform :tvos, '9.0'
+    pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :branch => '3_0_0_branch'
+end
