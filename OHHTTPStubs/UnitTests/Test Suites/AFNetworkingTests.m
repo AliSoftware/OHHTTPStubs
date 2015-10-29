@@ -91,29 +91,28 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
     
-//    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-//    AFHTTPRequestOperation* op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-//    AFHTTPResponseSerializer* serializer = [AFHTTPResponseSerializer serializer];
-//    [serializer  setAcceptableStatusCodes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 101)]];
-//    [op setResponseSerializer:serializer];
-//
+    NSURL *URL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPResponseSerializer* serializer = [AFHTTPResponseSerializer serializer];
+    [serializer  setAcceptableStatusCodes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 101)]];
+    [manager setResponseSerializer:serializer];
+    
     __block __strong id response = nil;
-//    [op setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
-//        if (redirectResponse == nil) {
-//            return request;
-//        }
-//        XCTFail(@"Unexpected redirect");
-//        return nil;
-//    }];
-//    
-//    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        response = responseObject; // keep strong reference
-//        [expectation fulfill];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        XCTFail(@"Unexpected network failure");
-//        [expectation fulfill];
-//    }];
-//    [op start];
+    [manager setTaskWillPerformHTTPRedirectionBlock:^NSURLRequest * (NSURLSession * session, NSURLSessionTask * task, NSURLResponse * response, NSURLRequest * request) {
+        if (response == nil) {
+            return request;
+        }
+        XCTFail(@"Unexpected redirect");
+        return nil;
+    }];
+
+    [manager GET:URL.absoluteString parameters:nil success:^(NSURLSessionTask *task, id responseObject) {
+        response = responseObject; // keep strong reference
+        [expectation fulfill];
+    } failure:^(NSURLSessionTask *operation, NSError *error) {
+        XCTFail(@"Unexpected network failure");
+        [expectation fulfill];
+    }];
     
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
     
