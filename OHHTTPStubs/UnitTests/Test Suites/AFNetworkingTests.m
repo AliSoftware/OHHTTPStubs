@@ -23,6 +23,7 @@
  ***********************************************************************************/
 
 #import <XCTest/XCTest.h>
+#import <Availability.h>
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
@@ -170,7 +171,9 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
 // Compile this only if SDK version (…MAX_ALLOWED) is iOS7+/10.9+ because NSURLSession is a class only known starting these SDKs
 // (this code won't compile if we use an eariler SDKs, like when building with Xcode4)
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
-|| (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
+ || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090) \
+ || (defined(__TV_OS_VERSION_MIN_REQUIRED) || defined(__WATCH_OS_VERSION_MIN_REQUIRED))
+
 
 #import "AFHTTPSessionManager.h"
 
