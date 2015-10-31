@@ -22,6 +22,10 @@
  *
  ***********************************************************************************/
 
+#import <Availability.h>
+// tvOS & WatchOS deprecate use of NSURLConnection but these tests are based on it
+#if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
+
 #import <XCTest/XCTest.h>
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
@@ -272,3 +276,5 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
 }
 
 @end
+
+#endif
