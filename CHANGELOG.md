@@ -1,9 +1,16 @@
 # OHHTTPStubs — CHANGELOG
 
+## [4.5.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.0) — tvOS
+
+* Added support for tvOS.  
+  [@tiagomartinho](https://github.com/tiagomartinho), [#134](https://github.com/AliSoftware/OHHTTPStubs/pull/134)
+
 ## [4.4.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.4.0)
 
-* Fixed issue with Umbrella Headers ([#127](https://github.com/AliSoftware/OHHTTPStubs/issues/127), [#131](https://github.com/AliSoftware/OHHTTPStubs/pull/131))
-* Added methods for creating `OHHTTPStubsResponse`s from `NSURL`s that represent file system resources ([@MaxGabriel](https://github.com/MaxGabriel), [#129](https://github.com/AliSoftware/OHHTTPStubs/pull/129))
+* Fixed issue with Umbrella Headers.  
+  [#127](https://github.com/AliSoftware/OHHTTPStubs/issues/127), [#131](https://github.com/AliSoftware/OHHTTPStubs/pull/131)
+* Added methods for creating `OHHTTPStubsResponse`s from `NSURL`s that represent file system resources.  
+  [@MaxGabriel](https://github.com/MaxGabriel), [#129](https://github.com/AliSoftware/OHHTTPStubs/pull/129)
 * Bumped Swift subspec compatibility to OSX 10.9 instead of 10.7.
 
 
@@ -16,29 +23,34 @@
 
 ## [4.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.1)
 
-* Fix the Examples Xcode project + lib Podfile that were referencing old target names ([mikelupo](https://github.com/mikelupo), [#117](https://github.com/AliSoftware/OHHTTPStubs/pull/117))
-* Added two new constants for download speed: `OHHTTPStubsDownloadSpeed1KBPS` = 1kbps and `OHHTTPStubsDownloadSpeedSLOW` = 1.5 kpbs. ([mikelupo](https://github.com/mikelupo), [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114))
+* Fix the Examples Xcode project + lib Podfile that were referencing old target names  
+  [@mikelupo](https://github.com/mikelupo), [#117](https://github.com/AliSoftware/OHHTTPStubs/pull/117)
+* Added two new constants for download speed: `OHHTTPStubsDownloadSpeed1KBPS` = 1kbps and `OHHTTPStubsDownloadSpeedSLOW` = 1.5 kpbs.  
+  [@mikelupo](https://github.com/mikelupo), [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114)
 
-## [4.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.0)
+## [4.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.0) — Splitting in subspecs
 
-* Added support for stubs written in the [Mocktail](https://github.com/square/objc-mocktail) format ([@JinlianWang](https://github.com/JinlianWang), [#108](https://github.com/AliSoftware/OHHTTPStubs/pull/108))
 * The `OHHTTPStubs` spec has been splitted into **multiple subspecs**:
   * The default subspec (used when you simply use `pod 'OHHTTPStubs'` in your `Podfile`) contains the subspecs `Core`, `NSURLSession`, `JSON` & `OHPathHelpers` (so that it matches the features that most people use).
   * Other optional subspecs are `HTTPMessage` and `Mocktail` (which are opt-in because used by much less people). If you want to use them, you'll need to request them explicitly in your `Podfile` using `pod 'OHHTTPStubs/Mocktail` for example.
 * The iOS Unit Tests are now also run for the framework as well as for the static library, to ensure the tests pass in both contexts _(because frameworks sometimes introduce subtleties like when using `NSBundle`, so it's worth testing in that context too)_
+* Added support for stubs written in the [Mocktail](https://github.com/square/objc-mocktail) format.  
+  [@JinlianWang](https://github.com/JinlianWang), [#108](https://github.com/AliSoftware/OHHTTPStubs/pull/108)
 
-## [4.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.1.0)
+## [4.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.1.0) — watchOS 2
 
 * Added support for using `OHHTTPStubs` in watchOS 2.0 targets.
 * Improved compatibility macros (nullability annotations) — and tested against Xcode 7 beta 4.
 
 ## [4.0.2](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.2)
 
-* Fix `OHResourceBundle` name mismatch between header and implementation ([@tibr](https://github.com/tibr), [#103](https://github.com/AliSoftware/OHHTTPStubs/pull/103))
+* Fix `OHResourceBundle` name mismatch between header and implementation.  
+  [@tibr](https://github.com/tibr), [#103](https://github.com/AliSoftware/OHHTTPStubs/pull/103)
 
 ## [4.0.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.1)
 
-* Fix threading in `NSURLProtocol` subclass calling `NSURLProtocolClient` callbacks from wrong thread. ([@nsprogrammer](https://github.com/nsprogrammer), [#96](https://github.com/AliSoftware/OHHTTPStubs/pull/96))
+* Fix threading in `NSURLProtocol` subclass calling `NSURLProtocolClient` callbacks from wrong thread.  
+  [@nsprogrammer](https://github.com/nsprogrammer), [#96](https://github.com/AliSoftware/OHHTTPStubs/pull/96)
 
 ## [4.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.0) — Improvements for Swift 
 
@@ -49,13 +61,15 @@
 
 ## [3.1.12](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/3.1.12)
 
-* Fixed issue with HTTP 300 return code (multiple-choice) that is not supposed to redirect. ([@tarbrain](https://github.com/tarbrain), [#92](https://github.com/AliSoftware/OHHTTPStubs/pull/92))
+* Fixed issue with HTTP 300 return code (multiple-choice) that is not supposed to redirect.  
+  [@tarbrain](https://github.com/tarbrain), [#92](https://github.com/AliSoftware/OHHTTPStubs/pull/92)
 
 ## [3.1.11](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/3.1.11)
 
 * Added [Carthage](https://github.com/Carthage/Carthage) support
 * Splitted the Xcode projects for more clarity (one dedicated to build the lib and run Unit Tests, and one for the Demo)
-* Got rid of the `git submodule` used for Unit Tests against [AFNetworking](https://github.com/AFNetworking/AFNetworking) — it is now imported using [CocoaPods](http://cocoapods.org) and only for the lib's Unit Tests targets ([@corinnekrych](https://github.com/corinnekrych), [#90](https://github.com/AliSoftware/OHHTTPStubs/pull/90))
+* Got rid of the `git submodule` used for Unit Tests against [AFNetworking](https://github.com/AFNetworking/AFNetworking) — it is now imported using [CocoaPods](http://cocoapods.org) and only for the lib's Unit Tests targets.  
+  [@corinnekrych](https://github.com/corinnekrych), [#90](https://github.com/AliSoftware/OHHTTPStubs/pull/90)
 * Improved [Travis-CI](https://travis-ci.org/AliSoftware/OHHTTPStubs) integration. We now use a build matrix to have paralellized and independant builds for each scheme (iOS Static Lib, iOS Dynamic Framework, OSX Framework)
 * Fixed [#80](https://github.com/AliSoftware/OHHTTPStubs/issues/80) again (there was still an issue for people using Xcode 5 & SDK 7.1… if those people still exists)
 
