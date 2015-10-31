@@ -23,7 +23,7 @@
  ***********************************************************************************/
 
 #import <Availability.h>
-// tvOS & WatchOS deprecate use of NSURLConnection but these tests are based on it
+// tvOS & watchOS deprecate use of NSURLConnection but these tests are based on it
 #if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
