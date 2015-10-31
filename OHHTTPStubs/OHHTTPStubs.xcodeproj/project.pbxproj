@@ -1613,7 +1613,6 @@
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -1637,7 +1636,6 @@
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;

@@ -20,6 +20,20 @@
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EA100AB61BE15BE400129352"
+               BuildableName = "OHHTTPStubs tvOS Fmk Tests.xctest"
+               BlueprintName = "OHHTTPStubs tvOS Fmk Tests"
+               ReferencedContainer = "container:OHHTTPStubs.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -32,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EAA436A71BE159AC000E9E99"
+               BlueprintIdentifier = "EA100AB61BE15BE400129352"
                BuildableName = "OHHTTPStubs tvOS Fmk Tests.xctest"
                BlueprintName = "OHHTTPStubs tvOS Fmk Tests"
                ReferencedContainer = "container:OHHTTPStubs.xcodeproj">

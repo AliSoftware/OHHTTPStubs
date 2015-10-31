@@ -3,14 +3,21 @@
 desc 'Build an iOS scheme'
 task :ios, [:scheme, :ios_version, :action] do |_,args|
   destination = "platform=iOS Simulator,name=iPhone 5,OS=#{args.ios_version}"
-  build("OHHTTPStubs #{args.scheme}", "iphonesimulator", destination, args.action)
+  build("OHHTTPStubs #{args.scheme}", destination, args.action)
 end
 
 desc 'Build an OSX scheme'
 task :osx, [:scheme, :arch, :action] do |_,args|
   destination = "platform=OS X,arch=#{args.arch}"
-  build("OHHTTPStubs #{args.scheme}", "macosx", destination, args.action)
+  build("OHHTTPStubs #{args.scheme}", destination, args.action)
 end
+
+desc 'Build a tvOS scheme'
+task :tvos, [:scheme, :tvos_version, :action] do |_,args|
+  destination = "platform=tvOS Simulator,name=Apple TV 1080p,OS=#{args.tvos_version}"
+  build("OHHTTPStubs #{args.scheme}", destination, args.action)
+end
+
 
 desc 'List installed simulators'
 task :simlist do
@@ -30,7 +37,7 @@ end
 
 
 # Build the xcodebuild command and run it
-def build(scheme, sdk, destination, action)
+def build(scheme, destination, action)
   puts <<-ANNOUNCE
   =============================
   | Action: #{action} 
@@ -44,7 +51,6 @@ def build(scheme, sdk, destination, action)
     xcodebuild
     -workspace OHHTTPStubs/OHHTTPStubs.xcworkspace
     -scheme "#{scheme}"
-    -sdk #{sdk}
     -configuration Debug
     ONLY_ACTIVE_ARCH=NO
     -destination '#{destination}'
