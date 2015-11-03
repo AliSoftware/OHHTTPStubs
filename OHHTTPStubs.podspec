@@ -81,6 +81,7 @@ Pod::Spec.new do |s|
   s.subspec 'Swift' do |swift|
     swift.ios.deployment_target = '8.0'
     swift.osx.deployment_target = '10.9'
+    swift.watchos.deployment_target = '2.0'
     swift.tvos.deployment_target = '9.0'
   
     swift.dependency 'OHHTTPStubs/Core'

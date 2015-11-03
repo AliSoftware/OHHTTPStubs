@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## [4.5.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
+
+* Added missing `tvOS` and `watchOS` platforms to the `Swift` subspec.  
+  [@pantuspavel](https://github.com/pantuspavel), [#136](https://github.com/AliSoftware/OHHTTPStubs/pull/136)
+
 ## [4.5.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.0) — tvOS
 
 * Added support for tvOS.  
