@@ -13,3 +13,7 @@ profile
 *.moved-aside
 .DS_Store
 *.xccheckout
+
+# Carthage
+Carthage/
+OHHTTPStubs.framework.zip
