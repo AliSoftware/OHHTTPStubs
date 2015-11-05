@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## [4.6.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
+
+* Added `isMethodGET()`, `isMethodPUT()`, `isMethodPOST()` and `isMethodDELETE()` to the `Swift` helpers.
+  ([#137](https://github.com/AliSoftware/OHHTTPStubs/issues/137))
+
 ## [4.5.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
 
 * Added missing `tvOS` and `watchOS` platforms to the `Swift` subspec.  

@@ -62,6 +62,46 @@ public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseB
 // MARK: Create OHHTTPStubsTestBlock matchers
 
 /**
+ * Matcher testing that the `NSURLRequest` is using the **GET** `HTTPMethod`
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            is using the GET method
+ */
+public func isMethodGET() -> OHHTTPStubsTestBlock {
+  return { $0.HTTPMethod == "GET" }
+}
+
+/**
+ * Matcher testing that the `NSURLRequest` is using the **POST** `HTTPMethod`
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            is using the POST method
+ */
+public func isMethodPOST() -> OHHTTPStubsTestBlock {
+  return { $0.HTTPMethod == "POST" }
+}
+
+/**
+ * Matcher testing that the `NSURLRequest` is using the **PUT** `HTTPMethod`
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            is using the PUT method
+ */
+public func isMethodPUT() -> OHHTTPStubsTestBlock {
+  return { $0.HTTPMethod == "PUT" }
+}
+
+/**
+ * Matcher testing that the `NSURLRequest` is using the **DELETE** `HTTPMethod`
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            is using the DELETE method
+ */
+public func isMethodDELETE() -> OHHTTPStubsTestBlock {
+  return { $0.HTTPMethod == "DELETE" }
+}
+
+/**
  * Matcher for testing an `NSURLRequest`'s **scheme**.
  *
  * - Parameter scheme: The scheme to match
