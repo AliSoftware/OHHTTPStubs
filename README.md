@@ -53,7 +53,10 @@ stub(isHost("mywebservice.com")) { _ in
 }
 ```
 
-Note: Using `OHHTTPStubsSwift.swift` you could also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
+##### Notes 
+
+* Using `OHHTTPStubsSwift.swift` you could also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
+* The response files used above can be recorded with tools like [SWHttpTrafficRecorder](https://github.com/capitalone/SWHttpTrafficRecorder). It can record all three formats that are supported by `OHHTTPStubs`, that is, HTTPMessage, response boby/content file, and Mocktail.  
 
 ## More examples & Help Topics
     
