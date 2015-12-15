@@ -169,7 +169,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a request is being stubbed by OHHTTPStubs.
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)onStubActivation:( void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub) )block;
++(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub) )block;
 
 @end
 

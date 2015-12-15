@@ -198,7 +198,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     return [OHHTTPStubs.sharedInstance stubDescriptors];
 }
 
-+(void)onStubActivation:( void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub) )block
++(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub) )block
 {
     [OHHTTPStubs.sharedInstance setOnStubActivationBlock:block];
 }
