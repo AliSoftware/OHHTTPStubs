@@ -1,4 +1,8 @@
 # OHHTTPStubs — CHANGELOG
+## [4.6.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.6.1)
+
+* Added `isMethodPATCH()` to the `Swift` helpers.  
+  [@attheodo](https://github.com/attheodo)([#145](https://github.com/AliSoftware/OHHTTPStubs/issues/145))
 
 ## [4.6.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
 
