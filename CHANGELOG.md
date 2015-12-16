@@ -1,5 +1,5 @@
 # OHHTTPStubs — CHANGELOG
-## [4.6.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.6.1)
+## [4.7.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.0)
 
 * Added `isMethodPATCH()` to the `Swift` helpers.  
   [@attheodo](https://github.com/attheodo)([#145](https://github.com/AliSoftware/OHHTTPStubs/issues/145))
@@ -66,7 +66,7 @@
 * Fix threading in `NSURLProtocol` subclass calling `NSURLProtocolClient` callbacks from wrong thread.  
   [@nsprogrammer](https://github.com/nsprogrammer), [#96](https://github.com/AliSoftware/OHHTTPStubs/pull/96)
 
-## [4.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.0) — Improvements for Swift 
+## [4.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.0) — Improvements for Swift
 
 * Annotated the library with _nullability_ attributes to generate a better API when used in Swift
 * Migrated the path utility macros to functions in `OHPathHelpers.h`, for Swift compatibility ([#100](https://github.com/AliSoftware/OHHTTPStubs/issues/100)).
