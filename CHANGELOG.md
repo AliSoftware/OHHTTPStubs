@@ -2,7 +2,9 @@
 ## [4.7.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.0)
 
 * Added `isMethodPATCH()` to the `Swift` helpers.  
-  [@attheodo](https://github.com/attheodo)([#145](https://github.com/AliSoftware/OHHTTPStubs/issues/145))
+  [@attheodo](https://github.com/attheodo), [#145](https://github.com/AliSoftware/OHHTTPStubs/issues/145)
+* Fixed nullability annotation on `onStubActivation:` method parameter.  
+  [@DerLobi](https://github.com/DerLobi), [#144](https://github.com/AliSoftware/OHHTTPStubs/pull/144)
 
 ## [4.6.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
 
