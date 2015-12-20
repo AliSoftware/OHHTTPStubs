@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 
 @interface MainViewController ()
