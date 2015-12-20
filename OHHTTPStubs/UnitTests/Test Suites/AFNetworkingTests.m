@@ -65,7 +65,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
     __block __strong id response = nil;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    [manager GET:URL.absoluteString parameters:nil success:^(NSURLSessionTask *task, id responseObject) {
+    [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         response = responseObject; // keep strong reference
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -107,7 +107,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
         return nil;
     }];
     
-    [manager GET:URL.absoluteString parameters:nil success:^(NSURLSessionTask *task, id responseObject) {
+    [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         response = responseObject; // keep strong reference
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -149,7 +149,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
         return nil;
     }];
     
-    [manager GET:req.URL.absoluteString parameters:nil success:^(NSURLSessionTask *task, id responseObject) {
+    [manager GET:req.URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         XCTFail(@"Unexpected response");
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -171,8 +171,8 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
 // Compile this only if SDK version (…MAX_ALLOWED) is iOS7+/10.9+ because NSURLSession is a class only known starting these SDKs
 // (this code won't compile if we use an eariler SDKs, like when building with Xcode4)
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) \
- || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090) \
- || (defined(__TV_OS_VERSION_MIN_REQUIRED) || defined(__WATCH_OS_VERSION_MIN_REQUIRED))
+|| (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090) \
+|| (defined(__TV_OS_VERSION_MIN_REQUIRED) || defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 
 #import "AFHTTPSessionManager.h"
@@ -205,6 +205,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
         __block __strong id response = nil;
         [sessionManager GET:@"foo"
                  parameters:nil
+                   progress:nil
                     success:^(NSURLSessionDataTask *task, id responseObject) {
                         response = responseObject; // keep strong reference
                         [expectation fulfill];

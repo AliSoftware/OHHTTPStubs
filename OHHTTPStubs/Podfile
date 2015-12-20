@@ -4,7 +4,7 @@ xcodeproj 'OHHTTPStubs.xcodeproj'
 inhibit_all_warnings!
 
 def pod_afnetworking
-    pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :branch => '3_0_0_branch'
+    pod 'AFNetworking', '~> 3.0'
 end
 
 target 'OHHTTPStubs iOS Lib Tests' do
