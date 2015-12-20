@@ -92,6 +92,16 @@ public func isMethodPUT() -> OHHTTPStubsTestBlock {
 }
 
 /**
+ * Matcher testing that the `NSURLRequest` is using the **PATCH** `HTTPMethod`
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            is using the PATCH method
+ */
+public func isMethodPATCH() -> OHHTTPStubsTestBlock {
+    return { $0.HTTPMethod == "PATCH" }
+}
+
+/**
  * Matcher testing that the `NSURLRequest` is using the **DELETE** `HTTPMethod`
  *
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request

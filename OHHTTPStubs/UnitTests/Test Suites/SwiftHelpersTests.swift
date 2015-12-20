@@ -13,8 +13,8 @@ import OHHTTPStubs
 class SwiftHelpersTests : XCTestCase {
   
   func testHTTPMethod() {
-    let methods = ["GET","PUT","POST","DELETE","FOO"]
-    let matchers = [isMethodGET(), isMethodPUT(), isMethodPOST(), isMethodDELETE()]
+    let methods = ["GET", "PUT", "PATCH", "POST", "DELETE", "FOO"]
+    let matchers = [isMethodGET(), isMethodPUT(), isMethodPATCH(), isMethodPOST(), isMethodDELETE()]
     
     for (idxMethod, method) in methods.enumerate() {
       let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
