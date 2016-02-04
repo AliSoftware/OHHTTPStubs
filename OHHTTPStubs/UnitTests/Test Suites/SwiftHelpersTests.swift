@@ -124,7 +124,7 @@ class SwiftHelpersTests : XCTestCase {
     }
     
   }
-  
+  @available(iOS 8.0, OSX 10.10, *)
   func testContainsQueryParams() {
     let params: [String: String?] = ["q":"test", "lang":"en", "empty":"", "flag":nil]
     let matcher = containsQueryParams(params)

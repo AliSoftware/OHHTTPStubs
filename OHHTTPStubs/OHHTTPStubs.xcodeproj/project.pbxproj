@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0501A1A81C63E0C600B120AE /* OHHTTPStubsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0955699A1B90E4EA00503ADC /* OHHTTPStubsSwift.swift */; };
+		0501A1A91C63E64600B120AE /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095925D51BAEC00200DD7F0B /* SwiftHelpersTests.swift */; };
 		09110A4519805F4800D175E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A4419805F4800D175E4 /* Foundation.framework */; };
 		09110A5319805F4800D175E4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A5219805F4800D175E4 /* XCTest.framework */; };
 		09110A5419805F4800D175E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A4419805F4800D175E4 /* Foundation.framework */; };
@@ -1106,6 +1108,7 @@
 				095981F719806AAC00807DBE /* OHHTTPStubsResponse.m in Sources */,
 				095981F919806AAC00807DBE /* OHHTTPStubsResponse+JSON.m in Sources */,
 				095981F819806AAC00807DBE /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				0501A1A81C63E0C600B120AE /* OHHTTPStubsSwift.swift in Sources */,
 				095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1117,6 +1120,7 @@
 				095981F119806AA200807DBE /* NSURLConnectionTests.m in Sources */,
 				094906D61B7F4D7100B047DA /* MocktailTests.m in Sources */,
 				095981F319806AA200807DBE /* TimingTests.m in Sources */,
+				0501A1A91C63E64600B120AE /* SwiftHelpersTests.swift in Sources */,
 				221C34A91B0CCFF200FCA8FF /* OHPathHelpersTests.m in Sources */,
 				095981F419806AA200807DBE /* WithContentsOfURLTests.m in Sources */,
 				095981EF19806AA200807DBE /* NilValuesTests.m in Sources */,
@@ -1232,7 +1236,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MODULEMAP_FILE = "$(SRCROOT)/Supporting Files/module.modulemap";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1265,7 +1269,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MODULEMAP_FILE = "$(SRCROOT)/Supporting Files/module.modulemap";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1403,6 +1407,7 @@
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1415,7 +1420,8 @@
 				);
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
 				INSTALL_PATH = "@rpath";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
@@ -1431,6 +1437,7 @@
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1439,7 +1446,8 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				INFOPLIST_FILE = "Supporting Files/OHHTTPStubs Mac-Info.plist";
 				INSTALL_PATH = "@rpath";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
@@ -1453,6 +1461,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -1465,6 +1474,7 @@
 					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$inherited @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1483,6 +1493,7 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -1491,6 +1502,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$inherited @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
