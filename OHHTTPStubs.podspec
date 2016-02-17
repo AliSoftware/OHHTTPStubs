@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "4.7.0"
+  s.version      = "4.7.1"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.ios.deployment_target = '5.0'
-  s.osx.deployment_target = '10.7'
+  s.osx.deployment_target = '10.9'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
 
