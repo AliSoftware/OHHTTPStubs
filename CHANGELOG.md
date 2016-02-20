@@ -1,7 +1,7 @@
 # OHHTTPStubs — CHANGELOG
 ## [4.7.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.1)
 
-* Bumps OSX Deployment Target to 10.9.  
+* Bumps OSX Deployment Target to 10.9 to add Swift support.  
   [@JeanAzzopardi](https://github.com/JeanAzzopardi), [#154](https://github.com/AliSoftware/OHHTTPStubs/pull/154)
 
 ## [4.7.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.0)
