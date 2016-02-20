@@ -3,6 +3,8 @@
 
 * Bumps OSX Deployment Target to 10.9 to add Swift support.  
   [@JeanAzzopardi](https://github.com/JeanAzzopardi), [#154](https://github.com/AliSoftware/OHHTTPStubs/pull/154)
+* Added the `${CURRENT_PROJECT_VERSION}` to the `Info.plist` files of the`OHHTTPStubs.framework` so it matches what is expected by iTunes Connect.  
+  [@siemensikkema](https://github.com/siemensikkema), [#140](https://github.com/AliSoftware/OHHTTPStubs/pull/140)
 
 ## [4.7.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.0)
 
