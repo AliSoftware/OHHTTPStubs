@@ -149,9 +149,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 #pragma mark > Disabling & Re-Enabling stubs
 
+static BOOL currentEnabledState = NO;
+
 +(void)setEnabled:(BOOL)enable
 {
-    static BOOL currentEnabledState = NO;
+    currentEnabledState = NO;
     if (enable && !currentEnabledState)
     {
         [NSURLProtocol registerClass:OHHTTPStubsProtocol.class];
@@ -161,6 +163,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
     }
     currentEnabledState = enable;
+}
+
++ (BOOL)isEnabled
+{
+    return currentEnabledState;
 }
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
@@ -187,6 +194,31 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. "
               @"Use conditions like 'if ([NSURLSessionConfiguration class])' to only call "
               @"this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
+    }
+}
+
++ (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig
+{
+    // Runtime check to make sure the API is available on this version
+    if (   [sessionConfig respondsToSelector:@selector(protocolClasses)]
+        && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
+    {
+        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
+        Class protoCls = OHHTTPStubsProtocol.class;
+        if ([urlProtocolClasses containsObject:protoCls])
+        {
+            return YES;
+        } else
+        {
+            return NO;
+        }
+    }
+    else
+    {
+        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. "
+              @"Use conditions like 'if ([NSURLSessionConfiguration class])' to only call "
+              @"this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
+        return NO;
     }
 }
 #endif
