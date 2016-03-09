@@ -171,6 +171,17 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  */
 +(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub) )block;
 
++(void)onStubRedirect:( nullable void(^)(NSURLRequest* request, NSURLRequest *redirectRequest, id<OHHTTPStubsDescriptor> stub) )block;
+
+/**
+ *  Setup a block to be called each time a stub finishes. Useful if stubs take an insignificant amount
+ *  of time to execute (due to low bandwidth or delayed response time).
+ *
+ *  @param block The block to call each time a request is finished being stubbed by OHHTTPStubs. 
+ *               Set it to `nil` to do nothing. Defaults is `nil`.
+ */
++(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, NSError *error) )block;
+
 @end
 
 NS_ASSUME_NONNULL_END

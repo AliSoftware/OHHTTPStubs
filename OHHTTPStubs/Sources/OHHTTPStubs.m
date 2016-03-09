@@ -45,6 +45,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 + (instancetype)sharedInstance;
 @property(atomic, copy) NSMutableArray* stubDescriptors;
 @property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>);
+@property(atomic, copy, nullable) void (^onStubsRedirectBlock)(NSURLRequest*, NSURLRequest*, id<OHHTTPStubsDescriptor>);
+@property(atomic, copy, nullable) void (^afterStubFinishBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, NSError*);
 @end
 
 @interface OHHTTPStubsDescriptor : NSObject <OHHTTPStubsDescriptor>
@@ -203,6 +205,16 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     [OHHTTPStubs.sharedInstance setOnStubActivationBlock:block];
 }
 
++(void)onStubRedirect:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub) )block
+{
+    [OHHTTPStubs.sharedInstance setOnStubsRedirectBlock:block];
+}
+
++(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, NSError* error) )block
+{
+    [OHHTTPStubs.sharedInstance setAfterStubFinishBlock:block];
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -316,6 +328,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                                   nil];
         NSError* error = [NSError errorWithDomain:@"OHHTTPStubs" code:500 userInfo:userInfo];
         [client URLProtocol:self didFailWithError:error];
+        NSLog(@"%s no stub", __PRETTY_FUNCTION__);
         return;
     }
     
@@ -361,6 +374,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                 if (!self.stopped)
                 {
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
+                    NSLog(@"---------------- try to redirect ----------------------------");
+                    if (OHHTTPStubs.sharedInstance.onStubsRedirectBlock)
+                    {
+                        OHHTTPStubs.sharedInstance.onStubsRedirectBlock(request, redirectRequest, self.stub);
+                    }
                 }
             }];
         }
@@ -405,6 +423,25 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 - (void)stopLoading
 {
     self.stopped = YES;
+    NSURLRequest* request = self.request;
+    NSError *error = nil;
+    if (!self.stub)
+    {
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"It seems like the stub has been removed BEFORE the response had time to be sent.",
+                                  NSLocalizedFailureReasonErrorKey,
+                                  @"For more info, see https://github.com/AliSoftware/OHHTTPStubs/wiki/OHHTTPStubs-and-asynchronous-tests",
+                                  NSLocalizedRecoverySuggestionErrorKey,
+                                  request.URL, // Stop right here if request.URL is nil
+                                  NSURLErrorFailingURLErrorKey,
+                                  nil];
+        error = [NSError errorWithDomain:@"OHHTTPStubs" code:500 userInfo:userInfo];
+    }
+    NSLog(@"++++++++++++++++ try to run after block +++++++++++++++++++++");
+    
+    if (OHHTTPStubs.sharedInstance.afterStubFinishBlock) {
+        OHHTTPStubs.sharedInstance.afterStubFinishBlock(request, self.stub, error);
+    }
 }
 
 typedef struct {
