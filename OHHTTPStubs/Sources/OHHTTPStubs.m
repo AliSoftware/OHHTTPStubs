@@ -44,7 +44,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 @interface OHHTTPStubs()
 + (instancetype)sharedInstance;
 @property(atomic, copy) NSMutableArray* stubDescriptors;
-@property(atomic, copy) NSNumber* enabledStateNumber;
+@property(atomic, assign) BOOL enabledState;
 @property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>);
 @end
 
@@ -115,7 +115,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     if (self)
     {
         _stubDescriptors = [NSMutableArray array];
-        _enabledStateNumber = @YES; // assume initialize has already been run
+        _enabledState = YES; // assume initialize has already been run
     }
     return self;
 }
@@ -248,7 +248,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     BOOL enabled = NO;
     @synchronized(self)
     {
-        enabled = _enabledStateNumber.boolValue;
+        enabled = _enabledState;
     }
     return enabled;
 }
@@ -257,8 +257,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     @synchronized(self)
     {
-        _enabledStateNumber = @(enable);
-        [self.class _setEnable:enable];
+        _enabledState = enable;
+        [self.class _setEnable:_enabledState];
     }
 }
 
