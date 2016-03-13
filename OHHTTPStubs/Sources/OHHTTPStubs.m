@@ -208,13 +208,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
         Class protoCls = OHHTTPStubsProtocol.class;
-        if ([urlProtocolClasses containsObject:protoCls])
-        {
-            return YES;
-        } else
-        {
-            return NO;
-        }
+        return [urlProtocolClasses containsObject:protoCls];
     }
     else
     {
