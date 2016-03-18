@@ -44,6 +44,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 @interface OHHTTPStubs()
 + (instancetype)sharedInstance;
 @property(atomic, copy) NSMutableArray* stubDescriptors;
+@property(atomic, assign) BOOL enabledState;
 @property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
 @property(atomic, copy, nullable) void (^onStubRedirectBlock)(NSURLRequest*, NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
 @property(atomic, copy, nullable) void (^afterStubFinishBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*, NSError*);
@@ -107,7 +108,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     if (self == [OHHTTPStubs class])
     {
-        [self setEnabled:YES];
+        [self _setEnable:YES];
     }
 }
 - (instancetype)init
@@ -116,13 +117,14 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     if (self)
     {
         _stubDescriptors = [NSMutableArray array];
+        _enabledState = YES; // assume initialize has already been run
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [self.class setEnabled:NO];
+    [self.class _setEnable:NO];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -151,18 +153,26 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 #pragma mark > Disabling & Re-Enabling stubs
 
-+(void)setEnabled:(BOOL)enable
++(void)_setEnable:(BOOL)enable
 {
-    static BOOL currentEnabledState = NO;
-    if (enable && !currentEnabledState)
+    if (enable)
     {
         [NSURLProtocol registerClass:OHHTTPStubsProtocol.class];
     }
-    else if (!enable && currentEnabledState)
+    else
     {
         [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
     }
-    currentEnabledState = enable;
+}
+
++(void)setEnabled:(BOOL)enabled
+{
+    [OHHTTPStubs.sharedInstance setEnabled:enabled];
+}
+
++(BOOL)isEnabled
+{
+    return OHHTTPStubs.sharedInstance.isEnabled;
 }
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
@@ -189,6 +199,25 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. "
               @"Use conditions like 'if ([NSURLSessionConfiguration class])' to only call "
               @"this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
+    }
+}
+
++ (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig
+{
+    // Runtime check to make sure the API is available on this version
+    if (   [sessionConfig respondsToSelector:@selector(protocolClasses)]
+        && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
+    {
+        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
+        Class protoCls = OHHTTPStubsProtocol.class;
+        return [urlProtocolClasses containsObject:protoCls];
+    }
+    else
+    {
+        NSLog(@"[OHHTTPStubs] %@ is only available when running on iOS7+/OSX9+. "
+              @"Use conditions like 'if ([NSURLSessionConfiguration class])' to only call "
+              @"this method if the user is running iOS7+/OSX9+.", NSStringFromSelector(_cmd));
+        return NO;
     }
 }
 #endif
@@ -219,6 +248,25 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private instance methods
+
+-(BOOL)isEnabled
+{
+    BOOL enabled = NO;
+    @synchronized(self)
+    {
+        enabled = _enabledState;
+    }
+    return enabled;
+}
+
+-(void)setEnabled:(BOOL)enable
+{
+    @synchronized(self)
+    {
+        _enabledState = enable;
+        [self.class _setEnable:_enabledState];
+    }
+}
 
 -(void)addStub:(OHHTTPStubsDescriptor*)stubDesc
 {

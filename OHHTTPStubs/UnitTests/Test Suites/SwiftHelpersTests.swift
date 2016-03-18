@@ -155,6 +155,49 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert(matcher(req) == result, "containsQueryParams(\"\(params)\") matcher failed when testing url \(url)")
     }
   }
+    
+  func testHasHeaderNamedIsTrue() {
+    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    req.addValue("1234567890", forHTTPHeaderField: "ArbitraryKey")
+
+    let hasHeader = hasHeaderNamed("ArbitraryKey")(req)
+
+    XCTAssertTrue(hasHeader)
+  }
+  
+  func testHasHeaderNamedIsFalse() {
+    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+
+    let hasHeader = hasHeaderNamed("ArbitraryKey")(req)
+
+    XCTAssertFalse(hasHeader)
+  }
+  
+  func testHeaderValueForKeyEqualsIsTrue() {
+    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    req.addValue("bar", forHTTPHeaderField: "foo")
+    
+    let matchesHeader = hasHeaderNamed("foo", value: "bar")(req)
+    
+    XCTAssertTrue(matchesHeader)
+  }
+  
+  func testHeaderValueForKeyEqualsIsFalse() {
+    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    req.addValue("bar", forHTTPHeaderField: "foo")
+    
+    let matchesHeader = hasHeaderNamed("foo", value: "baz")(req)
+    
+    XCTAssertFalse(matchesHeader)
+  }
+  
+  func testHeaderValueForKeyEqualsDoesNotExist() {
+    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    
+    let matchesHeader = hasHeaderNamed("foo", value: "baz")(req)
+    
+    XCTAssertFalse(matchesHeader)
+  }
   
   let sampleURLs = [
     // Absolute URLs

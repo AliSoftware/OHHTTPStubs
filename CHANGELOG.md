@@ -1,4 +1,15 @@
 # OHHTTPStubs — CHANGELOG
+
+## Master
+
+* Added matchers that check whether a request has a particular header present, and a matcher to check if a request has a header with a key and value.  
+  [@hq-mobile](https://github.com/hq-mobile), [#160](https://github.com/AliSoftware/OHHTTPStubs/pull/160)
+
+## [4.8.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.8.0)
+
+* Added `isEnabled` and `isEnabledForSessionConfiguration` getter methods.  
+  [@jzucker2](https://github.com/jzucker2), [#159](https://github.com/AliSoftware/OHHTTPStubs/pull/159)
+
 ## [4.7.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.1)
 
 * Bumps OSX Deployment Target to 10.9 to add Swift support.  

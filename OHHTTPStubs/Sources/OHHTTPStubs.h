@@ -128,6 +128,13 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  */
 +(void)setEnabled:(BOOL)enabled;
 
+/**
+ *  Whether or not stubs are enabled for the shared session or for `NSURLConnection`
+ *
+ *  @return If `YES` the stubs are enabled. If `NO` then the stubs are disabled
+ */
++(BOOL)isEnabled;
+
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 /**
  *  Enable or disable the stubs on a given `NSURLSessionConfiguration`.
@@ -149,6 +156,15 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *        created sessions.
  */
 + (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
+
+/**
+ *  Whether stubs are enabled or disabled on a given `NSURLSessionConfiguration`
+ *
+ *  @param sessionConfig The NSURLSessionConfiguration on which to enable/disable the stubs
+ *
+ *  @return If `YES` the stubs are enabled for sessionConfig. If `NO` then the stubs are disabled
+ */
++ (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
 #endif
 
 #pragma mark - Debug Methods
