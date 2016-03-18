@@ -2,7 +2,7 @@
 
 ## Master
 
-* Added more logging blocks for debugging and better insight into when OHHTTPStubs returns stubs and redirects.
+* Added more logging blocks for debugging and better insight into when OHHTTPStubs returns stubs and redirects.  
   [@jzucker2](https://github.com/jzucker2), [#161](https://github.com/AliSoftware/OHHTTPStubs/pull/161)
 
 * Added matchers that check whether a request has a particular header present, and a matcher to check if a request has a header with a key and value.  
