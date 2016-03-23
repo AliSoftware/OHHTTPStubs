@@ -60,11 +60,11 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert(matcher(req) == result, "isHost(\"foo\") matcher failed when testing url \(url)")
     }
   }
-  
+
   func testIsPath_absoluteURL() {
     testIsPath("/foo/bar/baz", isAbsoluteMatcher: true)
   }
-  
+
   func testIsPath_relativeURL() {
     testIsPath("foo/bar/baz", isAbsoluteMatcher: false)
   }
@@ -102,6 +102,51 @@ class SwiftHelpersTests : XCTestCase {
       let p = req.URL?.path
       print("URL: \(url) -> Path: \(p)")
       XCTAssert(matcher(req) == result, "isPath(\"\(path)\" matcher failed when testing url \(url)")
+    }
+  }
+
+  func testPathStartsWith_absoluteURL() {
+    testPathStartsWith("/foo/bar", isAbsoluteMatcher: true)
+  }
+
+  func testPathStartsWith_relativeURL() {
+    testPathStartsWith("foo/bar", isAbsoluteMatcher: false)
+  }
+
+  func testPathStartsWith(path: String, isAbsoluteMatcher: Bool) {
+    let matcher = pathStartsWith(path)
+
+    let urls = [
+      // Absolute URLs
+      "scheme:": false,
+      "scheme://": false,
+      "scheme://foo/bar/baz": false,
+      "scheme://host/foo/bar": isAbsoluteMatcher,
+      "scheme://host/foo/bar/baz": isAbsoluteMatcher,
+      "scheme://host/foo/bar?q=1": isAbsoluteMatcher,
+      "scheme://host/foo/bar#anchor": isAbsoluteMatcher,
+      "scheme://host/foo/bar;param": isAbsoluteMatcher,
+      "scheme://host/path/foo/bar/baz": false,
+      "scheme://host/path#/foo/bar/baz": false,
+      "scheme://host/path?/foo/bar/baz": false,
+      "scheme://host/path;/foo/bar/baz": false,
+      // Relative URLs
+      "foo/bar": !isAbsoluteMatcher,
+      "foo/bar/baz": !isAbsoluteMatcher,
+      "foo/bar?q=1": !isAbsoluteMatcher,
+      "foo/bar#anchor": !isAbsoluteMatcher,
+      "foo/bar;param": !isAbsoluteMatcher,
+      "path/foo/bar/baz": false,
+      "path#/foo/bar/baz": false,
+      "path?/foo/bar/baz": false,
+      "path;/foo/bar/baz": false,
+    ]
+
+    for (url, result) in urls {
+      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let p = req.URL?.path
+      print("URL: \(url) -> Path: \(p)")
+      XCTAssert(matcher(req) == result, "pathStartsWith(\"\(path)\" matcher failed when testing url \(url)")
     }
   }
   
