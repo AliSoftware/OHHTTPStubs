@@ -1,8 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## [5.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.9.0)
 
-* Added `pathStartsWith(_:)` to the `Swift` helpers.
+* Added `pathStartsWith(_:)` to the `Swift` helpers.  
   [@sdduursma](https://github.com/sdduursma), [#163](https://github.com/AliSoftware/OHHTTPStubs/pull/163)
 
 * Added more logging blocks for debugging and better insight into when OHHTTPStubs returns stubs and redirects.  
@@ -10,6 +10,8 @@
 
 * Added matchers that check whether a request has a particular header present, and a matcher to check if a request has a header with a key and value.  
   [@hq-mobile](https://github.com/hq-mobile), [#160](https://github.com/AliSoftware/OHHTTPStubs/pull/160)
+
+_Note that this last change also changed the signature of the `onStubActivation:` (hence the bump to `5.0.0`) so you'll have to update your code if you used this for debugging your stubs._
 
 ## [4.8.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.8.0)
 

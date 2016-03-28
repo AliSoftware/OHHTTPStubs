@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
 
         installTextStub(self.installTextStubSwitch)
         installImageStub(self.installImageStubSwitch)
-        OHHTTPStubs.onStubActivation { (request: NSURLRequest!, stub: OHHTTPStubsDescriptor!) in
+        OHHTTPStubs.onStubActivation { (request: NSURLRequest, stub: OHHTTPStubsDescriptor, response: OHHTTPStubsResponse) in
             print("[OHHTTPStubs] Request to \(request.URL!) has been stubbed with \(stub.name)")
         }
     }

@@ -36,7 +36,7 @@
 
 @interface NSURLConnectionTests : XCTestCase @end
 
-static const NSTimeInterval kResponseTimeTolerence = 0.3;
+static const NSTimeInterval kResponseTimeTolerence = 0.5;
 
 @implementation NSURLConnectionTests
 
