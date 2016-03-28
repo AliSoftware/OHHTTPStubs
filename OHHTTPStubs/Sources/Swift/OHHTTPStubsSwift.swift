@@ -151,6 +151,21 @@ public func isPath(path: String) -> OHHTTPStubsTestBlock {
 }
 
 /**
+ * Matcher for testing the start of an `NSURLRequest`'s **path**.
+ *
+ * - Parameter path: The path to match
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            starts with the given path
+ *
+ * - Note: URL paths are usually absolute and thus starts with a '/' (which you
+ *         should include in the `path` parameter unless you're testing relative URLs)
+ */
+public func pathStartsWith(path: String) -> OHHTTPStubsTestBlock {
+    return { req in req.URL?.path?.hasPrefix(path) ?? false }
+}
+
+/**
  * Matcher for testing an `NSURLRequest`'s **path extension**.
  *
  * - Parameter ext: The file extension to match (without the dot)

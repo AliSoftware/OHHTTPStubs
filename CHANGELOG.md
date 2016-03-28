@@ -2,6 +2,9 @@
 
 ## Master
 
+* Added `pathStartsWith(_:)` to the `Swift` helpers.
+  [@sdduursma](https://github.com/sdduursma), [#163](https://github.com/AliSoftware/OHHTTPStubs/pull/163)
+
 * Added more logging blocks for debugging and better insight into when OHHTTPStubs returns stubs and redirects.  
   [@jzucker2](https://github.com/jzucker2), [#161](https://github.com/AliSoftware/OHHTTPStubs/pull/161)
 
