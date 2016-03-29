@@ -1,6 +1,6 @@
 # OHHTTPStubs — CHANGELOG
 
-## [5.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.9.0)
+## [5.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.0.0)
 
 * Added `pathStartsWith(_:)` to the `Swift` helpers.  
   [@sdduursma](https://github.com/sdduursma), [#163](https://github.com/AliSoftware/OHHTTPStubs/pull/163)
