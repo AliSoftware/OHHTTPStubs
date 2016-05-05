@@ -56,7 +56,7 @@
     self.session = nil;
 }
 
-- (void)testMoctTailLoginSuccess
+- (void)testMocktailLoginSuccess
 {
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
@@ -75,7 +75,36 @@
     [self runGetCards];
 }
 
-- (void)runLogin
+- (void)testMocktailHeaders
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login_headers" inBundle:bundle error: &error];
+    XCTAssertNil(error, @"Error while stubbing 'login_headers.tail':%@", [error localizedDescription]);
+    NSHTTPURLResponse *response = [self runLogin];
+    XCTAssertEqualObjects(response.allHeaderFields[@"Connection"], @"Close");
+}
+
+- (void)testMocktailContentType
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login_content_type" inBundle:bundle error: &error];
+    XCTAssertNil(error, @"Error while stubbing 'login_content_type.tail':%@", [error localizedDescription]);
+    [self runLogin];
+}
+
+- (void)testMocktailContentTypeAndHeaders
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login_content_type_and_headers" inBundle:bundle error: &error];
+    XCTAssertNil(error, @"Error while stubbing 'login_content_type_and_headers.tail':%@", [error localizedDescription]);
+    NSHTTPURLResponse *response = [self runLogin];
+    XCTAssertEqualObjects(response.allHeaderFields[@"Connection"], @"Close");
+}
+
+- (NSHTTPURLResponse *)runLogin
 {
     NSURL *url = [NSURL URLWithString:@"http://happywebservice.com/users"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
@@ -93,10 +122,10 @@
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
     
+    __block NSHTTPURLResponse *capturedResponse;
     NSURLSessionDataTask *postDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) capturedResponse = (id)response;
         XCTAssertNil(error, @"Error while logging in.");
-        
         NSDictionary *json = nil;
         if(!error && [@"application/json" isEqual:response.MIMEType])
         {
@@ -113,9 +142,11 @@
     [postDataTask resume];
     
     [self waitForExpectationsWithTimeout:10 handler:nil];
+    
+    return capturedResponse;
 }
 
-- (void)runGetCards
+- (NSHTTPURLResponse *)runGetCards
 {
     NSURL *url = [NSURL URLWithString:@"http://happywebservice.com/cards"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
@@ -129,8 +160,9 @@
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
     
+    __block NSHTTPURLResponse *capturedResponse;
     NSURLSessionDataTask *getDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) capturedResponse = (id)response;
         XCTAssertNil(error, @"Error while getting cards.");
         
         NSArray *json = nil;
@@ -149,6 +181,8 @@
     [getDataTask resume];
     
     [self waitForExpectationsWithTimeout:10 handler:nil];
+    
+    return capturedResponse;
 }
 
 @end
