@@ -164,7 +164,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     
     NSMutableDictionary *headers = @{@"Content-Type":lines[3]}.mutableCopy;
     
-    // From line 5 to '\n\n', expect HTTP response headers.
+    // From line 4 to '\n\n', expect HTTP response headers.
     NSRegularExpression *headerPattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\s+(.*)" options:0 error:&bError];
     if (bError)
     {
@@ -175,9 +175,31 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         return nil;
     }
     
-    for (NSUInteger line = 4; line < lines.count; line ++) {
+    
+    // Allow bare Content-Type header on line 4 before named HTTP response headers
+    NSRegularExpression *bareContentTypePattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+)+$" options:0 error:&bError];
+    if (bError)
+    {
+        if (error)
+        {
+            *error = [NSError errorWithDomain:MocktailErrorDomain code:OHHTTPStubsMocktailErrorInternalError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Internal error while stubbing file '%@'.", fileURL.absoluteString]}];
+        }
+        return nil;
+    }
+    
+    for (NSUInteger line = 3; line < lines.count; line ++) {
         NSString *headerLine = lines[line];
         NSTextCheckingResult *match = [headerPattern firstMatchInString:headerLine options:0 range:NSMakeRange(0, headerLine.length)];
+        
+        if (line == 3 && !match) {
+            match = [bareContentTypePattern firstMatchInString:headerLine options:0 range:NSMakeRange(0, headerLine.length)];
+            if (match) {
+                NSString *key = @"Content-Type";
+                NSString *value = [headerLine substringWithRange:[match rangeAtIndex:1]];
+                headers[key] = value;
+                continue;
+            }
+        }
         
         if (match)
         {
