@@ -38,12 +38,13 @@
 @import OHHTTPStubs;
 #endif
 
-@interface NSURLSessionTests : XCTestCase <NSURLSessionDataDelegate> @end
+@interface NSURLSessionTests : XCTestCase <NSURLSessionDataDelegate, NSURLSessionTaskDelegate> @end
 
 @implementation NSURLSessionTests
 {
     NSMutableData* _receivedData;
     XCTestExpectation* _taskDidCompleteExpectation;
+    BOOL _shouldFollowRedirects;
 }
 
 - (void)setUp
@@ -51,6 +52,7 @@
     [super setUp];
     [OHHTTPStubs removeAllStubs];
     _receivedData = nil;
+    _shouldFollowRedirects = YES;
 }
 
 - (void)_test_NSURLSession:(NSURLSession*)session
@@ -100,6 +102,67 @@
     }
 }
 
+- (void)_test_redirect_NSURLSession:(NSURLSession*)session
+                        jsonForStub:(id)json
+                         completion:(void(^)(NSError* errorResponse, NSHTTPURLResponse *response, id jsonResponse))completion
+{
+    if ([NSURLSession class])
+    {
+        static const NSTimeInterval kRequestTime = 0.0;
+        static const NSTimeInterval kResponseTime = 0.2;
+
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            return [[[request URL] path] isEqualToString:@""];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/elsewhere" };
+            return [[OHHTTPStubsResponse responseWithData:[[NSData alloc] init] statusCode:301 headers:headers]
+                    requestTime:kRequestTime responseTime:kResponseTime];
+        }];
+
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            return [[[request URL] path] isEqualToString:@"/elsewhere"];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
+                    requestTime:kRequestTime responseTime:kResponseTime];
+        }];
+
+        XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
+
+        __block __strong NSHTTPURLResponse *redirectResponse = nil;
+        __block __strong id dataResponse = nil;
+        __block __strong NSError* errorResponse = nil;
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
+        request.HTTPMethod = @"GET";
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+
+        NSURLSessionDataTask *task =  [session dataTaskWithRequest:request
+                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                       {
+                                           errorResponse = error;
+                                           if (!error)
+                                           {
+                                               NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
+                                               if ([HTTPResponse statusCode] >= 300 && [HTTPResponse statusCode] < 400) {
+                                                   redirectResponse = HTTPResponse;
+                                               } else {
+                                                   NSError *jsonError = nil;
+                                                   NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                                                   XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
+                                                   dataResponse = jsonObject;
+                                               }
+                                           }
+                                           [expectation fulfill];
+                                       }];
+
+        [task resume];
+
+        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
+
+        completion(errorResponse, redirectResponse, dataResponse);
+    }
+}
+
 // The shared session use the same mechanism as NSURLConnection
 // (based on protocols registered via +[NSURLProtocol registerClass:] and all)
 // and no NSURLSessionConfiguration
@@ -112,6 +175,12 @@
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
     }
@@ -133,6 +202,35 @@
             XCTAssertNil(errorResponse, @"Unexpected error");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
+            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+        }];
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+
+- (void)test_NSURLSessionDefaultConfig_notFollowingRedirects
+{
+    _shouldFollowRedirects = NO;
+
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+        NSDictionary* json = @{@"Success": @"Yes"};
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNotNil(redirectResponse, @"Redirect response should have been received");
+            XCTAssertEqual(301, [redirectResponse statusCode], @"Expected 301 redirect");
+            XCTAssertNil(jsonResponse, @"Unexpected data received");
+        }];
     }
     else
     {
@@ -150,6 +248,12 @@
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
     }
@@ -171,6 +275,13 @@
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             // Stubs were disable for this session, so we should get an error instead of the stubs data
             XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            // Stubs were disable for this session, so we should get an error instead of the stubs data
+            XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(redirectResponse, @"Redirect response should not have been received as stubs should be disabled");
             XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];
     }
@@ -224,6 +335,11 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     [_taskDidCompleteExpectation fulfill];
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler
+{
+    completionHandler(_shouldFollowRedirects ? request : nil);
 }
 
 @end

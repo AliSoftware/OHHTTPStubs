@@ -418,6 +418,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         {
             redirectLocationURL = nil;
         }
+        // Notify if a redirection occurred
         if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
         {
             NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
@@ -432,39 +433,37 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                 }
             }];
         }
-        else
-        {
-            [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
-                if (!self.stopped)
+        // Send the response (even for redirections)
+        [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
+            if (!self.stopped)
+            {
+                [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                if(responseStub.inputStream.streamStatus == NSStreamStatusNotOpen)
                 {
-                    [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-                    if(responseStub.inputStream.streamStatus == NSStreamStatusNotOpen)
-                    {
-                        [responseStub.inputStream open];
-                    }
-                    [self streamDataForClient:client
-                             withStubResponse:responseStub
-                                   completion:^(NSError * error)
-                     {
-                         [responseStub.inputStream close];
-                         NSError *blockError = nil;
-                         if (error==nil)
-                         {
-                             [client URLProtocolDidFinishLoading:self];
-                         }
-                         else
-                         {
-                             [client URLProtocol:self didFailWithError:responseStub.error];
-                             blockError = responseStub.error;
-                         }
-                         if (OHHTTPStubs.sharedInstance.afterStubFinishBlock)
-                         {
-                             OHHTTPStubs.sharedInstance.afterStubFinishBlock(request, self.stub, responseStub, blockError);
-                         }
-                     }];
+                    [responseStub.inputStream open];
                 }
-            }];
-        }
+                [self streamDataForClient:client
+                         withStubResponse:responseStub
+                               completion:^(NSError * error)
+                 {
+                     [responseStub.inputStream close];
+                     NSError *blockError = nil;
+                     if (error==nil)
+                     {
+                         [client URLProtocolDidFinishLoading:self];
+                     }
+                     else
+                     {
+                         [client URLProtocol:self didFailWithError:responseStub.error];
+                         blockError = responseStub.error;
+                     }
+                     if (OHHTTPStubs.sharedInstance.afterStubFinishBlock)
+                     {
+                         OHHTTPStubs.sharedInstance.afterStubFinishBlock(request, self.stub, responseStub, blockError);
+                     }
+                 }];
+            }
+        }];
     } else {
         // Send the canned error
         [self executeOnClientRunLoopAfterDelay:responseStub.responseTime block:^{
