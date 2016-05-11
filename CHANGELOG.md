@@ -1,5 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
+* Declare in the project settings that the library contains swift code
+  [@rodericj](https://github.com/rodericj), [#173](https://github.com/AliSoftware/OHHTTPStubs/pull/173)
+
 ## [5.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.0.0)
 
 * Added `pathStartsWith(_:)` to the `Swift` helpers.  
