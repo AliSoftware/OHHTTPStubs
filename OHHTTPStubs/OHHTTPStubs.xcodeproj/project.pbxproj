@@ -95,6 +95,18 @@
 		221C34A81B0CCF9D00FCA8FF /* empty.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 221C34A61B0CCF9D00FCA8FF /* empty.bundle */; };
 		221C34A91B0CCFF200FCA8FF /* OHPathHelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */; };
 		3EB635BCF186B952750E2AEE /* libPods-OHHTTPStubs iOS Fmk Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7C82D3D508702D3B282621 /* libPods-OHHTTPStubs iOS Fmk Tests.a */; };
+		46C732921CDAC2DB00CDBCB5 /* login_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C7328F1CDAC2DB00CDBCB5 /* login_headers.tail */; };
+		46C732931CDAC2DC00CDBCB5 /* login_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C7328F1CDAC2DB00CDBCB5 /* login_headers.tail */; };
+		46C732941CDAC2DC00CDBCB5 /* login_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C7328F1CDAC2DB00CDBCB5 /* login_headers.tail */; };
+		46C732951CDAC2DC00CDBCB5 /* login_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C7328F1CDAC2DB00CDBCB5 /* login_headers.tail */; };
+		46C732961CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */; };
+		46C732971CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */; };
+		46C732981CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */; };
+		46C732991CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */; };
+		46C7329A1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */; };
+		46C7329B1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */; };
+		46C7329C1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */; };
+		46C7329D1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */; };
 		47AF337B1A3775B600158C9F /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
 		47AF337C1A3775B600158C9F /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
 		725CD9B41A9EB6F600F84C8B /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A6B1980605A00D175E4 /* OHHTTPStubs.m */; };
@@ -237,6 +249,9 @@
 		221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		221C34A61B0CCF9D00FCA8FF /* empty.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = empty.bundle; sourceTree = "<group>"; };
 		446DA13BA37A8466FF4F9D35 /* libPods-OHHTTPStubs iOS Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OHHTTPStubs iOS Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46C7328F1CDAC2DB00CDBCB5 /* login_headers.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = login_headers.tail; path = UnitTests/login_headers.tail; sourceTree = SOURCE_ROOT; };
+		46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = login_content_type_and_headers.tail; path = UnitTests/login_content_type_and_headers.tail; sourceTree = SOURCE_ROOT; };
+		46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = login_content_type.tail; path = UnitTests/login_content_type.tail; sourceTree = SOURCE_ROOT; };
 		47AF337A1A37757B00158C9F /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
 		725CD99B1A9EB65100F84C8B /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78215AC3F712A93089D77E60 /* Pods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubs iOS Fmk Tests/Pods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -522,6 +537,9 @@
 		47AF33791A37755E00158C9F /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				46C7328F1CDAC2DB00CDBCB5 /* login_headers.tail */,
+				46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */,
+				46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */,
 				221C34A61B0CCF9D00FCA8FF /* empty.bundle */,
 				47AF337A1A37757B00158C9F /* emptyfile.json */,
 				1D0F8E7F1B6E31A70049A7D2 /* login.tail */,
@@ -804,10 +822,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C732921CDAC2DB00CDBCB5 /* login_headers.tail in Resources */,
+				46C732961CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */,
 				47AF337B1A3775B600158C9F /* emptyfile.json in Resources */,
 				221C34A71B0CCF9D00FCA8FF /* empty.bundle in Resources */,
 				1D0F8E821B6E31B00049A7D2 /* MocktailFolder in Resources */,
 				1D0F8E801B6E31A70049A7D2 /* login.tail in Resources */,
+				46C7329A1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,10 +836,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C732931CDAC2DC00CDBCB5 /* login_headers.tail in Resources */,
+				46C732971CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */,
 				093442F11B80EC4A00A91535 /* emptyfile.json in Resources */,
 				093442F21B80EC4A00A91535 /* empty.bundle in Resources */,
 				093442F31B80EC4A00A91535 /* MocktailFolder in Resources */,
 				093442F41B80EC4A00A91535 /* login.tail in Resources */,
+				46C7329B1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,10 +857,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C732941CDAC2DC00CDBCB5 /* login_headers.tail in Resources */,
+				46C732981CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */,
 				094906D91B7F523500B047DA /* MocktailFolder in Resources */,
 				47AF337C1A3775B600158C9F /* emptyfile.json in Resources */,
 				221C34A81B0CCF9D00FCA8FF /* empty.bundle in Resources */,
 				094906DA1B7F523900B047DA /* login.tail in Resources */,
+				46C7329C1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,10 +878,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C732951CDAC2DC00CDBCB5 /* login_headers.tail in Resources */,
+				46C732991CDAC2DC00CDBCB5 /* login_content_type_and_headers.tail in Resources */,
 				EA9D27241BE15CA00078CAA0 /* empty.bundle in Resources */,
 				EA9D27251BE15CA00078CAA0 /* emptyfile.json in Resources */,
 				EA9D27261BE15CA00078CAA0 /* login.tail in Resources */,
 				EA9D27271BE15CA00078CAA0 /* MocktailFolder in Resources */,
+				46C7329D1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
