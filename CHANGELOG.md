@@ -2,7 +2,7 @@
 
 ## Master
 
-* Bugfix: task completion block never called when not following redirects.
+* Bugfix: task completion block never called when not following redirects.  
   [@adurdin](https://github.com/adurdin), [#175](https://github.com/AliSoftware/OHHTTPStubs/pull/175)
 
 * Declare in the project settings that the library contains swift code.  
@@ -33,6 +33,7 @@ _Note that this last change also changed the signature of the `onStubActivation:
 
 * Bumps OSX Deployment Target to 10.9 to add Swift support.  
   [@JeanAzzopardi](https://github.com/JeanAzzopardi), [#154](https://github.com/AliSoftware/OHHTTPStubs/pull/154)
+
 * Added the `${CURRENT_PROJECT_VERSION}` to the `Info.plist` files of the`OHHTTPStubs.framework` so it matches what is expected by iTunes Connect.  
   [@siemensikkema](https://github.com/siemensikkema), [#140](https://github.com/AliSoftware/OHHTTPStubs/pull/140)
 
