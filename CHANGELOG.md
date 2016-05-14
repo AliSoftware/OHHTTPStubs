@@ -2,6 +2,9 @@
 
 ## Master
 
+* Bugfix: task completion block never called when not following redirects.
+  [@adurdin](https://github.com/adurdin), [#175](https://github.com/AliSoftware/OHHTTPStubs/pull/175)
+
 * Declare in the project settings that the library contains swift code.  
   [@rodericj](https://github.com/rodericj), [#173](https://github.com/AliSoftware/OHHTTPStubs/pull/173)
 
