@@ -53,6 +53,7 @@ Pod::Spec.new do |s|
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
     urlsession.source_files = "OHHTTPStubs/Sources/NSURLSession/*.{h,m}"
+    urlsession.private_header_files = "OHHTTPStubs/Sources/NSURLSession/OHHTTPStubsMethodSwizzling.h"
   end
 
   s.subspec 'JSON' do |json|
