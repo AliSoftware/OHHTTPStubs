@@ -11,6 +11,9 @@
 * Adjusted parsing of Mocktail files to allow headers to start on line 4.  
   [@Ashton-W](https://github.com/Ashton-W), [#172](https://github.com/AliSoftware/OHHTTPStubs/pull/172)
 
+* Allows access to the `HTTPBody` of POST request when using `NSURLSession` [(Wiki entry)](https://github.com/AliSoftware/OHHTTPStubs/wiki/Testing-for-the-request-body-in-your-stubs)  
+  [@iosphere](https://github.com/iosphere/), [#166](https://github.com/AliSoftware/OHHTTPStubs/pull/166)
+
 ## [5.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.0.0)
 
 * Added `pathStartsWith(_:)` to the `Swift` helpers.  

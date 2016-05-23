@@ -1,6 +1,6 @@
 /***********************************************************************************
  *
- * Copyright (c) 2012 Olivier Halligon
+ * Copyright (c) 2012 Olivier Halligon, 2016 Sebastian Hagedorn
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,26 @@
  *
  ***********************************************************************************/
 
-#import "Compatibility.h"
-#import "NSMutableURLRequest+HTTPBodyTesting.h"
-#import "OHHTTPStubs.h"
-#import "OHHTTPStubsResponse.h"
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Imports
 
-#import "OHHTTPStubsResponse+JSON.h"
-#import "OHHTTPStubsResponse+HTTPMessage.h"
-#import "OHHTTPStubs+Mocktail.h"
-#import "OHPathHelpers.h"
+#import "OHHTTPStubsMethodSwizzling.h"
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Method Swizzling Helpers
+
+IMP OHHTTPStubsReplaceMethod(SEL selector,
+                             IMP newImpl,
+                             Class affectedClass,
+                             BOOL isClassMethod)
+{
+    Method origMethod = isClassMethod ? class_getClassMethod(affectedClass, selector) : class_getInstanceMethod(affectedClass, selector);
+    IMP origImpl = method_getImplementation(origMethod);
+
+    if (!class_addMethod(isClassMethod ? object_getClass(affectedClass) : affectedClass, selector, newImpl, method_getTypeEncoding(origMethod)))
+    {
+        method_setImplementation(origMethod, newImpl);
+    }
+
+    return origImpl;
+}
