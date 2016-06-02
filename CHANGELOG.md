@@ -1,6 +1,6 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## 5.1.0
 
 * Bugfix: task completion block never called when not following redirects.  
   [@adurdin](https://github.com/adurdin), [#175](https://github.com/AliSoftware/OHHTTPStubs/pull/175)
