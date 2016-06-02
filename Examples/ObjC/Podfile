@@ -1,6 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-xcodeproj 'OHHTTPStubsDemo.xcodeproj'
+project 'OHHTTPStubsDemo.xcodeproj'
 platform :ios, '6.0'
 
-pod 'OHHTTPStubs', :path => '../..'
+target 'OHHTTPStubsDemo' do
+  pod 'OHHTTPStubs', :path => '../..'
+end
