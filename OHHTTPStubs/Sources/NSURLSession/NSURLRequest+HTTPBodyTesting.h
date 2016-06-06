@@ -31,9 +31,9 @@
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - NSURLRequest+CustomHTTPBody
+#pragma mark - NSURLRequest+HTTPBodyTesting
 
-@interface NSURLRequest (CustomHTTPBody)
+@interface NSURLRequest (HTTPBodyTesting)
 /**
  *   Unfortunately, when sending POST requests (with a body) using NSURLSession,
  *   by the time the request arrives at OHHTTPStubs, the HTTPBody of the

@@ -22,7 +22,7 @@
 *
 ***********************************************************************************/
 
-#import "NSMutableURLRequest+HTTPBodyTesting.h"
+#import "NSURLRequest+HTTPBodyTesting.h"
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 
@@ -36,7 +36,7 @@
 
 NSString * const OHHTTPStubs_HTTPBodyKey = @"HTTPBody";
 
-@implementation NSURLRequest (CustomHTTPBody)
+@implementation NSURLRequest (HTTPBodyTesting)
 
 - (NSData*)OHHTTPStubs_HTTPBody
 {
