@@ -34,6 +34,7 @@
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse+JSON.h"
+#import "NSURLRequest+HTTPBodyTesting.h"
 #else
 @import OHHTTPStubs;
 #endif
@@ -313,6 +314,84 @@
         [self waitForExpectationsWithTimeout:5 handler:nil];
         
         XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+
+- (void)test_NSURLSessionCustomHTTPBody
+{
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+        NSString* expectedBodyString = @"body";
+
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            NSData* body = [request OHHTTPStubs_HTTPBody];
+            return [[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] isEqualToString:expectedBodyString];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+                    responseTime:0.2];
+        }];
+
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+        // setup for positive check
+        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete successful body test"];
+
+        NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
+        requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
+        [[session dataTaskWithRequest:requestWithBody] resume];
+
+        [self waitForExpectationsWithTimeout:5 handler:nil];
+        XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response: HTTP body check should be successful");
+
+        // reset for negative check
+        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete unsuccessful body test"];
+        _receivedData = nil;
+
+        requestWithBody.HTTPBody = [@"somethingElse" dataUsingEncoding:NSUTF8StringEncoding];
+        [[session dataTaskWithRequest:requestWithBody] resume];
+
+        [self waitForExpectationsWithTimeout:5 handler:nil];
+
+        XCTAssertNil(_receivedData, @"Unexpected response: HTTP body check should not be successful");
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+
+- (void)test_NSURLSessionNativeHTTPBody
+{
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
+        NSString* expectedBodyString = @"body";
+
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            NSData* body = [request HTTPBody]; // this is not expected to work correctly
+            return [[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] isEqualToString:expectedBodyString];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+                    responseTime:0.2];
+        }];
+
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete body test"];
+
+        NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
+        requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
+        [[session dataTaskWithRequest:requestWithBody] resume];
+
+        [self waitForExpectationsWithTimeout:5 handler:nil];
+        XCTAssertNil(_receivedData, @"[request HTTPBody] is not expected to work. If this has been fixed, the OHHTTPStubs_HTTPBody can be removed.");
     }
     else
     {
