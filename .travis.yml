@@ -14,3 +14,16 @@ env:
 
 script:
   - rake "$RAKETASK"
+
+before_deploy:
+  - carthage build --no-skip-current
+  - carthage archive OHHTTPStubs
+
+deploy:
+  provider: releases
+  api_key:
+    secure:
+  file: OHHTTPStubs.framework.zip
+  skip_cleanup: true
+  on:
+    tags: true
