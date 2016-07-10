@@ -1,6 +1,11 @@
 # OHHTTPStubs — CHANGELOG
 
-## 5.1.0
+## Master
+
+* Set deployment targets at the project level to be used in a universal target.  
+  [@ikesyo](https://github.com/ikesyo), [#185](https://github.com/AliSoftware/OHHTTPStubs/pull/185)
+
+## [5.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.1.0)
 
 * Bugfix: task completion block never called when not following redirects.  
   [@adurdin](https://github.com/adurdin), [#175](https://github.com/AliSoftware/OHHTTPStubs/pull/175)
