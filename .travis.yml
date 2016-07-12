@@ -1,16 +1,34 @@
 language: objective-c
-osx_image: xcode7.3
 
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
-env:
-  #- RAKETASK="simlist"
-  #- RAKETASK="ios[iOS StaticLib,7.1,test]"
-  - RAKETASK="ios[iOS StaticLib,latest,test]"
-  - RAKETASK="ios[iOS Framework,latest,test]"
-  - RAKETASK="osx[Mac Framework,x86_64,test]"
-  - RAKETASK="tvos[tvOS Framework,latest,test]"
+matrix:
+  include:
+#     - osx_image: xcode7.3
+#       env: RAKETASK="simlist"
+#     - osx_image: xcode7.3
+#       env: RAKETASK="ios[iOS StaticLib,7.1,test]"
+    - osx_image: xcode7.3
+      env: RAKETASK="ios[iOS StaticLib,latest,test]"
+    - osx_image: xcode7.3
+      env: RAKETASK="ios[iOS Framework,latest,test]"
+    - osx_image: xcode7.3
+      env: RAKETASK="osx[Mac Framework,x86_64,test]"
+    - osx_image: xcode7.3
+      env: RAKETASK="tvos[tvOS Framework,latest,test]"
+#     - osx_image: xcode8
+#       env: RAKETASK="simlist"
+#     - osx_image: xcode8
+#       env: RAKETASK="ios[iOS StaticLib,7.1,test]"
+    - osx_image: xcode8
+      env: RAKETASK="ios[iOS StaticLib,latest,test]"
+    - osx_image: xcode8
+      env: RAKETASK="ios[iOS Framework,latest,test]"
+    - osx_image: xcode8
+      env: RAKETASK="osx[Mac Framework,x86_64,test]"
+    - osx_image: xcode8
+      env: RAKETASK="tvos[tvOS Framework,latest,test]"
 
 script:
   - rake "$RAKETASK"
