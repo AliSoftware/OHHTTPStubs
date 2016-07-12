@@ -2,6 +2,8 @@
 
 ## Master
 
+* Added Swift 2.3/Xcode 8 support. This is compatible both Swift 2.2/Xcode 7.3 and Swift 2.3/Xcode 8.  
+  [@ikesyo](https://github.com/ikesyo), [#184](https://github.com/AliSoftware/OHHTTPStubs/pull/184)
 * Set deployment targets at the project level to be used in a universal target.  
   [@ikesyo](https://github.com/ikesyo), [#185](https://github.com/AliSoftware/OHHTTPStubs/pull/185)
 
