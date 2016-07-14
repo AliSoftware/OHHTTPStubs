@@ -8,27 +8,27 @@ matrix:
 #     - osx_image: xcode7.3
 #       env: RAKETASK="simlist"
 #     - osx_image: xcode7.3
-#       env: RAKETASK="ios[iOS StaticLib,7.1,test]"
+#       env: RAKETASK="ios[iOS StaticLib,7.1,build test]"
     - osx_image: xcode7.3
-      env: RAKETASK="ios[iOS StaticLib,latest,test]"
+      env: RAKETASK="ios[iOS StaticLib,latest,build test]"
     - osx_image: xcode7.3
-      env: RAKETASK="ios[iOS Framework,latest,test]"
+      env: RAKETASK="ios[iOS Framework,latest,build test]"
     - osx_image: xcode7.3
-      env: RAKETASK="osx[Mac Framework,x86_64,test]"
+      env: RAKETASK="osx[Mac Framework,x86_64,build test]"
     - osx_image: xcode7.3
-      env: RAKETASK="tvos[tvOS Framework,latest,test]"
+      env: RAKETASK="tvos[tvOS Framework,latest,build test]"
 #     - osx_image: xcode8
 #       env: RAKETASK="simlist"
 #     - osx_image: xcode8
-#       env: RAKETASK="ios[iOS StaticLib,7.1,test]"
+#       env: RAKETASK="ios[iOS StaticLib,7.1,build-for-testing test-without-building]"
     - osx_image: xcode8
-      env: RAKETASK="ios[iOS StaticLib,latest,test]"
+      env: RAKETASK="ios[iOS StaticLib,latest,build-for-testing test-without-building]"
     - osx_image: xcode8
-      env: RAKETASK="ios[iOS Framework,latest,test]"
+      env: RAKETASK="ios[iOS Framework,latest,build-for-testing test-without-building]"
     - osx_image: xcode8
-      env: RAKETASK="osx[Mac Framework,x86_64,test]"
+      env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building]"
     - osx_image: xcode8
-      env: RAKETASK="tvos[tvOS Framework,latest,test]"
+      env: RAKETASK="tvos[tvOS Framework,latest,build-for-testing test-without-building]"
 
 script:
   - rake "$RAKETASK"
