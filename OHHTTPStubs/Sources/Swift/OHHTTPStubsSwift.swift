@@ -40,7 +40,7 @@
  * - Returns: The `OHHTTPStubsResponse` instance that will stub with the given status code
  *            & headers, and use the file content as the response body.
  */
-public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
+public func fixture(_ filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
     return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
 }
 
@@ -53,8 +53,8 @@ public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: A
  * - Returns: The opaque `OHHTTPStubsDescriptor` that uniquely identifies the stub
  *            and can be later used to remove it with `removeStub:`
  */
-public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
-    return OHHTTPStubs.stubRequestsPassingTest(condition, withStubResponse: response)
+public func stub(_ condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+    return OHHTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
 }
 
 
@@ -68,7 +68,7 @@ public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseB
  *            is using the GET method
  */
 public func isMethodGET() -> OHHTTPStubsTestBlock {
-  return { $0.HTTPMethod == "GET" }
+  return { $0.httpMethod == "GET" }
 }
 
 /**
@@ -78,7 +78,7 @@ public func isMethodGET() -> OHHTTPStubsTestBlock {
  *            is using the POST method
  */
 public func isMethodPOST() -> OHHTTPStubsTestBlock {
-  return { $0.HTTPMethod == "POST" }
+  return { $0.httpMethod == "POST" }
 }
 
 /**
@@ -88,7 +88,7 @@ public func isMethodPOST() -> OHHTTPStubsTestBlock {
  *            is using the PUT method
  */
 public func isMethodPUT() -> OHHTTPStubsTestBlock {
-  return { $0.HTTPMethod == "PUT" }
+  return { $0.httpMethod == "PUT" }
 }
 
 /**
@@ -98,7 +98,7 @@ public func isMethodPUT() -> OHHTTPStubsTestBlock {
  *            is using the PATCH method
  */
 public func isMethodPATCH() -> OHHTTPStubsTestBlock {
-    return { $0.HTTPMethod == "PATCH" }
+    return { $0.httpMethod == "PATCH" }
 }
 
 /**
@@ -108,7 +108,7 @@ public func isMethodPATCH() -> OHHTTPStubsTestBlock {
  *            is using the DELETE method
  */
 public func isMethodDELETE() -> OHHTTPStubsTestBlock {
-  return { $0.HTTPMethod == "DELETE" }
+  return { $0.httpMethod == "DELETE" }
 }
 
 /**
@@ -119,8 +119,8 @@ public func isMethodDELETE() -> OHHTTPStubsTestBlock {
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
  *            has the given scheme
  */
-public func isScheme(scheme: String) -> OHHTTPStubsTestBlock {
-    return { req in req.URL?.scheme == scheme }
+public func isScheme(_ scheme: String) -> OHHTTPStubsTestBlock {
+    return { req in req.url?.scheme == scheme }
 }
 
 /**
@@ -131,8 +131,8 @@ public func isScheme(scheme: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
  *            has the given host
  */
-public func isHost(host: String) -> OHHTTPStubsTestBlock {
-    return { req in req.URL?.host == host }
+public func isHost(_ host: String) -> OHHTTPStubsTestBlock {
+    return { req in req.url?.host == host }
 }
 
 /**
@@ -146,8 +146,8 @@ public func isHost(host: String) -> OHHTTPStubsTestBlock {
  * - Note: URL paths are usually absolute and thus starts with a '/' (which you
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
-public func isPath(path: String) -> OHHTTPStubsTestBlock {
-    return { req in req.URL?.path == path }
+public func isPath(_ path: String) -> OHHTTPStubsTestBlock {
+    return { req in req.url?.path == path }
 }
 
 /**
@@ -161,8 +161,8 @@ public func isPath(path: String) -> OHHTTPStubsTestBlock {
  * - Note: URL paths are usually absolute and thus starts with a '/' (which you
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
-public func pathStartsWith(path: String) -> OHHTTPStubsTestBlock {
-    return { req in req.URL?.path?.hasPrefix(path) ?? false }
+public func pathStartsWith(_ path: String) -> OHHTTPStubsTestBlock {
+    return { req in req.url?.path?.hasPrefix(path) ?? false }
 }
 
 /**
@@ -173,8 +173,8 @@ public func pathStartsWith(path: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request path
  *            ends with the given extension
  */
-public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
-    return { req in req.URL?.pathExtension == ext }
+public func isExtension(_ ext: String) -> OHHTTPStubsTestBlock {
+    return { req in req.url?.pathExtension == ext }
 }
 
 /**
@@ -190,10 +190,10 @@ public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
  *          (2) using `[q:nil]`, which matches a query parameter "?q" without a value at all
  */
 @available(iOS 8.0, OSX 10.10, *)
-public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
+public func containsQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBlock {
     return { req in
-        if let url = req.URL {
-            let comps = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)
+        if let url = req.url {
+            let comps = URLComponents(url: url, resolvingAgainstBaseURL: true)
             if let queryItems = comps?.queryItems {
                 for (k,v) in params {
                     if queryItems.filter({ qi in qi.name == k && qi.value == v }).count == 0 { return false }
@@ -211,9 +211,9 @@ public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBloc
  *  
  * - Returns: a matcher that returns true if the `NSURLRequest`'s headers contain a value for the key name
  */
-public func hasHeaderNamed(name: String) -> OHHTTPStubsTestBlock {
-    return { (req: NSURLRequest) -> Bool in
-        return req.valueForHTTPHeaderField(name) != nil
+public func hasHeaderNamed(_ name: String) -> OHHTTPStubsTestBlock {
+    return { (req: URLRequest) -> Bool in
+        return req.value(forHTTPHeaderField: name) != nil
     }
 }
 
@@ -225,9 +225,9 @@ public func hasHeaderNamed(name: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher that returns true if the `NSURLRequest`'s headers contain a value for the key name and it's value
  *            is equal to the parameter value
  */
-public func hasHeaderNamed(name: String, value: String) -> OHHTTPStubsTestBlock {
-    return { (req: NSURLRequest) -> Bool in
-        return req.valueForHTTPHeaderField(name) == value
+public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBlock {
+    return { (req: URLRequest) -> Bool in
+        return req.value(forHTTPHeaderField: name) == value
     }
 }
 
