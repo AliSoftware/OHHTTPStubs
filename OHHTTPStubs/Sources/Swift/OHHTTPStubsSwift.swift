@@ -27,6 +27,36 @@
  */
 
 
+#if swift(>=3.0)
+#else
+#if swift(>=2.2)
+    extension OHHTTPStubs {
+        private class func stubRequests(passingTest passingTest: OHHTTPStubsTestBlock, withStubResponse: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+            return stubRequestsPassingTest(passingTest, withStubResponse: withStubResponse)
+        }
+    }
+
+    extension NSURLRequest {
+        private var httpMethod: String? { return HTTPMethod }
+        private var url: NSURL? { return URL }
+    }
+
+    extension NSURLComponents {
+        private convenience init?(url: NSURL, resolvingAgainstBaseURL: Bool) {
+            self.init(URL: url, resolvingAgainstBaseURL: resolvingAgainstBaseURL)
+        }
+    }
+
+    private typealias URLRequest = NSURLRequest
+
+    extension URLRequest {
+        private func value(forHTTPHeaderField key: String) -> String? {
+            return valueForHTTPHeaderField(key)
+        }
+    }
+#endif
+#endif
+
 
 // MARK: Syntaxic Sugar for OHHTTPStubs
 
