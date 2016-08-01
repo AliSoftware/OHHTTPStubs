@@ -192,7 +192,11 @@ public func isPath(path: String) -> OHHTTPStubsTestBlock {
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
 public func pathStartsWith(path: String) -> OHHTTPStubsTestBlock {
+#if os(tvOS)
     return { req in req.url?.path?.hasPrefix(path) ?? false }
+#else
+    return { req in req.url?.path.hasPrefix(path) ?? false }
+#endif
 }
 
 /**
