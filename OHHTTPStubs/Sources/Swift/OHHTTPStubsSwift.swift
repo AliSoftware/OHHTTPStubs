@@ -37,8 +37,8 @@
     }
 
     extension NSURLRequest {
-        private var httpMethod: String? { return HTTPMethod }
-        private var url: NSURL? { return URL }
+        var httpMethod: String? { return HTTPMethod }
+        var url: NSURL? { return URL }
     }
 
     extension NSURLComponents {
@@ -149,7 +149,7 @@ public func isMethodDELETE() -> OHHTTPStubsTestBlock {
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
  *            has the given scheme
  */
-public func isScheme(scheme: String) -> OHHTTPStubsTestBlock {
+public func isScheme(_ scheme: String) -> OHHTTPStubsTestBlock {
     return { req in req.url?.scheme == scheme }
 }
 
@@ -161,7 +161,7 @@ public func isScheme(scheme: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
  *            has the given host
  */
-public func isHost(host: String) -> OHHTTPStubsTestBlock {
+public func isHost(_ host: String) -> OHHTTPStubsTestBlock {
     return { req in req.url?.host == host }
 }
 
@@ -176,7 +176,7 @@ public func isHost(host: String) -> OHHTTPStubsTestBlock {
  * - Note: URL paths are usually absolute and thus starts with a '/' (which you
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
-public func isPath(path: String) -> OHHTTPStubsTestBlock {
+public func isPath(_ path: String) -> OHHTTPStubsTestBlock {
     return { req in req.url?.path == path }
 }
 
@@ -191,11 +191,15 @@ public func isPath(path: String) -> OHHTTPStubsTestBlock {
  * - Note: URL paths are usually absolute and thus starts with a '/' (which you
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
-public func pathStartsWith(path: String) -> OHHTTPStubsTestBlock {
+public func pathStartsWith(_ path: String) -> OHHTTPStubsTestBlock {
+#if swift(>=3.0)
+    return { req in req.url?.path.hasPrefix(path) ?? false }
+#else
 #if os(tvOS)
     return { req in req.url?.path?.hasPrefix(path) ?? false }
 #else
-    return { req in req.url?.path.hasPrefix(path) ?? false }
+    return { req in req.url?.path?.hasPrefix(path) ?? false }
+#endif
 #endif
 }
 
@@ -207,7 +211,7 @@ public func pathStartsWith(path: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request path
  *            ends with the given extension
  */
-public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
+public func isExtension(_ ext: String) -> OHHTTPStubsTestBlock {
     return { req in req.url?.pathExtension == ext }
 }
 
@@ -224,7 +228,7 @@ public func isExtension(ext: String) -> OHHTTPStubsTestBlock {
  *          (2) using `[q:nil]`, which matches a query parameter "?q" without a value at all
  */
 @available(iOS 8.0, OSX 10.10, *)
-public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBlock {
+public func containsQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBlock {
     return { req in
         if let url = req.url {
             let comps = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
@@ -245,7 +249,7 @@ public func containsQueryParams(params: [String:String?]) -> OHHTTPStubsTestBloc
  *  
  * - Returns: a matcher that returns true if the `NSURLRequest`'s headers contain a value for the key name
  */
-public func hasHeaderNamed(name: String) -> OHHTTPStubsTestBlock {
+public func hasHeaderNamed(_ name: String) -> OHHTTPStubsTestBlock {
     return { (req: URLRequest) -> Bool in
         return req.value(forHTTPHeaderField: name) != nil
     }
@@ -259,7 +263,7 @@ public func hasHeaderNamed(name: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher that returns true if the `NSURLRequest`'s headers contain a value for the key name and it's value
  *            is equal to the parameter value
  */
-public func hasHeaderNamed(name: String, value: String) -> OHHTTPStubsTestBlock {
+public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBlock {
     return { (req: URLRequest) -> Bool in
         return req.value(forHTTPHeaderField: name) == value
     }
