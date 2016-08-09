@@ -177,7 +177,7 @@ public func isHost(_ host: String) -> OHHTTPStubsTestBlock {
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
 public func isPath(_ path: String) -> OHHTTPStubsTestBlock {
-    return { req in req.url?.path == path }
+    return { req in (req.url as NSURL?)?.path == path } // Need to cast to NSURL because URL.path does not behave like NSURL.path in Swift 3.0. URL.path does not stop at the first ';' and returns the entire string.
 }
 
 /**
