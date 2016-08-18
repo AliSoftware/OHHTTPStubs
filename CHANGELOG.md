@@ -8,6 +8,8 @@
   [@ikesyo](https://github.com/ikesyo), [#185](https://github.com/AliSoftware/OHHTTPStubs/pull/185)
 * Fix: Carthage support and Examples configurations
   [@Liquidsoul](https://github.com/Liquidsoul), [#190](https://github.com/AliSoftware/OHHTTPStubs/issues/190)
+* Added Swift 3.0 support.
+  [@mxcl](https://github.com/mxcl), [@Liquidsoul](https://github.com/Liquidsoul), [#192](https://github.com/AliSoftware/OHHTTPStubs/pull/192)
 
 ## [5.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.1.0)
 
