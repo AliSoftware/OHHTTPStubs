@@ -6,6 +6,8 @@
   [@ikesyo](https://github.com/ikesyo), [#184](https://github.com/AliSoftware/OHHTTPStubs/pull/184)
 * Set deployment targets at the project level to be used in a universal target.  
   [@ikesyo](https://github.com/ikesyo), [#185](https://github.com/AliSoftware/OHHTTPStubs/pull/185)
+* Fix: Carthage support and Examples configurations
+  [@Liquidsoul](https://github.com/Liquidsoul), [#190](https://github.com/AliSoftware/OHHTTPStubs/issues/190)
 
 ## [5.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.1.0)
 
