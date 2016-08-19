@@ -43,7 +43,7 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
 
 ### In Swift
 
-This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec
+This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec.
  
 ```swift
 stub(isHost("mywebservice.com")) { _ in
@@ -51,6 +51,12 @@ stub(isHost("mywebservice.com")) { _ in
   let stubPath = OHPathForFile("wsresponse.json", self.dynamicType)
   return fixture(stubPath!, headers: ["Content-Type":"application/json"])
 }
+```
+
+If using cocoapods, you would need to install is like so:
+
+```ruby
+pod 'OHHTTPStubs/Swift'
 ```
 
 ##### Notes 
