@@ -78,6 +78,23 @@ Simply add `pod 'OHHTTPStubs'` to your `Podfile`.
 
 _`OHHTTPStubs` should also be compatible with Carthage — but I won't guarantee help/support for it as I don't use it personally._
 
+## Using the right Swift Version of `OHHTTPStubs` for your project in Xcode 8
+
+`OHHTTPStubs` support both Swift 2.3 and Swift 3.0 🎉 
+
+### CocoaPods
+
+If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/CocoaPods/releases/tag/1.1.0.beta.1), then CocoaPods will compile `OHHTTPStubs` with the right Swift Version matching the one you use for your project automatically.
+For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/CocoaPods/pull/5540) and [CocoaPods/CocoaPods#5760](https://github.com/CocoaPods/CocoaPods/pull/5760).
+
+### Carthage
+
+The framework on `master` will build using Swift 2.3. If you want Carthage to build the framework with Swift 3.0, you can use the `swift-3.0` branch (whose only difference with master is that the project's Build Settings set `SWIFT_VERSION=3.0` instead of `2.3`).  
+
+Later, a few weeks after the Xcode 8 official release, we plan to merge the `swift-3.0` branch into `master` and create a _compatibility branch_ `swift-2.3` for Carthage users who have not migrated their Swift code yet. We'll try to keep the branch up-to-date with master as best we can.
+
+Maybe Carthage will addess this in a future release. See the related issue [Carthage/Carthage#1445](https://github.com/Carthage/Carthage/issues/1445).
+
 # Special Considerations
 
 ## Using OHHTTPStubs in your Unit Tests
