@@ -95,6 +95,8 @@ Later, a few weeks after the Xcode 8 official release, we plan to merge the `swi
 
 Maybe Carthage will address this in a future release. See the related issue [Carthage/Carthage#1445](https://github.com/Carthage/Carthage/issues/1445).
 
+**Note**: if you use Xcode 7, `SWIFT_VERSION` is ignored and the framework will be built with Swift 2.2
+
 # Special Considerations
 
 ## Using OHHTTPStubs in your Unit Tests
