@@ -13,7 +13,7 @@ OHHTTPStubs
 
 It works with `NSURLConnection`, `NSURLSession`, `AFNetworking`, `Alamofire` or any networking framework that use Cocoa's URL Loading System.
 
-[![Donate](http://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TRTU3UEWEHV92 "Donate")
+[<img alt="Donate" src="https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png" height="32px">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TRTU3UEWEHV92 "Donate")
 
 ----
 
@@ -198,4 +198,4 @@ It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-
 
 I would also like to thank Kevin Harwood ([@kcharwood](https://github.com/kcharwood)) for migrating the code to `NSInputStream`, Jinlian Wang ([@JinlianWang](https://github.com/JinlianWang)) for adding Mocktail support, and everyone else who contributed to this project on GitHub somehow.
 
-If you want to support the development of this library, feel free to [<img alt="Donate" src="https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png" height="24px" style="vertical-align:middle">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TRTU3UEWEHV92 "Donate"). Thanks to all contributors so far!
+If you want to support the development of this library, feel free to [<img alt="Donate" src="https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png" height="25px">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TRTU3UEWEHV92 "Donate"). Thanks to all contributors so far!
