@@ -56,18 +56,17 @@ stub(isHost("mywebservice.com")) { _ in
 **Note**: if you're using `OHHTTPStubs`'s Swiftier API (`OHHTTPStubsSwift.swift` and the `Swift` subspec), you can also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
 </details>
 
-## Recording requests to replay them later
-
-Instead of writing the content of the stubs you want to use manually, you can use tools like [SWHttpTrafficRecorder](https://github.com/capitalone/SWHttpTrafficRecorder) to record network requests into files. This way you can later use those files as stub responses.
-
-This tool can record all three formats that are supported by `OHHTTPStubs` (the `HTTPMessage` format, the simple response boby/content file, and the `Mocktail` format).
-
-_Note that there are also other ways to perform a similar task, from using `curl -is <url> >foo.response` (which generates something compatible with the `HTTPMessage` format) to using other network recording libraries, `SWHttpTrafficRecorder` being only one of them._
-
 ## More examples & Help Topics
     
 * For a lot more examples, see the dedicated "[Usage Examples](https://github.com/AliSoftware/OHHTTPStubs/wiki/Usage-Examples)" wiki page.
 * The wiki also contain [some articles that can help you get started](https://github.com/AliSoftware/OHHTTPStubs/wiki) with (and troubleshoot if needed) `OHHTTPStubs`.
+
+## Recording requests to replay them later
+
+Instead of writing the content of the stubs you want to use manually, you can use tools like [SWHttpTrafficRecorder](https://github.com/capitalone/SWHttpTrafficRecorder) to record network requests into files. This way you can later use those files as stub responses.  
+This tool can record all three formats that are supported by `OHHTTPStubs` (the `HTTPMessage` format, the simple response boby/content file, and the `Mocktail` format).
+
+_(There are also other ways to perform a similar task, including using `curl -is <url> >foo.response` to generate files compatible with the `HTTPMessage` format, or using other network recording libraries similar to `SWHttpTrafficRecorder`)._
 
 # Compatibility
 
