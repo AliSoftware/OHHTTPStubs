@@ -71,7 +71,7 @@ _(There are also other ways to perform a similar task, including using `curl -is
 # Compatibility
 
 * `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
-* `OHHTTPStubs` also works with `NSURLSession` mechanism.
+* `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
 * `OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3 and 3.0**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
