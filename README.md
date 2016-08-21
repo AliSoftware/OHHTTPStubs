@@ -52,12 +52,15 @@ stub(isHost("mywebservice.com")) { _ in
   return fixture(stubPath!, headers: ["Content-Type":"application/json"])
 }
 ```
+
+**Note**: if you're using `OHHTTPStubs`'s Swiftier API (`OHHTTPStubsSwift.swift` and the `Swift` subspec), you can also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
 </details>
 
-##### Notes 
+### Recording requests to replay them later
 
-* Using `OHHTTPStubsSwift.swift` and the `Swift` subspec, you could also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
-* The response files used above can be recorded with tools like [SWHttpTrafficRecorder](https://github.com/capitalone/SWHttpTrafficRecorder). It can record all three formats that are supported by `OHHTTPStubs`, that is, HTTPMessage, response boby/content file, and Mocktail.  
+Instead of writing the content of the stubs you want to use manually, you can use tools like [SWHttpTrafficRecorder](https://github.com/capitalone/SWHttpTrafficRecorder) to record network requests into files. This way you can later use those files as stub responses.
+
+This tool can record all three formats that are supported by `OHHTTPStubs` (the `HTTPMessage` format, the simple response boby/content file, and the `Mocktail` format).
 
 ## More examples & Help Topics
     
@@ -66,11 +69,9 @@ stub(isHost("mywebservice.com")) { _ in
 
 # Compatibility
 
-`OHHTTPStubs` is compatible with **iOS 5.0+** and **OSX 10.7+**.
-
-`OHHTTPStubs` also works with iOS7's and OSX 10.9's `NSURLSession` mechanism.
-
-`OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3 and 3.0**.
+* `OHHTTPStubs` is compatible with **iOS 5.0+** and **OSX 10.7+**.
+* `OHHTTPStubs` also works with iOS7's and OSX 10.9's `NSURLSession` mechanism.
+* `OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3 and 3.0**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dediated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
@@ -81,9 +82,7 @@ _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have a
 
 Using [CocoaPods](https://guides.cocoapods.org) is the recommended way.
 
-Simply add `pod 'OHHTTPStubs'` to your `Podfile`. That default subspec includes the `Core` subspec + the `NSURLSession`, `JSON` and `OHPathHelper` subspecs.
-
-If you **intend to use the Swift API** of `OHHTTPStubs`, you should **add** `OHHTTPStubs/Swift` to your `Podfile` as well, so that you'll get the wrapper that brings you a more Swifty API:
+Simply add `pod 'OHHTTPStubs'` to your `Podfile`. If you **intend to use it from Swift**, you should **add** `OHHTTPStubs/Swift` to your `Podfile` as well.
 
 ```ruby
 pod 'OHHTTPStubs' # Default subspecs, including support for NSURLSession & JSON etc
