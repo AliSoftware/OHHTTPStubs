@@ -28,7 +28,8 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
 
 ## Basic example
 
-### In Objective-C
+<details>
+<summary>In Objective-C</summary>
 
 ```objc
 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -41,9 +42,12 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
 }];
 ```
 
-### In Swift
+</details>
 
-This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec
+<details open=1>
+<summary>In Swift</summary>
+
+This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec.
  
 ```swift
 stub(isHost("mywebservice.com")) { _ in
@@ -52,6 +56,7 @@ stub(isHost("mywebservice.com")) { _ in
   return fixture(stubPath!, headers: ["Content-Type":"application/json"])
 }
 ```
+</details>
 
 ##### Notes 
 
@@ -73,29 +78,69 @@ stub(isHost("mywebservice.com")) { _ in
 
 # Installing in your projects
 
+## CocoaPods
+
 Using [CocoaPods](https://guides.cocoapods.org) is the recommended way.
-Simply add `pod 'OHHTTPStubs'` to your `Podfile`.
 
-_`OHHTTPStubs` should also be compatible with Carthage — but I won't guarantee help/support for it as I don't use it personally._
+Simply add `pod 'OHHTTPStubs'` to your `Podfile`. That default subspec includes the `Core` subspec + the `NSURLSession`, `JSON` and `OHPathHelper` subspecs.
 
-## Using the right Swift Version of `OHHTTPStubs` for your project in Xcode 8
+If you **intend to use the Swift API** of `OHHTTPStubs`, you should **add** `OHHTTPStubs/Swift` to your `Podfile` as well:
 
-`OHHTTPStubs` support both Swift 2.3 and Swift 3.0 🎉 
+```ruby
+pod 'OHHTTPStubs' # Default subspecs, including support for NSURLSession & JSON etc
+pod 'OHHTTPStubs/Swift' # Adds Swift support to all that
+```
 
-### CocoaPods
+For other subspecs, see below:
+<details>
+<summary>List of all `OHHTTPStubs` available subspecs</summary>
 
-If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/CocoaPods/releases/tag/1.1.0.beta.1), then CocoaPods will compile `OHHTTPStubs` with the right Swift Version matching the one you use for your project automatically.
+| Subspec | Core  | NSURLSession | JSON  | HTTPMessage | Mocktail | OHPathHelpers | Swift |
+| ------- | :---: | :----------: | :---: | :---------: | :------: | :-----------: | :---: |
+| `pod 'OHHTTPStubs'` | ✅ | ✅ | ✅ |   |   | ✅ |   |
+| `pod 'OHHTTPStubs/Default'` | ✅ | ✅ | ✅ |   |   | ✅ |   |
+| `pod 'OHHTTPStubs/Core'` | ✅ |   |   |   |   |   |   |
+| `pod 'OHHTTPStubs/NSURLSession'` | ✅ | ✅ |   |   |   |   |   |
+| `pod 'OHHTTPStubs/JSON'` | ✅ |   | ✅ |   |   |   |   |
+| `pod 'OHHTTPStubs/HTTPMessage'` | ✅ |   |   | ✅ |   |   |   |
+| `pod 'OHHTTPStubs/Mocktail'` | ✅ |   |   |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/OHPathHelpers'` |   |   |   |   |   | ✅ |   |
+| `pod 'OHHTTPStubs/Swift'` | ✅ |   |   |   |   |   | ✅ |
+
+_Note that adding only `OHHTTPStubs/Swift` to your `Podfile` will only get you the `Core` + `Swift` subspecs, but not  automatically bring the `NSURLSession` and `JSON` ones, this way you can only opt-in for only what you need._
+</details>
+
+## Carthage
+
+`OHHTTPStubs` is also be compatible with Carthage. Just add it to your `Cartfile`.
+
+Just be warned that I don't personally use Carthage, so I won't be able to guarantee much help/support for it.
+
+## Using the right Swift Version of `OHHTTPStubs` for your project
+
+`OHHTTPStubs` support both Swift 2.2 (Xcode 7), Swift 2.3 and Swift 3.0 (Xcode 8) 🎉 
+
+<details open=1>
+<summary><b>CocoaPods</b></summary>
+
+If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/CocoaPods/releases/tag/1.1.0.beta.1) or later, then CocoaPods will compile `OHHTTPStubs` with the right Swift Version matching the one you use for your project automatically.
+
 For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/CocoaPods/pull/5540) and [CocoaPods/CocoaPods#5760](https://github.com/CocoaPods/CocoaPods/pull/5760).
+</details>
 
-### Carthage
+<details open=1>
+<summary><b>Carthage</b></summary>
 
-The framework on `master` will build using Swift 2.3. If you want Carthage to build the framework with Swift 3.0, you can use the `swift-3.0` branch (whose only difference with master is that the project's Build Settings set `SWIFT_VERSION=3.0` instead of `2.3`).  
+The project is currently setup with `SWIFT_VERSION=2.3` on `master`.
 
-Later, a few weeks after the Xcode 8 official release, we plan to merge the `swift-3.0` branch into `master` and create a _compatibility branch_ `swift-2.3` for Carthage users who have not migrated their Swift code yet. We'll try to keep the branch up-to-date with master as best we can.
+This means that the framework on `master` will build using Swift 2.2 on Xcode 7 and Swift 2.3 on Xcode 8.
 
-Maybe Carthage will address this in a future release. See the related issue [Carthage/Carthage#1445](https://github.com/Carthage/Carthage/issues/1445).
+If you want Carthage to build the framework with Swift 3.0, you can use the `swift-3.0` branch, whose only difference with `master` is that the project's Build Settings set `SWIFT_VERSION=3.0` instead of `2.3`.
 
-**Note**: if you use Xcode 7, `SWIFT_VERSION` is ignored and the framework will be built with Swift 2.2
+_Note:_ Later, probably a few weeks after the Xcode 8 official release, we plan to merge the `swift-3.0` branch into `master` and create a _compatibility branch_ `swift-2.3` for Carthage users who have not migrated their Swift code yet. We'll try to keep the branch up-to-date with master as best we can.
+
+Hopefully, Carthage will address this in a future release. See the related issue [Carthage/Carthage#1445](https://github.com/Carthage/Carthage/issues/1445).
+</details>
 
 # Special Considerations
 
@@ -127,7 +172,7 @@ _As far as I know, there's nothing we can do about those two limitations. Please
 
 `OHHTTPStubs` **can be used** on apps submitted **on the AppStore**. It does not use any private API and nothing prevents you from shipping it.
 
-But you generally only use stubs during the development phase and want to remove your stubs when submitting to the AppStore. So be careful to only include `OHHTTPStubs` when needed (only in your test targets, or only inside `#if DEBUG` portions, or by using [per-Build-Configuration pods](https://guides.cocoapods.org/syntax/podfile.html#pod)) to avoid forgetting to remove it when the time comes that you release for the AppStore and you want your requests to hit the net!
+But you generally only use stubs during the development phase and want to remove your stubs when submitting to the AppStore. So be careful to only include `OHHTTPStubs` when needed (only in your test targets, or only inside `#if DEBUG` sections, or by using [per-Build-Configuration pods](https://guides.cocoapods.org/syntax/podfile.html#pod)) to avoid forgetting to remove it when the time comes that you release for the AppStore and you want your requests to hit the real network!
 
 
 
