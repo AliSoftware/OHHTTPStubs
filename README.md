@@ -102,7 +102,7 @@ pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 <details>
 <summary>List of all the subspecs & their dependencies</summary>
 
-Here's what subspecs are included for each of the different lines you could use in your `Podfile`:
+Here's a list of which subspecs are included for each of the different lines you could use in your `Podfile`:
 
 | Subspec | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
 | ------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
