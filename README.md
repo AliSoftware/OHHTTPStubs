@@ -119,7 +119,9 @@ Basically:
 
 `OHHTTPStubs` is also be compatible with Carthage. Just add it to your `Cartfile`.
 
-Just be warned that I don't personally use Carthage, so I won't be able to guarantee much help/support for it.
+_Note: The `OHHTTPStubs.framework` built with Carthage will include **all** features of `OHHTTPStubs` turned on (in other words, all subspecs of the pod), including `NSURLSession` and `JSON` support, `OHPathHelpers`, `HTTPMessage` and `Mocktail` support, and the Swiftier API._
+
+> Be warned that I don't personally use Carthage, so I won't be able to guarantee much help/support for it.
 
 ## Using the right Swift Version of `OHHTTPStubs` for your project
 
