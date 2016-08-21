@@ -90,7 +90,7 @@ pod 'OHHTTPStubs' # Default subspecs, including support for NSURLSession & JSON 
 pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 ```
 
-### Available subspecs
+### All available subspecs
 
 `OHHTTPStubs` is split into subspecs so that when using Cocoapods, you can get only what you need, no more, no less.
 
@@ -102,17 +102,19 @@ pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 <details>
 <summary>List of all the subspecs & their dependencies</summary>
 
+Here's what subspecs are included for each of the different lines you could use in your `Podfile`:
+
 | Subspec | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
 | ------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
-| `pod 'OHHTTPStubs'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/Default'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/Swift'` | ✅ |   |   | ✅ |   |   |   |
-| `pod 'OHHTTPStubs/Core'` | ✅ |   |   |   |   |   |   |
-| `pod 'OHHTTPStubs/NSURLSession'` | ✅ | ✅ |   |   |   |   |   |
-| `pod 'OHHTTPStubs/JSON'` | ✅ |   | ✅ |   |   |   |   |
-| `pod 'OHHTTPStubs/OHPathHelpers'` |   |   |   |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/HTTPMessage'` | ✅ |   |   |   |   | ✅ |   |
-| `pod 'OHHTTPStubs/Mocktail'` | ✅ |   |   |   |   |   | ✅ |
+| `pod 'OHHTTPStubs'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/Default'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/Swift'` | ✅ |   |   | ✅ |   |   |   |
+| `pod 'OHHTTPStubs/Core'` | ✅ |   |   |   |   |   |   |
+| `pod 'OHHTTPStubs/NSURLSession'` | ✅ | ✅ |   |   |   |   |   |
+| `pod 'OHHTTPStubs/JSON'` | ✅ |   | ✅ |   |   |   |   |
+| `pod 'OHHTTPStubs/OHPathHelpers'` |   |   |   |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/HTTPMessage'` | ✅ |   |   |   |   | ✅ |   |
+| `pod 'OHHTTPStubs/Mocktail'` | ✅ |   |   |   |   |   | ✅ |
 
 </details>
 
