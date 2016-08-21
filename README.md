@@ -22,10 +22,6 @@ It works with `NSURLConnection`, new iOS7/OSX.9's `NSURLSession`, `AFNetworking`
 `OHHTTPStubs` headers are fully documented using Appledoc-like / Headerdoc-like comments in the header files. You can also [read the **online documentation** here](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 
-## Swift support
-
-`OHHTTPStubs` is compatible with Swift out of the box: you can use it with the same API as you would use in Objective-C. But you might also want to include the `OHHTTPStubs/Swift` subspec in your `Podfile`, which adds some global function helpers (see `OHHTTPStubsSwift.swift`) to make the use of `OHHTTPStubs` more compact and Swift-like.
-
 ## Basic example
 
 <details>
@@ -60,7 +56,7 @@ stub(isHost("mywebservice.com")) { _ in
 
 ##### Notes 
 
-* Using `OHHTTPStubsSwift.swift` you could also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
+* Using `OHHTTPStubsSwift.swift` and the `Swift` subspec, you could also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
 * The response files used above can be recorded with tools like [SWHttpTrafficRecorder](https://github.com/capitalone/SWHttpTrafficRecorder). It can record all three formats that are supported by `OHHTTPStubs`, that is, HTTPMessage, response boby/content file, and Mocktail.  
 
 ## More examples & Help Topics
@@ -74,7 +70,10 @@ stub(isHost("mywebservice.com")) { _ in
 
 `OHHTTPStubs` also works with iOS7's and OSX 10.9's `NSURLSession` mechanism.
 
-`OHHTTPStubs` is fully **Swift-compatible**. [Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have been added to allow a cleaner API when used from Swift.
+`OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3 and 3.0**.
+
+_[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dediated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
+
 
 # Installing in your projects
 
@@ -84,30 +83,36 @@ Using [CocoaPods](https://guides.cocoapods.org) is the recommended way.
 
 Simply add `pod 'OHHTTPStubs'` to your `Podfile`. That default subspec includes the `Core` subspec + the `NSURLSession`, `JSON` and `OHPathHelper` subspecs.
 
-If you **intend to use the Swift API** of `OHHTTPStubs`, you should **add** `OHHTTPStubs/Swift` to your `Podfile` as well:
+If you **intend to use the Swift API** of `OHHTTPStubs`, you should **add** `OHHTTPStubs/Swift` to your `Podfile` as well, so that you'll get the wrapper that brings you a more Swifty API:
 
 ```ruby
 pod 'OHHTTPStubs' # Default subspecs, including support for NSURLSession & JSON etc
-pod 'OHHTTPStubs/Swift' # Adds Swift support to all that
+pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 ```
 
 For other subspecs, see below:
 <details>
 <summary>List of all `OHHTTPStubs` available subspecs</summary>
 
-| Subspec | Core  | NSURLSession | JSON  | HTTPMessage | Mocktail | OHPathHelpers | Swift |
-| ------- | :---: | :----------: | :---: | :---------: | :------: | :-----------: | :---: |
-| `pod 'OHHTTPStubs'` | ✅ | ✅ | ✅ |   |   | ✅ |   |
-| `pod 'OHHTTPStubs/Default'` | ✅ | ✅ | ✅ |   |   | ✅ |   |
+Basically:
+
+* The default subspec includes `NSURLSession`, `JSON`, and `OHPathHelpers`
+* The `Swift` subspec adds the Swiftier API (but doesn't include `NSURLSession` & `JSON` by itself)
+* `HTTPMessage` and `Mocktail` are opt-in subspecs: list them explicitly if you need them
+* `OHPathHelpers` doesn't depend on `Core` and can be used independently of `OHHTTPStubs` altogether
+
+| Subspec | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
+| ------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
+| `pod 'OHHTTPStubs'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/Default'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/Swift'` | ✅ |   |   | ✅ |   |   |   |
 | `pod 'OHHTTPStubs/Core'` | ✅ |   |   |   |   |   |   |
 | `pod 'OHHTTPStubs/NSURLSession'` | ✅ | ✅ |   |   |   |   |   |
 | `pod 'OHHTTPStubs/JSON'` | ✅ |   | ✅ |   |   |   |   |
-| `pod 'OHHTTPStubs/HTTPMessage'` | ✅ |   |   | ✅ |   |   |   |
-| `pod 'OHHTTPStubs/Mocktail'` | ✅ |   |   |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/OHPathHelpers'` |   |   |   |   |   | ✅ |   |
-| `pod 'OHHTTPStubs/Swift'` | ✅ |   |   |   |   |   | ✅ |
+| `pod 'OHHTTPStubs/OHPathHelpers'` |   |   |   |   | ✅ |   |   |
+| `pod 'OHHTTPStubs/HTTPMessage'` | ✅ |   |   |   |   | ✅ |   |
+| `pod 'OHHTTPStubs/Mocktail'` | ✅ |   |   |   |   |   | ✅ |
 
-_Note that adding only `OHHTTPStubs/Swift` to your `Podfile` will only get you the `Core` + `Swift` subspecs, but not  automatically bring the `NSURLSession` and `JSON` ones, this way you can only opt-in for only what you need._
 </details>
 
 ## Carthage
@@ -120,7 +125,9 @@ Just be warned that I don't personally use Carthage, so I won't be able to guara
 
 `OHHTTPStubs` support both Swift 2.2 (Xcode 7), Swift 2.3 and Swift 3.0 (Xcode 8) 🎉 
 
-<details open=1>
+Here's some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
+
+<details>
 <summary><b>CocoaPods</b></summary>
 
 If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/CocoaPods/releases/tag/1.1.0.beta.1) or later, then CocoaPods will compile `OHHTTPStubs` with the right Swift Version matching the one you use for your project automatically.
@@ -128,7 +135,7 @@ If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/Cocoa
 For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/CocoaPods/pull/5540) and [CocoaPods/CocoaPods#5760](https://github.com/CocoaPods/CocoaPods/pull/5760).
 </details>
 
-<details open=1>
+<details>
 <summary><b>Carthage</b></summary>
 
 The project is currently setup with `SWIFT_VERSION=2.3` on `master`.
