@@ -90,16 +90,17 @@ pod 'OHHTTPStubs' # Default subspecs, including support for NSURLSession & JSON 
 pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 ```
 
-For other subspecs, see below:
-<details>
-<summary>List of all `OHHTTPStubs` available subspecs</summary>
+### Available subspecs
 
-Basically:
+`OHHTTPStubs` is split into subspecs so that when using Cocoapods, you can get only what you need, no more, no less.
 
 * The default subspec includes `NSURLSession`, `JSON`, and `OHPathHelpers`
 * The `Swift` subspec adds the Swiftier API (but doesn't include `NSURLSession` & `JSON` by itself)
 * `HTTPMessage` and `Mocktail` are opt-in subspecs: list them explicitly if you need them
 * `OHPathHelpers` doesn't depend on `Core` and can be used independently of `OHHTTPStubs` altogether
+
+<details>
+<summary>List of all the subspecs & their dependencies</summary>
 
 | Subspec | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
 | ------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
