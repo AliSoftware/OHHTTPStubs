@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Set the `responseTime` of the `OHHTTPStubsResponse` and return `self`. Useful for chaining method calls.
  *
  *  _Usage example:_
- *  <pre>return [[OHHTTPStubsReponse responseWithData:data statusCode:200 headers:nil] responseTime:5.0];</pre>
+ *  <pre>return [[OHHTTPStubsResponse responseWithData:data statusCode:200 headers:nil] responseTime:5.0];</pre>
  *
  *  @param responseTime If positive, the amount of time used to send the entire response.
  *                     If negative, the rate in KB/s at which to send the response data.
@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Useful for chaining method calls.
  *
  *  _Usage example:_
- *  <pre>return [[OHHTTPStubsReponse responseWithData:data statusCode:200 headers:nil]
+ *  <pre>return [[OHHTTPStubsResponse responseWithData:data statusCode:200 headers:nil]
  *            requestTime:1.0 responseTime:5.0];</pre>
  *
  *  @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
