@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
  *
- * This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
+ * This method will split the headers and the body and build a OHHTTPStubsResponse accordingly
  *
  * @param responseData The NSData containing the whole HTTP response, including the headers and the body
  *
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Builds a response given the name of a `"*.response"` file containing both the headers and the body.
  *
  * The response file is expected to be in the specified bundle (or the application bundle if nil).
- * This method will split the headers and the body and build a OHHTTPStubsReponse accordingly
+ * This method will split the headers and the body and build a OHHTTPStubsResponse accordingly
  *
  * @param responseName The name of the `"*.response"` file (without extension) containing the whole
  *                     HTTP response (including the headers and the body)
