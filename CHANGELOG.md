@@ -1,5 +1,12 @@
 # OHHTTPStubs — CHANGELOG
 
+## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.0)
+
+* Fix typos in README and documentation.  
+  [@AliSoftware](https://github.com/AliSoftware), [@tmpsantos](https://github.com/tmpsantos), [#198](https://github.com/AliSoftware/OHHTTPStubs/pull/198)
+* Fixes Swift 3.0 GM compatibility (`@escaping`) in the `swift-3.0` branch.  
+  [@ikesyo](https://github.com/ikesyo), [#201](https://github.com/AliSoftware/OHHTTPStubs/pull/201)
+
 ## [5.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.0)
 
 * Added Swift 2.3/Xcode 8 support. This is compatible both Swift 2.2/Xcode 7.3 and Swift 2.3/Xcode 8.  
