@@ -70,9 +70,15 @@
  * - Returns: The `OHHTTPStubsResponse` instance that will stub with the given status code
  *            & headers, and use the file content as the response body.
  */
+#if swift(>=3.0)
+public func fixture(filePath: String, status: Int32 = 200, headers: [AnyHashable: Any]?) -> OHHTTPStubsResponse {
+    return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
+}
+#else
 public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
     return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
 }
+#endif
 
 /**
  * Helper to call the stubbing function in a more concise way?
