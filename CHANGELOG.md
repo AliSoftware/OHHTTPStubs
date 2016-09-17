@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## Master
+
+* added `@discardableResult` to func stub for swift 3.  
+  [@mrkite](https://github.com/mrkite), [#203](https://github.com/AliSoftware/OHHTTPStubs/pull/203)
+
 ## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.0)
 
 * Fix typos in README and documentation.  
