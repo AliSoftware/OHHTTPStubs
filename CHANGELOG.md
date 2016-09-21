@@ -1,5 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
+* Migrate samples to Swift 3
+  [@dhardiman](https://gitub.com/dhardiman)
+
 ## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.0)
 
 * Fix typos in README and documentation.  
