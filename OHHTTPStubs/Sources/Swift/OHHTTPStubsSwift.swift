@@ -28,6 +28,11 @@
 
 
 #if swift(>=3.0)
+    extension URLRequest {
+        public var ohhttpStubs_httpBody: Data? {
+            return (self as NSURLRequest).ohhttpStubs_HTTPBody()
+        }
+    }
 #else
 #if swift(>=2.2)
     extension OHHTTPStubs {
