@@ -1,102 +1,140 @@
 # OHHTTPStubs — CHANGELOG
 
-## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.0)
+## [5.2.2](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.2)
+
+* Added `@discardableResult` to func stub for swift 3.  
+  [@mrkite](https://github.com/mrkite), [#203](https://github.com/AliSoftware/OHHTTPStubs/pull/203)
+* Removed `ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES` to avoid embedding Swift standard libraries when building with Carthage.  
+  [@MattesGroeger](https://github.com/MattesGroeger)
+  [#217](https://github.com/AliSoftware/OHHTTPStubs/pull/217)
+  [@kylejm](https://github.com/kylejm)
+  [#220](https://github.com/AliSoftware/OHHTTPStubs/pull/220)
+
+## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.1)
 
 * Fix typos in README and documentation.  
-  [@AliSoftware](https://github.com/AliSoftware), [@tmpsantos](https://github.com/tmpsantos), [#198](https://github.com/AliSoftware/OHHTTPStubs/pull/198)
+  [@AliSoftware](https://github.com/AliSoftware)
+  [@tmpsantos](https://github.com/tmpsantos)
+  [#198](https://github.com/AliSoftware/OHHTTPStubs/pull/198)
 * Fixes Swift 3.0 GM compatibility (`@escaping`) in the `swift-3.0` branch.  
-  [@ikesyo](https://github.com/ikesyo), [#201](https://github.com/AliSoftware/OHHTTPStubs/pull/201)
+  [@ikesyo](https://github.com/ikesyo)
+  [#201](https://github.com/AliSoftware/OHHTTPStubs/pull/201)
 
 ## [5.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.0)
 
 * Added Swift 2.3/Xcode 8 support. This is compatible both Swift 2.2/Xcode 7.3 and Swift 2.3/Xcode 8.  
-  [@ikesyo](https://github.com/ikesyo), [#184](https://github.com/AliSoftware/OHHTTPStubs/pull/184)
+  [@ikesyo](https://github.com/ikesyo)
+  [#184](https://github.com/AliSoftware/OHHTTPStubs/pull/184)
 * Added Swift 3.0 support.  
-  [@mxcl](https://github.com/mxcl), [@Liquidsoul](https://github.com/Liquidsoul), [#192](https://github.com/AliSoftware/OHHTTPStubs/pull/192)
+  [@mxcl](https://github.com/mxcl)
+  [@Liquidsoul](https://github.com/Liquidsoul)
+  [#192](https://github.com/AliSoftware/OHHTTPStubs/pull/192)
 * Set deployment targets at the project level to be used in a universal target.  
-  [@ikesyo](https://github.com/ikesyo), [#185](https://github.com/AliSoftware/OHHTTPStubs/pull/185)
+  [@ikesyo](https://github.com/ikesyo)
+  [#185](https://github.com/AliSoftware/OHHTTPStubs/pull/185)
 * Fix: Carthage support and Examples configurations.  
-  [@Liquidsoul](https://github.com/Liquidsoul), [#190](https://github.com/AliSoftware/OHHTTPStubs/issues/190)
+  [@Liquidsoul](https://github.com/Liquidsoul)
+  [#190](https://github.com/AliSoftware/OHHTTPStubs/issues/190)
 
 ## [5.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.1.0)
 
 * Bugfix: task completion block never called when not following redirects.  
-  [@adurdin](https://github.com/adurdin), [#175](https://github.com/AliSoftware/OHHTTPStubs/pull/175)
+  [@adurdin](https://github.com/adurdin)
+  [#175](https://github.com/AliSoftware/OHHTTPStubs/pull/175)
 * Declare in the project settings that the library contains swift code.  
-  [@rodericj](https://github.com/rodericj), [#173](https://github.com/AliSoftware/OHHTTPStubs/pull/173)
+  [@rodericj](https://github.com/rodericj)
+  [#173](https://github.com/AliSoftware/OHHTTPStubs/pull/173)
 * Adjusted parsing of Mocktail files to allow headers to start on line 4.  
-  [@Ashton-W](https://github.com/Ashton-W), [#172](https://github.com/AliSoftware/OHHTTPStubs/pull/172)
+  [@Ashton-W](https://github.com/Ashton-W)
+  [#172](https://github.com/AliSoftware/OHHTTPStubs/pull/172)
 * Allows access to the `HTTPBody` of POST request when using `NSURLSession`
   [(Wiki entry)](https://github.com/AliSoftware/OHHTTPStubs/wiki/Testing-for-the-request-body-in-your-stubs)  
-  [@iosphere](https://github.com/iosphere/), [#166](https://github.com/AliSoftware/OHHTTPStubs/pull/166) [#180](https://github.com/AliSoftware/OHHTTPStubs/pull/180)
+  [@iosphere](https://github.com/iosphere/)
+  [#166](https://github.com/AliSoftware/OHHTTPStubs/pull/166)
+  [#180](https://github.com/AliSoftware/OHHTTPStubs/pull/180)
 
 ## [5.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.0.0)
 
 * Added `pathStartsWith(_:)` to the `Swift` helpers.  
-  [@sdduursma](https://github.com/sdduursma), [#163](https://github.com/AliSoftware/OHHTTPStubs/pull/163)
+  [@sdduursma](https://github.com/sdduursma)
+  [#163](https://github.com/AliSoftware/OHHTTPStubs/pull/163)
 * Added more logging blocks for debugging and better insight into when OHHTTPStubs returns stubs and redirects.  
-  [@jzucker2](https://github.com/jzucker2), [#161](https://github.com/AliSoftware/OHHTTPStubs/pull/161)
+  [@jzucker2](https://github.com/jzucker2)
+  [#161](https://github.com/AliSoftware/OHHTTPStubs/pull/161)
 * Added matchers that check whether a request has a particular header present, and a matcher to check if a request has a header with a key and value.  
-  [@hq-mobile](https://github.com/hq-mobile), [#160](https://github.com/AliSoftware/OHHTTPStubs/pull/160)
+  [@hq-mobile](https://github.com/hq-mobile)
+  [#160](https://github.com/AliSoftware/OHHTTPStubs/pull/160)
 
 _Note that this last change also changed the signature of the `onStubActivation:` (hence the bump to `5.0.0`) so you'll have to update your code if you used this for debugging your stubs._
 
 ## [4.8.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.8.0)
 
 * Added `isEnabled` and `isEnabledForSessionConfiguration` getter methods.  
-  [@jzucker2](https://github.com/jzucker2), [#159](https://github.com/AliSoftware/OHHTTPStubs/pull/159)
+  [@jzucker2](https://github.com/jzucker2)
+  [#159](https://github.com/AliSoftware/OHHTTPStubs/pull/159)
 
 ## [4.7.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.1)
 
 * Bumps OSX Deployment Target to 10.9 to add Swift support.  
-  [@JeanAzzopardi](https://github.com/JeanAzzopardi), [#154](https://github.com/AliSoftware/OHHTTPStubs/pull/154)
+  [@JeanAzzopardi](https://github.com/JeanAzzopardi)
+  [#154](https://github.com/AliSoftware/OHHTTPStubs/pull/154)
 * Added the `${CURRENT_PROJECT_VERSION}` to the `Info.plist` files of the`OHHTTPStubs.framework` so it matches what is expected by iTunes Connect.  
-  [@siemensikkema](https://github.com/siemensikkema), [#140](https://github.com/AliSoftware/OHHTTPStubs/pull/140)
+  [@siemensikkema](https://github.com/siemensikkema)
+  [#140](https://github.com/AliSoftware/OHHTTPStubs/pull/140)
 
 ## [4.7.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.7.0)
 
 * Added `isMethodPATCH()` to the `Swift` helpers.  
-  [@attheodo](https://github.com/attheodo), [#145](https://github.com/AliSoftware/OHHTTPStubs/issues/145)
+  [@attheodo](https://github.com/attheodo)
+  [#145](https://github.com/AliSoftware/OHHTTPStubs/issues/145)
 * Fixed nullability annotation on `onStubActivation:` method parameter.  
-  [@DerLobi](https://github.com/DerLobi), [#144](https://github.com/AliSoftware/OHHTTPStubs/pull/144)
+  [@DerLobi](https://github.com/DerLobi)
+  [#144](https://github.com/AliSoftware/OHHTTPStubs/pull/144)
 
 ## [4.6.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
 
-* Added `isMethodGET()`, `isMethodPUT()`, `isMethodPOST()` and `isMethodDELETE()` to the `Swift` helpers.
-  ([#137](https://github.com/AliSoftware/OHHTTPStubs/issues/137))
+* Added `isMethodGET()`, `isMethodPUT()`, `isMethodPOST()` and `isMethodDELETE()` to the `Swift` helpers.  
+  [#137](https://github.com/AliSoftware/OHHTTPStubs/issues/137)
 
 ## [4.5.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.1)
 
 * Added missing `tvOS` and `watchOS` platforms to the `Swift` subspec.  
-  [@pantuspavel](https://github.com/pantuspavel), [#136](https://github.com/AliSoftware/OHHTTPStubs/pull/136)
+  [@pantuspavel](https://github.com/pantuspavel)
+  [#136](https://github.com/AliSoftware/OHHTTPStubs/pull/136)
 
 ## [4.5.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.5.0) — tvOS
 
 * Added support for tvOS.  
-  [@tiagomartinho](https://github.com/tiagomartinho), [#134](https://github.com/AliSoftware/OHHTTPStubs/pull/134)
+  [@tiagomartinho](https://github.com/tiagomartinho)
+  [#134](https://github.com/AliSoftware/OHHTTPStubs/pull/134)
 
 ## [4.4.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.4.0)
 
 * Fixed issue with Umbrella Headers.  
-  [#127](https://github.com/AliSoftware/OHHTTPStubs/issues/127), [#131](https://github.com/AliSoftware/OHHTTPStubs/pull/131)
+  [#127](https://github.com/AliSoftware/OHHTTPStubs/issues/127)
+  [#131](https://github.com/AliSoftware/OHHTTPStubs/pull/131)
 * Added methods for creating `OHHTTPStubsResponse`s from `NSURL`s that represent file system resources.  
-  [@MaxGabriel](https://github.com/MaxGabriel), [#129](https://github.com/AliSoftware/OHHTTPStubs/pull/129)
+  [@MaxGabriel](https://github.com/MaxGabriel)
+  [#129](https://github.com/AliSoftware/OHHTTPStubs/pull/129)
 * Bumped Swift subspec compatibility to OSX 10.9 instead of 10.7.
 
 
 ## [4.3.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.3.0)
 
 * Xcode projects updated to Xcode 7.0 Final
-* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStubs` from Swift 2.0 ([#111](https://github.com/AliSoftware/OHHTTPStubs/issues/111))
+* Added a `Swift` subspec that adds helper global functions to ease & make more compact the use of `OHHTTPStubs` from Swift 2.0  
+  [#111](https://github.com/AliSoftware/OHHTTPStubs/issues/111)
 
 > If you're using `OHHTTPStubs` in a **Swift 2.0** project, it's recommended to add `pod 'OHHTTPStubs/Swift` to your `Podfile` so you can use those handy helpers.
 
 ## [4.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.1)
 
 * Fix the Examples Xcode project + lib Podfile that were referencing old target names  
-  [@mikelupo](https://github.com/mikelupo), [#117](https://github.com/AliSoftware/OHHTTPStubs/pull/117)
+  [@mikelupo](https://github.com/mikelupo)
+  [#117](https://github.com/AliSoftware/OHHTTPStubs/pull/117)
 * Added two new constants for download speed: `OHHTTPStubsDownloadSpeed1KBPS` = 1kbps and `OHHTTPStubsDownloadSpeedSLOW` = 1.5 kpbs.  
-  [@mikelupo](https://github.com/mikelupo), [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114)
+  [@mikelupo](https://github.com/mikelupo)
+  [#114](https://github.com/AliSoftware/OHHTTPStubs/pull/114)
 
 ## [4.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.2.0) — Splitting in subspecs
 
@@ -105,7 +143,8 @@ _Note that this last change also changed the signature of the `onStubActivation:
   * Other optional subspecs are `HTTPMessage` and `Mocktail` (which are opt-in because used by much less people). If you want to use them, you'll need to request them explicitly in your `Podfile` using `pod 'OHHTTPStubs/Mocktail` for example.
 * The iOS Unit Tests are now also run for the framework as well as for the static library, to ensure the tests pass in both contexts _(because frameworks sometimes introduce subtleties like when using `NSBundle`, so it's worth testing in that context too)_
 * Added support for stubs written in the [Mocktail](https://github.com/square/objc-mocktail) format.  
-  [@JinlianWang](https://github.com/JinlianWang), [#108](https://github.com/AliSoftware/OHHTTPStubs/pull/108)
+  [@JinlianWang](https://github.com/JinlianWang)
+  [#108](https://github.com/AliSoftware/OHHTTPStubs/pull/108)
 
 ## [4.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.1.0) — watchOS 2
 
@@ -115,31 +154,37 @@ _Note that this last change also changed the signature of the `onStubActivation:
 ## [4.0.2](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.2)
 
 * Fix `OHResourceBundle` name mismatch between header and implementation.  
-  [@tibr](https://github.com/tibr), [#103](https://github.com/AliSoftware/OHHTTPStubs/pull/103)
+  [@tibr](https://github.com/tibr)
+  [#103](https://github.com/AliSoftware/OHHTTPStubs/pull/103)
 
 ## [4.0.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.1)
 
 * Fix threading in `NSURLProtocol` subclass calling `NSURLProtocolClient` callbacks from wrong thread.  
-  [@nsprogrammer](https://github.com/nsprogrammer), [#96](https://github.com/AliSoftware/OHHTTPStubs/pull/96)
+  [@nsprogrammer](https://github.com/nsprogrammer)
+  [#96](https://github.com/AliSoftware/OHHTTPStubs/pull/96)
 
 ## [4.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/4.0.0) — Improvements for Swift
 
 * Annotated the library with _nullability_ attributes to generate a better API when used in Swift
-* Migrated the path utility macros to functions in `OHPathHelpers.h`, for Swift compatibility ([#100](https://github.com/AliSoftware/OHHTTPStubs/issues/100)).
-* Added a complete Swift Demo Project ([#88](https://github.com/AliSoftware/OHHTTPStubs/issues/88))
+* Migrated the path utility macros to functions in `OHPathHelpers.h`, for Swift compatibility.  
+  [#100](https://github.com/AliSoftware/OHHTTPStubs/issues/100)
+* Added a complete Swift Demo Project.  
+  [#88](https://github.com/AliSoftware/OHHTTPStubs/issues/88)
 * Removed the  `XCTestExpectation` subspec that was added for Xcode 5 support — Now that Xcode 6 is widely adopted, you shouldn't need this anymore (but in case you still need it, I will probably create a dedicated pod for that)
 
 ## [3.1.12](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/3.1.12)
 
 * Fixed issue with HTTP 300 return code (multiple-choice) that is not supposed to redirect.  
-  [@tarbrain](https://github.com/tarbrain), [#92](https://github.com/AliSoftware/OHHTTPStubs/pull/92)
+  [@tarbrain](https://github.com/tarbrain)
+  [#92](https://github.com/AliSoftware/OHHTTPStubs/pull/92)
 
 ## [3.1.11](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/3.1.11)
 
 * Added [Carthage](https://github.com/Carthage/Carthage) support
 * Splitted the Xcode projects for more clarity (one dedicated to build the lib and run Unit Tests, and one for the Demo)
 * Got rid of the `git submodule` used for Unit Tests against [AFNetworking](https://github.com/AFNetworking/AFNetworking) — it is now imported using [CocoaPods](http://cocoapods.org) and only for the lib's Unit Tests targets.  
-  [@corinnekrych](https://github.com/corinnekrych), [#90](https://github.com/AliSoftware/OHHTTPStubs/pull/90)
+  [@corinnekrych](https://github.com/corinnekrych)
+  [#90](https://github.com/AliSoftware/OHHTTPStubs/pull/90)
 * Improved [Travis-CI](https://travis-ci.org/AliSoftware/OHHTTPStubs) integration. We now use a build matrix to have paralellized and independant builds for each scheme (iOS Static Lib, iOS Dynamic Framework, OSX Framework)
 * Fixed [#80](https://github.com/AliSoftware/OHHTTPStubs/issues/80) again (there was still an issue for people using Xcode 5 & SDK 7.1… if those people still exists)
 
