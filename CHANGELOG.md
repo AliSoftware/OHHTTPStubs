@@ -1,9 +1,14 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## [5.2.2](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.2)
 
-* added `@discardableResult` to func stub for swift 3.  
+* Added `@discardableResult` to func stub for swift 3.  
   [@mrkite](https://github.com/mrkite), [#203](https://github.com/AliSoftware/OHHTTPStubs/pull/203)
+* Removed `ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES` to avoid embedding Swift standard libraries when building with Carthage.  
+  [@MattesGroeger](https://github.com/MattesGroeger)
+  [#217](https://github.com/AliSoftware/OHHTTPStubs/pull/217)
+  [@kylejm](https://github.com/kylejm)
+  [#220](https://github.com/AliSoftware/OHHTTPStubs/pull/220)
 
 ## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.1)
 
