@@ -382,4 +382,13 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert((!falseMatcher)(req) == true, "!falseMatcher should result in a trueMatcher")
     }
   }
+
+  #if swift(>=3.0)
+    func test_ohhttpStubs_httpBody {
+      var req = URLRequest(url: URL(string: "foo://bar")!)
+      req.httpBody = Data()
+
+      XCTAssert(req.ohhttpStubs_httpBody == req.httpBody)
+    }
+  #endif
 }
