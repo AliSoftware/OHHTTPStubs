@@ -9,6 +9,9 @@
   [#217](https://github.com/AliSoftware/OHHTTPStubs/pull/217)
   [@kylejm](https://github.com/kylejm)
   [#220](https://github.com/AliSoftware/OHHTTPStubs/pull/220)
+* Add `OHHTTPStubs_HTTPBody` to `URLRequest` in Swift 3.0.  
+  [@marcelofabri](https://github.com/marcelofabri)
+  [#216](https://github.com/AliSoftware/OHHTTPStubs/pull/216)
 
 ## [5.2.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.1)
 
