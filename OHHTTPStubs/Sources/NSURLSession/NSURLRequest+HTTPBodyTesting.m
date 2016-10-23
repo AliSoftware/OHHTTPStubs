@@ -34,6 +34,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSURLRequest+CustomHTTPBody
 
+#define OHHTTPSTUBS_NSURLSESSION_HTTPBODY 1
+
 NSString * const OHHTTPStubs_HTTPBodyKey = @"HTTPBody";
 
 @implementation NSURLRequest (HTTPBodyTesting)
