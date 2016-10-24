@@ -5,30 +5,22 @@ before_install:
 
 matrix:
   include:
-#     - osx_image: xcode7.3
-#       env: RAKETASK="simlist"
-#     - osx_image: xcode7.3
-#       env: RAKETASK="ios[iOS StaticLib,7.1,build test]"
     - osx_image: xcode7.3
-      env: RAKETASK="ios[iOS StaticLib,latest,build test]"
+      env: RAKETASK="ios[iOS StaticLib,latest,build test,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
     - osx_image: xcode7.3
-      env: RAKETASK="ios[iOS Framework,latest,build test]"
+      env: RAKETASK="ios[iOS Framework,latest,build test,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
     - osx_image: xcode7.3
-      env: RAKETASK="osx[Mac Framework,x86_64,build test]"
+      env: RAKETASK="osx[Mac Framework,x86_64,build test,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
     - osx_image: xcode7.3
-      env: RAKETASK="tvos[tvOS Framework,latest,build test]"
-#     - osx_image: xcode8
-#       env: RAKETASK="simlist"
-#     - osx_image: xcode8
-#       env: RAKETASK="ios[iOS StaticLib,7.1,build-for-testing test-without-building]"
+      env: RAKETASK="tvos[tvOS Framework,latest,build test,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
     - osx_image: xcode8
-      env: RAKETASK="ios[iOS StaticLib,latest,build-for-testing test-without-building]"
+      env: RAKETASK="ios[iOS StaticLib,latest,build-for-testing test-without-building,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
     - osx_image: xcode8
       env: RAKETASK="ios[iOS Framework,latest,build-for-testing test-without-building]"
     - osx_image: xcode8
-      env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building]"
+      env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
     - osx_image: xcode8
-      env: RAKETASK="tvos[tvOS Framework,latest,build-for-testing test-without-building]"
+      env: RAKETASK="tvos[tvOS Framework,latest,build-for-testing test-without-building,-DOHHTTPSTUBS_SKIP_TIMING_TESTS=1]"
 
 script:
   - rake "$RAKETASK"

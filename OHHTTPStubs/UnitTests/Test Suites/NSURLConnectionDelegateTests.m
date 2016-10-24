@@ -27,6 +27,7 @@
 #if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
+#import "TestHelper.h"
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
@@ -36,7 +37,7 @@
 
 @interface NSURLConnectionDelegateTests : XCTestCase <NSURLConnectionDataDelegate> @end
 
-static const NSTimeInterval kResponseTimeTolerence = 0.2;
+static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 @implementation NSURLConnectionDelegateTests
 {
@@ -141,11 +142,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqualObjects(_data, testData, @"Invalid data response");
     XCTAssertNil(_error, @"Received unexpected network error %@", _error);
-    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertInRange(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeMaxDelay, @"Invalid response time");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -173,11 +174,11 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqualObjects(_data, testData, @"Invalid data response");
     XCTAssertNil(_error, @"Received unexpected network error %@", _error);
-    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertInRange(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeMaxDelay, @"Invalid response time");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -203,12 +204,12 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForExpectationsWithTimeout:kResponseTime+kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTime+kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqual(_data.length, (NSUInteger)0, @"Received unexpected network data %@", _data);
     XCTAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
     XCTAssertEqual(_error.code, expectedError.code, @"Invalid error response code");
-    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertInRange(-[startDate timeIntervalSinceNow], kResponseTime, kResponseTimeMaxDelay, @"Invalid response time");
     
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
@@ -282,7 +283,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     // Send the request and wait for the response containing the Set-Cookie headers
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:^(NSError *error) {
         [cxn cancel]; // In case we timed out (test failed), cancel the request to avoid further delegate method calls
     }];
     
@@ -358,7 +359,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForExpectationsWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeTolerence) handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeMaxDelay) handler:^(NSError *error) {
         // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
         [cxn cancel];
     }];
@@ -367,7 +368,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.2;
     XCTAssertEqual(_redirectResponseStatusCode, (NSInteger)311, @"Invalid redirect response status code");
     XCTAssertEqualObjects(_data, testData, @"Invalid data response");
     XCTAssertNil(_error, @"Received unexpected network error %@", _error);
-    XCTAssertEqualWithAccuracy(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, 2 * kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertInRange(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, 2 * kResponseTimeMaxDelay, @"Invalid response time");
     
     /* Check that the redirect cookie has been properly stored */
     NSArray* redirectCookies = [cookieStorage cookiesForURL:req.URL];

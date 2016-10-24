@@ -22,11 +22,16 @@
  *
  ***********************************************************************************/
 
+#if OHHTTPSTUBS_SKIP_TIMING_TESTS
+#warning Timing Tests will be skipped for this run.
+#else
+
 #import <Availability.h>
 // tvOS & watchOS deprecate use of NSURLConnection but these tests are based on it
 #if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
+#import "TestHelper.h"
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
@@ -86,7 +91,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-static NSTimeInterval const kResponseTimeTolerence = 0.8;
+static NSTimeInterval const kResponseTimeMaxDelay = 2.5;
 static NSTimeInterval const kSecurityTimeout = 5.0;
 
 -(void)_testWithData:(NSData*)stubData requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
@@ -107,14 +112,11 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
     
     [NSURLConnection connectionWithRequest:req delegate:self];
     
-    [self waitForExpectationsWithTimeout:requestTime+responseTime+kResponseTimeTolerence+kSecurityTimeout handler:nil];
+    [self waitForExpectationsWithTimeout:requestTime+responseTime+kResponseTimeMaxDelay+kSecurityTimeout handler:nil];
 
     XCTAssertEqualObjects(_data, stubData, @"Invalid data response");
 
-//    XCTAssertEqualWithAccuracy([_didReceiveResponseTS timeIntervalSinceDate:startTS], requestTime,
-//                               kResponseTimeTolerence, @"Invalid request time");
-    XCTAssertEqualWithAccuracy([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime,
-                               kResponseTimeTolerence, @"Invalid response time");
+    XCTAssertInRange([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime, kResponseTimeMaxDelay, @"Invalid response time");
     
     [NSThread sleepForTimeInterval:0.01]; // Time for the test to wrap it all (otherwise we may have "Test did not finish" warning)
 }
@@ -168,5 +170,7 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
 }
 
 @end
+
+#endif
 
 #endif

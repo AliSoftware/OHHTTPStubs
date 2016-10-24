@@ -35,7 +35,7 @@
 @import OHHTTPStubs;
 #endif
 
-static const NSTimeInterval kResponseTimeTolerence = 0.3;
+static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 @interface NilValuesTests : XCTestCase @end
 
@@ -71,7 +71,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)test_EmptyData
@@ -96,7 +96,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)test_NilPath
@@ -124,7 +124,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)test_NilPathWithURL
@@ -152,7 +152,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)test_InvalidPath
@@ -201,7 +201,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)test_EmptyFileWithURL
@@ -227,7 +227,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)_test_NilURLAndCookieHandlingEnabled:(BOOL)handleCookiesEnabled
@@ -260,7 +260,7 @@ static const NSTimeInterval kResponseTimeTolerence = 0.3;
          [expectation fulfill];
      }];
     
-    [self waitForExpectationsWithTimeout:kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }

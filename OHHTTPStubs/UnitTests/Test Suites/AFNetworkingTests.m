@@ -34,7 +34,7 @@
 
 #import "AFHTTPSessionManager.h"
 
-static const NSTimeInterval kResponseTimeTolerence = 1.0;
+static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 @interface AFNetworkingTests : XCTestCase @end
 
@@ -73,7 +73,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
@@ -115,7 +115,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
@@ -160,7 +160,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+    [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
     
     XCTAssertEqualObjects(url, redirectURL, @"Unexpected data received");
 }
@@ -264,7 +264,7 @@ static const NSTimeInterval kResponseTimeTolerence = 1.0;
                         [expectation fulfill];
                     }];
         
-        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeTolerence handler:nil];
+        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
         
         XCTAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
     }
