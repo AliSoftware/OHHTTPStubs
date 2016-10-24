@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## Master
+
+* Reverted [#216](https://github.com/AliSoftware/OHHTTPStubs/pull/216) until better solution, as it was never active and can't make it compile for all subspec configurations.  
+
+
 ## [5.2.2](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.2)
 
 * Added `@discardableResult` to func stub for swift 3.  
