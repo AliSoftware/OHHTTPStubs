@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param inBundleForClass The class of the caller, used to determine the current bundle
  *                          in which the file is supposed to be located.
  *                          You should typically pass `self.class` (ObjC) or
- *                          `self.dynamicType` (Swift) when calling this function.
+ *                          `self.dynamicType` (Swift < 3.0) or `type(of: self)` (Swift >= 3.0) when calling this function.
  *
  *  @return The path of the given file in the same bundle as the inBundleForClass class
  */
