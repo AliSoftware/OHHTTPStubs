@@ -3,7 +3,9 @@
 ## Master
 
 * Reverted [#216](https://github.com/AliSoftware/OHHTTPStubs/pull/216) until better solution, as it was never active and can't make it compile for all subspec configurations.  
-
+* Improved documentation about `dynamicType:` vs `type(of:)`.  
+  [Antondomashnev](https://github.com/Antondomashnev)
+  [#221](https://github.com/AliSoftware/OHHTTPStubs/pull/221)
 
 ## [5.2.2](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.2)
 
