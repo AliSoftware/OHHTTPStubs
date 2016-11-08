@@ -418,25 +418,21 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         {
             redirectLocationURL = nil;
         }
-        // Notify if a redirection occurred
-        if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
-        {
-            NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
-                if (!self.stopped)
+        [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
+            if (!self.stopped)
+            {
+                // Notify if a redirection occurred
+                if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
                 {
+                    NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
                     if (OHHTTPStubs.sharedInstance.onStubRedirectBlock)
                     {
                         OHHTTPStubs.sharedInstance.onStubRedirectBlock(request, redirectRequest, self.stub, responseStub);
                     }
                 }
-            }];
-        }
-        // Send the response (even for redirections)
-        [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
-            if (!self.stopped)
-            {
+                
+                // Send the response (even for redirections)
                 [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
                 if(responseStub.inputStream.streamStatus == NSStreamStatusNotOpen)
                 {
