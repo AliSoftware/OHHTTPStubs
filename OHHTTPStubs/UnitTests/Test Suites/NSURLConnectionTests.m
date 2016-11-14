@@ -27,7 +27,6 @@
 #if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
-#import "TestHelper.h"
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
@@ -73,7 +72,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
     
     XCTAssertEqualObjects(data, testData, @"Invalid data response");
-    XCTAssertInRange(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeMaxDelay, @"Invalid response time");
+    XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 }
 
 -(void)test_NSURLConnection_sendSyncronousRequest_parallelQueue
@@ -111,7 +110,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqualObjects(data, testData, @"Invalid data response");
-         XCTAssertInRange(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeMaxDelay, @"Invalid response time");
+         XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
          
          [expectation fulfill];
      }];
@@ -168,7 +167,7 @@ static const NSTimeInterval kResponseTime = 0.5;
          {
 //             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
              XCTAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
-             XCTAssertInRange(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, kResponseTimeMaxDelay, @"Invalid response time");
+             XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, @"Invalid response time");
              
              if (!testFinished) [expectation fulfill];
          }];

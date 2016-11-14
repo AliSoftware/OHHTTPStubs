@@ -24,7 +24,6 @@
 
 
 #import <XCTest/XCTest.h>
-#import "TestHelper.h"
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
@@ -71,7 +70,7 @@ static const NSTimeInterval kResponseTime = 0.5;
                                                error:NULL];
     
     XCTAssertEqualObjects(string, testString, @"Invalid returned string");
-    XCTAssertInRange(-[startDate timeIntervalSinceNow], kResponseTime+kRequestTime, kResponseTimeMaxDelay, @"Invalid response time");
+    XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kResponseTime+kRequestTime, @"Invalid response time");
 }
 
 -(void)test_NSString_stringWithContentsOfURL_parallelQueue
@@ -106,7 +105,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     
     XCTAssertEqualObjects(data, testData, @"Invalid returned string");
-    XCTAssertInRange(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, kResponseTimeMaxDelay, @"Invalid response time");
+    XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 }
 
 -(void)test_NSData_dataWithContentsOfURL_parallelQueue
