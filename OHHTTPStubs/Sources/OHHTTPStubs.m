@@ -418,25 +418,21 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         {
             redirectLocationURL = nil;
         }
-        // Notify if a redirection occurred
-        if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
-        {
-            NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
-            [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
-                if (!self.stopped)
+        [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
+            if (!self.stopped)
+            {
+                // Notify if a redirection occurred
+                if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
                 {
+                    NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
                     if (OHHTTPStubs.sharedInstance.onStubRedirectBlock)
                     {
                         OHHTTPStubs.sharedInstance.onStubRedirectBlock(request, redirectRequest, self.stub, responseStub);
                     }
                 }
-            }];
-        }
-        // Send the response (even for redirections)
-        [self executeOnClientRunLoopAfterDelay:responseStub.requestTime block:^{
-            if (!self.stopped)
-            {
+                
+                // Send the response (even for redirections)
                 [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
                 if(responseStub.inputStream.streamStatus == NSStreamStatusNotOpen)
                 {
@@ -494,42 +490,47 @@ typedef struct {
            withStubResponse:(OHHTTPStubsResponse*)stubResponse
                  completion:(void(^)(NSError * error))completion
 {
-    if ((stubResponse.dataSize>0) && stubResponse.inputStream.hasBytesAvailable && (!self.stopped))
+    if (!self.stopped)
     {
-        // Compute timing data once and for all for this stub
-        
-        OHHTTPStubsStreamTimingInfo timingInfo = {
-            .slotTime = kSlotTime, // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
-            .cumulativeChunkSize = 0
-        };
-        
-        if(stubResponse.responseTime < 0)
+        if ((stubResponse.dataSize>0) && stubResponse.inputStream.hasBytesAvailable)
         {
-            // Bytes send each 'slotTime' seconds = Speed in KB/s * 1000 * slotTime in seconds
-            timingInfo.chunkSizePerSlot = (fabs(stubResponse.responseTime) * 1000) * timingInfo.slotTime;
-        }
-        else if (stubResponse.responseTime < kSlotTime) // includes case when responseTime == 0
-        {
-            // We want to send the whole data quicker than the slotTime, so send it all in one chunk.
-            timingInfo.chunkSizePerSlot = stubResponse.dataSize;
-            timingInfo.slotTime = stubResponse.responseTime;
+            // Compute timing data once and for all for this stub
+            
+            OHHTTPStubsStreamTimingInfo timingInfo = {
+                .slotTime = kSlotTime, // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
+                .cumulativeChunkSize = 0
+            };
+            
+            if(stubResponse.responseTime < 0)
+            {
+                // Bytes send each 'slotTime' seconds = Speed in KB/s * 1000 * slotTime in seconds
+                timingInfo.chunkSizePerSlot = (fabs(stubResponse.responseTime) * 1000) * timingInfo.slotTime;
+            }
+            else if (stubResponse.responseTime < kSlotTime) // includes case when responseTime == 0
+            {
+                // We want to send the whole data quicker than the slotTime, so send it all in one chunk.
+                timingInfo.chunkSizePerSlot = stubResponse.dataSize;
+                timingInfo.slotTime = stubResponse.responseTime;
+            }
+            else
+            {
+                // Bytes send each 'slotTime' seconds = (Whole size in bytes / response time) * slotTime = speed in bps * slotTime in seconds
+                timingInfo.chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * timingInfo.slotTime);
+            }
+            
+            [self streamDataForClient:client
+                           fromStream:stubResponse.inputStream
+                           timingInfo:timingInfo
+                           completion:completion];
         }
         else
         {
-            // Bytes send each 'slotTime' seconds = (Whole size in bytes / response time) * slotTime = speed in bps * slotTime in seconds
-            timingInfo.chunkSizePerSlot = ((stubResponse.dataSize/stubResponse.responseTime) * timingInfo.slotTime);
-        }
-        
-        [self streamDataForClient:client
-                       fromStream:stubResponse.inputStream
-                       timingInfo:timingInfo
-                       completion:completion];
-    }
-    else
-    {
-        if (completion)
-        {
-            completion(nil);
+            [self executeOnClientRunLoopAfterDelay:stubResponse.responseTime block:^{
+                if (completion && !self.stopped)
+                {
+                    completion(nil);
+                }
+            }];
         }
     }
 }

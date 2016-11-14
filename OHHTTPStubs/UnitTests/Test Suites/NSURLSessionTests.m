@@ -97,9 +97,9 @@
 
         [task resume];
         
-        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
-        
-        completion(errorResponse, dataResponse);
+        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:^(NSError * _Nullable error) {
+            completion(errorResponse, dataResponse);
+        }];
     }
 }
 
@@ -109,7 +109,7 @@
 {
     if ([NSURLSession class])
     {
-        static const NSTimeInterval kRequestTime = 0.0;
+        static const NSTimeInterval kRequestTime = 0.2;
         static const NSTimeInterval kResponseTime = 0.2;
 
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -156,11 +156,22 @@
                                            [expectation fulfill];
                                        }];
 
+        NSDate *startTime = [NSDate date];
         [task resume];
 
-        [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
-
-        completion(errorResponse, redirectResponse, dataResponse);
+        [self waitForExpectationsWithTimeout:(kRequestTime+kResponseTime)*2+0.1 handler:^(NSError * _Nullable error) {
+            NSDate *finishTime = [NSDate date];
+            NSTimeInterval totalResponseTime = [finishTime timeIntervalSinceDate:startTime];
+            if (redirectResponse) {
+                XCTAssertGreaterThanOrEqual(totalResponseTime, (kRequestTime + kResponseTime), @"Redirect did not honor request/response time");
+            }
+            else if (dataResponse) {
+                // NSURLSession does not wait for the 3xx response to stream before starting the second request.
+                // Thus, the 3xx and final responses will stream in parallel.
+                XCTAssertGreaterThanOrEqual(totalResponseTime, ((2 * kRequestTime) + kResponseTime), @"Redirect or final request did not honor request/response time");
+            }
+            completion(errorResponse, redirectResponse, dataResponse);
+        }];
     }
 }
 
