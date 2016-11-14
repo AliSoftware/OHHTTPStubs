@@ -258,7 +258,6 @@
 		095B1AD31AE30BA7009D1B56 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		095B1AD41AE30BA7009D1B56 /* OHPathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpers.m; sourceTree = "<group>"; };
 		09D0D2981B67FED3004E7213 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
-		09E993A61DBE8E940071EECC /* TestHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestHelper.h; sourceTree = "<group>"; };
 		09E993A71DBE939C0071EECC /* login_headers.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login_headers.tail; sourceTree = "<group>"; };
 		1B5632EE1CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
 		1B5632EF1CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsMethodSwizzling.m; sourceTree = "<group>"; };
@@ -426,7 +425,6 @@
 		09110A5A19805F4800D175E4 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				09E993A61DBE8E940071EECC /* TestHelper.h */,
 				47AF33791A37755E00158C9F /* Fixtures */,
 				095981461980663000807DBE /* Test Suites */,
 				09110A5B19805F4800D175E4 /* Supporting Files */,

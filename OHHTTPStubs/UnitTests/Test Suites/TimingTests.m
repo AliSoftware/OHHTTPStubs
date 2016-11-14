@@ -31,7 +31,6 @@
 #if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
-#import "TestHelper.h"
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
 #import "OHHTTPStubs.h"
@@ -116,7 +115,7 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
 
     XCTAssertEqualObjects(_data, stubData, @"Invalid data response");
 
-    XCTAssertInRange([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime, kResponseTimeMaxDelay, @"Invalid response time");
+    XCTAssertGreaterThan([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime, @"Invalid response time");
     
     [NSThread sleepForTimeInterval:0.01]; // Time for the test to wrap it all (otherwise we may have "Test did not finish" warning)
 }
