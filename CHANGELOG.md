@@ -1,6 +1,6 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## [5.2.3](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.3)
 
 * Reverted [#216](https://github.com/AliSoftware/OHHTTPStubs/pull/216) until better solution, as it was never active and can't make it compile for all subspec configurations.  
 * Improved documentation about `dynamicType:` vs `type(of:)`.  
