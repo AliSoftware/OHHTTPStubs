@@ -167,10 +167,10 @@ Hopefully, Carthage will address this in a future release. See the related issue
 
 ## Automatic loading
 
-Thanks to method swizzling, `OHHTTPStubs` is automatically loaded and installed both for:
+`OHHTTPStubs` is automatically loaded and installed (at the time the library is loaded in memory), both for:
 
-* requests made using `NSURLConnection` or `[NSURLSession sharedSession]`;
-* requests made using a `NSURLSession` created using a `[NSURLSessionConfiguration defaultSessionConfiguration]` or `[NSURLSessionConfiguration ephemeralSessionConfiguration]` configuration (using `[NSURLSession sessionWithConfiguration:…]`-like methods).
+* requests made using `NSURLConnection` or `[NSURLSession sharedSession]` — [thanks to this code](https://github.com/AliSoftware/OHHTTPStubs/blob/master/OHHTTPStubs/Sources/OHHTTPStubs.m#L107-L113)
+* requests made using a `NSURLSession` that was created via `[NSURLSession sessionWithConfiguration:…]` and using either `[NSURLSessionConfiguration defaultSessionConfiguration]` or `[NSURLSessionConfiguration ephemeralSessionConfiguration]` configuration — thanks to [method swizzling](http://nshipster.com/method-swizzling/) done [here in the code](https://github.com/AliSoftware/OHHTTPStubs/blob/master/OHHTTPStubs/Sources/NSURLSession/OHHTTPStubs+NSURLSessionConfiguration.m).
 
 If you need to disable (and re-enable) `OHHTTPStubs` — globally or per `NSURLSession` — you can use `[OHHTTPStubs setEnabled:]` / `[OHHTTPStubs setEnabled:forSessionConfiguration:]`.
 
