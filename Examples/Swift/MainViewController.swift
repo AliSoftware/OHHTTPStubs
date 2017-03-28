@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
         installTextStub(self.installTextStubSwitch)
         installImageStub(self.installImageStubSwitch)
         OHHTTPStubs.onStubActivation { (request: URLRequest, stub: OHHTTPStubsDescriptor, response: OHHTTPStubsResponse) in
-            print("[OHHTTPStubs] Request to \(request.url!) has been stubbed with \(stub.name)")
+            print("[OHHTTPStubs] Request to \(request.url!) has been stubbed with \(String(describing: stub.name))")
         }
     }
 
