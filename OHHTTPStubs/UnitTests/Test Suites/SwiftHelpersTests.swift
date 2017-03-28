@@ -13,19 +13,19 @@ import XCTest
 #if swift(>=3.0)
 #else
 #if swift(>=2.2)
-    extension SequenceType {
-        private func enumerated() -> EnumerateSequence<Self> {
-            return enumerate()
+    extension Sequence {
+        fileprivate func enumerated() -> EnumeratedSequence<Self> {
+            return self.enumerated()
         }
     }
 
     extension NSMutableURLRequest {
         override var httpMethod: String? {
             get {
-                return HTTPMethod
+                return httpMethod
             }
             set(method) {
-                self.HTTPMethod = method!
+                self.httpMethod = method!
             }
         }
     }
@@ -42,7 +42,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       var req = URLRequest(url: URL(string: "foo://bar")!)
 #else
-      let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+      let req = NSMutableURLRequest(url: URL(string: "foo://bar")!)
 #endif
       req.httpMethod = method
       for (idxMatcher, matcher) in matchers.enumerated() {
@@ -68,7 +68,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       XCTAssert(matcher(req) == result, "isScheme(\"foo\") matcher failed when testing url \(url)")
     }
@@ -89,7 +89,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       XCTAssert(matcher(req) == result, "isHost(\"foo\") matcher failed when testing url \(url)")
     }
@@ -135,7 +135,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       let p = req.url?.path
       print("URL: \(url) -> Path: \(p)")
@@ -184,7 +184,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       let p = req.url?.path
       print("URL: \(url) -> Path: \(p)")
@@ -209,7 +209,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       XCTAssert(matcher(req) == result, "isExtension(\"txt\") matcher failed when testing url \(url)")
     }
@@ -245,7 +245,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
 
       XCTAssert(matcher(req) == result, "containsQueryParams(\"\(params)\") matcher failed when testing url \(url)")
@@ -256,7 +256,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
 #else
-    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    let req = NSMutableURLRequest(url: URL(string: "foo://bar")!)
 #endif
     req.addValue("1234567890", forHTTPHeaderField: "ArbitraryKey")
 
@@ -269,7 +269,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
     let req = URLRequest(url: URL(string: "foo://bar")!)
 #else
-    let req = NSURLRequest(URL: NSURL(string: "foo://bar")!)
+    let req = URLRequest(url: URL(string: "foo://bar")!)
 #endif
 
     let hasHeader = hasHeaderNamed("ArbitraryKey")(req)
@@ -281,7 +281,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
 #else
-    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    let req = NSMutableURLRequest(url: URL(string: "foo://bar")!)
 #endif
     req.addValue("bar", forHTTPHeaderField: "foo")
     
@@ -294,7 +294,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
 #else
-    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
+    let req = NSMutableURLRequest(url: URL(string: "foo://bar")!)
 #endif
     req.addValue("bar", forHTTPHeaderField: "foo")
     
@@ -307,7 +307,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
     let req = URLRequest(url: URL(string: "foo://bar")!)
 #else
-    let req = NSURLRequest(URL: NSURL(string: "foo://bar")!)
+    let req = URLRequest(url: URL(string: "foo://bar")!)
 #endif
 
     let matchesHeader = hasHeaderNamed("foo", value: "baz")(req)
@@ -348,7 +348,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       XCTAssert((trueMatcher || trueMatcher)(req) == true, "trueMatcher || trueMatcher should result in a trueMatcher")
       XCTAssert((trueMatcher || falseMatcher)(req) == true, "trueMatcher || falseMatcher should result in a trueMatcher")
@@ -362,7 +362,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       XCTAssert((trueMatcher && trueMatcher)(req) == true, "trueMatcher && trueMatcher should result in a trueMatcher")
       XCTAssert((trueMatcher && falseMatcher)(req) == false, "trueMatcher && falseMatcher should result in a falseMatcher")
@@ -376,7 +376,7 @@ class SwiftHelpersTests : XCTestCase {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
 #else
-      let req = NSURLRequest(URL: NSURL(string: url)!)
+      let req = URLRequest(url: URL(string: url)!)
 #endif
       XCTAssert((!trueMatcher)(req) == false, "!trueMatcher should result in a falseMatcher")
       XCTAssert((!falseMatcher)(req) == true, "!falseMatcher should result in a trueMatcher")
