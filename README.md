@@ -5,6 +5,7 @@ OHHTTPStubs
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.svg?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
+[![Language: Swift 3.1](https://img.shields.io/badge/Swift-3.1-orange.svg)](https://swift.org)
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
 
