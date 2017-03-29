@@ -1,4 +1,4 @@
-<!-- Thanks for taking the time to report your issue with _OHHTTPStubs_! When submitting your issue, please make sure to check the following boxes by putting an x in the appropriate [ ] so we can fully understand the context of your problem and help you better -->
+<!-- Thanks for taking the time to report your issue with OHHTTPStubs! When submitting your issue, please make sure to check the following boxes by putting an x in the appropriate [ ] so we can fully understand the context of your problem and help you better -->
 
 ### New Issue Checklist
 
