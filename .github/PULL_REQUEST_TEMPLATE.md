@@ -2,8 +2,8 @@
 
 ### Checklist
 
-- [ ] I've checked that all new and existing tests pass.
-- [ ] I've updated the documentation if necessary.
+- [ ] I've checked that all new and existing tests pass
+- [ ] I've updated the documentation if necessary
 - [ ] I've added an entry in the CHANGELOG to credit myself
 
 ### Description
