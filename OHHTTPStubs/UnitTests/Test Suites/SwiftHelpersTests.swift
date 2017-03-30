@@ -138,7 +138,7 @@ class SwiftHelpersTests : XCTestCase {
       let req = NSURLRequest(URL: NSURL(string: url)!)
 #endif
       let p = req.url?.path
-      print("URL: \(url) -> Path: \(p)")
+      print("URL: \(url) -> Path: \(String(reflecting: p))")
       XCTAssert(matcher(req) == result, "isPath(\"\(path)\" matcher failed when testing url \(url)")
     }
   }
@@ -187,7 +187,7 @@ class SwiftHelpersTests : XCTestCase {
       let req = NSURLRequest(URL: NSURL(string: url)!)
 #endif
       let p = req.url?.path
-      print("URL: \(url) -> Path: \(p)")
+      print("URL: \(url) -> Path: \(String(reflecting: p))")
       XCTAssert(matcher(req) == result, "pathStartsWith(\"\(path)\" matcher failed when testing url \(url)")
     }
   }
