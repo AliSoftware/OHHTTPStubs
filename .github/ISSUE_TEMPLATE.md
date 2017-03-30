@@ -24,4 +24,6 @@
 
 ##### Complete output when you encounter the issue (if any)
 
-```[INSERT OUTPUT HERE]```
+```
+[INSERT OUTPUT HERE]
+```
