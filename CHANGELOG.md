@@ -1,5 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
+## [6.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.0.0)
+
+* The `pod 'OHHTTPStubs/Swift'` subspec now includes the `URLSession` and `JSON` subspecs.  
+  [@AliSoftware](https://github.com/AliSoftware)
 ## [5.2.3](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.3)
 
 * Reverted [#216](https://github.com/AliSoftware/OHHTTPStubs/pull/216) until better solution, as it was never active and can't make it compile for all subspec configurations.  

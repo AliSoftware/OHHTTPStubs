@@ -77,7 +77,7 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
-> Note: When building with Swift 2.2, you will have some `extraneous '_' in parameter` warnings. Those are normal: it's because the code is already ready for the transition to Swift 3 — which requires those `_` in parameters while Swift 2.2 didn't.  
+> Note: If you're still building for Swift 2.2, you will have some `extraneous '_' in parameter` warnings. Those are normal: it's because the code has already done the transition to Swift 3 — which requires those `_` in parameters while Swift 2.2 didn't.  
 > You can safely ignore those warnings in Swift 2.2. See [SE-0046](https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md) for more info.
 
 # Installing in your projects
@@ -86,11 +86,11 @@ _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have a
 
 Using [CocoaPods](https://guides.cocoapods.org) is the recommended way.
 
-Simply add `pod 'OHHTTPStubs'` to your `Podfile`. If you **intend to use it from Swift**, you should **add** `OHHTTPStubs/Swift` to your `Podfile` as well.
+* If you **intend to use `OHHTTPStubs` from Objective-C only**, add `pod 'OHHTTPStubs'` to your `Podfile`.
+* If you **intend to use `OHHTTPStubs` from Swift**, add `pod 'OHHTTPStubs/Swift'` to your `Podfile` instead.
 
 ```ruby
-pod 'OHHTTPStubs' # Default subspecs, including support for NSURLSession & JSON etc
-pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
+pod 'OHHTTPStubs/Swift' # includes the Default subsbec, with support for NSURLSession & JSON, and the Swiftier API wrapper
 ```
 
 ### All available subspecs
@@ -98,7 +98,7 @@ pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 `OHHTTPStubs` is split into subspecs so that when using Cocoapods, you can get only what you need, no more, no less.
 
 * The default subspec includes `NSURLSession`, `JSON`, and `OHPathHelpers`
-* The `Swift` subspec adds the Swiftier API (but doesn't include `NSURLSession` & `JSON` by itself)
+* The `Swift` subspec adds the Swiftier API to that default subspec
 * `HTTPMessage` and `Mocktail` are opt-in subspecs: list them explicitly if you need them
 * `OHPathHelpers` doesn't depend on `Core` and can be used independently of `OHHTTPStubs` altogether
 
@@ -107,17 +107,17 @@ pod 'OHHTTPStubs/Swift' # Adds the Swiftier API wrapper too
 
 Here's a list of which subspecs are included for each of the different lines you could use in your `Podfile`:
 
-| Subspec | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
-| ------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
-| `pod 'OHHTTPStubs'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/Default'` | ✅ | ✅ | ✅ |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/Swift'` | ✅ |   |   | ✅ |   |   |   |
-| `pod 'OHHTTPStubs/Core'` | ✅ |   |   |   |   |   |   |
-| `pod 'OHHTTPStubs/NSURLSession'` | ✅ | ✅ |   |   |   |   |   |
-| `pod 'OHHTTPStubs/JSON'` | ✅ |   | ✅ |   |   |   |   |
-| `pod 'OHHTTPStubs/OHPathHelpers'` |   |   |   |   | ✅ |   |   |
-| `pod 'OHHTTPStubs/HTTPMessage'` | ✅ |   |   |   |   | ✅ |   |
-| `pod 'OHHTTPStubs/Mocktail'` | ✅ |   |   |   |   |   | ✅ |
+| Subspec                           | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
+| --------------------------------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
+| `pod 'OHHTTPStubs'`               | ✅ | ✅ | ✅ |    | ✅ |    |    |
+| `pod 'OHHTTPStubs/Default'`       | ✅ | ✅ | ✅ |    | ✅ |    |    |
+| `pod 'OHHTTPStubs/Swift'`         | ✅ | ✅ | ✅ | ✅ | ✅ |    |    |
+| `pod 'OHHTTPStubs/Core'`          | ✅ |    |    |    |    |    |    |
+| `pod 'OHHTTPStubs/NSURLSession'`  | ✅ | ✅ |    |    |    |    |    |
+| `pod 'OHHTTPStubs/JSON'`          | ✅ |    | ✅ |    |    |    |    |
+| `pod 'OHHTTPStubs/OHPathHelpers'` |    |    |    |    | ✅ |    |    |
+| `pod 'OHHTTPStubs/HTTPMessage'`   | ✅ |    |    |    |    | ✅ |    |
+| `pod 'OHHTTPStubs/Mocktail'`      | ✅ |    |    |    |    |    | ✅ |
 
 </details>
 
@@ -146,13 +146,12 @@ For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/Cocoa
 <details>
 <summary><b>Carthage</b></summary>
 
-The project is currently set up with `SWIFT_VERSION=2.3` on `master`.
+The project is set up with `SWIFT_VERSION=3.0` on `master`.
 
-This means that the framework on `master` will build using Swift 2.2 on Xcode 7 and Swift 2.3 on Xcode 8.
+This means that the framework on `master` will build using Swift 3.0 on Xcode 8.2 and Swift 3.1 on Xcode 8.3.
+Swift 2.2 on Xcode 7 and Swift 2.3 on Xcode 8.
 
-If you want Carthage to build the framework with Swift 3.0, you can use the `swift-3.0` branch, whose only difference with `master` is that the project's Build Settings set `SWIFT_VERSION=3.0` instead of `2.3`.
-
-_Note:_ Later, probably a few weeks after the Xcode 8 official release, we plan to merge the `swift-3.0` branch into `master` and create a _compatibility branch_ `swift-2.3` for Carthage users who have not migrated their Swift code yet. We'll try to keep the branch up-to-date with master as best we can.
+If you want Carthage to build the framework with Swift 2.3, you can use the `swift-2.3` branch, whose only difference with `master` is that the project's Build Settings set `SWIFT_VERSION=2.3` instead of `3.0`.
 
 Hopefully, Carthage will address this in a future release. See the related issue [Carthage/Carthage#1445](https://github.com/Carthage/Carthage/issues/1445).
 </details>
