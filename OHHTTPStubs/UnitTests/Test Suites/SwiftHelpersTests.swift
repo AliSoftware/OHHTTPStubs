@@ -214,21 +214,21 @@ class SwiftHelpersTests : XCTestCase {
       "scheme://host/foo/bar/baz": false,
       "scheme://host/foo/bar?q=1": true,
       "scheme://host/foo/bar#anchor": true,
-      "scheme://host/foo/bar;param": false,
+      "scheme://host/foo/bar;param": !isSwift3,
       "scheme://host/path/foo/bar/baz": false,
       "scheme://host/path#/foo/bar": false,
       "scheme://host/path?/foo/bar": false,
-      "scheme://host/path;/foo/bar": true,
+      "scheme://host/path;/foo/bar": isSwift3,
       // Relative URLs
       "foo/bar": true,
       "foo/bar/baz": false,
       "foo/bar?q=1": true,
       "foo/bar#anchor": true,
-      "foo/bar;param": false,
+      "foo/bar;param": !isSwift3,
       "path/foo/bar/baz": false,
       "path#/foo/bar": false,
       "path?/foo/bar": false,
-      "path;/foo/bar": true,
+      "path;/foo/bar": isSwift3,
       ]
 
     for (url, result) in urls {
@@ -252,7 +252,12 @@ class SwiftHelpersTests : XCTestCase {
   }
 
   private func testPathMatches(_ regexString: String, caseInsensitive: Bool) {
-    let matcher = pathMatches(regexString, options: caseInsensitive ? [.caseInsensitive] : [])
+    #if swift(>=3.0)
+      let options: NSRegularExpression.Options = caseInsensitive ? [.caseInsensitive] : []
+    #else
+      let options: NSRegularExpressionOptions = caseInsensitive ? .CaseInsensitive : []
+    #endif
+    let matcher = pathMatches(regexString, options: options)
 
     let urls = [
       // Case sensitive
@@ -264,7 +269,7 @@ class SwiftHelpersTests : XCTestCase {
       "scheme://host/path/foo/bar/12/baz": true,
       "scheme://host/path#/foo/bar/12/baz": false,
       "scheme://host/path?/foo/bar/12/baz": false,
-      "scheme://host/path;/foo/bar/12/baz": true,
+      "scheme://host/path;/foo/bar/12/baz": isSwift3,
       // Case insensitive
       "scheme://host/foo/bAr/12/baZ?q=1": caseInsensitive,
       "scheme://host/foo/bAr/12/baZ#anchor": caseInsensitive,
@@ -272,7 +277,7 @@ class SwiftHelpersTests : XCTestCase {
       "scheme://host/path/foo/bAr/12/baZ": caseInsensitive,
       "scheme://host/path#/foo/bAr/12/baZ": false,
       "scheme://host/path?/foo/bAr/12/baZ": false,
-      "scheme://host/path;/foo/bAr/12/baZ": caseInsensitive,
+      "scheme://host/path;/foo/bAr/12/baZ": caseInsensitive && isSwift3,
       ]
 
     for (url, result) in urls {
@@ -283,7 +288,7 @@ class SwiftHelpersTests : XCTestCase {
       #endif
       let p = req.url?.path
       print("URL: \(url) -> Path: \(String(reflecting: p))")
-      XCTAssert(matcher(req) == result, "pathMatches(/\(regexString)/\(caseInsensitive ? "i" : "")) matcher failed when testing url \(url)")
+      XCTAssert(matcher(req) == result, "pathMatches(\"\(regexString)\"\(caseInsensitive ? "i" : "")) matcher failed when testing url \(url)")
     }
   }
 

@@ -190,7 +190,7 @@ public func isPath(_ path: String) -> OHHTTPStubsTestBlock {
   return { req in req.url?.path == path }
 }
 
-private func getPath(req: URLRequest) -> String? {
+private func getPath(_ req: URLRequest) -> String? {
   #if swift(>=3.0)
     return req.url?.path // In Swift 3, path is non-optional
   #else
@@ -209,7 +209,7 @@ private func getPath(req: URLRequest) -> String? {
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
 public func pathStartsWith(_ path: String) -> OHHTTPStubsTestBlock {
-  return { req in getPath(req: req)?.hasPrefix(path) ?? false }
+  return { req in getPath(req)?.hasPrefix(path) ?? false }
 }
 
 /**
@@ -221,7 +221,7 @@ public func pathStartsWith(_ path: String) -> OHHTTPStubsTestBlock {
  *            path ends with the given string
  */
 public func pathEndsWith(_ path: String) -> OHHTTPStubsTestBlock {
-  return { req in getPath(req: req)?.hasSuffix(path) ?? false }
+  return { req in getPath(req)?.hasSuffix(path) ?? false }
 }
 
 /**
@@ -236,9 +236,13 @@ public func pathEndsWith(_ path: String) -> OHHTTPStubsTestBlock {
  */
 public func pathMatches(_ regex: NSRegularExpression) -> OHHTTPStubsTestBlock {
   return { req in
-    guard let path = getPath(req: req) else { return false }
+    guard let path = getPath(req) else { return false }
     let range = NSRange(location: 0, length: path.utf16.count)
-    return regex.firstMatch(in: path, options: [], range: range) != nil
+    #if swift(>=3.0)
+      return regex.firstMatch(in: path, options: [], range: range) != nil
+    #else
+      return regex.firstMatchInString(path, options: [], range: range) != nil
+    #endif
   }
 }
 
@@ -255,12 +259,21 @@ public func pathMatches(_ regex: NSRegularExpression) -> OHHTTPStubsTestBlock {
  * - Note: This is a convenience function building an NSRegularExpression
  *         and calling pathMatches(…) with it
  */
+#if swift(>=3.0)
 public func pathMatches(_ regexString: String, options: NSRegularExpression.Options = []) -> OHHTTPStubsTestBlock {
   guard let regex = try? NSRegularExpression(pattern: regexString, options: options) else {
     return { _ in false }
   }
   return pathMatches(regex)
 }
+#else
+  public func pathMatches(_ regexString: String, options: NSRegularExpressionOptions = []) -> OHHTTPStubsTestBlock {
+    guard let regex = try? NSRegularExpression(pattern: regexString, options: options) else {
+      return { _ in false }
+    }
+    return pathMatches(regex)
+  }
+#endif
 
 /**
  * Matcher for testing an `NSURLRequest`'s **path extension**.
@@ -334,9 +347,15 @@ public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBloc
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body is exactly the same as the parameter value
  */
-public func hasBody(_ body: Data) -> OHHTTPStubsTestBlock {
-  return { req in (req as NSURLRequest).ohhttpStubs_HTTPBody() == body }
-}
+#if swift(>=3.0)
+  public func hasBody(_ body: Data) -> OHHTTPStubsTestBlock {
+    return { req in (req as NSURLRequest).ohhttpStubs_HTTPBody() == body }
+  }
+#else
+  public func hasBody(_ body: NSData) -> OHHTTPStubsTestBlock {
+    return { req in req.OHHTTPStubs_HTTPBody() == body }
+  }
+#endif
 
 // MARK: Operators on OHHTTPStubsTestBlock
 
