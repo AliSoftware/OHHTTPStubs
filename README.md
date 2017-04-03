@@ -107,17 +107,17 @@ pod 'OHHTTPStubs/Swift' # includes the Default subsbec, with support for NSURLSe
 
 Here's a list of which subspecs are included for each of the different lines you could use in your `Podfile`:
 
-| Subspec                           | Core  | NSURLSession | JSON  | Swift | OHPathHelpers | HTTPMessage | Mocktail |
-| --------------------------------- | :---: | :----------: | :---: | :---: | :-----------: | :---------: | :------: |
-| `pod 'OHHTTPStubs'`               | ✅ | ✅ | ✅ |    | ✅ |    |    |
-| `pod 'OHHTTPStubs/Default'`       | ✅ | ✅ | ✅ |    | ✅ |    |    |
-| `pod 'OHHTTPStubs/Swift'`         | ✅ | ✅ | ✅ | ✅ | ✅ |    |    |
-| `pod 'OHHTTPStubs/Core'`          | ✅ |    |    |    |    |    |    |
-| `pod 'OHHTTPStubs/NSURLSession'`  | ✅ | ✅ |    |    |    |    |    |
-| `pod 'OHHTTPStubs/JSON'`          | ✅ |    | ✅ |    |    |    |    |
-| `pod 'OHHTTPStubs/OHPathHelpers'` |    |    |    |    | ✅ |    |    |
-| `pod 'OHHTTPStubs/HTTPMessage'`   | ✅ |    |    |    |    | ✅ |    |
-| `pod 'OHHTTPStubs/Mocktail'`      | ✅ |    |    |    |    |    | ✅ |
+| Subspec                           | Core | NSURLSession | JSON | Swift | OHPathHelpers | HTTPMessage | Mocktail |
+| --------------------------------- | :--: | :----------: | :--: | :---: | :-----------: | :---------: | :------: |
+| `pod 'OHHTTPStubs'`               | ✅   | ✅           | ✅   |       | ✅            |             |          |
+| `pod 'OHHTTPStubs/Default'`       | ✅   | ✅           | ✅   |       | ✅            |             |          |
+| `pod 'OHHTTPStubs/Swift'`         | ✅   | ✅           | ✅   | ✅    | ✅            |             |          |
+| `pod 'OHHTTPStubs/Core'`          | ✅   |              |      |       |               |             |          |
+| `pod 'OHHTTPStubs/NSURLSession'`  | ✅   | ✅           |      |       |               |             |          |
+| `pod 'OHHTTPStubs/JSON'`          | ✅   |              | ✅   |       |               |             |          |
+| `pod 'OHHTTPStubs/OHPathHelpers'` |      |              |      |       | ✅            |             |          |
+| `pod 'OHHTTPStubs/HTTPMessage'`   | ✅   |              |      |       |               | ✅          |          |
+| `pod 'OHHTTPStubs/Mocktail'`      | ✅   |              |      |       |               |             | ✅       |
 
 </details>
 
