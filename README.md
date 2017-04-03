@@ -3,9 +3,9 @@ OHHTTPStubs
 
 [![Platform](http://cocoapod-badges.herokuapp.com/p/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Carthage Swift 3.0/3.1](https://img.shields.io/badge/Carthage-Swift%203.x-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.svg?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
-[![Language: Swift 3.1](https://img.shields.io/badge/Swift-3.1-orange.svg)](https://swift.org)
+[![Language: Swift 3.1](https://img.shields.io/badge/Swift-2.3%2F3.0%2F3.1-orange.svg)](https://swift.org)
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
 
@@ -73,12 +73,24 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 * `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
 * `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
-* `OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3 and 3.0**.
+* `OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3, 3.0 and 3.1**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
-> Note: If you're still building for Swift 2.2, you will have some `extraneous '_' in parameter` warnings. Those are normal: it's because the code has already done the transition to Swift 3 — which requires those `_` in parameters while Swift 2.2 didn't.  
-> You can safely ignore those warnings in Swift 2.2. See [SE-0046](https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md) for more info.
+<details>
+<summary>Swift 2.2 users</summary>
+
+If you're still building for Swift 2.2, you will have some `extraneous '_' in parameter` warnings. Those are normal: it's because the code has already done the transition to Swift 3 — which requires those `_` in parameters while Swift 2.2 didn't.  
+
+You can safely ignore those warnings in Swift 2.2. See [SE-0046](https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md) for more info.
+</details>
+
+<details>
+<summary>Carthage users using Swift 2.x</summary>
+
+If you're using Carthage, we don't do Swift-2.3-specific branches anymore (too much maintenance work and most people have migrated already anyway) but if you still need Swift 2.3 compatibility, you can follow the tips in [the installation instructions below](#using-the-right-swift-version-for-your-project) to force Carthage to build this library with Swift 2.3.
+
+</details>
 
 # Installing in your projects
 
@@ -90,7 +102,7 @@ Using [CocoaPods](https://guides.cocoapods.org) is the recommended way.
 * If you **intend to use `OHHTTPStubs` from Swift**, add `pod 'OHHTTPStubs/Swift'` to your `Podfile` instead.
 
 ```ruby
-pod 'OHHTTPStubs/Swift' # includes the Default subsbec, with support for NSURLSession & JSON, and the Swiftier API wrapper
+pod 'OHHTTPStubs/Swift' # includes the Default subspec, with support for NSURLSession & JSON, and the Swiftier API wrappers
 ```
 
 ### All available subspecs
@@ -129,31 +141,38 @@ _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** feat
 
 > Be warned that I don't personally use Carthage, so I won't be able to guarantee much help/support for it.
 
-## Using the right Swift Version of `OHHTTPStubs` for your project
+## Using the right Swift version for your project
 
-`OHHTTPStubs` supports Swift 2.2 (Xcode 7), and both Swift 2.3 and Swift 3.0 (Xcode 8) 🎉 
+`OHHTTPStubs` supports Swift 2.2 (Xcode 7), Swift 2.3 (Xcode 8), Swift 3.0 (Xcode 8+) and Swift 3.1 (Xcode 8.3+) 🎉 
 
 Here are some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
 
 <details>
-<summary><b>CocoaPods</b></summary>
+<summary><b>CocoaPods: nothing to do</b></summary>
 
-If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/CocoaPods/releases/tag/1.1.0.beta.1) or later, then CocoaPods will compile `OHHTTPStubs` with the right Swift Version matching the one you use for your project automatically.
+If you use CocoaPods version [`1.1.0.beta.1`](https://github.com/CocoaPods/CocoaPods/releases/tag/1.1.0.beta.1) or later, then CocoaPods will compile `OHHTTPStubs` with the right Swift Version matching the one you use for your project automatically. You have nothing to do! 🎉
 
 For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/CocoaPods/pull/5540) and [CocoaPods/CocoaPods#5760](https://github.com/CocoaPods/CocoaPods/pull/5760).
 </details>
 
 <details>
-<summary><b>Carthage</b></summary>
+<summary><b>Carthage: choose the right version</b></summary>
 
 The project is set up with `SWIFT_VERSION=3.0` on `master`.
 
-This means that the framework on `master` will build using Swift 3.0 on Xcode 8.2 and Swift 3.1 on Xcode 8.3.
-Swift 2.2 on Xcode 7 and Swift 2.3 on Xcode 8.
+This means that the framework on `master` will build using:
 
-If you want Carthage to build the framework with Swift 2.3, you can use the `swift-2.3` branch, whose only difference with `master` is that the project's Build Settings set `SWIFT_VERSION=2.3` instead of `3.0`.
+* Swift 3.1 on Xcode 8.3
+* Swift 3.0 on Xcode 8.2
+* Swift 2.2/2.3 on Xcode 7.x.
 
-Hopefully, Carthage will address this in a future release. See the related issue [Carthage/Carthage#1445](https://github.com/Carthage/Carthage/issues/1445).
+We stopped doing Swift-2.3-specific branches (too much maintenance work), so if you want Carthage to build the framework with Swift 2.3 you can:
+
+ * either use an older Xcode version
+ * or use the previous version of `OHHTTPStubs` (5.2.3) — whose `master` branch uses `2.3`
+ * or fork the repo just to change the `SWIFT_VERSION` build setting to `2.3`
+ * or ask Carthage maintainers to [fix this issue](https://github.com/Carthage/Carthage/issues/1445) once and for all.
+
 </details>
 
 # Special Considerations
@@ -192,10 +211,15 @@ But you generally only use stubs during the development phase and want to remove
 
 # License and Credits
 
-This project and library has been created by Olivier Halligon (@aligatr on Twitter) and is under the MIT License.
+This project and library has been created by Olivier Halligon ([@aligatr](https://twitter.com/aligatr) on Twitter) and is under the MIT License.
 
 It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
 
-I would also like to thank Kevin Harwood ([@kcharwood](https://github.com/kcharwood)) for migrating the code to `NSInputStream`, Jinlian Wang ([@JinlianWang](https://github.com/JinlianWang)) for adding Mocktail support, and everyone else who contributed to this project on GitHub somehow.
+I would also like to thank:
+
+* Sébastien Duperron ([@Liquidsoul](https://github.com/Liquidsoul)) for helping me maintaining this library, triaging and responding to issues and PRs
+* Kevin Harwood ([@kcharwood](https://github.com/kcharwood)) for migrating the code to `NSInputStream`
+* Jinlian Wang ([@JinlianWang](https://github.com/JinlianWang)) for adding Mocktail support
+* and everyone else who contributed to this project on GitHub somehow.
 
 If you want to support the development of this library, feel free to [<img alt="Donate" src="https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png" height="25px">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TRTU3UEWEHV92 "Donate"). Thanks to all contributors so far!

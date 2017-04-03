@@ -8,11 +8,15 @@
   [#240](https://github.com/AliSoftware/OHHTTPStubs/pull/240)
 * The `pod 'OHHTTPStubs/Swift'` subspec now includes the `URLSession` and `JSON` subspecs.  
   [@AliSoftware](https://github.com/AliSoftware)
-* Added some matchers to the Swift APIS: `hasBody(…)`, `pathEndsWith(…)` and `pathMatches(…)`.  
+* Added some matchers to the Swift APIs: `hasBody(…)`, `pathEndsWith(…)` and `pathMatches(…)`.  
   [@AliSoftware](https://github.com/AliSoftware)
 
-> Note: Bumping this version to 6.0.0 because it's now using the Swift 3 APIs,
-  but in practice it's entirely retro-compatible with previous `5.2.3-swift3` branch)
+> Notes:
+>
+> * Bumping this version to 6.0.0 because it's now using the Swift 3 APIs,
+>   but in practice it's entirely retro-compatible with previous `5.2.3-swift3` branch)
+> * This version is still compatible with Swift 2.3 when integrating with CocoaPods, as CocoaPods uses the same `SWIFT_VERSION` as your app project does so it adapts automatically so it's transparent for users.
+> * If you're using Carthage, we stopped providing Swift-2.3-specific branches ourselves (too much maintainance work), but if you still need Swift 2.3 compatibility, you can follow the tips in the installation instructions of the `README.md`.
 
 ## [5.2.3](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.3)
 
