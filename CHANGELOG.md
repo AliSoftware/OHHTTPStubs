@@ -3,7 +3,7 @@
 ## [6.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.0.0)
 
 * Made Swift 3 the default. `master` is now compatible with 3.0 and 3.1.  
-  [@LiquidSoul](https://github.com/Liquidsoul)
+  [@Liquidsoul](https://github.com/Liquidsoul)
   [@cohilla](https://github.com/cohilla)
   [#240](https://github.com/AliSoftware/OHHTTPStubs/pull/240)
 * The `pod 'OHHTTPStubs/Swift'` subspec now includes the `URLSession` and `JSON` subspecs.  
