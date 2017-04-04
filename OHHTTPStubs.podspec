@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "5.2.3"
+  s.version      = "6.0.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
     swift.watchos.deployment_target = '2.0'
     swift.tvos.deployment_target = '9.0'
 
-    swift.dependency 'OHHTTPStubs/Core'
+    swift.dependency 'OHHTTPStubs/Default'
     swift.source_files = "OHHTTPStubs/Sources/Swift/*.swift"
   end
 

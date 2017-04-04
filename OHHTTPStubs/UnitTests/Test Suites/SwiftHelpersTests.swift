@@ -95,6 +95,12 @@ class SwiftHelpersTests : XCTestCase {
     }
   }
 
+#if swift(>=3.0)
+  private let isSwift3 = true
+#else
+  private let isSwift3 = false
+#endif
+
   func testIsPath_absoluteURL() {
     testIsPath("/foo/bar/baz", isAbsoluteMatcher: true)
   }
@@ -105,7 +111,10 @@ class SwiftHelpersTests : XCTestCase {
   
   func testIsPath(_ path: String, isAbsoluteMatcher: Bool) {
     let matcher = isPath(path)
-    
+    // In Swift 2.3 and before, NSURL was not bridged to the URL value type in Swift
+    // And it happens that NSURL.path (Swift 2.2) does NOT contain the ";" (and string after) if any
+    // While URL.path (Swift 2.3/3.0) DOES contain the ";" (and the string after), if any
+
     let urls = [
       // Absolute URLs
       "scheme:": false,
@@ -115,7 +124,7 @@ class SwiftHelpersTests : XCTestCase {
       "scheme://host/foo/bar/baz": isAbsoluteMatcher,
       "scheme://host/foo/bar/baz?q=1": isAbsoluteMatcher,
       "scheme://host/foo/bar/baz#anchor": isAbsoluteMatcher,
-      "scheme://host/foo/bar/baz;param": isAbsoluteMatcher,
+      "scheme://host/foo/bar/baz;param": isAbsoluteMatcher && !isSwift3,
       "scheme://host/foo/bar/baz/wizz": false,
       "scheme://host/path#/foo/bar/baz": false,
       "scheme://host/path?/foo/bar/baz": false,
@@ -124,7 +133,7 @@ class SwiftHelpersTests : XCTestCase {
       "foo/bar/baz": !isAbsoluteMatcher,
       "foo/bar/baz?q=1": !isAbsoluteMatcher,
       "foo/bar/baz#anchor": !isAbsoluteMatcher,
-      "foo/bar/baz;param": !isAbsoluteMatcher,
+      "foo/bar/baz;param": !isAbsoluteMatcher && !isSwift3,
       "foo/bar/baz/wizz": false,
       "path#/foo/bar/baz": false,
       "path?/foo/bar/baz": false,
@@ -139,7 +148,7 @@ class SwiftHelpersTests : XCTestCase {
 #endif
       let p = req.url?.path
       print("URL: \(url) -> Path: \(String(reflecting: p))")
-      XCTAssert(matcher(req) == result, "isPath(\"\(path)\" matcher failed when testing url \(url)")
+      XCTAssert(matcher(req) == result, "isPath(\"\(path)\") matcher failed when testing url \(url)")
     }
   }
 
@@ -151,7 +160,7 @@ class SwiftHelpersTests : XCTestCase {
     testPathStartsWith("foo/bar", isAbsoluteMatcher: false)
   }
 
-  func testPathStartsWith(_ path: String, isAbsoluteMatcher: Bool) {
+  private func testPathStartsWith(_ path: String, isAbsoluteMatcher: Bool) {
     let matcher = pathStartsWith(path)
 
     let urls = [
@@ -188,10 +197,101 @@ class SwiftHelpersTests : XCTestCase {
 #endif
       let p = req.url?.path
       print("URL: \(url) -> Path: \(String(reflecting: p))")
-      XCTAssert(matcher(req) == result, "pathStartsWith(\"\(path)\" matcher failed when testing url \(url)")
+      XCTAssert(matcher(req) == result, "pathStartsWith(\"\(path)\") matcher failed when testing url \(url)")
     }
   }
-  
+
+  func testPathEndsWith() {
+    let path = "/bar"
+    let matcher = pathEndsWith(path)
+
+    let urls = [
+      // Absolute URLs
+      "scheme:": false,
+      "scheme://": false,
+      "scheme://foo/bar/baz": false,
+      "scheme://host/foo/bar": true,
+      "scheme://host/foo/bar/baz": false,
+      "scheme://host/foo/bar?q=1": true,
+      "scheme://host/foo/bar#anchor": true,
+      "scheme://host/foo/bar;param": !isSwift3,
+      "scheme://host/path/foo/bar/baz": false,
+      "scheme://host/path#/foo/bar": false,
+      "scheme://host/path?/foo/bar": false,
+      "scheme://host/path;/foo/bar": isSwift3,
+      // Relative URLs
+      "foo/bar": true,
+      "foo/bar/baz": false,
+      "foo/bar?q=1": true,
+      "foo/bar#anchor": true,
+      "foo/bar;param": !isSwift3,
+      "path/foo/bar/baz": false,
+      "path#/foo/bar": false,
+      "path?/foo/bar": false,
+      "path;/foo/bar": isSwift3,
+      ]
+
+    for (url, result) in urls {
+      #if swift(>=3.0)
+        let req = URLRequest(url: URL(string: url)!)
+      #else
+        let req = NSURLRequest(URL: NSURL(string: url)!)
+      #endif
+      let p = req.url?.path
+      print("URL: \(url) -> Path: \(String(reflecting: p))")
+      XCTAssert(matcher(req) == result, "pathEndsWith(\"\(path)\") matcher failed when testing url \(url)")
+    }
+  }
+
+  func testPathMatches_caseSensitive() {
+    testPathMatches("/bar/[0-9]+/baz$", caseInsensitive: false)
+  }
+
+  func testPathMatches_casensensitive() {
+    testPathMatches("/bar/[0-9]+/baz$", caseInsensitive: true)
+  }
+
+  private func testPathMatches(_ regexString: String, caseInsensitive: Bool) {
+    #if swift(>=3.0)
+      let options: NSRegularExpression.Options = caseInsensitive ? [.caseInsensitive] : []
+    #else
+      let options: NSRegularExpressionOptions = caseInsensitive ? .CaseInsensitive : []
+    #endif
+    let matcher = pathMatches(regexString, options: options)
+
+    let urls = [
+      // Case sensitive
+      "scheme://foo/bar/12/baz": true,
+      "scheme://host/foo/bar/12": false,
+      "scheme://host/foo/bar/12/baz?q=1": true,
+      "scheme://host/foo/bar/12/baz#anchor": true,
+      "scheme://host/foo/bar/12/baz;param": !isSwift3,
+      "scheme://host/path/foo/bar/12/baz": true,
+      "scheme://host/path#/foo/bar/12/baz": false,
+      "scheme://host/path?/foo/bar/12/baz": false,
+      "scheme://host/path;/foo/bar/12/baz": isSwift3,
+      // Case insensitive
+      "scheme://host/foo/bAr/12/baZ?q=1": caseInsensitive,
+      "scheme://host/foo/bAr/12/baZ#anchor": caseInsensitive,
+      "scheme://host/foo/bAr/12/baZ;param": caseInsensitive && !isSwift3,
+      "scheme://host/path/foo/bAr/12/baZ": caseInsensitive,
+      "scheme://host/path#/foo/bAr/12/baZ": false,
+      "scheme://host/path?/foo/bAr/12/baZ": false,
+      "scheme://host/path;/foo/bAr/12/baZ": caseInsensitive && isSwift3,
+      ]
+
+    for (url, result) in urls {
+      #if swift(>=3.0)
+        let req = URLRequest(url: URL(string: url)!)
+      #else
+        let req = NSURLRequest(URL: NSURL(string: url)!)
+      #endif
+      let p = req.url?.path
+      print("URL: \(url) -> Path: \(String(reflecting: p))")
+      XCTAssert(matcher(req) == result, "pathMatches(\"\(regexString)\"\(caseInsensitive ? "i" : "")) matcher failed when testing url \(url)")
+    }
+  }
+
   func testIsExtension() {
     let matcher = isExtension("txt")
     
