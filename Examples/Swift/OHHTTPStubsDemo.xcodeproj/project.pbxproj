@@ -344,7 +344,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FE789C901264C7AF3BDF48CB /* Pods-OHHTTPStubsDemo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -358,7 +357,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BFB1DB3496791F522727353 /* Pods-OHHTTPStubsDemo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
