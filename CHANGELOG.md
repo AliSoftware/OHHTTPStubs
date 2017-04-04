@@ -14,9 +14,9 @@
 > Notes:
 >
 > * Bumping this version to 6.0.0 because it's now using the Swift 3 APIs,
->   but in practice it's entirely retro-compatible with previous `5.2.3-swift3` branch)
-> * This version is still compatible with Swift 2.3 when integrating with CocoaPods, as CocoaPods uses the same `SWIFT_VERSION` as your app project does so it adapts automatically so it's transparent for users.
-> * If you're using Carthage, we stopped providing Swift-2.3-specific branches ourselves (too much maintainance work), but if you still need Swift 2.3 compatibility, you can follow the tips in the installation instructions of the `README.md`.
+>   but in practice it's entirely retro-compatible with previous `5.2.3-swift3` branch
+> * This version is still compatible with Swift 2.3 when integrating with CocoaPods, as CocoaPods uses the same `SWIFT_VERSION` as your app project does so it adapts automatically and it's transparent for users.
+> * If you're using Carthage though, we stopped providing Swift-2.3-specific branches ourselves (too much maintainance work), but if you still need Swift 2.3 compatibility, you can follow the tips in the installation instructions of the `README.md`.
 
 ## [5.2.3](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/5.2.3)
 
