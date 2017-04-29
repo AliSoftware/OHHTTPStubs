@@ -45,7 +45,11 @@
     {
       "name": "Core",
       "source_files": "OHHTTPStubs/Sources/*.{h,m}",
-      "public_header_files": "OHHTTPStubs/Sources/*.h"
+      "public_header_files": "OHHTTPStubs/Sources/*.h",
+      "private_header_files": [
+        "OHHTTPStubs/Sources/OHHTTPStubsDescriptor.h",
+        "OHHTTPStubs/Sources/OHHTTPStubsProtocol.h"
+      ]
     },
     {
       "name": "NSURLSession",

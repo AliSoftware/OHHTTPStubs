@@ -29,39 +29,9 @@
 #import <Foundation/Foundation.h>
 
 #import "Compatibility.h"
-#import "OHHTTPStubsResponse.h"
+#import "OHHTTPStubsTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Types
-
-typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
-typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
-
-/**
- *  This opaque type represents an installed stub and is used to uniquely
- *  identify a stub once it has been created.
- *
- *  This type is returned by the `stubRequestsPassingTest:withStubResponse:` method
- *  so that you can later reference it and use this reference to remove the stub later.
- *
- *  This type also let you add arbitrary metadata to a stub to differenciate it
- *  more easily when debugging.
- */
-@protocol OHHTTPStubsDescriptor <NSObject>
-/**
- *  An arbitrary name that you can set and get to describe your stub.
- *  Use it as your own convenience.
- *
- *  This is especially useful if you dump all installed stubs using `allStubs`
- *  or if you want to log which stubs are being triggered using `onStubActivation:`.
- */
-@property(nonatomic, strong, nullable) NSString* name;
-@end
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Interface
 
 /**
  * Stubs Manager. Use this class to add and remove stubs and stub your network requests.

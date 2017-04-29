@@ -47,6 +47,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files = "OHHTTPStubs/Sources/*.{h,m}"
     core.public_header_files = "OHHTTPStubs/Sources/*.h"
+    core.private_header_files = "OHHTTPStubs/Sources/OHHTTPStubsDescriptor.h", "OHHTTPStubs/Sources/OHHTTPStubsProtocol.h"
   end
 
   # Optional subspecs
