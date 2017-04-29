@@ -275,7 +275,40 @@
     }
 }
 
-- (void)test_NSURLSessionDefaultConfig_Disabled
+- (void)test_NSURLSessionEphemeralConfig_Disabled
+{
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        BOOL wasEnabled = [OHHTTPStubs isEnabled];
+        XCTAssert(wasEnabled, @"Stubs are expected to be on by default");
+        [OHHTTPStubs setEnabled:NO];
+        XCTAssert(![OHHTTPStubs isEnabled], @"isEnabled should report NO after turning off");
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        [OHHTTPStubs setEnabled:YES];
+        XCTAssert([OHHTTPStubs isEnabled], @"isEnabled should report YES after turning on");
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+        
+        NSDictionary* json = @{@"Success": @"Yes"};
+        [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
+            // Stubs were disable for this session, so we should get an error instead of the stubs data
+            XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+        }];
+        
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            // Stubs were disable for this session, so we should get an error instead of the stubs data
+            XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(redirectResponse, @"Redirect response should not have been received as stubs should be disabled");
+            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+        }];
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+
+- (void)test_NSURLSessionEphemeralConfig_DisabledForSession
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {

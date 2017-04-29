@@ -63,7 +63,8 @@
     
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        sharedInstance = [[self alloc] initEnabled:YES];
+        sharedInstance = [[self alloc] init];
+        [sharedInstance setEnabled:YES];
     });
     return sharedInstance;
 }
@@ -71,17 +72,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setup & Teardown
 
-- (instancetype)initEnabled:(BOOL)enabled
+- (instancetype)init
 {
     self = [super init];
     if (self)
     {
         _stubDescriptors = [NSMutableArray array];
         _protocolClass = [[OHHTTPStubsProtocolClassProxy alloc] initWithManager:self];
-        _enabledState = enabled;
-        if (enabled) {
-            [self _setEnable:YES];
-        }
     }
     return self;
 }
