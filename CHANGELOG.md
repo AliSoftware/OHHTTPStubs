@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
+
+* Enabled creating multiple instances of OHHTTPStubs to be able to have `NSURLSession`'s with different stub configurations
+  [@nickolas-pohilets](https://github.com/nickolas-pohilets)
+
 ## [6.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.0.0)
 
 * Made Swift 3 the default. `master` is now compatible with 3.0 and 3.1.  
