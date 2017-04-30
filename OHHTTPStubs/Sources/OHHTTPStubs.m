@@ -38,8 +38,6 @@
 
 @interface OHHTTPStubs() <OHHTTPStubsManager>
 
-+ (instancetype)sharedInstance;
-
 @property(atomic, strong) id protocolClass;
 @property(atomic, copy) NSMutableArray* stubDescriptors;
 @property(atomic, assign) BOOL enabledState;
@@ -57,16 +55,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
 
-+ (instancetype)sharedInstance
++ (instancetype)defaultInstance
 {
-    static OHHTTPStubs *sharedInstance = nil;
+    static OHHTTPStubs *defaultInstance = nil;
     
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        sharedInstance = [[self alloc] init];
-        [sharedInstance setEnabled:YES];
+        defaultInstance = [[self alloc] init];
+        [defaultInstance setEnabled:YES];
     });
-    return sharedInstance;
+    return defaultInstance;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,43 +96,40 @@
 +(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
                                    withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
-    OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:testBlock
-                                                                       responseBlock:responseBlock];
-    [OHHTTPStubs.sharedInstance addStub:stub];
-    return stub;
+    return [OHHTTPStubs.defaultInstance stubRequestsPassingTest:testBlock withStubResponse:responseBlock];
 }
 
 +(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
 {
-    return [OHHTTPStubs.sharedInstance removeStub:stubDesc];
+    return [OHHTTPStubs.defaultInstance removeStub:stubDesc];
 }
 
 +(void)removeAllStubs
 {
-    [OHHTTPStubs.sharedInstance removeAllStubs];
+    [OHHTTPStubs.defaultInstance removeAllStubs];
 }
 
 #pragma mark > Disabling & Re-Enabling stubs
 
 +(void)setEnabled:(BOOL)enabled
 {
-    [OHHTTPStubs.sharedInstance setEnabled:enabled];
+    [OHHTTPStubs.defaultInstance setEnabled:enabled];
 }
 
 +(BOOL)isEnabled
 {
-    return OHHTTPStubs.sharedInstance.isEnabled;
+    return OHHTTPStubs.defaultInstance.isEnabled;
 }
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 + (void)setEnabled:(BOOL)enable forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
 {
-    [OHHTTPStubs.sharedInstance setEnabled:enable forSessionConfiguration:sessionConfig];
+    [OHHTTPStubs.defaultInstance setEnabled:enable forSessionConfiguration:sessionConfig];
 }
 
 + (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig
 {
-    return [OHHTTPStubs.sharedInstance isEnabledForSessionConfiguration:sessionConfig];
+    return [OHHTTPStubs.defaultInstance isEnabledForSessionConfiguration:sessionConfig];
 }
 #endif
 
@@ -142,24 +137,23 @@
 
 +(NSArray*)allStubs
 {
-    return [OHHTTPStubs.sharedInstance stubDescriptors];
+    return [OHHTTPStubs.defaultInstance allStubs];
 }
 
-+(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block
++(void)onStubActivation:(nullable OHHTTPStubsActivationBlock)block
 {
-    [OHHTTPStubs.sharedInstance setOnStubActivationBlock:block];
+    [OHHTTPStubs.defaultInstance setOnStubActivationBlock:block];
 }
 
-+(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block
++(void)onStubRedirectResponse:(nullable OHHTTPStubsRedirectBlock)block
 {
-    [OHHTTPStubs.sharedInstance setOnStubRedirectBlock:block];
+    [OHHTTPStubs.defaultInstance setOnStubRedirectBlock:block];
 }
 
-+(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError* error) )block
++(void)afterStubFinish:(nullable OHHTTPStubsFinishBlock)block
 {
-    [OHHTTPStubs.sharedInstance setAfterStubFinishBlock:block];
+    [OHHTTPStubs.defaultInstance setAfterStubFinishBlock:block];
 }
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +189,11 @@
         [NSURLProtocol unregisterClass:[self protocolClass]];
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public instance methods
+
+#pragma mark > Disabling & Re-Enabling stubs
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 - (void)setEnabled:(BOOL)enable forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
@@ -243,12 +242,18 @@
 }
 #endif
 
--(void)addStub:(OHHTTPStubsDescriptor*)stubDesc
+#pragma mark > Adding & Removing stubs
+
+- (id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
+                                    withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
+    OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:testBlock
+                                                                       responseBlock:responseBlock];
     @synchronized(_stubDescriptors)
     {
-        [_stubDescriptors addObject:stubDesc];
+        [_stubDescriptors addObject:stub];
     }
+    return stub;
 }
 
 -(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
@@ -269,6 +274,32 @@
         [_stubDescriptors removeAllObjects];
     }
 }
+
+#pragma mark > Debug Methods
+
+-(NSArray*)allStubs
+{
+    return self.stubDescriptors;
+}
+
+-(void)onStubActivation:(nullable OHHTTPStubsActivationBlock)block
+{
+    self.onStubActivationBlock = block;
+}
+
+-(void)onStubRedirectResponse:(nullable OHHTTPStubsRedirectBlock)block
+{
+    self.onStubRedirectBlock = block;
+}
+
+-(void)afterStubFinish:(nullable OHHTTPStubsFinishBlock)block
+{
+    self.afterStubFinishBlock = block;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - OHHTTPStubsManager
 
 - (OHHTTPStubsDescriptor*)firstStubPassingTestForRequest:(NSURLRequest*)request
 {

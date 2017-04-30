@@ -36,4 +36,8 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
 
 @end
 
+typedef void(^OHHTTPStubsActivationBlock)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub);
+typedef void(^OHHTTPStubsRedirectBlock)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub);
+typedef void(^OHHTTPStubsFinishBlock)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError *error);
+
 NS_ASSUME_NONNULL_END
