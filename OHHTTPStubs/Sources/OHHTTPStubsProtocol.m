@@ -62,6 +62,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 }
 
 + (BOOL)resolveInstanceMethod:(SEL)sel {
+    // This copies some NSURLSessionTask-related methods from NSURLProtocol.
+    // Their default implementation forwards to methds that accept NSURLRequest.
     Method m = class_getClassMethod(OHHTTPStubsProtocol.self, sel);
     if (!m) {
         return NO;
@@ -84,6 +86,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 }
 
 - (Class)class {
+    // Proper implementation probably should return a parent instance of OHHTTPStubsProtocolClassProxy
+    // But this method is not called, so let's avoid writing dead code.
     NSAssert(NO, @"-[OHHTTPStubsProtocolInstanceProxy class] is not implemented");
     return [OHHTTPStubsProtocol class];
 }
@@ -101,6 +105,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 }
 
 + (BOOL)resolveInstanceMethod:(SEL)sel {
+    // This copies some NSURLSessionTask-related methods from NSURLProtocol.
+    // Their default implementation forwards to methds that accept NSURLRequest.
     Method m = class_getInstanceMethod(OHHTTPStubsProtocol.self, sel);
     if (!m) {
         return NO;
@@ -124,10 +130,6 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 @end
 
 @implementation OHHTTPStubsProtocol
-
-+ (BOOL)canInitWithTask:(NSURLSessionTask *)task {
-    return [super canInitWithTask:task];
-}
 
 - (id)initWithManager:(id<OHHTTPStubsManager>)manager
               request:(NSURLRequest *)request

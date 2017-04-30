@@ -76,6 +76,8 @@
     if (self)
     {
         _stubDescriptors = [NSMutableArray array];
+        // We create exactly one instance of class proxy per instance of OHHTTPStubs
+        // This eliminates the need in implementning hashing and equality in OHHTTPStubsProtocolClassProxy
         _protocolClass = [[OHHTTPStubsProtocolClassProxy alloc] initWithManager:self];
     }
     return self;
@@ -142,17 +144,17 @@
 
 +(void)onStubActivation:(nullable OHHTTPStubsActivationBlock)block
 {
-    [OHHTTPStubs.defaultInstance setOnStubActivationBlock:block];
+    [OHHTTPStubs.defaultInstance onStubActivation:block];
 }
 
 +(void)onStubRedirectResponse:(nullable OHHTTPStubsRedirectBlock)block
 {
-    [OHHTTPStubs.defaultInstance setOnStubRedirectBlock:block];
+    [OHHTTPStubs.defaultInstance onStubRedirectResponse:block];
 }
 
 +(void)afterStubFinish:(nullable OHHTTPStubsFinishBlock)block
 {
-    [OHHTTPStubs.defaultInstance setAfterStubFinishBlock:block];
+    [OHHTTPStubs.defaultInstance afterStubFinish:block];
 }
 
 

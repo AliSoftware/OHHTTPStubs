@@ -21,12 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/// Proxy for the class object of the OHHTTPStubsProtocol that injects OHHTTPStubsManager into created instance of OHHTTPStubsProtocol
 @interface OHHTTPStubsProtocolClassProxy : NSProxy
 
 - (instancetype)initWithManager:(id<OHHTTPStubsManager>)manager;
 
 @end
 
+/// Proxy for the instance of OHHTTPStubsProtocol that was allocated, but not yet initialized.
 @interface OHHTTPStubsProtocolInstanceProxy : NSProxy
 
 - (instancetype)initWithManager:(id<OHHTTPStubsManager>)manager;
