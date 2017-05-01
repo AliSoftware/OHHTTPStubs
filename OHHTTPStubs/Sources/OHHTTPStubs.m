@@ -55,16 +55,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
 
-+ (instancetype)defaultInstance
++ (instancetype)sharedInstance
 {
-    static OHHTTPStubs *defaultInstance = nil;
+    static OHHTTPStubs *sharedInstance = nil;
     
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        defaultInstance = [[self alloc] init];
-        [defaultInstance setEnabled:YES];
+        sharedInstance = [[self alloc] init];
+        [sharedInstance setEnabled:YES];
     });
-    return defaultInstance;
+    return sharedInstance;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,40 +98,40 @@
 +(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
                                    withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
 {
-    return [OHHTTPStubs.defaultInstance stubRequestsPassingTest:testBlock withStubResponse:responseBlock];
+    return [OHHTTPStubs.sharedInstance stubRequestsPassingTest:testBlock withStubResponse:responseBlock];
 }
 
 +(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
 {
-    return [OHHTTPStubs.defaultInstance removeStub:stubDesc];
+    return [OHHTTPStubs.sharedInstance removeStub:stubDesc];
 }
 
 +(void)removeAllStubs
 {
-    [OHHTTPStubs.defaultInstance removeAllStubs];
+    [OHHTTPStubs.sharedInstance removeAllStubs];
 }
 
 #pragma mark > Disabling & Re-Enabling stubs
 
 +(void)setEnabled:(BOOL)enabled
 {
-    [OHHTTPStubs.defaultInstance setEnabled:enabled];
+    [OHHTTPStubs.sharedInstance setEnabled:enabled];
 }
 
 +(BOOL)isEnabled
 {
-    return OHHTTPStubs.defaultInstance.isEnabled;
+    return OHHTTPStubs.sharedInstance.isEnabled;
 }
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
 + (void)setEnabled:(BOOL)enable forSessionConfiguration:(NSURLSessionConfiguration*)sessionConfig
 {
-    [OHHTTPStubs.defaultInstance setEnabled:enable forSessionConfiguration:sessionConfig];
+    [OHHTTPStubs.sharedInstance setEnabled:enable forSessionConfiguration:sessionConfig];
 }
 
 + (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig
 {
-    return [OHHTTPStubs.defaultInstance isEnabledForSessionConfiguration:sessionConfig];
+    return [OHHTTPStubs.sharedInstance isEnabledForSessionConfiguration:sessionConfig];
 }
 #endif
 
@@ -139,22 +139,22 @@
 
 +(NSArray*)allStubs
 {
-    return [OHHTTPStubs.defaultInstance allStubs];
+    return [OHHTTPStubs.sharedInstance allStubs];
 }
 
 +(void)onStubActivation:(nullable OHHTTPStubsActivationBlock)block
 {
-    [OHHTTPStubs.defaultInstance onStubActivation:block];
+    [OHHTTPStubs.sharedInstance onStubActivation:block];
 }
 
 +(void)onStubRedirectResponse:(nullable OHHTTPStubsRedirectBlock)block
 {
-    [OHHTTPStubs.defaultInstance onStubRedirectResponse:block];
+    [OHHTTPStubs.sharedInstance onStubRedirectResponse:block];
 }
 
 +(void)afterStubFinish:(nullable OHHTTPStubsFinishBlock)block
 {
-    [OHHTTPStubs.defaultInstance afterStubFinish:block];
+    [OHHTTPStubs.sharedInstance afterStubFinish:block];
 }
 
 

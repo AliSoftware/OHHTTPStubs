@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns default instance that handles NSURLConnection and default NSURLSessionConfiguration
  */
-+ (instancetype)defaultInstance;
++ (instancetype)sharedInstance;
 
 /**
  * You can also create a new instance for more flexible configuration management.
