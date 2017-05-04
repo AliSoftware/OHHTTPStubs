@@ -213,7 +213,7 @@ But you generally only use stubs during the development phase and want to remove
 
 This project and library has been created by Olivier Halligon ([@aligatr](https://twitter.com/aligatr) on Twitter) and is under the MIT License.
 
-It has been inspired by [this article from InfiniteLoop.dk](http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
+It has been inspired by [this article from InfiniteLoop.dk](https://web-beta.archive.org/web/20161219003951/http://www.infinite-loop.dk/blog/2011/09/using-nsurlprotocol-for-injecting-test-data/).
 
 I would also like to thank:
 
