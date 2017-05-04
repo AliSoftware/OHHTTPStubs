@@ -13,6 +13,7 @@
 #import "Compatibility.h"
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse.h"
+#import "OHHTTPStubsTypes.h"
 #import "OHHTTPStubsResponse+JSON.h"
 #import "NSURLRequest+HTTPBodyTesting.h"
 #import "OHPathHelpers.h"

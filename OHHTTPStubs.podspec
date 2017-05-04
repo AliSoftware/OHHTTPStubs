@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "6.0.0"
+  s.version      = "6.1.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -47,6 +47,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files = "OHHTTPStubs/Sources/*.{h,m}"
     core.public_header_files = "OHHTTPStubs/Sources/*.h"
+    core.private_header_files = "OHHTTPStubs/Sources/OHHTTPStubsDescriptor.h", "OHHTTPStubs/Sources/OHHTTPStubsProtocol.h"
   end
 
   # Optional subspecs

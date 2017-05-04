@@ -115,6 +115,26 @@
 		46C7329D1CDAC2DC00CDBCB5 /* login_content_type.tail in Resources */ = {isa = PBXBuildFile; fileRef = 46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */; };
 		47AF337B1A3775B600158C9F /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
 		47AF337C1A3775B600158C9F /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 47AF337A1A37757B00158C9F /* emptyfile.json */; };
+		4A65DF461EB499360099849C /* OHHTTPStubsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A65DF451EB499360099849C /* OHHTTPStubsProtocol.m */; };
+		4A65DF471EB499420099849C /* OHHTTPStubsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A65DF451EB499360099849C /* OHHTTPStubsProtocol.m */; };
+		4A65DF481EB499430099849C /* OHHTTPStubsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A65DF451EB499360099849C /* OHHTTPStubsProtocol.m */; };
+		4A65DF491EB499440099849C /* OHHTTPStubsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A65DF451EB499360099849C /* OHHTTPStubsProtocol.m */; };
+		4A65DF4A1EB499500099849C /* OHHTTPStubsProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A65DF441EB499360099849C /* OHHTTPStubsProtocol.h */; };
+		4A65DF4B1EB499540099849C /* OHHTTPStubsProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A65DF441EB499360099849C /* OHHTTPStubsProtocol.h */; };
+		4A65DF4C1EB499570099849C /* OHHTTPStubsProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A65DF441EB499360099849C /* OHHTTPStubsProtocol.h */; };
+		4A65DF4D1EB499780099849C /* OHHTTPStubsProtocol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A65DF441EB499360099849C /* OHHTTPStubsProtocol.h */; };
+		4A9926521EB49C220000A9B6 /* OHHTTPStubsDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9926501EB49C220000A9B6 /* OHHTTPStubsDescriptor.h */; };
+		4A9926531EB49C220000A9B6 /* OHHTTPStubsDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9926501EB49C220000A9B6 /* OHHTTPStubsDescriptor.h */; };
+		4A9926541EB49C220000A9B6 /* OHHTTPStubsDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9926501EB49C220000A9B6 /* OHHTTPStubsDescriptor.h */; };
+		4A9926551EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9926511EB49C220000A9B6 /* OHHTTPStubsDescriptor.m */; };
+		4A9926561EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9926511EB49C220000A9B6 /* OHHTTPStubsDescriptor.m */; };
+		4A9926571EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9926511EB49C220000A9B6 /* OHHTTPStubsDescriptor.m */; };
+		4A9926581EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9926511EB49C220000A9B6 /* OHHTTPStubsDescriptor.m */; };
+		4A99265A1EB49CD60000A9B6 /* OHHTTPStubsTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9926591EB49CD60000A9B6 /* OHHTTPStubsTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A99265B1EB49CD60000A9B6 /* OHHTTPStubsTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9926591EB49CD60000A9B6 /* OHHTTPStubsTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A99265C1EB49CD60000A9B6 /* OHHTTPStubsTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9926591EB49CD60000A9B6 /* OHHTTPStubsTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A99265D1EB49E260000A9B6 /* OHHTTPStubsTypes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A9926591EB49CD60000A9B6 /* OHHTTPStubsTypes.h */; };
+		4A99265E1EB49E260000A9B6 /* OHHTTPStubsDescriptor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A9926501EB49C220000A9B6 /* OHHTTPStubsDescriptor.h */; };
 		725CD9B41A9EB6F600F84C8B /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A6B1980605A00D175E4 /* OHHTTPStubs.m */; };
 		725CD9B51A9EB6F800F84C8B /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A6F1980606A00D175E4 /* OHHTTPStubsResponse.m */; };
 		725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09110A711980606A00D175E4 /* OHHTTPStubsResponse+HTTPMessage.m */; };
@@ -206,6 +226,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				4A99265D1EB49E260000A9B6 /* OHHTTPStubsTypes.h in CopyFiles */,
+				4A99265E1EB49E260000A9B6 /* OHHTTPStubsDescriptor.h in CopyFiles */,
+				4A65DF4D1EB499780099849C /* OHHTTPStubsProtocol.h in CopyFiles */,
 				DC46585E1CAD260F00344232 /* NSURLRequest+HTTPBodyTesting.h in CopyFiles */,
 				09D0D29B1B67FF06004E7213 /* Compatibility.h in CopyFiles */,
 				095981FC19806AF300807DBE /* OHHTTPStubs.h in CopyFiles */,
@@ -272,6 +295,11 @@
 		46C732901CDAC2DB00CDBCB5 /* login_content_type_and_headers.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login_content_type_and_headers.tail; sourceTree = "<group>"; };
 		46C732911CDAC2DB00CDBCB5 /* login_content_type.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login_content_type.tail; sourceTree = "<group>"; };
 		47AF337A1A37757B00158C9F /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
+		4A65DF441EB499360099849C /* OHHTTPStubsProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsProtocol.h; sourceTree = "<group>"; };
+		4A65DF451EB499360099849C /* OHHTTPStubsProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsProtocol.m; sourceTree = "<group>"; };
+		4A9926501EB49C220000A9B6 /* OHHTTPStubsDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsDescriptor.h; sourceTree = "<group>"; };
+		4A9926511EB49C220000A9B6 /* OHHTTPStubsDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsDescriptor.m; sourceTree = "<group>"; };
+		4A9926591EB49CD60000A9B6 /* OHHTTPStubsTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsTypes.h; sourceTree = "<group>"; };
 		4F8E695A8205C9F383F637AB /* libPods-TestingPods-OHHTTPStubs Mac Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingPods-OHHTTPStubs Mac Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		655D2E61F142E992FA46C016 /* Pods-TestingPods-OHHTTPStubs tvOS Fmk Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestingPods-OHHTTPStubs tvOS Fmk Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestingPods-OHHTTPStubs tvOS Fmk Tests/Pods-TestingPods-OHHTTPStubs tvOS Fmk Tests.release.xcconfig"; sourceTree = "<group>"; };
 		669D2FDD93B6C9E283419C17 /* libPods-TestingPods-OHHTTPStubs iOS Fmk Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingPods-OHHTTPStubs iOS Fmk Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -470,6 +498,11 @@
 			children = (
 				09110A6A1980605A00D175E4 /* OHHTTPStubs.h */,
 				09110A6B1980605A00D175E4 /* OHHTTPStubs.m */,
+				4A9926591EB49CD60000A9B6 /* OHHTTPStubsTypes.h */,
+				4A65DF441EB499360099849C /* OHHTTPStubsProtocol.h */,
+				4A65DF451EB499360099849C /* OHHTTPStubsProtocol.m */,
+				4A9926501EB49C220000A9B6 /* OHHTTPStubsDescriptor.h */,
+				4A9926511EB49C220000A9B6 /* OHHTTPStubsDescriptor.m */,
 			);
 			name = OHHTTPStubs;
 			sourceTree = "<group>";
@@ -595,11 +628,14 @@
 				09D0D29A1B67FED3004E7213 /* Compatibility.h in Headers */,
 				095981FB19806AB700807DBE /* OHHTTPStubs.h in Headers */,
 				0959820019806B1700807DBE /* OHHTTPStubsResponse.h in Headers */,
+				4A65DF4B1EB499540099849C /* OHHTTPStubsProtocol.h in Headers */,
+				4A9926531EB49C220000A9B6 /* OHHTTPStubsDescriptor.h in Headers */,
 				0959820219806B2200807DBE /* OHHTTPStubsResponse+JSON.h in Headers */,
 				0959820119806B1E00807DBE /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				094906DF1B7F60EE00B047DA /* OHHTTPStubs+Mocktail.h in Headers */,
 				095B1AD71AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
 				DC46585C1CAD245D00344232 /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				4A99265B1EB49CD60000A9B6 /* OHHTTPStubsTypes.h in Headers */,
 				1B5632F11CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.h in Headers */,
 				09199FD01BD974F20014376D /* OHHTTPStubsUmbrella.h in Headers */,
 			);
@@ -612,11 +648,14 @@
 				09D0D2991B67FED3004E7213 /* Compatibility.h in Headers */,
 				725CD9B91A9EB71000F84C8B /* OHHTTPStubs.h in Headers */,
 				725CD9BA1A9EB71500F84C8B /* OHHTTPStubsResponse.h in Headers */,
+				4A65DF4A1EB499500099849C /* OHHTTPStubsProtocol.h in Headers */,
+				4A9926521EB49C220000A9B6 /* OHHTTPStubsDescriptor.h in Headers */,
 				725CD9BB1A9EB71A00F84C8B /* OHHTTPStubsResponse+JSON.h in Headers */,
 				725CD9BC1A9EB71D00F84C8B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				094906DE1B7F60E200B047DA /* OHHTTPStubs+Mocktail.h in Headers */,
 				095B1AD61AE3138C009D1B56 /* OHPathHelpers.h in Headers */,
 				DC46585B1CAD245C00344232 /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				4A99265A1EB49CD60000A9B6 /* OHHTTPStubsTypes.h in Headers */,
 				1B5632F01CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.h in Headers */,
 				09199FCF1BD974F10014376D /* OHHTTPStubsUmbrella.h in Headers */,
 			);
@@ -629,11 +668,14 @@
 				EAA436991BE1598D000E9E99 /* Compatibility.h in Headers */,
 				EAA4369A1BE1598D000E9E99 /* OHHTTPStubs.h in Headers */,
 				EAA4369B1BE1598D000E9E99 /* OHHTTPStubsResponse.h in Headers */,
+				4A65DF4C1EB499570099849C /* OHHTTPStubsProtocol.h in Headers */,
+				4A9926541EB49C220000A9B6 /* OHHTTPStubsDescriptor.h in Headers */,
 				EAA4369C1BE1598D000E9E99 /* OHHTTPStubsResponse+JSON.h in Headers */,
 				EAA4369D1BE1598D000E9E99 /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				EAA4369E1BE1598D000E9E99 /* OHHTTPStubs+Mocktail.h in Headers */,
 				EAA4369F1BE1598D000E9E99 /* OHPathHelpers.h in Headers */,
 				DC46585D1CAD245E00344232 /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				4A99265C1EB49CD60000A9B6 /* OHHTTPStubsTypes.h in Headers */,
 				1B5632F21CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.h in Headers */,
 				EAA436A01BE1598D000E9E99 /* OHHTTPStubsUmbrella.h in Headers */,
 			);
@@ -1122,6 +1164,8 @@
 			files = (
 				DC4658561CAD192600344232 /* NSURLRequest+HTTPBodyTesting.m in Sources */,
 				1B5632F31CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.m in Sources */,
+				4A9926551EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */,
+				4A65DF461EB499360099849C /* OHHTTPStubsProtocol.m in Sources */,
 				09110A6C1980605A00D175E4 /* OHHTTPStubs.m in Sources */,
 				09110A791980608600D175E4 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				1D6DB8501B763B7A00FCF855 /* OHHTTPStubs+Mocktail.m in Sources */,
@@ -1170,12 +1214,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				095981F619806AAC00807DBE /* OHHTTPStubs.m in Sources */,
+				4A9926571EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */,
 				095981FA19806AAC00807DBE /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				094906D81B7F520200B047DA /* OHHTTPStubs+Mocktail.m in Sources */,
 				1B5632F51CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.m in Sources */,
 				095981F719806AAC00807DBE /* OHHTTPStubsResponse.m in Sources */,
 				095981F919806AAC00807DBE /* OHHTTPStubsResponse+JSON.m in Sources */,
 				095981F819806AAC00807DBE /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				4A65DF481EB499430099849C /* OHHTTPStubsProtocol.m in Sources */,
 				0501A1A81C63E0C600B120AE /* OHHTTPStubsSwift.swift in Sources */,
 				095B1AD91AE31396009D1B56 /* OHPathHelpers.m in Sources */,
 				DC4658581CAD19A200344232 /* NSURLRequest+HTTPBodyTesting.m in Sources */,
@@ -1204,12 +1250,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				725CD9B41A9EB6F600F84C8B /* OHHTTPStubs.m in Sources */,
+				4A9926561EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */,
 				725CD9B81A9EB70000F84C8B /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				094906D71B7F520200B047DA /* OHHTTPStubs+Mocktail.m in Sources */,
 				1B5632F41CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.m in Sources */,
 				725CD9B51A9EB6F800F84C8B /* OHHTTPStubsResponse.m in Sources */,
 				725CD9B71A9EB6FD00F84C8B /* OHHTTPStubsResponse+JSON.m in Sources */,
 				725CD9B61A9EB6FA00F84C8B /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				4A65DF471EB499420099849C /* OHHTTPStubsProtocol.m in Sources */,
 				09199FD11BD98D1C0014376D /* OHHTTPStubsSwift.swift in Sources */,
 				095B1AD81AE31395009D1B56 /* OHPathHelpers.m in Sources */,
 				DC4658571CAD19A200344232 /* NSURLRequest+HTTPBodyTesting.m in Sources */,
@@ -1238,12 +1286,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAA4368F1BE1598D000E9E99 /* OHHTTPStubs.m in Sources */,
+				4A9926581EB49C220000A9B6 /* OHHTTPStubsDescriptor.m in Sources */,
 				EAA436901BE1598D000E9E99 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				EAA436911BE1598D000E9E99 /* OHHTTPStubs+Mocktail.m in Sources */,
 				1B5632F61CB2A9C200388C9B /* OHHTTPStubsMethodSwizzling.m in Sources */,
 				EAA436921BE1598D000E9E99 /* OHHTTPStubsResponse.m in Sources */,
 				EAA436931BE1598D000E9E99 /* OHHTTPStubsResponse+JSON.m in Sources */,
 				EAA436941BE1598D000E9E99 /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
+				4A65DF491EB499440099849C /* OHHTTPStubsProtocol.m in Sources */,
 				EAA436951BE1598D000E9E99 /* OHHTTPStubsSwift.swift in Sources */,
 				EAA436961BE1598D000E9E99 /* OHPathHelpers.m in Sources */,
 				DC46585A1CAD19A300344232 /* NSURLRequest+HTTPBodyTesting.m in Sources */,

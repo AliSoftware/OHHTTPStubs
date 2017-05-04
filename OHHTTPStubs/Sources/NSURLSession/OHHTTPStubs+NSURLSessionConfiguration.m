@@ -44,14 +44,18 @@ static SessionConfigConstructor orig_ephemeralSessionConfiguration;
 static NSURLSessionConfiguration* OHHTTPStubs_defaultSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_defaultSessionConfiguration(self,_cmd); // call original method
-    [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    if ([OHHTTPStubs isEnabled]) {
+        [OHHTTPStubs setEnabled:YES forSessionConfiguration:config];
+    }
     return config;
 }
 
 static NSURLSessionConfiguration* OHHTTPStubs_ephemeralSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_ephemeralSessionConfiguration(self,_cmd); // call original method
-    [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    if ([OHHTTPStubs isEnabled]) {
+        [OHHTTPStubs setEnabled:YES forSessionConfiguration:config];
+    }
     return config;
 }
 

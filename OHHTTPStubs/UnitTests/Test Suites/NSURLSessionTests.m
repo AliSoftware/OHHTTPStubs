@@ -60,17 +60,32 @@
                jsonForStub:(id)json
                 completion:(void(^)(NSError* errorResponse,id jsonResponse))completion
 {
+    [self _test_NSURLSession:session jsonForStub:json instance:nil completion:completion];
+}
+
+- (void)_test_NSURLSession:(NSURLSession*)session
+               jsonForStub:(id)json
+                  instance:(OHHTTPStubs* _Nullable)instance
+                completion:(void(^)(NSError* errorResponse,id jsonResponse))completion
+{
     if ([NSURLSession class])
     {
         static const NSTimeInterval kRequestTime = 0.0;
         static const NSTimeInterval kResponseTime = 0.2;
         
-        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        OHHTTPStubsTestBlock test = ^BOOL(NSURLRequest *request) {
             return YES;
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        };
+        OHHTTPStubsResponseBlock response = ^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
-        }];
+        };
+        
+        if (instance) {
+            [instance stubRequestsPassingTest:test withStubResponse:response];
+        } else {
+            [OHHTTPStubs stubRequestsPassingTest:test withStubResponse:response];
+        }
         
         XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
         
@@ -107,25 +122,43 @@
                         jsonForStub:(id)json
                          completion:(void(^)(NSError* errorResponse, NSHTTPURLResponse *response, id jsonResponse))completion
 {
+    [self _test_redirect_NSURLSession:session jsonForStub:json instance:nil completion:completion];
+}
+
+- (void)_test_redirect_NSURLSession:(NSURLSession*)session
+                        jsonForStub:(id)json
+                           instance:(OHHTTPStubs* _Nullable)instance
+                         completion:(void(^)(NSError* errorResponse, NSHTTPURLResponse *response, id jsonResponse))completion
+{
     if ([NSURLSession class])
     {
         static const NSTimeInterval kRequestTime = 0.2;
         static const NSTimeInterval kResponseTime = 0.2;
-
-        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        
+        OHHTTPStubsTestBlock test1 = ^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@""];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        };
+        OHHTTPStubsResponseBlock response1 = ^OHHTTPStubsResponse *(NSURLRequest *request) {
             NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/elsewhere" };
             return [[OHHTTPStubsResponse responseWithData:[[NSData alloc] init] statusCode:301 headers:headers]
                     requestTime:kRequestTime responseTime:kResponseTime];
-        }];
-
-        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        };
+        
+        OHHTTPStubsTestBlock test2 = ^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@"/elsewhere"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        };
+        OHHTTPStubsResponseBlock response2 = ^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
-        }];
+        };
+        
+        if (instance) {
+            [instance stubRequestsPassingTest:test1 withStubResponse:response1];
+            [instance stubRequestsPassingTest:test2 withStubResponse:response2];
+        } else {
+            [OHHTTPStubs stubRequestsPassingTest:test1 withStubResponse:response1];
+            [OHHTTPStubs stubRequestsPassingTest:test2 withStubResponse:response2];
+        }
 
         XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
 
@@ -250,6 +283,46 @@
     }
 }
 
+- (void)test_NSURLSessionDefaultConfig_customInstance
+{
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        [OHHTTPStubs setEnabled:NO forSessionConfiguration:config];
+        
+        OHHTTPStubs* custom = [OHHTTPStubs new];
+        [custom setEnabled:YES forSessionConfiguration:config];
+        
+        NSDictionary* defaultJSON = @{@"Failure": @"Yes"};
+        NSDictionary* customJSON = @{@"Success": @"Yes"};
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest* request) {
+            return YES;
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            return [OHHTTPStubsResponse responseWithJSONObject:defaultJSON
+                                                    statusCode:200
+                                                       headers:nil];
+        }];
+        
+        
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+        
+        [self _test_NSURLSession:session jsonForStub:customJSON instance:custom completion:^(NSError *errorResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertEqualObjects(jsonResponse, customJSON, @"Unexpected data received");
+        }];
+        
+        [self _test_redirect_NSURLSession:session jsonForStub:customJSON instance:custom completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
+            XCTAssertEqualObjects(jsonResponse, customJSON, @"Unexpected data received");
+        }];
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+
 - (void)test_NSURLSessionEphemeralConfig
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
@@ -275,7 +348,40 @@
     }
 }
 
-- (void)test_NSURLSessionDefaultConfig_Disabled
+- (void)test_NSURLSessionEphemeralConfig_Disabled
+{
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        BOOL wasEnabled = [OHHTTPStubs isEnabled];
+        XCTAssert(wasEnabled, @"Stubs are expected to be on by default");
+        [OHHTTPStubs setEnabled:NO];
+        XCTAssert(![OHHTTPStubs isEnabled], @"isEnabled should report NO after turning off");
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        [OHHTTPStubs setEnabled:YES];
+        XCTAssert([OHHTTPStubs isEnabled], @"isEnabled should report YES after turning on");
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+        
+        NSDictionary* json = @{@"Success": @"Yes"};
+        [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
+            // Stubs were disable for this session, so we should get an error instead of the stubs data
+            XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+        }];
+        
+        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            // Stubs were disable for this session, so we should get an error instead of the stubs data
+            XCTAssertNotNil(errorResponse, @"Expected error but none found");
+            XCTAssertNil(redirectResponse, @"Redirect response should not have been received as stubs should be disabled");
+            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+        }];
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+
+- (void)test_NSURLSessionEphemeralConfig_DisabledForSession
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {

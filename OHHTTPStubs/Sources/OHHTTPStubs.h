@@ -29,44 +29,33 @@
 #import <Foundation/Foundation.h>
 
 #import "Compatibility.h"
-#import "OHHTTPStubsResponse.h"
+#import "OHHTTPStubsTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Types
-
-typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
-typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
-
-/**
- *  This opaque type represents an installed stub and is used to uniquely
- *  identify a stub once it has been created.
- *
- *  This type is returned by the `stubRequestsPassingTest:withStubResponse:` method
- *  so that you can later reference it and use this reference to remove the stub later.
- *
- *  This type also let you add arbitrary metadata to a stub to differenciate it
- *  more easily when debugging.
- */
-@protocol OHHTTPStubsDescriptor <NSObject>
-/**
- *  An arbitrary name that you can set and get to describe your stub.
- *  Use it as your own convenience.
- *
- *  This is especially useful if you dump all installed stubs using `allStubs`
- *  or if you want to log which stubs are being triggered using `onStubActivation:`.
- */
-@property(nonatomic, strong, nullable) NSString* name;
-@end
-
-////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Interface
 
 /**
  * Stubs Manager. Use this class to add and remove stubs and stub your network requests.
  */
 @interface OHHTTPStubs : NSObject
+
+/**
+ * Returns default instance that handles NSURLConnection and default NSURLSessionConfiguration
+ */
++ (instancetype)sharedInstance;
+
+/**
+ * You can also create a new instance for more flexible configuration management.
+ * Multiple instances may co-exist at the same time.
+ *
+ * Note that if +[OHHTTPStubs isEnabled] is YES, then all session configurations created
+ * using defaultSessionConfiguration or ephemeralSessionConfiguration are by default
+ * managed by shared instance.
+ *
+ * So, if you want to use custom instance of OHHTTPStubs for session configuration,
+ * you should either disable default instance for that session configuration, or
+ * make sure that sets of stub tests of different instances are mututally exclusive.
+ */
+- (instancetype)init;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Adding & Removing stubs
@@ -93,6 +82,9 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
 +(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
                                    withStubResponse:(OHHTTPStubsResponseBlock)responseBlock;
 
+-(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
+                                   withStubResponse:(OHHTTPStubsResponseBlock)responseBlock;
+
 /**
  *  Remove a stub from the list of stubs
  *
@@ -104,10 +96,13 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  */
 +(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc;
 
+-(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc;
+
 /**
  *  Remove all the stubs from the stubs list.
  */
 +(void)removeAllStubs;
+-(void)removeAllStubs;
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Disabling & Re-Enabling stubs
@@ -156,6 +151,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *        created sessions.
  */
 + (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
+- (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
 
 /**
  *  Whether stubs are enabled or disabled on a given `NSURLSessionConfiguration`
@@ -165,6 +161,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @return If `YES` the stubs are enabled for sessionConfig. If `NO` then the stubs are disabled
  */
 + (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
+- (BOOL)isEnabledForSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
 #endif
 
 #pragma mark - Debug Methods
@@ -175,6 +172,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @return An array of `id<OHHTTPStubsDescriptor>` objects currently installed. Useful for debug.
  */
 +(NSArray*)allStubs;
+-(NSArray*)allStubs;
 
 /**
  *  Setup a block to be called each time a stub is triggered.
@@ -185,7 +183,8 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a request is being stubbed by OHHTTPStubs.
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block;
++(void)onStubActivation:(nullable OHHTTPStubsActivationBlock)block;
+-(void)onStubActivation:(nullable OHHTTPStubsActivationBlock)block;
 
 /**
  *  Setup a block to be called whenever OHHTTPStubs encounters a redirect request.
@@ -193,7 +192,8 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a redirect request is being stubbed by OHHTTPStubs. 
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block;
++(void)onStubRedirectResponse:(nullable OHHTTPStubsRedirectBlock)block;
+-(void)onStubRedirectResponse:(nullable OHHTTPStubsRedirectBlock)block;
 
 /**
  *  Setup a block to be called each time a stub finishes. Useful if stubs take an insignificant amount
@@ -203,7 +203,8 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a request is finished being stubbed by OHHTTPStubs. 
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError *error) )block;
++(void)afterStubFinish:(nullable OHHTTPStubsFinishBlock)block;
+-(void)afterStubFinish:(nullable OHHTTPStubsFinishBlock)block;
 
 @end
 
