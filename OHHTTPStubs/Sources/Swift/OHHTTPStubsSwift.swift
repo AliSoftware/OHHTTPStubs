@@ -52,6 +52,12 @@
       return valueForHTTPHeaderField(key)
     }
   }
+
+  extension String {
+    private func contains(string: String) -> Bool {
+      return (self as NSString).containsString(string)
+    }
+  }
 #endif
 
 
