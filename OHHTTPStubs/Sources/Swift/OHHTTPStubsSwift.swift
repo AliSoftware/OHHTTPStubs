@@ -55,7 +55,7 @@
 
   extension String {
     private func contains(string: String) -> Bool {
-      return (self as NSString).containsString(string)
+      return rangeOfString(string) != nil
     }
   }
 #endif
