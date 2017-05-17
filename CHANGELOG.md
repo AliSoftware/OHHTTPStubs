@@ -1,9 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
 ## Master
-* Fixed potential memory leaks with use of NSURLSession as detected by our devs.
+* Fixed potential memory leaks with use of NSURLSession as detected by our devs.  
   [@mikelupo](https://github.com/mikelupo
-  [#249](https://github.com/AliSoftware/OHHTTPStubs/pull/249)
+  [#250](https://github.com/AliSoftware/OHHTTPStubs/pull/250)
 * Add precondition assertions in `isScheme` and `isHost` matchers and some documentation in `isHost`, `isScheme` and `isPath`.  
   [@Liquidsoul](https://github.com/Liquidsoul)
   [#248](https://github.com/AliSoftware/OHHTTPStubs/pull/248)
