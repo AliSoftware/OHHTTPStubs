@@ -52,6 +52,12 @@
       return valueForHTTPHeaderField(key)
     }
   }
+
+  extension String {
+    private func contains(string: String) -> Bool {
+      return rangeOfString(string) != nil
+    }
+  }
 #endif
 
 
@@ -154,29 +160,38 @@ public func isMethodDELETE() -> OHHTTPStubsTestBlock {
 /**
  * Matcher for testing an `NSURLRequest`'s **scheme**.
  *
+ * e.g. the scheme part is `https` in `https://api.example.com/signin`
+ *
  * - Parameter scheme: The scheme to match
  *
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
  *            has the given scheme
  */
 public func isScheme(_ scheme: String) -> OHHTTPStubsTestBlock {
+  precondition(!scheme.contains("://"), "The scheme part of an URL never contains '://'. Only use strings like 'https' for this value, and not things like 'https://'")
+  precondition(!scheme.contains("/"), "The scheme part of an URL never contains any slash. Only use strings like 'https' for this value, and not things like 'https://api.example.com/'")
   return { req in req.url?.scheme == scheme }
 }
 
 /**
  * Matcher for testing an `NSURLRequest`'s **host**.
  *
- * - Parameter host: The host to match
+ * e.g. the host part is `api.example.com` in `https://api.example.com/signin`.
+ *
+ * - Parameter host: The host to match (e.g. 'api.example.com')
  *
  * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
  *            has the given host
  */
 public func isHost(_ host: String) -> OHHTTPStubsTestBlock {
+  precondition(!host.contains("/"), "The host part of an URL never contains any slash. Only use strings like 'api.example.com' for this value, and not things like 'https://api.example.com/'")
   return { req in req.url?.host == host }
 }
 
 /**
  * Matcher for testing an `NSURLRequest`'s **path**.
+ *
+ * e.g. the path is `/signin` in `https://api.example.com/signin`.
  *
  * - Parameter path: The path to match
  *

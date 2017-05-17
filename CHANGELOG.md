@@ -1,5 +1,11 @@
 # OHHTTPStubs — CHANGELOG
 
+## Master
+
+* Add precondition assertions in `isScheme` and `isHost` matchers and some documentation in `isHost`, `isScheme` and `isPath`.  
+  [@Liquidsoul](https://github.com/Liquidsoul)
+  [#248](https://github.com/AliSoftware/OHHTTPStubs/pull/248)
+
 ## [6.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.0.0)
 
 * Made Swift 3 the default. `master` is now compatible with 3.0 and 3.1.  
