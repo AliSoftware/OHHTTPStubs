@@ -195,6 +195,8 @@
             XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -220,6 +222,8 @@
             XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -243,6 +247,8 @@
             XCTAssertEqual(301, [redirectResponse statusCode], @"Expected 301 redirect");
             XCTAssertNil(jsonResponse, @"Unexpected data received");
         }];
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -268,6 +274,8 @@
             XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -296,6 +304,8 @@
             XCTAssertNil(redirectResponse, @"Redirect response should not have been received as stubs should be disabled");
             XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -325,6 +335,8 @@
         [self waitForExpectationsWithTimeout:5 handler:nil];
         
         XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -370,6 +382,8 @@
         [self waitForExpectationsWithTimeout:5 handler:nil];
 
         XCTAssertNil(_receivedData, @"Unexpected response: HTTP body check should not be successful");
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -403,6 +417,8 @@
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
         XCTAssertNil(_receivedData, @"[request HTTPBody] is not expected to work. If this has been fixed, the OHHTTPStubs_HTTPBody can be removed.");
+
+        [session finishTasksAndInvalidate];
     }
     else
     {

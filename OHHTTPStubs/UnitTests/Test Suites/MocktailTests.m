@@ -53,6 +53,7 @@
 - (void)tearDown
 {
     [super tearDown];
+    [self.session invalidateAndCancel];
     self.session = nil;
 }
 
