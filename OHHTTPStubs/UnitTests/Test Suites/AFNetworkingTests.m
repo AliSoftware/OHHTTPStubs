@@ -57,11 +57,11 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
-    
+
     NSURL *URL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
-    
+
     __block __strong id response = nil;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
@@ -72,9 +72,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         XCTFail(@"Unexpected network failure");
         [expectation fulfill];
     }];
-    
+
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 
@@ -89,15 +89,15 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:300 headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
-    
+
     NSURL *URL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     AFHTTPResponseSerializer* serializer = [AFHTTPResponseSerializer serializer];
     [serializer  setAcceptableStatusCodes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 101)]];
     [manager setResponseSerializer:serializer];
-    
+
     __block __strong id response = nil;
     [manager setTaskWillPerformHTTPRedirectionBlock:^NSURLRequest * (NSURLSession * session, NSURLSessionTask * task, NSURLResponse * response, NSURLRequest * request) {
         if (response == nil) {
@@ -106,7 +106,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         XCTFail(@"Unexpected redirect");
         return nil;
     }];
-    
+
     [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         response = responseObject; // keep strong reference
         [expectation fulfill];
@@ -114,9 +114,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         XCTFail(@"Unexpected network failure");
         [expectation fulfill];
     }];
-    
+
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 
@@ -124,7 +124,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     static const NSTimeInterval kRequestTime = 0.05;
     static const NSTimeInterval kResponseTime = 0.1;
-    
+
     NSURL* redirectURL = [NSURL URLWithString:@"https://httpbin.org/get"];
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
@@ -132,7 +132,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:302 headers:@{@"Location":redirectURL.absoluteString}]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     XCTestExpectation* redirectExpectation = [self expectationWithDescription:@"AFHTTPRequestOperation request was redirected"];
     XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPRequestOperation request finished"];
 
@@ -151,7 +151,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         [redirectExpectation fulfill];
         return nil;
     }];
-    
+
     [manager GET:req.URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         // Expect the 302 response when the redirection block returns nil (don't follow redirects)
         [expectation fulfill];
@@ -159,9 +159,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         XCTFail(@"Unexpected network failure");
         [expectation fulfill];
     }];
-    
+
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqualObjects(url, redirectURL, @"Unexpected data received");
 }
 
@@ -236,21 +236,21 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         static const NSTimeInterval kRequestTime = 0.1;
         static const NSTimeInterval kResponseTime = 0.2;
         NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
-        
+
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [request.URL.scheme isEqualToString:@"stubs"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
-        
+
         XCTestExpectation* expectation = [self expectationWithDescription:@"AFHTTPSessionManager request finished"];
-        
+
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURL* baseURL = [NSURL URLWithString:@"stubs://stubs/"];
         AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL
                                                                         sessionConfiguration:sessionConfig];
-        
+
         __block __strong id response = nil;
         [sessionManager GET:@"foo"
                  parameters:nil
@@ -263,9 +263,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                         XCTFail(@"Unexpected network failure");
                         [expectation fulfill];
                     }];
-        
+
         [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
-        
+
         XCTAssertEqualObjects(response, expectedResponseDict, @"Unexpected data received");
     }
     else

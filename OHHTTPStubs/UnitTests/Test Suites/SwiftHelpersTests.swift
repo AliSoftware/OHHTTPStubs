@@ -51,7 +51,7 @@ class SwiftHelpersTests : XCTestCase {
       }
     }
   }
-  
+
   func testIsScheme() {
     let matcher = isScheme("foo")
     
@@ -63,7 +63,7 @@ class SwiftHelpersTests : XCTestCase {
       "bar://foo/": false,
       "foobar://": false
     ]
-    
+
     for (url, result) in urls {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
@@ -73,7 +73,7 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert(matcher(req) == result, "isScheme(\"foo\") matcher failed when testing url \(url)")
     }
   }
-  
+
   func testIsHost() {
     let matcher = isHost("foo")
     
@@ -84,7 +84,7 @@ class SwiftHelpersTests : XCTestCase {
       "bar://foo": true,
       "bar://foo/baz": true,
     ]
-    
+
     for (url, result) in urls {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
@@ -108,7 +108,7 @@ class SwiftHelpersTests : XCTestCase {
   func testIsPath_relativeURL() {
     testIsPath("foo/bar/baz", isAbsoluteMatcher: false)
   }
-  
+
   func testIsPath(_ path: String, isAbsoluteMatcher: Bool) {
     let matcher = isPath(path)
     // In Swift 2.3 and before, NSURL was not bridged to the URL value type in Swift
@@ -139,7 +139,7 @@ class SwiftHelpersTests : XCTestCase {
       "path?/foo/bar/baz": false,
       "path;/foo/bar/baz": false,
     ]
-    
+
     for (url, result) in urls {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
@@ -304,7 +304,7 @@ class SwiftHelpersTests : XCTestCase {
       "scheme://host/foo/bar.txt?q=1": true,
       "scheme://host/foo/bar.baz?q=wizz.txt": false,
     ]
-    
+
     for (url, result) in urls {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
@@ -313,7 +313,7 @@ class SwiftHelpersTests : XCTestCase {
 #endif
       XCTAssert(matcher(req) == result, "isExtension(\"txt\") matcher failed when testing url \(url)")
     }
-    
+
   }
   @available(iOS 8.0, OSX 10.10, *)
   func testContainsQueryParams() {
@@ -340,7 +340,7 @@ class SwiftHelpersTests : XCTestCase {
       "?q=test&lang=en&empty=&flag": true,
       "?lang=en&flag&empty=&q=test": true,
     ]
-    
+
     for (url, result) in urls {
 #if swift(>=3.0)
       let req = URLRequest(url: URL(string: url)!)
@@ -351,7 +351,7 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert(matcher(req) == result, "containsQueryParams(\"\(params)\") matcher failed when testing url \(url)")
     }
   }
-    
+
   func testHasHeaderNamedIsTrue() {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
@@ -364,7 +364,7 @@ class SwiftHelpersTests : XCTestCase {
 
     XCTAssertTrue(hasHeader)
   }
-  
+
   func testHasHeaderNamedIsFalse() {
 #if swift(>=3.0)
     let req = URLRequest(url: URL(string: "foo://bar")!)
@@ -376,7 +376,7 @@ class SwiftHelpersTests : XCTestCase {
 
     XCTAssertFalse(hasHeader)
   }
-  
+
   func testHeaderValueForKeyEqualsIsTrue() {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
@@ -384,12 +384,12 @@ class SwiftHelpersTests : XCTestCase {
     let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
 #endif
     req.addValue("bar", forHTTPHeaderField: "foo")
-    
+
     let matchesHeader = hasHeaderNamed("foo", value: "bar")(req)
-    
+
     XCTAssertTrue(matchesHeader)
   }
-  
+
   func testHeaderValueForKeyEqualsIsFalse() {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
@@ -399,10 +399,10 @@ class SwiftHelpersTests : XCTestCase {
     req.addValue("bar", forHTTPHeaderField: "foo")
     
     let matchesHeader = hasHeaderNamed("foo", value: "baz")(req)
-    
+
     XCTAssertFalse(matchesHeader)
   }
-  
+
   func testHeaderValueForKeyEqualsDoesNotExist() {
 #if swift(>=3.0)
     let req = URLRequest(url: URL(string: "foo://bar")!)
@@ -411,10 +411,10 @@ class SwiftHelpersTests : XCTestCase {
 #endif
 
     let matchesHeader = hasHeaderNamed("foo", value: "baz")(req)
-    
+
     XCTAssertFalse(matchesHeader)
   }
-  
+
   let sampleURLs = [
     // Absolute URLs
     "scheme:",
@@ -439,10 +439,10 @@ class SwiftHelpersTests : XCTestCase {
     "path?/foo/bar/baz",
     "path;/foo/bar/baz"
   ]
-  
+
   let trueMatcher: OHHTTPStubsTestBlock = { _ in return true }
   let falseMatcher: OHHTTPStubsTestBlock = { _ in return false }
-  
+
   func testOrOperator() {
     for url in sampleURLs {
 #if swift(>=3.0)
@@ -456,7 +456,7 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert((falseMatcher || falseMatcher)(req) == false, "falseMatcher || falseMatcher should result in a falseMatcher")
     }
   }
-  
+
   func testAndOperator() {
     for url in sampleURLs {
 #if swift(>=3.0)
@@ -470,7 +470,7 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert((falseMatcher && falseMatcher)(req) == false, "falseMatcher && falseMatcher should result in a falseMatcher")
     }
   }
-  
+
   func testNotOperator() {
     for url in sampleURLs {
 #if swift(>=3.0)

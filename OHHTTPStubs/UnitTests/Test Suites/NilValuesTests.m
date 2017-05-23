@@ -57,20 +57,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [OHHTTPStubsResponse responseWithData:nil statusCode:400 headers:nil];
 #pragma clang diagnostic pop
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
@@ -82,20 +82,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:400 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
@@ -110,20 +110,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                 requestTime:0.01 responseTime:0.01];
 #pragma clang diagnostic pop
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
@@ -138,20 +138,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                 requestTime:0.01 responseTime:0.01];
 #pragma clang diagnostic pop
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
@@ -187,20 +187,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [[OHHTTPStubsResponse responseWithFileAtPath:emptyFile statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
@@ -213,27 +213,27 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return [[OHHTTPStubsResponse responseWithFileURL:fileURL statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
 
 - (void)_test_NilURLAndCookieHandlingEnabled:(BOOL)handleCookiesEnabled
 {
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -241,17 +241,17 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                                           statusCode:200
                                              headers:nil];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Network request's completionHandler called"];
-    
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:nil];
 #pragma clang diagnostic pop
     req.HTTPShouldHandleCookies = handleCookiesEnabled;
-    
+
     __block NSData* response = nil;
-    
+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
@@ -259,9 +259,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
          response = data;
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 

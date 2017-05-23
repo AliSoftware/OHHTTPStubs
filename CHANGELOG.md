@@ -1,6 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
 ## Master
+* Fixed up empty lines with whitespace inside test case classes.  
+  [@mikelupo](https://github.com/mikelupo
+  [#251](https://github.com/AliSoftware/OHHTTPStubs/pull/251)
 * Fixed potential memory leaks with use of NSURLSession as detected by our devs.  
   [@mikelupo](https://github.com/mikelupo
   [#250](https://github.com/AliSoftware/OHHTTPStubs/pull/250)

@@ -43,7 +43,7 @@
     NSMutableData* _data;
     NSError* _error;
     XCTestExpectation* _connectionFinishedExpectation;
-    
+
 //    NSDate* _didReceiveResponseTS;
     NSDate* _didFinishLoadingTS;
 }
@@ -103,20 +103,20 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
                                               headers:nil]
                 requestTime:requestTime responseTime:responseTime];
     }];
-    
+
     _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startTS = [NSDate date];
-    
+
     [NSURLConnection connectionWithRequest:req delegate:self];
-    
+
     [self waitForExpectationsWithTimeout:requestTime+responseTime+kResponseTimeMaxDelay+kSecurityTimeout handler:nil];
 
     XCTAssertEqualObjects(_data, stubData, @"Invalid data response");
 
     XCTAssertGreaterThan([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime, @"Invalid response time");
-    
+
     [NSThread sleepForTimeInterval:0.01]; // Time for the test to wrap it all (otherwise we may have "Test did not finish" warning)
 }
 
