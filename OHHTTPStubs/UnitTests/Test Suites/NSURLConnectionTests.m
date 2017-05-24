@@ -56,7 +56,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 -(void)test_NSURLConnection_sendSyncronousRequest_mainQueue
 {
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -65,12 +65,12 @@ static const NSTimeInterval kResponseTime = 0.5;
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
-    
+
     NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
-    
+
     XCTAssertEqualObjects(data, testData, @"Invalid data response");
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 }
@@ -92,7 +92,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 -(void)_test_NSURLConnection_sendAsyncronousRequest_onOperationQueue:(NSOperationQueue*)queue
 {
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -101,20 +101,20 @@ static const NSTimeInterval kResponseTime = 0.5;
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     XCTestExpectation* expectation = [self expectationWithDescription:@"Asynchronous request finished"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
-    
+
     [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
          XCTAssertEqualObjects(data, testData, @"Invalid data response");
          XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
-         
+
          [expectation fulfill];
      }];
-    
+
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
 }
 
@@ -141,7 +141,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     NSData* (^dataForRequest)(NSURLRequest*) = ^(NSURLRequest* req) {
         return [[NSString stringWithFormat:@"<Response for URL %@>",req.URL.absoluteString] dataUsingEncoding:NSUTF8StringEncoding];
     };
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -152,7 +152,7 @@ static const NSTimeInterval kResponseTime = 0.5;
                                               headers:nil]
                 requestTime:responseTime*.1 responseTime:responseTime];
     }];
-    
+
     // Reusable code to send a request that will respond in the given response time
     void (^sendAsyncRequest)(NSTimeInterval) = ^(NSTimeInterval responseTime)
     {
@@ -168,7 +168,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 //             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
              XCTAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
              XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, @"Invalid response time");
-             
+
              if (!testFinished) [expectation fulfill];
          }];
     };

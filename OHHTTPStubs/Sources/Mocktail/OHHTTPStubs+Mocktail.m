@@ -43,12 +43,12 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     // Make sure path points to a directory
     NSNumber *isDirectory;
     BOOL success = [dirURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
     BOOL isDir = (success && [isDirectory boolValue]);
-    
+
     if (!isDir)
     {
         if (error)
@@ -57,7 +57,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     // Read the content of the directory
     NSError *bError = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -71,7 +71,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     //stub the Mocktail-formatted requests
     NSMutableArray *descriptorArray = [[NSMutableArray alloc] initWithCapacity:fileURLs.count];
     for (NSURL *fileURL in fileURLs)
@@ -86,14 +86,14 @@ NSString* const MocktailErrorDomain = @"Mocktail";
             [descriptorArray addObject:descriptor];
         }
     }
-    
+
     return descriptorArray;
 }
 
 +(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
 {
     NSURL *responseURL = [bundleOrNil?:[NSBundle bundleForClass:self.class] URLForResource:fileName withExtension:@"tail"];
-    
+
     if (!responseURL)
     {
         if (error)
@@ -113,7 +113,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     NSError *bError = nil;
     NSStringEncoding originalEncoding;
     NSString *contentsOfFile = [NSString stringWithContentsOfURL:fileURL usedEncoding:&originalEncoding error:&bError];
-    
+
     if (!contentsOfFile || bError)
     {
         if (error)
@@ -122,7 +122,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     NSScanner *scanner = [NSScanner scannerWithString:contentsOfFile];
     NSString *headerMatter = nil;
     [scanner scanUpToString:@"\n\n" intoString:&headerMatter];
@@ -135,11 +135,11 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     /* Handle Mocktail format, adapted from Mocktail implementation
        For more details on the file format, check out: https://github.com/square/objc-Mocktail */
     NSRegularExpression *methodRegex = [NSRegularExpression regularExpressionWithPattern:lines[0] options:NSRegularExpressionCaseInsensitive error:&bError];
-    
+
     if (bError)
     {
         if (error)
@@ -148,9 +148,9 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     NSRegularExpression *absoluteURLRegex = [NSRegularExpression regularExpressionWithPattern:lines[1] options:NSRegularExpressionCaseInsensitive error:&bError];
-    
+
     if (bError)
     {
         if (error)
@@ -159,11 +159,11 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     NSInteger statusCode = [lines[2] integerValue];
-    
+
     NSMutableDictionary *headers = @{@"Content-Type":lines[3]}.mutableCopy;
-    
+
     // From line 4 to '\n\n', expect HTTP response headers.
     NSRegularExpression *headerPattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\s+(.*)" options:0 error:&bError];
     if (bError)
@@ -174,8 +174,8 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
-    
+
+
     // Allow bare Content-Type header on line 4 before named HTTP response headers
     NSRegularExpression *bareContentTypePattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+)+$" options:0 error:&bError];
     if (bError)
@@ -186,11 +186,11 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
         return nil;
     }
-    
+
     for (NSUInteger line = 3; line < lines.count; line ++) {
         NSString *headerLine = lines[line];
         NSTextCheckingResult *match = [headerPattern firstMatchInString:headerLine options:0 range:NSMakeRange(0, headerLine.length)];
-        
+
         if (line == 3 && !match) {
             match = [bareContentTypePattern firstMatchInString:headerLine options:0 range:NSMakeRange(0, headerLine.length)];
             if (match) {
@@ -200,7 +200,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
                 continue;
             }
         }
-        
+
         if (match)
         {
             NSString *key = [headerLine substringWithRange:[match rangeAtIndex:1]];
@@ -216,14 +216,14 @@ NSString* const MocktailErrorDomain = @"Mocktail";
             return nil;
         }
     }
-    
+
     // Handle binary which is base64 encoded
     NSUInteger bodyOffset = [headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2;
-    
+
     return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSString *absoluteURL = (request.URL).absoluteString;
         NSString *method = request.HTTPMethod;
-        
+
         if ([absoluteURLRegex numberOfMatchesInString:absoluteURL options:0 range:NSMakeRange(0, absoluteURL.length)] > 0)
         {
             if ([methodRegex numberOfMatchesInString:method options:0 range:NSMakeRange(0, method.length)] > 0)
@@ -231,7 +231,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
                 return YES;
             }
         }
-        
+
         return NO;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         if([headers[@"Content-Type"] hasSuffix:@";base64"])
@@ -239,11 +239,11 @@ NSString* const MocktailErrorDomain = @"Mocktail";
             NSString *type = headers[@"Content-Type"];
             NSString *newType = [type substringWithRange:NSMakeRange(0, type.length - 7)];
             headers[@"Content-Type"] = newType;
-            
+
             NSData *body = [NSData dataWithContentsOfURL:fileURL];
             body = [body subdataWithRange:NSMakeRange(bodyOffset, body.length - bodyOffset)];
             body = [[NSData alloc] initWithBase64EncodedData:body options:NSDataBase64DecodingIgnoreUnknownCharacters];
-            
+
             OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithData:body statusCode:(int)statusCode headers:headers];
             return response;
         }

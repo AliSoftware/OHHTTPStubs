@@ -42,10 +42,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     NSMutableData* _data;
     NSError* _error;
-    
+
     NSURL* _redirectRequestURL;
     NSInteger _redirectResponseStatusCode;
-    
+
     XCTestExpectation* _connectionFinishedExpectation;
 }
 
@@ -124,7 +124,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 0.5;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -133,20 +133,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
-    
+
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    
+
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqualObjects(_data, testData, @"Invalid data response");
     XCTAssertNil(_error, @"Received unexpected network error %@", _error);
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
-    
+
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
 }
@@ -156,7 +156,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 0.5;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -165,20 +165,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                                               headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
-    
+
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    
+
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqualObjects(_data, testData, @"Invalid data response");
     XCTAssertNil(_error, @"Received unexpected network error %@", _error);
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
-    
+
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
 }
@@ -187,7 +187,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     static const NSTimeInterval kResponseTime = 0.5;
     NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -195,21 +195,21 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         resp.responseTime = kResponseTime;
         return resp;
     }];
-    
+
     _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
-    
+
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    
+
     [self waitForExpectationsWithTimeout:kResponseTime+kResponseTimeMaxDelay handler:nil];
-    
+
     XCTAssertEqual(_data.length, (NSUInteger)0, @"Received unexpected network data %@", _data);
     XCTAssertEqualObjects(_error.domain, expectedError.domain, @"Invalid error response domain");
     XCTAssertEqual(_error.code, expectedError.code, @"Invalid error response code");
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kResponseTime, @"Invalid response time");
-    
+
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
     [cxn cancel];
 }
@@ -229,10 +229,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                                               headers:nil]
                 requestTime:0.0 responseTime:1.5];
     }];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    
+
     XCTestExpectation* waitExpectation = [self expectationWithDescription:@"Waiting 2s, after cancelling in the middle"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [cxn cancel];
@@ -245,10 +245,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
         [cxn cancel];
     }];
-    
+
     XCTAssertEqual(_data.length, (NSUInteger)0, @"Received unexpected data but the request should have been cancelled");
     XCTAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
-    
+
 }
 
 
@@ -270,22 +270,22 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                                               headers:headers]
                 requestTime:0.0 responseTime:0.1];
     }];
-    
+
     _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
-    
+
     // Set the cookie accept policy to accept all cookies from the main document domain
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
     NSHTTPCookieStorage* cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage;
     NSHTTPCookieAcceptPolicy previousAcceptPolicy = cookieStorage.cookieAcceptPolicy; // keep it to restore later
     cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain;
-    
+
     // Send the request and wait for the response containing the Set-Cookie headers
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:^(NSError *error) {
         [cxn cancel]; // In case we timed out (test failed), cancel the request to avoid further delegate method calls
     }];
-    
+
     /* Check that the cookie has been properly stored */
     NSArray* cookies = [cookieStorage cookiesForURL:req.URL];
     BOOL cookieFound = NO;
@@ -298,7 +298,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         }
     }
     XCTAssertTrue(cookieFound, @"The cookie was not stored as expected");
-    
+
 
     // As a courtesy, restore previous policy before leaving
     cookieStorage.cookieAcceptPolicy = previousAcceptPolicy;
@@ -319,17 +319,17 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     NSURL* redirectURL = [NSURL URLWithString:@"http://www.yahoo.com/"];
     NSString* redirectCookieName = @"yahooCookie";
     NSString* redirectCookieValue = [NSProcessInfo.processInfo globallyUniqueString];
-    
+
     // Set the cookie accept policy to accept all cookies from the main document domain
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
     NSHTTPCookieStorage* cookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage;
     NSHTTPCookieAcceptPolicy previousAcceptPolicy = cookieStorage.cookieAcceptPolicy; // keep it to restore later
     cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain;
-    
+
     NSString* endCookieName = @"googleCookie";
     NSString* endCookieValue = [NSProcessInfo.processInfo globallyUniqueString];
     NSURL *endURL = [NSURL URLWithString:@"http://www.google.com/"];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -350,25 +350,25 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                     requestTime:kRequestTime responseTime:kResponseTime];
         }
     }];
-    
+
     _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
-    
+
     NSURLRequest* req = [NSURLRequest requestWithURL:redirectURL];
     NSDate* startDate = [NSDate date];
-    
+
     NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
-    
+
     [self waitForExpectationsWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeMaxDelay) handler:^(NSError *error) {
         // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
         [cxn cancel];
     }];
-    
+
     XCTAssertEqualObjects(_redirectRequestURL, endURL, @"Invalid redirect request URL");
     XCTAssertEqual(_redirectResponseStatusCode, (NSInteger)311, @"Invalid redirect response status code");
     XCTAssertEqualObjects(_data, testData, @"Invalid data response");
     XCTAssertNil(_error, @"Received unexpected network error %@", _error);
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], (2 * kRequestTime) + kResponseTime, @"Invalid response time");
-    
+
     /* Check that the redirect cookie has been properly stored */
     NSArray* redirectCookies = [cookieStorage cookiesForURL:req.URL];
     BOOL redirectCookieFound = NO;
@@ -381,7 +381,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         }
     }
     XCTAssertTrue(redirectCookieFound, @"The redirect cookie was not stored as expected");
-    
+
     /* Check that the end cookie has been properly stored */
     NSArray* endCookies = [cookieStorage cookiesForURL:endURL];
     BOOL endCookieFound = NO;
@@ -394,8 +394,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         }
     }
     XCTAssertTrue(endCookieFound, @"The end cookie was not stored as expected");
-    
-    
+
+
     // As a courtesy, restore previous policy before leaving
     cookieStorage.cookieAcceptPolicy = previousAcceptPolicy;
 }

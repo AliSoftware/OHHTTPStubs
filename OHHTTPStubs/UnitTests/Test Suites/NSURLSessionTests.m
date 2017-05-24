@@ -64,23 +64,23 @@
     {
         static const NSTimeInterval kRequestTime = 0.0;
         static const NSTimeInterval kResponseTime = 0.2;
-        
+
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return YES;
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
-        
+
         XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
-        
+
         __block __strong id dataResponse = nil;
         __block __strong NSError* errorResponse = nil;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
         request.HTTPMethod = @"GET";
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        
+
         NSURLSessionDataTask *task =  [session dataTaskWithRequest:request
                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
         {
@@ -96,7 +96,7 @@
         }];
 
         [task resume];
-        
+
         [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:^(NSError * _Nullable error) {
             completion(errorResponse, dataResponse);
         }];
@@ -183,7 +183,7 @@
     if ([NSURLSession class])
     {
         NSURLSession *session = [NSURLSession sharedSession];
-        
+
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
@@ -210,7 +210,7 @@
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        
+
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
@@ -262,7 +262,7 @@
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        
+
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
@@ -290,7 +290,7 @@
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         [OHHTTPStubs setEnabled:NO forSessionConfiguration:config]; // Disable stubs for this session
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        
+
         NSDictionary* json = @{@"Success": @"Yes"};
         [self _test_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
             // Stubs were disable for this session, so we should get an error instead of the stubs data
@@ -324,16 +324,16 @@
             return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
                     responseTime:0.5];
         }];
-        
+
         _taskDidCompleteExpectation = [self expectationWithDescription:@"NSURLSessionDataTask completion delegate method called"];
-        
+
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-        
+
         [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
-        
+
         [self waitForExpectationsWithTimeout:5 handler:nil];
-        
+
         XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
 
         [session finishTasksAndInvalidate];

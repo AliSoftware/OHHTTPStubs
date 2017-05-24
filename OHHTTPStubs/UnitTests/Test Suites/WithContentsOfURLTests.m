@@ -53,7 +53,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 -(void)test_NSString_stringWithContentsOfURL_mainQueue
 {
     NSString* testString = NSStringFromSelector(_cmd);
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -62,13 +62,13 @@ static const NSTimeInterval kResponseTime = 0.5;
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     NSDate* startDate = [NSDate date];
-    
+
     NSString* string = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]
                                             encoding:NSUTF8StringEncoding
                                                error:NULL];
-    
+
     XCTAssertEqualObjects(string, testString, @"Invalid returned string");
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kResponseTime+kRequestTime, @"Invalid response time");
 }
@@ -90,7 +90,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 -(void)test_NSData_dataWithContentsOfURL_mainQueue
 {
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -99,11 +99,11 @@ static const NSTimeInterval kResponseTime = 0.5;
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
-    
+
     NSDate* startDate = [NSDate date];
-    
+
     NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    
+
     XCTAssertEqualObjects(data, testData, @"Invalid returned string");
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 }
