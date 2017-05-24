@@ -394,8 +394,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         }
     }
     XCTAssertTrue(endCookieFound, @"The end cookie was not stored as expected");
-    
-    
+
+
     // As a courtesy, restore previous policy before leaving
     cookieStorage.cookieAcceptPolicy = previousAcceptPolicy;
 }

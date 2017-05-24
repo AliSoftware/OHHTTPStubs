@@ -39,7 +39,7 @@
         mutableHeaders[@"Content-Type"] = @"application/json";
         httpHeaders = [NSDictionary dictionaryWithDictionary:mutableHeaders]; // make immutable again
     }
-    
+
     return [self responseWithData:[NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil]
                        statusCode:statusCode
                           headers:httpHeaders];

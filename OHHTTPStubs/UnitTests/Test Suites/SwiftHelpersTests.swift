@@ -54,7 +54,7 @@ class SwiftHelpersTests : XCTestCase {
 
   func testIsScheme() {
     let matcher = isScheme("foo")
-    
+
     let urls = [
       "foo:": true,
       "foo://": true,
@@ -76,7 +76,7 @@ class SwiftHelpersTests : XCTestCase {
 
   func testIsHost() {
     let matcher = isHost("foo")
-    
+
     let urls = [
       "foo:": false,
       "foo://": false,
@@ -294,7 +294,7 @@ class SwiftHelpersTests : XCTestCase {
 
   func testIsExtension() {
     let matcher = isExtension("txt")
-    
+
     let urls = [
       "txt:": false,
       "txt://": false,
@@ -319,7 +319,7 @@ class SwiftHelpersTests : XCTestCase {
   func testContainsQueryParams() {
     let params: [String: String?] = ["q":"test", "lang":"en", "empty":"", "flag":nil]
     let matcher = containsQueryParams(params)
-    
+
     let urls = [
       "foo://bar": false,
       "foo://bar?q=test": false,
@@ -328,7 +328,7 @@ class SwiftHelpersTests : XCTestCase {
       "foo://bar#lang=en&empty=&flag&q=test": false,
       "foo://bar;q=test&lang=en&empty=&flag": false,
       "foo://bar;lang=en&empty=&flag&q=test": false,
-      
+
       "foo://bar?q=test&lang=en&empty=&flag": true,
       "foo://bar?lang=en&flag&empty=&q=test": true,
       "foo://bar?q=test&lang=en&empty=&flag#anchor": true,
@@ -397,7 +397,7 @@ class SwiftHelpersTests : XCTestCase {
     let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
 #endif
     req.addValue("bar", forHTTPHeaderField: "foo")
-    
+
     let matchesHeader = hasHeaderNamed("foo", value: "baz")(req)
 
     XCTAssertFalse(matchesHeader)

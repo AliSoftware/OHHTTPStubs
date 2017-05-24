@@ -68,7 +68,7 @@ static const NSTimeInterval kResponseTime = 0.5;
     NSString* string = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]
                                             encoding:NSUTF8StringEncoding
                                                error:NULL];
-    
+
     XCTAssertEqualObjects(string, testString, @"Invalid returned string");
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kResponseTime+kRequestTime, @"Invalid response time");
 }

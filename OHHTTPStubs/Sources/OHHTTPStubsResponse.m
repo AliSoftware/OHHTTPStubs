@@ -161,20 +161,20 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
                               statusCode:statusCode
                                  headers:httpHeaders];
     }
-    
+
     // [NSURL -isFileURL] is only available on iOS 8+
     NSAssert([fileURL.scheme isEqualToString:NSURLFileScheme], @"%s: Only file URLs may be passed to this method.",__PRETTY_FUNCTION__);
-    
+
     NSNumber *fileSize;
     NSError *error;
     const BOOL success __unused = [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:&error];
-    
+
     NSAssert(success && fileSize, @"%s Couldn't get the file size for URL. \
 The URL was: %@. \
 The operation to retrieve the file size was %@. \
 The error associated with that operation was: %@",
              __PRETTY_FUNCTION__, fileURL, success ? @"successful" : @"unsuccessful", error);
-    
+
     return [self initWithInputStream:[NSInputStream inputStreamWithURL:fileURL]
                             dataSize:[fileSize unsignedLongLongValue]
                           statusCode:statusCode

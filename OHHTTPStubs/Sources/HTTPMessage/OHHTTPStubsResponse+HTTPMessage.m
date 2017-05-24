@@ -37,14 +37,14 @@
     NSData *data = [NSData data];
     NSInteger statusCode = 200;
     NSDictionary *headers = @{};
-    
+
     CFHTTPMessageRef httpMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
     if (httpMessage)
     {
         CFHTTPMessageAppendBytes(httpMessage, responseData.bytes, responseData.length);
-        
+
         data = responseData; // By default
-        
+
         if (CFHTTPMessageIsHeaderComplete(httpMessage))
         {
             statusCode = (NSInteger)CFHTTPMessageGetResponseStatusCode(httpMessage);
@@ -53,7 +53,7 @@
         }
         CFRelease(httpMessage);
     }
-    
+
     return [self responseWithData:data
                        statusCode:(int)statusCode
                           headers:headers];
@@ -64,10 +64,10 @@
 {
     NSURL *responseURL = [responsesBundle?:[NSBundle bundleForClass:self.class] URLForResource:responseName
                                                                                    withExtension:@"response"];
-    
+
     NSData *responseData = [NSData dataWithContentsOfURL:responseURL];
     NSAssert(responseData, @"Could not find HTTP response named '%@' in bundle '%@'", responseName, responsesBundle);
-    
+
     return [self responseWithHTTPMessageData:responseData];
 }
 

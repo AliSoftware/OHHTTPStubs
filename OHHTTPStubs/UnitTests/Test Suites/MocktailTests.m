@@ -182,7 +182,7 @@
     [getDataTask resume];
 
     [self waitForExpectationsWithTimeout:10 handler:nil];
-    
+
     return capturedResponse;
 }
 
