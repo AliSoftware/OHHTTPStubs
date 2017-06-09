@@ -158,6 +158,20 @@ public func isMethodDELETE() -> OHHTTPStubsTestBlock {
 }
 
 /**
+ * Matcher for testing an `NSURLRequest`'s **absolute url**.
+ *
+ * e.g. the absolute url is `https://api.example.com/signin` in `https://api.example.com/signin`
+ *
+ * - Parameter scheme: The absolute url to match
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            has the given absolute url
+ */
+public func isAbsoluteUrl(_ url: String) -> OHHTTPStubsTestBlock {
+  return { req in req.url?.absoluteString == url }
+}
+
+/**
  * Matcher for testing an `NSURLRequest`'s **scheme**.
  *
  * e.g. the scheme part is `https` in `https://api.example.com/signin`
