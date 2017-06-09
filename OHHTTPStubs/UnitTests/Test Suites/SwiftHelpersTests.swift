@@ -52,6 +52,28 @@ class SwiftHelpersTests : XCTestCase {
     }
   }
 
+  func testIsAbsoluteUrl() {
+    let matcher = isAbsoluteUrl("foo://foo/bar")
+
+    let urls = [
+      "foo:": false,
+      "foo://foo/bar/baz": false,
+      "foo://foo/bar": true,
+      "bar://foo/bar": false,
+      "bar://foo/ba": false,
+      "foobar://": false
+    ]
+
+    for (url, result) in urls {
+      #if swift(>=3.0)
+        let req = URLRequest(url: URL(string: url)!)
+      #else
+        let req = NSURLRequest(URL: NSURL(string: url)!)
+      #endif
+      XCTAssert(matcher(req) == result, "isAbsoluteUrl(\"foo://foo/bar\") matcher failed when testing url \(url)")
+    }
+  }
+
   func testIsScheme() {
     let matcher = isScheme("foo")
 
