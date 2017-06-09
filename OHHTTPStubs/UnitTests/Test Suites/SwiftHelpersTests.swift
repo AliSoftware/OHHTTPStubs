@@ -53,12 +53,15 @@ class SwiftHelpersTests : XCTestCase {
   }
 
   func testIsAbsoluteUrl() {
-    let matcher = isAbsoluteUrl("foo://foo/bar")
+    let matcher = isAbsoluteUrl("foo://foo/bar?param1=123&param2=foo#anchor")
 
     let urls = [
       "foo:": false,
       "foo://foo/bar/baz": false,
-      "foo://foo/bar": true,
+      "foo://foo/bar?param1=123&param2=foo#anchor": true,
+      "foo://foo/bar?param1=123&param2=foo": false,
+      "foo://foo/bar?param1=123": false,
+      "foo://foo/bar": false,
       "bar://foo/bar": false,
       "bar://foo/ba": false,
       "foobar://": false
@@ -70,7 +73,7 @@ class SwiftHelpersTests : XCTestCase {
       #else
         let req = NSURLRequest(URL: NSURL(string: url)!)
       #endif
-      XCTAssert(matcher(req) == result, "isAbsoluteUrl(\"foo://foo/bar\") matcher failed when testing url \(url)")
+      XCTAssert(matcher(req) == result, "isAbsoluteUrl(\"foo://foo/bar?param1=123&param2=foo#anchor\") matcher failed when testing url \(url)")
     }
   }
 
