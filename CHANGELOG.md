@@ -1,9 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
 ## Master
-  Added absoulte url matcher.  
+* Added absolute url matcher.  
   [@victorg1991](https://github.com/victorg1991
-  [#252](https://github.com/AliSoftware/OHHTTPStubs/pull/252)
+  [#254](https://github.com/AliSoftware/OHHTTPStubs/pull/254)
 * Fixed up empty lines with whitespace inside test case classes.  
   [@mikelupo](https://github.com/mikelupo
   [#251](https://github.com/AliSoftware/OHHTTPStubs/pull/251)
