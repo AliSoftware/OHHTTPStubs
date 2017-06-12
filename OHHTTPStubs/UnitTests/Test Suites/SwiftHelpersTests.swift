@@ -52,8 +52,8 @@ class SwiftHelpersTests : XCTestCase {
     }
   }
 
-  func testIsAbsoluteUrl() {
-    let matcher = isAbsoluteUrl("foo://foo/bar?param1=123&param2=foo#anchor")
+  func testIsAbsoluteURLString() {
+    let matcher = isAbsoluteURLString("foo://foo/bar?param1=123&param2=foo#anchor")
 
     let urls = [
       "foo:": false,
@@ -73,7 +73,7 @@ class SwiftHelpersTests : XCTestCase {
       #else
         let req = NSURLRequest(URL: NSURL(string: url)!)
       #endif
-      XCTAssert(matcher(req) == result, "isAbsoluteUrl(\"foo://foo/bar?param1=123&param2=foo#anchor\") matcher failed when testing url \(url)")
+      XCTAssert(matcher(req) == result, "isAbsoluteURLString(\"foo://foo/bar?param1=123&param2=foo#anchor\") matcher failed when testing url \(url)")
     }
   }
 
