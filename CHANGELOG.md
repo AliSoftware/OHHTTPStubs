@@ -2,7 +2,7 @@
 
 ## Master
 * Added absolute url matcher.  
-  [@victorg1991](https://github.com/victorg1991
+  [@victorg1991](https://github.com/victorg1991)
   [#254](https://github.com/AliSoftware/OHHTTPStubs/pull/254)
 * Fixed up empty lines with whitespace inside test case classes.  
   [@mikelupo](https://github.com/mikelupo
