@@ -439,6 +439,18 @@ class SwiftHelpersTests : XCTestCase {
 
     XCTAssertFalse(matchesHeader)
   }
+    
+  func test_ohhttpStubs_httpBody() {
+#if swift(>=3.0)
+    var req = URLRequest(url: URL(string: "foo://bar")!)
+#else
+    let req = NSURLRequest(URL: NSURL(string: "foo://bar")!)
+#endif
+
+    req.httpBody = Data()
+        
+    XCTAssert(req.ohhttpStubs_httpBody == req.httpBody)
+  }
 
   let sampleURLs = [
     // Absolute URLs
