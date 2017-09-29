@@ -446,9 +446,9 @@ class SwiftHelpersTests : XCTestCase {
     req.httpBody = Data()
     XCTAssert(req.ohhttpStubs_httpBody == req.httpBody)
 #else
-    let req = NSURLRequest(URL: NSURL(string: "foo://bar")!)
+    let req = NSMutableURLRequest(URL: NSURL(string: "foo://bar")!)
     req.HTTPBody = NSData()
-    XCTAssert(req.OHHTTPStubs_HTTPBody() == req.httpBody)
+    XCTAssert(req.OHHTTPStubs_HTTPBody() == req.HTTPBody)
 #endif
   }
 
