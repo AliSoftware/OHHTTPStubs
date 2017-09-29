@@ -443,13 +443,13 @@ class SwiftHelpersTests : XCTestCase {
   func test_ohhttpStubs_httpBody() {
 #if swift(>=3.0)
     var req = URLRequest(url: URL(string: "foo://bar")!)
+    req.httpBody = Data()
+    XCTAssert(req.ohhttpStubs_httpBody == req.httpBody)
 #else
     let req = NSURLRequest(URL: NSURL(string: "foo://bar")!)
+    req.HTTPBody = NSData()
+    XCTAssert(req.OHHTTPStubs_HTTPBody() == req.httpBody)
 #endif
-
-    req.httpBody = Data()
-        
-    XCTAssert(req.ohhttpStubs_httpBody == req.httpBody)
   }
 
   let sampleURLs = [
