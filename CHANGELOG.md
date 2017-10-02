@@ -1,6 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
 ## Master
+
+* Fixed `URLRequest.ohhttpStubs_httpBody` function in Swift 3 and 4.  
+  [@mplorentz](https://github.com/mplorentz)
 * Added absolute url matcher.  
   [@victorg1991](https://github.com/victorg1991)
   [#254](https://github.com/AliSoftware/OHHTTPStubs/pull/254)

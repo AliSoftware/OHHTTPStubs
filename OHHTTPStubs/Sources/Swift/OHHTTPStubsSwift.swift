@@ -58,6 +58,12 @@
       return rangeOfString(string) != nil
     }
   }
+#else
+  extension URLRequest {
+    public var ohhttpStubs_httpBody: Data? {
+      return (self as NSURLRequest).ohhttpStubs_HTTPBody()
+    }
+  }
 #endif
 
 
