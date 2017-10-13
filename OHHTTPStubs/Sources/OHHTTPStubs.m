@@ -48,6 +48,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 @property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
 @property(atomic, copy, nullable) void (^onStubRedirectBlock)(NSURLRequest*, NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
 @property(atomic, copy, nullable) void (^afterStubFinishBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*, NSError*);
+@property(atomic, copy, nullable) void (^onStubMissingBlock)(NSURLRequest*);
 @end
 
 @interface OHHTTPStubsDescriptor : NSObject <OHHTTPStubsDescriptor>
@@ -244,6 +245,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     [OHHTTPStubs.sharedInstance setAfterStubFinishBlock:block];
 }
 
++(void)onStubMissing:( nullable void(^)(NSURLRequest* request) )block
+{
+    [OHHTTPStubs.sharedInstance setOnStubMissingBlock:block];
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -337,7 +343,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    return ([OHHTTPStubs.sharedInstance firstStubPassingTestForRequest:request] != nil);
+    BOOL found = ([OHHTTPStubs.sharedInstance firstStubPassingTestForRequest:request] != nil);
+    if (!found && OHHTTPStubs.sharedInstance.onStubMissingBlock) {
+        OHHTTPStubs.sharedInstance.onStubMissingBlock(request);
+    }
+    return found;
 }
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
