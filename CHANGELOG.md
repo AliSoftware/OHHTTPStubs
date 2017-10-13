@@ -2,6 +2,8 @@
 
 ## Master
 
+* Fixed HTTP Method retention for 307/8 status redirects.  
+  [@mikelupo](https://github.com/mikelupo)
 * Added `hasJsonBody(_:)` matcher.  
   [@pimnijman](https://github.com/pimnijman)
 * Added `onStubMissing` to report missing stubs.  
