@@ -2,7 +2,7 @@
 
 ## Master
 
-* Added `onStubMissing` to report missing stubs
+* Added `onStubMissing` to report missing stubs.  
   [@c1ira](https://github.com/c1ira)
 * Fixed `URLRequest.ohhttpStubs_httpBody` function in Swift 3 and 4.  
   [@mplorentz](https://github.com/mplorentz)
