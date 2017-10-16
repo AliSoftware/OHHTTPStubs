@@ -2,7 +2,7 @@
 
 ## Master
 
-* Fixed HTTP Method retention for 307/8 status redirects.  
+* Fixed HTTP Method retention for 301,302,307,308 status redirects.  
   [@mikelupo](https://github.com/mikelupo)
 * Added `hasJsonBody(_:)` matcher.  
   [@pimnijman](https://github.com/pimnijman)
