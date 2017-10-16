@@ -434,7 +434,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                 // Notify if a redirection occurred
                 if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
                 {
-					NSMutableURLRequest* mReq = [NSMutableURLRequest requestWithURL:redirectLocationURL];
+					NSMutableURLRequest* mReq = [self.request mutableCopy];
                     switch (responseStub.statusCode)
                     {
                         case 301:
