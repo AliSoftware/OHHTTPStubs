@@ -2,6 +2,9 @@
 
 ## Master
 
+* Added `onStubMissing` to report missing stubs.  
+  [@c1ira](https://github.com/c1ira)
+  [#264](https://github.com/AliSoftware/OHHTTPStubs/pull/264)
 * Fixed `URLRequest.ohhttpStubs_httpBody` function in Swift 3 and 4.  
   [@mplorentz](https://github.com/mplorentz)
 * Added absolute url matcher.  

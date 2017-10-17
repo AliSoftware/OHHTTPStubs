@@ -205,6 +205,14 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  */
 +(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError *error) )block;
 
+/**
+ *  Setup a block to be called whenever OHHTTPStubs encounters a missing stub.
+ *
+ *  @param block The block to call each time no stub for a request can be found.
+ *               Set it to `nil` to do nothing. Defaults is `nil`.
+ */
++(void)onStubMissing:( nullable void(^)(NSURLRequest* request) )block;
+
 @end
 
 NS_ASSUME_NONNULL_END
