@@ -105,6 +105,9 @@
 
 - (void)_test_redirect_NSURLSession:(NSURLSession*)session
                         jsonForStub:(id)json
+                         httpMethod:(NSString *) httpMethod
+                           httpBody:(NSData *) httpBody
+                         httpStatus:(int) httpStatusCode
                          completion:(void(^)(NSError* errorResponse, NSHTTPURLResponse *response, id jsonResponse))completion
 {
     if ([NSURLSession class])
@@ -116,13 +119,15 @@
             return [[[request URL] path] isEqualToString:@""];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/elsewhere" };
-            return [[OHHTTPStubsResponse responseWithData:[[NSData alloc] init] statusCode:301 headers:headers]
+            NSLog(@"Stop here");
+            return [[OHHTTPStubsResponse responseWithData:[[NSData alloc] init] statusCode:httpStatusCode headers:headers]
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
 
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@"/elsewhere"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+            NSLog(@"Stop here");
             return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
@@ -133,7 +138,16 @@
         __block __strong id dataResponse = nil;
         __block __strong NSError* errorResponse = nil;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
-        request.HTTPMethod = @"GET";
+        request.HTTPMethod = httpMethod;
+
+        if ([httpMethod isEqualToString:@"POST"] ||
+            [httpMethod isEqualToString:@"PUT"] ||
+            [httpMethod isEqualToString:@"PATCH"])
+        {
+            request.HTTPBody = httpBody;
+            [request setValue:[NSString  stringWithFormat:@"%ld", httpBody.length] forHTTPHeaderField:@"Content-Length"];
+        }
+
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
@@ -190,7 +204,7 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"GET" httpBody:nil httpStatus:301 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
             XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
@@ -217,7 +231,7 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"GET" httpBody:nil httpStatus:301 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
             XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
@@ -241,10 +255,44 @@
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
 
         NSDictionary* json = @{@"Success": @"Yes"};
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+
+        NSDictionary* jsonBody = @{@"Testing":@"OneTwoThree"};
+        NSError *error;
+        NSData * dataToPost = [NSJSONSerialization dataWithJSONObject:jsonBody options:NSJSONWritingPrettyPrinted error:&error];
+        XCTAssertNil(error, @"Unexpected error recieved");
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"GET" httpBody:nil httpStatus:301 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
             XCTAssertNotNil(redirectResponse, @"Redirect response should have been received");
             XCTAssertEqual(301, [redirectResponse statusCode], @"Expected 301 redirect");
+            XCTAssertNil(jsonResponse, @"Unexpected data received");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"POST" httpBody:dataToPost httpStatus:302 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNotNil(redirectResponse, @"Unexpected redirect response received");
+            XCTAssertEqual(302, [redirectResponse statusCode], @"Expected 302 redirect");
+            XCTAssertNil(jsonResponse, @"Unexpected data received");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"POST" httpBody:dataToPost httpStatus:303 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNotNil(redirectResponse, @"Unexpected redirect response received");
+            XCTAssertEqual(303, [redirectResponse statusCode], @"Expected 303 redirect");
+            XCTAssertNil(jsonResponse, @"Unexpected data received");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"POST" httpBody:dataToPost httpStatus:307 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNotNil(redirectResponse, @"Unexpected redirect response received");
+            XCTAssertEqual(307, [redirectResponse statusCode], @"Expected 307 redirect");
+            XCTAssertNil(jsonResponse, @"Unexpected data received");
+        }];
+
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"POST" httpBody:dataToPost httpStatus:308 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+            XCTAssertNil(errorResponse, @"Unexpected error");
+            XCTAssertNotNil(redirectResponse, @"Unexpected redirect response received");
+            XCTAssertEqual(308, [redirectResponse statusCode], @"Expected 308 redirect");
             XCTAssertNil(jsonResponse, @"Unexpected data received");
         }];
 
@@ -269,7 +317,7 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"GET" httpBody:nil httpStatus:301 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
             XCTAssertNil(errorResponse, @"Unexpected error");
             XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
@@ -298,7 +346,7 @@
             XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session jsonForStub:json httpMethod:@"GET" httpBody:nil httpStatus:301 completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
             // Stubs were disable for this session, so we should get an error instead of the stubs data
             XCTAssertNotNil(errorResponse, @"Expected error but none found");
             XCTAssertNil(redirectResponse, @"Redirect response should not have been received as stubs should be disabled");
