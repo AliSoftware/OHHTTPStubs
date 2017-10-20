@@ -2,6 +2,8 @@
 
 ## Master
 
+* Added `hasJsonBody(_:)` matcher.  
+  [@pimnijman](https://github.com/pimnijman)
 * Added `onStubMissing` to report missing stubs.  
   [@c1ira](https://github.com/c1ira)
   [#264](https://github.com/AliSoftware/OHHTTPStubs/pull/264)
