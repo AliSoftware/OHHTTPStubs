@@ -401,7 +401,10 @@ public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBloc
 #if swift(>=3.0)
 public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> OHHTTPStubsTestBlock {
   return { req in
-    guard let jsonBody = (try? JSONSerialization.jsonObject(with: (req as NSURLRequest).ohhttpStubs_HTTPBody(), options: [])) as? [AnyHashable : Any] else {
+    guard
+      let httpBody = req.ohhttpStubs_httpBody,
+      let jsonBody = (try? JSONSerialization.jsonObject(with: httpBody, options: [])) as? [AnyHashable : Any]
+    else {
       return false
     }
     return NSDictionary(dictionary: jsonBody).isEqual(to: jsonObject)
