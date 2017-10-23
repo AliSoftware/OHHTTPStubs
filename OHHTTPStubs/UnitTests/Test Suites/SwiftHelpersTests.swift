@@ -456,27 +456,27 @@ class SwiftHelpersTests : XCTestCase {
 
 #if swift(>=3.0)
   func testHasJsonBodyIsTrue() {
-    let jsonObjects = [
+    let jsonStringsAndObjects = [
       // Exact match
-      (["foo": "bar", "baz": 42, "qux": true],
+      ("{ \"foo\": \"bar\", \"baz\": 42, \"qux\": true }",
        ["foo": "bar", "baz": 42, "qux": true]),
       // Changed attribute order
-      (["foo": "bar", "baz": 42, "qux": true],
-       ["qux": true, "foo": "bar", "baz": 42]),
+      ("{ \"qux\": true, \"foo\": \"bar\", \"baz\": 42 }",
+       ["foo": "bar", "baz": 42, "qux": true]),
+      // Newlines and indentations
+      ("{ \"foo\": \"bar\", \n\"baz\": 42,     \"qux\": true }",
+       ["foo": "bar", "baz": 42, "qux": true]),
       // Nested objects
-      (["foo": "bar", "baz": ["qux": true, "quux": ["spam", "ham", "eggs"]]],
+      ("{ \"foo\": \"bar\", \"baz\": { \"qux\": true, \"quux\": [\"spam\", \"ham\", \"eggs\"] } }",
        ["foo": "bar", "baz": ["qux": true, "quux": ["spam", "ham", "eggs"]]]),
       // Nested objects with changed attribute order
-      (["foo": "bar", "baz": ["qux": true, "quux": ["spam", "ham", "eggs"]]],
-       ["foo": "bar", "baz": ["quux": ["spam", "ham", "eggs"], "qux": true]]),
+      ("{ \"foo\": \"bar\", \"baz\": { \"quux\": [\"spam\", \"ham\", \"eggs\"], \"qux\": true } }",
+       ["foo": "bar", "baz": ["qux": true, "quux": ["spam", "ham", "eggs"]]]),
     ]
     
-    for (jsonObject, expectedJsonObject) in jsonObjects {
+    for (jsonString, expectedJsonObject) in jsonStringsAndObjects {
       var req = URLRequest(url: URL(string: "foo://bar")!)
-      
-      let data = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
-      req.httpBody = data
-      
+      req.httpBody = jsonString.data(using: .utf8)
       let matchesJsonBody = hasJsonBody(expectedJsonObject)(req)
       
       XCTAssertTrue(matchesJsonBody)
@@ -486,33 +486,30 @@ class SwiftHelpersTests : XCTestCase {
 
 #if swift(>=3.0)
   func testHasJsonBodyIsFalse() {
-    let jsonObjects = [
+    let jsonStringsAndObjects = [
       // Changed value
-      (["foo": "bar"],
+      ("{ \"foo\": \"bar\" }",
        ["foo": "qux"]),
       // Changed key
-      (["foo": "bar"],
+      ("{ \"foo\": \"bar\" }",
        ["baz": "bar"]),
       // Missing attribute
-      (["foo": "bar", "baz": 42],
-       ["baz": "bar"]),
+      ("{ \"foo\": \"bar\", \"baz\": 42 }",
+       ["foo": "bar"]),
       // Extraneous attribute
-      (["foo": "bar"],
+      ("{ \"foo\": \"bar\" }",
        ["foo": "bar", "baz": 42]),
       // Changed order in array
-      (["foo": ["spam", "ham", "eggs"]],
+      ("{ \"foo\": [\"spam\", \"ham\", \"eggs\"] }",
        ["foo": ["spam", "eggs", "ham"]]),
       // Nested objects with changed value
-      (["foo": "bar", "baz": ["qux": true]],
+        ("{ \"foo\": \"bar\", \"baz\": { \"qux\": true } }",
        ["foo": "bar", "baz": ["qux": false]])
     ]
     
-    for (jsonObject, expectedJsonObject) in jsonObjects {
+    for (jsonString, expectedJsonObject) in jsonStringsAndObjects {
       var req = URLRequest(url: URL(string: "foo://bar")!)
-      
-      let data = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
-      req.httpBody = data
-      
+      req.httpBody = jsonString.data(using: .utf8)
       let matchesJsonBody = hasJsonBody(expectedJsonObject)(req)
       
       XCTAssertFalse(matchesJsonBody)
