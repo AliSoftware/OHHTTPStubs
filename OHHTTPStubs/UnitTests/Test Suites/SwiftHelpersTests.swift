@@ -454,6 +454,69 @@ class SwiftHelpersTests : XCTestCase {
 #endif
   }
 
+#if swift(>=3.0)
+  func testHasJsonBodyIsTrue() {
+    let jsonStringsAndObjects = [
+      // Exact match
+      ("{ \"foo\": \"bar\", \"baz\": 42, \"qux\": true }",
+       ["foo": "bar", "baz": 42, "qux": true]),
+      // Changed attribute order
+      ("{ \"qux\": true, \"foo\": \"bar\", \"baz\": 42 }",
+       ["foo": "bar", "baz": 42, "qux": true]),
+      // Newlines and indentations
+      ("{ \"foo\": \"bar\", \n\"baz\": 42,     \"qux\": true }",
+       ["foo": "bar", "baz": 42, "qux": true]),
+      // Nested objects
+      ("{ \"foo\": \"bar\", \"baz\": { \"qux\": true, \"quux\": [\"spam\", \"ham\", \"eggs\"] } }",
+       ["foo": "bar", "baz": ["qux": true, "quux": ["spam", "ham", "eggs"]]]),
+      // Nested objects with changed attribute order
+      ("{ \"foo\": \"bar\", \"baz\": { \"quux\": [\"spam\", \"ham\", \"eggs\"], \"qux\": true } }",
+       ["foo": "bar", "baz": ["qux": true, "quux": ["spam", "ham", "eggs"]]]),
+    ]
+    
+    for (jsonString, expectedJsonObject) in jsonStringsAndObjects {
+      var req = URLRequest(url: URL(string: "foo://bar")!)
+      req.httpBody = jsonString.data(using: .utf8)
+      let matchesJsonBody = hasJsonBody(expectedJsonObject)(req)
+      
+      XCTAssertTrue(matchesJsonBody)
+    }
+  }
+#endif
+
+#if swift(>=3.0)
+  func testHasJsonBodyIsFalse() {
+    let jsonStringsAndObjects = [
+      // Changed value
+      ("{ \"foo\": \"bar\" }",
+       ["foo": "qux"]),
+      // Changed key
+      ("{ \"foo\": \"bar\" }",
+       ["baz": "bar"]),
+      // Missing attribute
+      ("{ \"foo\": \"bar\", \"baz\": 42 }",
+       ["foo": "bar"]),
+      // Extraneous attribute
+      ("{ \"foo\": \"bar\" }",
+       ["foo": "bar", "baz": 42]),
+      // Changed order in array
+      ("{ \"foo\": [\"spam\", \"ham\", \"eggs\"] }",
+       ["foo": ["spam", "eggs", "ham"]]),
+      // Nested objects with changed value
+        ("{ \"foo\": \"bar\", \"baz\": { \"qux\": true } }",
+       ["foo": "bar", "baz": ["qux": false]])
+    ]
+    
+    for (jsonString, expectedJsonObject) in jsonStringsAndObjects {
+      var req = URLRequest(url: URL(string: "foo://bar")!)
+      req.httpBody = jsonString.data(using: .utf8)
+      let matchesJsonBody = hasJsonBody(expectedJsonObject)(req)
+      
+      XCTAssertFalse(matchesJsonBody)
+    }
+  }
+#endif
+
   let sampleURLs = [
     // Absolute URLs
     "scheme:",

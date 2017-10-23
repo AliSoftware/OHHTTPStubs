@@ -392,6 +392,26 @@ public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBloc
   }
 #endif
 
+/**
+ * Matcher testing that the `NSURLRequest` body contains a JSON object with the same keys and values
+ * - Parameter jsonObject: the JSON object to expect
+ *
+ * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains a JSON object with the same keys and values as the parameter value
+ */
+#if swift(>=3.0)
+public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> OHHTTPStubsTestBlock {
+  return { req in
+    guard
+      let httpBody = req.ohhttpStubs_httpBody,
+      let jsonBody = (try? JSONSerialization.jsonObject(with: httpBody, options: [])) as? [AnyHashable : Any]
+    else {
+      return false
+    }
+    return NSDictionary(dictionary: jsonBody).isEqual(to: jsonObject)
+  }
+}
+#endif
+
 // MARK: Operators on OHHTTPStubsTestBlock
 
 /**
