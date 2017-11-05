@@ -443,10 +443,8 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                         case 302:
                         case 307:
                         case 308:
+                            //Preserve the original request method and body, and set the new location URL
                             mReq = [self.request mutableCopy];
-
-                            //Preserve the original request method and set the new location URL
-                            [mReq setHTTPMethod:self.request.HTTPMethod];
                             [mReq setURL:redirectLocationURL];
                             redirectRequest = (NSURLRequest*)[mReq copy];
                             break;
