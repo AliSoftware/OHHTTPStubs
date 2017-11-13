@@ -158,7 +158,7 @@
         if (requestBody)
         {
             request.HTTPBody = requestBody;
-            [request setValue:[NSString stringWithFormat:@"%ld", request.HTTPBody.length] forHTTPHeaderField:@"Content-Length"];
+            [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)(request.HTTPBody.length)] forHTTPHeaderField:@"Content-Length"];
             [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         }
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
