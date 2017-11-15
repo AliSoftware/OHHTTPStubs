@@ -140,7 +140,7 @@
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *redirectedRequest) {
             capturedRedirectedRequestMethod = redirectedRequest.HTTPMethod;
             if (redirectedRequest.OHHTTPStubs_HTTPBody) {
-                capturedRedirectedRequestJSONBody = [NSJSONSerialization JSONObjectWithData:redirectedRequest.OHHTTPStubs_HTTPBody options:0 error:nil];
+                capturedRedirectedRequestJSONBody = [NSJSONSerialization JSONObjectWithData:redirectedRequest.OHHTTPStubs_HTTPBody options:0 error:NULL];
             } else {
                 capturedRedirectedRequestJSONBody = nil;
             }
@@ -168,7 +168,10 @@
         [session dataTaskWithRequest:request
                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
          {
-             if (!capturedResponseError) { capturedResponseError = error; }
+             if (!capturedResponseError) {
+                 // In case there was already a captured error before, we prefer to report the first one rather than the last one
+                 capturedResponseError = error;
+             }
              NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
              if ([HTTPResponse statusCode] >= 300 && [HTTPResponse statusCode] < 400) {
                  // Response for the redirect
@@ -177,14 +180,12 @@
                  capturedRedirectHTTPResponse = HTTPResponse;
              } else {
                  // Response for the final request
-                 if (data) {
+                 if (!error) {
                      NSTimeInterval totalResponseTime = [[NSDate date] timeIntervalSinceDate:startTime];
                      XCTAssertGreaterThanOrEqual(totalResponseTime, ((2 * requestTime) + responseTime), @"Redirect or final request did not honor request/response time");
                  }
 
-                 NSError *jsonError = nil;
-                 NSDictionary *jsonObject = data ? [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError] : nil;
-                 XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
+                 NSDictionary *jsonObject = data ? [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] : nil;
                  capturedResponseJSONBody = jsonObject;
              }
              [expectation fulfill];
