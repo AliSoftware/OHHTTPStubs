@@ -306,68 +306,36 @@
         NSDictionary* json = @{ @"query": @"Hello World" };
         NSArray<NSString*>* allMethods = @[@"GET", @"HEAD", @"POST", @"PATCH", @"PUT"];
 
-        /** 301: GET, HEAD, POST, PATCH, PUT **/
-        for (NSString* method in allMethods) {
-            [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:301
-                                   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
-            {
-                XCTAssertEqualObjects(redirectedRequestMethod, method, @"Expected the HTTP method to be unchanged after redirect");
-                XCTAssertEqualObjects(redirectedRequestJSONBody, json, @"Expected redirected request to have the same body as the original request");
-                XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
-                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received");
-                XCTAssertNil(errorResponse, @"Unexpected error");
-            }];
+        /** 301, 302, 307, 308: GET, HEAD, POST, PATCH, PUT should all maintain HTTP method and body unchanged **/
+        for (NSNumber* redirectStatusCode in @[@301, @302, @307, @308]) {
+            int statusCode = redirectStatusCode.intValue;
+            for (NSString* method in allMethods) {
+                [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:statusCode
+                                       completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+                 {
+                     XCTAssertEqualObjects(redirectedRequestMethod, method,
+                                           @"Expected the HTTP method to be unchanged after %d redirect", statusCode);
+                     XCTAssertEqualObjects(redirectedRequestJSONBody, json,
+                                           @"Expected %d-redirected request to have the same body as the original request", statusCode);
+                     XCTAssertNil(redirectHTTPResponse,
+                                  @"%d Redirect response should not have been captured by the task completion block", statusCode);
+                     XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json },
+                                           @"Unexpected JSON response received after %d redirect", statusCode);
+                     XCTAssertNil(errorResponse, @"Unexpected error during %d redirect", statusCode);
+                 }];
+            }
         }
 
-        /** 302: GET, HEAD, POST, PATCH, PUT **/
-        for (NSString* method in allMethods) {
-            [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:302
-                                   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
-            {
-                XCTAssertEqualObjects(redirectedRequestMethod, method,@"Expected the HTTP method to be unchanged after redirect");
-                XCTAssertEqualObjects(redirectedRequestJSONBody, json, @"Expected redirected request to have the same body as the original request");
-                XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
-                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received");
-                XCTAssertNil(errorResponse, @"Unexpected error");
-            }];
-        }
-
-        /** 303: GET, HEAD, POST, PATCH, PUT **/
+        /** 303: GET, HEAD, POST, PATCH, PUT should use a GET HTTP method after redirection and not forward the body **/
         for (NSString* method in allMethods) {
             [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:303
                                    completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
             {
                 XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected 303 redirected request HTTP method to be reset to GET");
-                XCTAssertNil(redirectedRequestJSONBody, @"Expected 303 redirected request to have empty body");
-                XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
-                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received");
-                XCTAssertNil(errorResponse, @"Unexpected error");
-            }];
-        }
-
-        /** 307: GET, HEAD, POST, PATCH, PUT **/
-        for (NSString* method in allMethods) {
-            [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:307
-                                   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
-            {
-                XCTAssertEqualObjects(redirectedRequestMethod, method, @"Expected the HTTP method to be unchanged after redirect");
-                XCTAssertEqualObjects(redirectedRequestJSONBody, json, @"Expected redirected request to have the same body as the original request");
-                XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
-                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received");
-                XCTAssertNil(errorResponse, @"Unexpected error");
-            }];
-        }
-
-        /** 308: GET, HEAD, POST, PATCH, PUT **/
-        for (NSString* method in allMethods) {
-            [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:308
-                                   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
-            {
-                XCTAssertEqualObjects(redirectedRequestMethod, method, @"Expected the HTTP method to be unchanged after redirect");
-                XCTAssertEqualObjects(redirectedRequestJSONBody, json, @"Expected redirected request to have the same body as the original request");
-                XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
-                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received");
-                XCTAssertNil(errorResponse, @"Unexpected error");
+                XCTAssertNil(redirectedRequestJSONBody, @"Expected 303-redirected request to have empty body");
+                XCTAssertNil(redirectHTTPResponse, @"303 Redirect response should not have been captured by the task completion block");
+                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received after 303 redirect");
+                XCTAssertNil(errorResponse, @"Unexpected error during 303 redirect");
             }];
         }
 
