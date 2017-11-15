@@ -39,21 +39,21 @@
 @import OHHTTPStubs;
 #endif
 
-@interface NSURLSessionTests : XCTestCase <NSURLSessionDataDelegate, NSURLSessionTaskDelegate> @end
+@interface NSURLSessionTestDelegate: NSObject <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
++(instancetype)delegateFollowingRedirects:(BOOL)shouldFollowRedirects fulfillOnCompletion:(XCTestExpectation*)expectationToFulfill;
+-(void)resetWithNewExpectation:(XCTestExpectation*)expectationToFulfill;
+@property(readonly) NSData* receivedData;
+@property(readonly) NSError* receivedError;
+@end
+
+@interface NSURLSessionTests : XCTestCase @end
 
 @implementation NSURLSessionTests
-{
-    NSMutableData* _receivedData;
-    XCTestExpectation* _taskDidCompleteExpectation;
-    BOOL _shouldFollowRedirects;
-}
 
 - (void)setUp
 {
     [super setUp];
     [OHHTTPStubs removeAllStubs];
-    _receivedData = nil;
-    _shouldFollowRedirects = YES;
 }
 
 - (void)_test_NSURLSession:(NSURLSession*)session
@@ -265,12 +265,12 @@
 
 - (void)test_NSURLSessionDefaultConfig_notFollowingRedirects
 {
-    _shouldFollowRedirects = NO;
+    NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:NO fulfillOnCompletion:nil];
 
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
                                completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
@@ -281,6 +281,8 @@
             XCTAssertNil(finalJSONResponse, @"Unexpected data received when no redirect");
             XCTAssertNil(errorResponse, @"Unexpected error");
         }];
+
+        [session finishTasksAndInvalidate];
     }
     else
     {
@@ -294,12 +296,12 @@
  **/
 - (void)test_NSURLSessionDefaultConfig_MethodAndDataRetentionOnRedirect
 {
-    _shouldFollowRedirects = YES;
+    NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
 
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         NSDictionary* json = @{ @"query": @"Hello World" };
         NSArray<NSString*>* allMethods = @[@"GET", @"HEAD", @"POST", @"PATCH", @"PUT"];
@@ -451,16 +453,18 @@
                     responseTime:0.5];
         }];
 
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"NSURLSessionDataTask completion delegate method called"];
+        XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completion delegate method called"];
+        NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:expectation];
 
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
 
-        XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+        XCTAssertEqualObjects(delegate.receivedData, expectedResponse, @"Unexpected response");
+        XCTAssertNil(delegate.receivedError, @"Unexpected error happened");
 
         [session finishTasksAndInvalidate];
     }
@@ -485,29 +489,30 @@
                     responseTime:0.2];
         }];
 
+
+        XCTestExpectation* successExpectation = [self expectationWithDescription:@"Complete successful body test"];
+        NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:successExpectation];
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         // setup for positive check
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete successful body test"];
-
         NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
         requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
-        XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response: HTTP body check should be successful");
+        XCTAssertEqualObjects(delegate.receivedData, expectedResponse, @"Unexpected response: HTTP body check should be successful");
 
         // reset for negative check
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete unsuccessful body test"];
-        _receivedData = nil;
+        XCTestExpectation* failureExpectation = [self expectationWithDescription:@"Complete unsuccessful body test"];
+        [delegate resetWithNewExpectation:failureExpectation];
 
         requestWithBody.HTTPBody = [@"somethingElse" dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
 
-        XCTAssertNil(_receivedData, @"Unexpected response: HTTP body check should not be successful");
+        XCTAssertNil(delegate.receivedData, @"Unexpected response: HTTP body check should not be successful");
 
         [session finishTasksAndInvalidate];
     }
@@ -532,17 +537,17 @@
                     responseTime:0.2];
         }];
 
+        XCTestExpectation* expectation = [self expectationWithDescription:@"Complete body test"];
+        NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:expectation];
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete body test"];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
         requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
-        XCTAssertNil(_receivedData, @"[request HTTPBody] is not expected to work. If this has been fixed, the OHHTTPStubs_HTTPBody can be removed.");
+        XCTAssertNil(delegate.receivedData, @"[request HTTPBody] is not expected to work. If this has been fixed, the OHHTTPStubs_HTTPBody can be removed.");
 
         [session finishTasksAndInvalidate];
     }
@@ -552,8 +557,45 @@
     }
 }
 
+@end
+
+
 //---------------------------------------------------------------
-#pragma mark - Delegate Methods
+#pragma mark - Delegate
+
+@implementation NSURLSessionTestDelegate
+{
+    NSMutableData* _receivedData;
+    XCTestExpectation* _taskDidCompleteExpectation;
+    BOOL _shouldFollowRedirects;
+}
+
+- (instancetype)initFollowingRedirects:(BOOL)shouldFollowRedirects fulfillOnCompletion:(XCTestExpectation*)expectationToFulfill
+{
+    self = [super init];
+    if (self)
+    {
+        _shouldFollowRedirects = shouldFollowRedirects;
+        [self resetWithNewExpectation:expectationToFulfill];
+    }
+    return self;
+}
+
++ (instancetype)delegateFollowingRedirects:(BOOL)shouldFollowRedirects fulfillOnCompletion:(XCTestExpectation*)expectationToFulfill
+{
+    return [[NSURLSessionTestDelegate alloc] initFollowingRedirects:shouldFollowRedirects fulfillOnCompletion:expectationToFulfill];
+}
+
+-(void)resetWithNewExpectation:(XCTestExpectation*)expectationToFulfill
+{
+    _receivedData = nil;
+    _receivedError = nil;
+    _taskDidCompleteExpectation = expectationToFulfill;
+}
+
+- (NSData*)receivedData {
+    return [_receivedData copy];
+}
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
 {
@@ -566,6 +608,7 @@
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
+    _receivedError = error;
     [_taskDidCompleteExpectation fulfill];
 }
 
