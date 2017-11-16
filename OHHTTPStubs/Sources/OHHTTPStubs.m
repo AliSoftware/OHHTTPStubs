@@ -434,7 +434,26 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                 // Notify if a redirection occurred
                 if (((responseStub.statusCode > 300) && (responseStub.statusCode < 400)) && redirectLocationURL)
                 {
-                    NSURLRequest* redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
+                    NSURLRequest *redirectRequest;
+                    NSMutableURLRequest *mReq;
+
+                    switch (responseStub.statusCode)
+                    {
+                        case 301:
+                        case 302:
+                        case 307:
+                        case 308:
+                            //Preserve the original request method and body, and set the new location URL
+                            mReq = [self.request mutableCopy];
+                            [mReq setURL:redirectLocationURL];
+                            redirectRequest = (NSURLRequest*)[mReq copy];
+                            break;
+
+                        default:
+                            redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
+                            break;
+                    }
+
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
                     if (OHHTTPStubs.sharedInstance.onStubRedirectBlock)
                     {

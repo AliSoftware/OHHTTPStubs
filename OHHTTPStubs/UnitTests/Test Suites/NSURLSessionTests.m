@@ -39,21 +39,21 @@
 @import OHHTTPStubs;
 #endif
 
-@interface NSURLSessionTests : XCTestCase <NSURLSessionDataDelegate, NSURLSessionTaskDelegate> @end
+@interface NSURLSessionTestDelegate: NSObject <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
++(instancetype)delegateFollowingRedirects:(BOOL)shouldFollowRedirects fulfillOnCompletion:(XCTestExpectation*)expectationToFulfill;
+-(void)resetWithNewExpectation:(XCTestExpectation*)expectationToFulfill;
+@property(readonly) NSData* receivedData;
+@property(readonly) NSError* receivedError;
+@end
+
+@interface NSURLSessionTests : XCTestCase @end
 
 @implementation NSURLSessionTests
-{
-    NSMutableData* _receivedData;
-    XCTestExpectation* _taskDidCompleteExpectation;
-    BOOL _shouldFollowRedirects;
-}
 
 - (void)setUp
 {
     [super setUp];
     [OHHTTPStubs removeAllStubs];
-    _receivedData = nil;
-    _shouldFollowRedirects = YES;
 }
 
 - (void)_test_NSURLSession:(NSURLSession*)session
@@ -104,74 +104,98 @@
 }
 
 - (void)_test_redirect_NSURLSession:(NSURLSession*)session
-                        jsonForStub:(id)json
-                         completion:(void(^)(NSError* errorResponse, NSHTTPURLResponse *response, id jsonResponse))completion
+                         httpMethod:(NSString *)requestHTTPMethod
+                           jsonBody:(NSDictionary*)json
+                             delays:(NSTimeInterval)delay
+                 redirectStatusCode:(int)redirectStatusCode
+                         completion:(void(^)(NSString* redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse))completion
 {
     if ([NSURLSession class])
     {
-        static const NSTimeInterval kRequestTime = 0.2;
-        static const NSTimeInterval kResponseTime = 0.2;
+        const NSTimeInterval requestTime = delay;
+        const NSTimeInterval responseTime = delay;
 
+        __block __strong NSString* capturedRedirectedRequestMethod = nil;
+        __block __strong id capturedRedirectedRequestJSONBody = nil;
+        __block __strong NSHTTPURLResponse* capturedRedirectHTTPResponse = nil;
+        __block __strong id capturedResponseJSONBody = nil;
+        __block __strong NSError* capturedResponseError = nil;
+
+        NSData* requestBody = json ? [NSJSONSerialization dataWithJSONObject:json options:0 error:NULL] : nil;
+
+        // First request: just return a redirect response (3xx, empty body)
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            return [[[request URL] path] isEqualToString:@""];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/elsewhere" };
-            return [[OHHTTPStubsResponse responseWithData:[[NSData alloc] init] statusCode:301 headers:headers]
-                    requestTime:kRequestTime responseTime:kResponseTime];
+            return [[[request URL] path] isEqualToString:@"/oldlocation"];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *originalRequest) {
+            NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/newlocation" };
+            return [[OHHTTPStubsResponse responseWithData:[NSData new]
+                                               statusCode:redirectStatusCode
+                                                  headers:headers]
+                    requestTime:requestTime responseTime:responseTime];
         }];
 
+        // Second request = redirected location: capture method+body of the redirected request + return 200 with the finalJSONResponse
         [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            return [[[request URL] path] isEqualToString:@"/elsewhere"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
-                    requestTime:kRequestTime responseTime:kResponseTime];
+            return [[[request URL] path] isEqualToString:@"/newlocation"];
+        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *redirectedRequest) {
+            capturedRedirectedRequestMethod = redirectedRequest.HTTPMethod;
+            if (redirectedRequest.OHHTTPStubs_HTTPBody) {
+                capturedRedirectedRequestJSONBody = [NSJSONSerialization JSONObjectWithData:redirectedRequest.OHHTTPStubs_HTTPBody options:0 error:NULL];
+            } else {
+                capturedRedirectedRequestJSONBody = nil;
+            }
+            return [[OHHTTPStubsResponse responseWithJSONObject:@{ @"RequestBody": json ?: [NSNull null] }
+                                                     statusCode:200
+                                                        headers:nil]
+                    requestTime:requestTime responseTime:responseTime];
         }];
 
         XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
 
-        __block __strong NSHTTPURLResponse *redirectResponse = nil;
-        __block __strong id dataResponse = nil;
-        __block __strong NSError* errorResponse = nil;
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666"]];
-        request.HTTPMethod = @"GET";
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        // Building the initial request.
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666/oldlocation"]];
+        request.HTTPMethod = requestHTTPMethod;
+        if (requestBody)
+        {
+            request.HTTPBody = requestBody;
+            [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)(request.HTTPBody.length)] forHTTPHeaderField:@"Content-Length"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        }
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
-        NSURLSessionDataTask *task =  [session dataTaskWithRequest:request
-                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                       {
-                                           errorResponse = error;
-                                           if (!error)
-                                           {
-                                               NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
-                                               if ([HTTPResponse statusCode] >= 300 && [HTTPResponse statusCode] < 400) {
-                                                   redirectResponse = HTTPResponse;
-                                               } else {
-                                                   NSError *jsonError = nil;
-                                                   NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                                                   XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
-                                                   dataResponse = jsonObject;
-                                               }
-                                           }
-                                           [expectation fulfill];
-                                       }];
-
         NSDate *startTime = [NSDate date];
+        NSURLSessionDataTask *task =
+        [session dataTaskWithRequest:request
+                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+         {
+             if (!capturedResponseError) {
+                 // In case there was already a captured error before, we prefer to report the first one rather than the last one
+                 capturedResponseError = error;
+             }
+             NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
+             if ([HTTPResponse statusCode] >= 300 && [HTTPResponse statusCode] < 400) {
+                 // Response for the redirect
+                 NSTimeInterval redirectResponseTime = [[NSDate date] timeIntervalSinceDate:startTime];
+                 XCTAssertGreaterThanOrEqual(redirectResponseTime, (requestTime + responseTime), @"Redirect did not honor request/response time");
+                 capturedRedirectHTTPResponse = HTTPResponse;
+             } else {
+                 // Response for the final request
+                 if (!error) {
+                     NSTimeInterval totalResponseTime = [[NSDate date] timeIntervalSinceDate:startTime];
+                     XCTAssertGreaterThanOrEqual(totalResponseTime, ((2 * requestTime) + responseTime), @"Redirect or final request did not honor request/response time");
+                 }
+
+                 NSDictionary *jsonObject = data ? [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] : nil;
+                 capturedResponseJSONBody = jsonObject;
+             }
+             [expectation fulfill];
+         }];
         [task resume];
 
-        [self waitForExpectationsWithTimeout:(kRequestTime+kResponseTime)*2+0.1 handler:^(NSError * _Nullable error) {
-            NSDate *finishTime = [NSDate date];
-            NSTimeInterval totalResponseTime = [finishTime timeIntervalSinceDate:startTime];
-            if (redirectResponse) {
-                XCTAssertGreaterThanOrEqual(totalResponseTime, (kRequestTime + kResponseTime), @"Redirect did not honor request/response time");
-            }
-            else if (dataResponse) {
-                // NSURLSession does not wait for the 3xx response to stream before starting the second request.
-                // Thus, the 3xx and final responses will stream in parallel.
-                XCTAssertGreaterThanOrEqual(totalResponseTime, ((2 * kRequestTime) + kResponseTime), @"Redirect or final request did not honor request/response time");
-            }
-            completion(errorResponse, redirectResponse, dataResponse);
-        }];
+        [self waitForExpectationsWithTimeout:(requestTime+responseTime)*2+0.1 handler:nil];
+        completion(capturedRedirectedRequestMethod, capturedRedirectedRequestJSONBody,
+                   capturedRedirectHTTPResponse,
+                   capturedResponseJSONBody, capturedResponseError);
     }
 }
 
@@ -190,10 +214,14 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        {
+            XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected redirected request to use GET method");
+            XCTAssertNil(redirectedRequestJSONBody, @"Expected redirected request to have empty body");
+            XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
+            XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": [NSNull null] }, @"Unexpected data received");
             XCTAssertNil(errorResponse, @"Unexpected error");
-            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
-            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
         [session finishTasksAndInvalidate];
@@ -217,10 +245,14 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        {
+            XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected redirected request to use GET method");
+            XCTAssertNil(redirectedRequestJSONBody, @"Expected redirected request to have empty body");
+            XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
+            XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": [NSNull null] }, @"Unexpected data received");
             XCTAssertNil(errorResponse, @"Unexpected error");
-            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
-            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
         [session finishTasksAndInvalidate];
@@ -233,19 +265,21 @@
 
 - (void)test_NSURLSessionDefaultConfig_notFollowingRedirects
 {
-    _shouldFollowRedirects = NO;
+    NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:NO fulfillOnCompletion:nil];
 
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
-        NSDictionary* json = @{@"Success": @"Yes"};
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        {
+            XCTAssertNil(redirectedRequestMethod, @"Expected no redirected request to fire");
+            XCTAssertNil(redirectedRequestJSONBody, @"Expected no redirected request to fire");
+            XCTAssertNotNil(redirectHTTPResponse, @"Redirect response should have been received");
+            XCTAssertNil(finalJSONResponse, @"Unexpected data received when no redirect");
             XCTAssertNil(errorResponse, @"Unexpected error");
-            XCTAssertNotNil(redirectResponse, @"Redirect response should have been received");
-            XCTAssertEqual(301, [redirectResponse statusCode], @"Expected 301 redirect");
-            XCTAssertNil(jsonResponse, @"Unexpected data received");
         }];
 
         [session finishTasksAndInvalidate];
@@ -256,6 +290,62 @@
     }
 }
 
+/**
+ Verify that redirects of different methods and status codes are handled properly and
+ that we retain the HTTP Method for specific HTTP status codes as well as the data payload.
+ **/
+- (void)test_NSURLSessionDefaultConfig_MethodAndDataRetentionOnRedirect
+{
+    NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
+
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
+
+        NSDictionary* json = @{ @"query": @"Hello World" };
+        NSArray<NSString*>* allMethods = @[@"GET", @"HEAD", @"POST", @"PATCH", @"PUT"];
+
+        /** 301, 302, 307, 308: GET, HEAD, POST, PATCH, PUT should all maintain HTTP method and body unchanged **/
+        for (NSNumber* redirectStatusCode in @[@301, @302, @307, @308]) {
+            int statusCode = redirectStatusCode.intValue;
+            for (NSString* method in allMethods) {
+                [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:statusCode
+                                       completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+                 {
+                     XCTAssertEqualObjects(redirectedRequestMethod, method,
+                                           @"Expected the HTTP method to be unchanged after %d redirect", statusCode);
+                     XCTAssertEqualObjects(redirectedRequestJSONBody, json,
+                                           @"Expected %d-redirected request to have the same body as the original request", statusCode);
+                     XCTAssertNil(redirectHTTPResponse,
+                                  @"%d Redirect response should not have been captured by the task completion block", statusCode);
+                     XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json },
+                                           @"Unexpected JSON response received after %d redirect", statusCode);
+                     XCTAssertNil(errorResponse, @"Unexpected error during %d redirect", statusCode);
+                 }];
+            }
+        }
+
+        /** 303: GET, HEAD, POST, PATCH, PUT should use a GET HTTP method after redirection and not forward the body **/
+        for (NSString* method in allMethods) {
+            [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:303
+                                   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+            {
+                XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected 303 redirected request HTTP method to be reset to GET");
+                XCTAssertNil(redirectedRequestJSONBody, @"Expected 303-redirected request to have empty body");
+                XCTAssertNil(redirectHTTPResponse, @"303 Redirect response should not have been captured by the task completion block");
+                XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received after 303 redirect");
+                XCTAssertNil(errorResponse, @"Unexpected error during 303 redirect");
+            }];
+        }
+
+        [session finishTasksAndInvalidate];
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
 - (void)test_NSURLSessionEphemeralConfig
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
@@ -269,10 +359,14 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:json delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        {
+            XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected the HTTP method of redirected request to be GET");
+            XCTAssertEqualObjects(redirectedRequestJSONBody, json, @"Expected redirected request to have the same body as the original request");
+            XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
+            XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received");
             XCTAssertNil(errorResponse, @"Unexpected error");
-            XCTAssertNil(redirectResponse, @"Unexpected redirect response received");
-            XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
         [session finishTasksAndInvalidate];
@@ -298,11 +392,13 @@
             XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];
 
-        [self _test_redirect_NSURLSession:session jsonForStub:json completion:^(NSError *errorResponse, NSHTTPURLResponse *redirectResponse, id jsonResponse) {
-            // Stubs were disable for this session, so we should get an error instead of the stubs data
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:json delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *finalHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        {
+            // Stubs were disabled for this session, so we should get an error instead of the stubs data
             XCTAssertNotNil(errorResponse, @"Expected error but none found");
-            XCTAssertNil(redirectResponse, @"Redirect response should not have been received as stubs should be disabled");
-            XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
+            XCTAssertNil(finalHTTPResponse, @"Redirect response should not have been received as stubs should be disabled");
+            XCTAssertNil(finalJSONResponse, @"Data should not have been received as stubs should be disabled");
         }];
 
         [session finishTasksAndInvalidate];
@@ -325,16 +421,18 @@
                     responseTime:0.5];
         }];
 
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"NSURLSessionDataTask completion delegate method called"];
+        XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completion delegate method called"];
+        NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:expectation];
 
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         [[session dataTaskWithURL:[NSURL URLWithString:@"stub://foo"]] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
 
-        XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response");
+        XCTAssertEqualObjects(delegate.receivedData, expectedResponse, @"Unexpected response");
+        XCTAssertNil(delegate.receivedError, @"Unexpected error happened");
 
         [session finishTasksAndInvalidate];
     }
@@ -359,29 +457,30 @@
                     responseTime:0.2];
         }];
 
+
+        XCTestExpectation* successExpectation = [self expectationWithDescription:@"Complete successful body test"];
+        NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:successExpectation];
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         // setup for positive check
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete successful body test"];
-
         NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
         requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
-        XCTAssertEqualObjects(_receivedData, expectedResponse, @"Unexpected response: HTTP body check should be successful");
+        XCTAssertEqualObjects(delegate.receivedData, expectedResponse, @"Unexpected response: HTTP body check should be successful");
 
         // reset for negative check
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete unsuccessful body test"];
-        _receivedData = nil;
+        XCTestExpectation* failureExpectation = [self expectationWithDescription:@"Complete unsuccessful body test"];
+        [delegate resetWithNewExpectation:failureExpectation];
 
         requestWithBody.HTTPBody = [@"somethingElse" dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
 
-        XCTAssertNil(_receivedData, @"Unexpected response: HTTP body check should not be successful");
+        XCTAssertNil(delegate.receivedData, @"Unexpected response: HTTP body check should not be successful");
 
         [session finishTasksAndInvalidate];
     }
@@ -406,17 +505,17 @@
                     responseTime:0.2];
         }];
 
+        XCTestExpectation* expectation = [self expectationWithDescription:@"Complete body test"];
+        NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:expectation];
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-
-        _taskDidCompleteExpectation = [self expectationWithDescription:@"Complete body test"];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
         requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
         [self waitForExpectationsWithTimeout:5 handler:nil];
-        XCTAssertNil(_receivedData, @"[request HTTPBody] is not expected to work. If this has been fixed, the OHHTTPStubs_HTTPBody can be removed.");
+        XCTAssertNil(delegate.receivedData, @"[request HTTPBody] is not expected to work. If this has been fixed, the OHHTTPStubs_HTTPBody can be removed.");
 
         [session finishTasksAndInvalidate];
     }
@@ -426,8 +525,45 @@
     }
 }
 
+@end
+
+
 //---------------------------------------------------------------
-#pragma mark - Delegate Methods
+#pragma mark - Delegate
+
+@implementation NSURLSessionTestDelegate
+{
+    NSMutableData* _receivedData;
+    XCTestExpectation* _taskDidCompleteExpectation;
+    BOOL _shouldFollowRedirects;
+}
+
+- (instancetype)initFollowingRedirects:(BOOL)shouldFollowRedirects fulfillOnCompletion:(XCTestExpectation*)expectationToFulfill
+{
+    self = [super init];
+    if (self)
+    {
+        _shouldFollowRedirects = shouldFollowRedirects;
+        [self resetWithNewExpectation:expectationToFulfill];
+    }
+    return self;
+}
+
++ (instancetype)delegateFollowingRedirects:(BOOL)shouldFollowRedirects fulfillOnCompletion:(XCTestExpectation*)expectationToFulfill
+{
+    return [[NSURLSessionTestDelegate alloc] initFollowingRedirects:shouldFollowRedirects fulfillOnCompletion:expectationToFulfill];
+}
+
+-(void)resetWithNewExpectation:(XCTestExpectation*)expectationToFulfill
+{
+    _receivedData = nil;
+    _receivedError = nil;
+    _taskDidCompleteExpectation = expectationToFulfill;
+}
+
+- (NSData*)receivedData {
+    return [_receivedData copy];
+}
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
 {
@@ -440,6 +576,7 @@
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
+    _receivedError = error;
     [_taskDidCompleteExpectation fulfill];
 }
 
