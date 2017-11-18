@@ -71,11 +71,11 @@ class MainViewController: UIViewController {
     @IBAction func installTextStub(_ sender: UISwitch) {
         if sender.isOn {
             // Install
-
-            textStub = stub(condition: isExtension("txt")) { _ in
-                let stubPath = OHPathForFile("stub.txt", type(of: self))
+            let stubPath = OHPathForFile("stub.txt", type(of: self))
+            textStub = stub(condition: isExtension("txt")) { [weak self] _ in
+                let useDelay = DispatchQueue.main.sync { self?.delaySwitch.isOn ?? false }
                 return fixture(filePath: stubPath!, headers: ["Content-Type":"text/plain"])
-                    .requestTime(self.delaySwitch.isOn ? 2.0 : 0.0, responseTime:OHHTTPStubsDownloadSpeedWifi)
+                    .requestTime(useDelay ? 2.0 : 0.0, responseTime:OHHTTPStubsDownloadSpeedWifi)
             }
             textStub?.name = "Text stub"
         } else {
@@ -107,11 +107,11 @@ class MainViewController: UIViewController {
     @IBAction func installImageStub(_ sender: UISwitch) {
         if sender.isOn {
             // Install
-            
-            imageStub = stub(condition: isExtension("png") || isExtension("jpg") || isExtension("gif")) { _ in
-                let stubPath = OHPathForFile("stub.jpg", type(of: self))
+            let stubPath = OHPathForFile("stub.jpg", type(of: self))
+            imageStub = stub(condition: isExtension("png") || isExtension("jpg") || isExtension("gif")) { [weak self] _ in
+                let useDelay = DispatchQueue.main.sync { self?.delaySwitch.isOn ?? false }
                 return fixture(filePath: stubPath!, headers: ["Content-Type":"image/jpeg"])
-                    .requestTime(self.delaySwitch.isOn ? 2.0 : 0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
+                    .requestTime(useDelay ? 2.0 : 0.0, responseTime: OHHTTPStubsDownloadSpeedWifi)
             }
             imageStub?.name = "Image stub"
         } else {

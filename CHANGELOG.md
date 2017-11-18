@@ -1,7 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
+* Updated deployment target for the pod to 7.0 to remove warning for old APIs.  
+  [@AliSoftware](https://github.com/AliSoftware)
 * Fixed HTTP Method retention for 301,302,307,308 status redirects.  
   [@mikelupo](https://github.com/mikelupo)
 * Added `hasJsonBody(_:)` matcher.  

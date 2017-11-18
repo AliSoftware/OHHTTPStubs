@@ -43,6 +43,14 @@
     [super viewDidUnload];
 }
 
+- (BOOL)shouldUseDelay {
+  __block BOOL res = NO;
+  dispatch_sync(dispatch_get_main_queue(), ^{
+    res = self.delaySwitch.on;
+  });
+  return res;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Global stubs activation
 
@@ -99,7 +107,7 @@
             return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.txt", self.class)
                                                      statusCode:200
                                                         headers:@{@"Content-Type":@"text/plain"}]
-                    requestTime:self.delaySwitch.on ? 2.f: 0.f
+                    requestTime:[self shouldUseDelay] ? 2.f: 0.f
                     responseTime:OHHTTPStubsDownloadSpeedWifi];
         }];
         textStub.name = @"Text stub";
@@ -146,7 +154,7 @@
             return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.jpg", self.class)
                                                      statusCode:200
                                                         headers:@{@"Content-Type":@"image/jpeg"}]
-                    requestTime:self.delaySwitch.on ? 2.f: 0.f
+                    requestTime:[self shouldUseDelay] ? 2.f: 0.f
                     responseTime:OHHTTPStubsDownloadSpeedWifi];
         }];
         imageStub.name = @"Image stub";
