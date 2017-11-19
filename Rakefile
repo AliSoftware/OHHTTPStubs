@@ -2,7 +2,7 @@
 
 desc 'Build an iOS scheme'
 task :ios, [:scheme, :ios_version, :action, :additional_args] do |_,args|
-  destination = "name=iPhone 5,OS=#{args.ios_version}"
+  destination = "name=iPhone 7,OS=#{args.ios_version}"
   build("OHHTTPStubs #{args.scheme}", "iphonesimulator", destination, args.action, args.additional_args)
 end
 
@@ -14,7 +14,7 @@ end
 
 desc 'Build a tvOS scheme'
 task :tvos, [:scheme, :tvos_version, :action, :additional_args] do |_,args|
-  destination = "name=Apple TV 1080p,OS=#{args.tvos_version}"
+  destination = "name=Apple TV,OS=#{args.tvos_version}"
   build("OHHTTPStubs #{args.scheme}", "appletvsimulator", destination, args.action, args.additional_args)
 end
 
