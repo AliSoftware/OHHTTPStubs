@@ -296,13 +296,8 @@
  **/
 - (void)test_NSURLSessionDefaultConfig_MethodAndDataRetentionOnRedirect
 {
-    NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
-
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
-        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
-
         NSDictionary* json = @{ @"query": @"Hello World" };
         NSArray<NSString*>* allMethods = @[@"GET", @"HEAD", @"POST", @"PATCH", @"PUT"];
 
@@ -310,6 +305,11 @@
         for (NSNumber* redirectStatusCode in @[@301, @302, @307, @308]) {
             int statusCode = redirectStatusCode.intValue;
             for (NSString* method in allMethods) {
+
+                NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
+                NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
+
                 [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:statusCode
                                        completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
                  {
@@ -323,11 +323,18 @@
                                            @"Unexpected JSON response received after %d redirect", statusCode);
                      XCTAssertNil(errorResponse, @"Unexpected error during %d redirect", statusCode);
                  }];
+
+                [session finishTasksAndInvalidate];
             }
         }
 
         /** 303: GET, HEAD, POST, PATCH, PUT should use a GET HTTP method after redirection and not forward the body **/
         for (NSString* method in allMethods) {
+
+            NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+            NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
+            NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
+
             [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:303
                                    completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
             {
@@ -337,9 +344,9 @@
                 XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": json }, @"Unexpected JSON response received after 303 redirect");
                 XCTAssertNil(errorResponse, @"Unexpected error during 303 redirect");
             }];
-        }
 
-        [session finishTasksAndInvalidate];
+            [session finishTasksAndInvalidate];
+        }
     }
     else
     {
