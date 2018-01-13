@@ -47,7 +47,7 @@ It works with `NSURLConnection`, `NSURLSession`, `AFNetworking`, `Alamofire` or 
 This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec.
  
 ```swift
-stub(isHost("mywebservice.com")) { _ in
+stub(condition: isHost("mywebservice.com")) { _ in
   // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
   let stubPath = OHPathForFile("wsresponse.json", type(of: self))
   return fixture(filePath: stubPath!, headers: ["Content-Type":"application/json"])
