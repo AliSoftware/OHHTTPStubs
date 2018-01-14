@@ -350,6 +350,34 @@ public func containsQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBl
   }
 }
 
+/** // TODO update docs
+ * Matcher for testing an `NSURLRequest`'s **query parameters**.
+ *
+ * - Parameter params: The dictionary of query parameters to check the presence for
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains
+ *            the given query parameters with the given value.
+ *
+ * - Note: There is a difference between:
+ *          (1) using `[q:""]`, which matches a query parameter "?q=" with an empty value, and
+ *          (2) using `[q:nil]`, which matches a query parameter "?q" without a value at all
+ */
+@available(iOS 8.0, OSX 10.10, *)
+public func containsAtLeastQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBlock {
+    return { req in
+        if let url = req.url {
+            let comps = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
+            if let queryItems = comps?.queryItems {
+                for (k,v) in params {
+                    if queryItems.filter({ qi in qi.name == k && qi.value == v }).count == 0 { return false }
+                }
+                return true
+            }
+        }
+        return false
+    }
+}
+
 /**
  * Matcher testing that the `NSURLRequest` headers contain a specific key
  * - Parameter name: the name of the key to search for in the `NSURLRequest`'s **allHTTPHeaderFields** property

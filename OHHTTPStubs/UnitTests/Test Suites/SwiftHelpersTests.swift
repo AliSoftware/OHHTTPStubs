@@ -376,6 +376,39 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert(matcher(req) == result, "containsQueryParams(\"\(params)\") matcher failed when testing url \(url)")
     }
   }
+  @available(iOS 8.0, OSX 10.10, *)
+  func testContainsAtLeastQueryParams() {
+    let params: [String: String?] = ["q":"test", "lang":"en"]
+    let matcher = containsAtLeastQueryParams(params)
+
+    let urls = [
+      "foo://bar": false,
+      "foo://bar?q=test": false,
+      "foo://bar?lang=en": false,
+      "foo://bar#q=test&lang=en": false,
+      "foo://bar#lang=en&q=test": false,
+      "foo://bar;q=test&lang=en": false,
+      "foo://bar;lang=en&q=test": false,
+
+      "foo://bar?q=test&lang=en": true, // matches at least all params
+      "foo://bar?lang=en&q=test": true, // matches at least all params in any order
+      "foo://bar?q=en&lang=test": false, // param keys exist but values mismatch
+      "foo://bar?q=test&lang=en&&wizz=fuzz": true,
+      "foo://bar?wizz=fuzz&lang=en&&q=test": true,
+      "?q=test&lang=en": true,
+      "?lang=en&flag&empty=&q=test": true,
+    ]
+
+    for (url, result) in urls {
+#if swift(>=3.0)
+      let req = URLRequest(url: URL(string: url)!)
+#else
+      let req = NSURLRequest(URL: NSURL(string: url)!)
+#endif
+
+      XCTAssert(matcher(req) == result, "containsAtLeastQueryParams(\"\(params)\") matcher failed when testing url \(url)")
+    }
+  }
 
   func testHasHeaderNamedIsTrue() {
 #if swift(>=3.0)

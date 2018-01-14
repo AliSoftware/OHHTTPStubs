@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## [6.1.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.1)
+
+* Added `containsAtLeastQueryParams` matcher.  
+  [@crsantos](https://github.com/crsantos)
+  
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
 * Updated deployment target for the pod to 7.0 to remove warning for old APIs.  
