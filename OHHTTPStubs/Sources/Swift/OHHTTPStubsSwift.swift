@@ -350,12 +350,12 @@ public func containsQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBl
   }
 }
 
-/** // TODO update docs
- * Matcher for testing an `NSURLRequest`'s **query parameters**.
+/**
+ * Matcher for testing an `NSURLRequest`'s target **query parameters**.
  *
- * - Parameter params: The dictionary of query parameters to check the presence for
+ * - Parameter params: The dictionary of query parameters to check the presence for, and only
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains at least
  *            the given query parameters with the given value.
  *
  * - Note: There is a difference between:
