@@ -1,5 +1,13 @@
 # OHHTTPStubs — CHANGELOG
 
+## [6.1.1](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.1)
+* Update the project setting of swift to 4.0
+  [@rckoenes](https://github.com/rckoenes/OHHTTPStubs)
+* Fixed some `nullable` warning form the static analyzer
+  [@rckoenes](https://github.com/rckoenes/OHHTTPStubs)
+* Fixed a warning related to a property have copy while use a mutable array, whicih will turn it into an immutable array
+  [@rckoenes](https://github.com/rckoenes/OHHTTPStubs)
+    
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
 * Updated deployment target for the pod to 7.0 to remove warning for old APIs.  
