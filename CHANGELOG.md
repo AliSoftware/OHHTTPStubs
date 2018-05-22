@@ -5,7 +5,7 @@
   [@rckoenes](https://github.com/rckoenes/OHHTTPStubs)
 * Fixed some `nullable` warning form the static analyzer
   [@rckoenes](https://github.com/rckoenes/OHHTTPStubs)
-* Fixed a warning related to a property have copy while use a mutable array, whicih will turn it into an immutable array
+* Fixed a static analyser warning related to a property having the copy trait while using a mutable array
   [@rckoenes](https://github.com/rckoenes/OHHTTPStubs)
     
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
