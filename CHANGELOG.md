@@ -1,7 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
-
+* Updated project to Swift 4 and Xcode 9.  
+[@robertoferraz](https://github.com/robertoferraz)
 * Updated deployment target for the pod to 7.0 to remove warning for old APIs.  
   [@AliSoftware](https://github.com/AliSoftware)
 * Fixed HTTP Method retention for 301,302,307,308 status redirects.  
