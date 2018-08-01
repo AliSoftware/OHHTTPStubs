@@ -1766,6 +1766,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OHHTTPStubs;
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1786,6 +1787,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OHHTTPStubs;
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
