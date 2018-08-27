@@ -300,7 +300,7 @@
 		8506514BF475EFA0F5BB9452 /* libPods-TestingPods-OHHTTPStubs iOS Lib Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingPods-OHHTTPStubs iOS Lib Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A19D7C7DF9A479562786D4AD /* Pods-TestingPods-OHHTTPStubs iOS Lib Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestingPods-OHHTTPStubs iOS Lib Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestingPods-OHHTTPStubs iOS Lib Tests/Pods-TestingPods-OHHTTPStubs iOS Lib Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C8EDD4522111DF8200E60E4E /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8EDD4532111DF8200E60E4E /* OHHTTPStubs iOS Framework copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OHHTTPStubs iOS Framework copy-Info.plist"; path = "/Users/politom/OHHTTPStubs/OHHTTPStubs/OHHTTPStubs iOS Framework copy-Info.plist"; sourceTree = "<absolute>"; };
+		C8EDD4532111DF8200E60E4E /* OHHTTPStubs WatchOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OHHTTPStubs WatchOS-Info.plist"; path = "/Users/politom/OHHTTPStubs/OHHTTPStubs/OHHTTPStubs WatchOS-Info.plist"; sourceTree = "<absolute>"; };
 		CA3EE5A02EC251DC1AC3A131 /* libPods-TestingPods-OHHTTPStubs tvOS Fmk Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestingPods-OHHTTPStubs tvOS Fmk Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC4658541CAD192600344232 /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
 		DC4658551CAD192600344232 /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
@@ -403,7 +403,6 @@
 				09110A4319805F4800D175E4 /* Frameworks */,
 				09110A4219805F4800D175E4 /* Products */,
 				71E7CDE1C6A8345F6C70E7D1 /* Pods */,
-				C8EDD4532111DF8200E60E4E /* OHHTTPStubs iOS Framework copy-Info.plist */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -576,6 +575,7 @@
 				09199FCE1BD974E80014376D /* module.modulemap */,
 				093442DC1B80EC3B00A91535 /* OHHTTPStubs iOS-Info.plist */,
 				095981C619806A7900807DBE /* OHHTTPStubs Mac-Info.plist */,
+				C8EDD4532111DF8200E60E4E /* OHHTTPStubs WatchOS-Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1760,7 +1760,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "OHHTTPStubs iOS Framework copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OHHTTPStubs WatchOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1781,7 +1781,7 @@
 				DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "OHHTTPStubs iOS Framework copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OHHTTPStubs WatchOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
