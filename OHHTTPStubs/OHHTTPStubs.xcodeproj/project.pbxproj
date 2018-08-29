@@ -1619,6 +1619,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1672,6 +1673,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1722,6 +1724,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1768,6 +1771,7 @@
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Debug;
@@ -1852,6 +1856,7 @@
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
