@@ -360,12 +360,12 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
 {
-	return request;
+    return request;
 }
 
 - (NSCachedURLResponse *)cachedResponse
 {
-	return nil;
+    return nil;
 }
 
 - (void)startLoading
@@ -442,13 +442,23 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                         case 301:
                         case 302:
                         case 307:
-                        case 308:
+                        case 308: {
                             //Preserve the original request method and body, and set the new location URL
                             mReq = [self.request mutableCopy];
                             [mReq setURL:redirectLocationURL];
-                            redirectRequest = (NSURLRequest*)[mReq copy];
-                            break;
 
+                            // Drop certain headers in accordance with
+                            // https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders
+                            [mReq setValue:nil forHTTPHeaderField:@"Authorization"];
+                            [mReq setValue:nil forHTTPHeaderField:@"Connection"];
+                            [mReq setValue:nil forHTTPHeaderField:@"Host"];
+                            [mReq setValue:nil forHTTPHeaderField:@"Proxy-Authenticate"];
+                            [mReq setValue:nil forHTTPHeaderField:@"Proxy-Authorization"];
+                            [mReq setValue:nil forHTTPHeaderField:@"WWW-Authenticate"];
+                            redirectRequest = (NSURLRequest*)[mReq copy];
+
+                            break;
+                        }
                         default:
                             redirectRequest = [NSURLRequest requestWithURL:redirectLocationURL];
                             break;
