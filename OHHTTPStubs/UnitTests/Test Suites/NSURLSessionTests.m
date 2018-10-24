@@ -103,6 +103,86 @@
     }
 }
 
+- (void)_test_NSURLSessionWithSetCookie:(NSURLSession*)session
+							jsonForStub:(id)json
+							 completion:(void(^)(NSError* errorResponse,id jsonResponse))completion
+{
+	if ([NSURLSession class])
+	{
+		static const NSTimeInterval kRequestTime = 0.0;
+		static const NSTimeInterval kResponseTime = 0.2;
+
+		[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+			return YES;
+		} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+			NSDictionary *responseHeaders = @{@"Set-Cookie" : @"testCookie1=Oreo; expires=Wed, 23 Oct 2030 11:32:59 GMT; path=/; domain=unknownhost.foobar.nowhere"};
+			return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:responseHeaders]
+					requestTime:kRequestTime responseTime:kResponseTime];
+		}];
+
+		XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
+
+		__block __strong id dataResponse = nil;
+		__block __strong NSError* errorResponse = nil;
+		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost.foobar.nowhere:666"]];
+		request.HTTPMethod = @"GET";
+		[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+		[request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+
+		NSURLSessionDataTask *task =  [session dataTaskWithRequest:request
+												 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+									   {
+										   errorResponse = error;
+										   if (!error)
+										   {
+											   NSError *jsonError = nil;
+											   NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+											   XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
+											   dataResponse = jsonObject;
+										   }
+										   [expectation fulfill];
+									   }];
+
+		[task resume];
+
+		[self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
+
+		XCTestExpectation* expectation2 = [self expectationWithDescription:@"Second NSURLSessionDataTask completed"];
+		__block XCTestExpectation* gotCookieInRequestExpection = [self expectationWithDescription:@"Found Cookie Expectation"];
+		//set up second stub. This one checks for cookies.
+		[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+			return YES;
+		} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+			NSDictionary *requestHeaders = request.allHTTPHeaderFields;
+			NSString *cookie = [requestHeaders valueForKey:@"Cookie"];
+			XCTAssertNotNil(cookie, "DOH! Cookie is nil which means that the expected header is missing off of the request!");
+			[gotCookieInRequestExpection fulfill];
+			return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
+					requestTime:kRequestTime responseTime:kResponseTime];
+		}];
+
+		NSURLSessionDataTask *task2 =  [session dataTaskWithRequest:request
+												  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+										{
+											errorResponse = error;
+											if (!error)
+											{
+												NSError *jsonError = nil;
+												NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+												XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
+												dataResponse = jsonObject;
+											}
+											[expectation2 fulfill];
+										}];
+
+		[task2 resume];
+
+		[self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+0.5 handler:nil];
+
+		completion(errorResponse, dataResponse);
+	}
+}
+
 - (void)_test_redirect_NSURLSession:(NSURLSession*)session
                          httpMethod:(NSString *)requestHTTPMethod
                            jsonBody:(NSDictionary*)json
@@ -261,6 +341,37 @@
     {
         NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
+}
+
+- (void)test_NSURLSessionCookiesDefaultConfig
+{
+	if ([NSURLSessionConfiguration class] && [NSURLSession class])
+	{
+		NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+		NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+
+		NSDictionary* json = @{@"Success": @"Yes"};
+		[self _test_NSURLSessionWithSetCookie:session jsonForStub:json completion:^(NSError *errorResponse, id jsonResponse) {
+			XCTAssertNil(errorResponse, @"Unexpected error");
+			XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
+		}];
+
+		[self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
+							   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+		 {
+			 XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected redirected request to use GET method");
+			 XCTAssertNil(redirectedRequestJSONBody, @"Expected redirected request to have empty body");
+			 XCTAssertNil(redirectHTTPResponse, @"Redirect response should not have been captured by the task completion block");
+			 XCTAssertEqualObjects(finalJSONResponse, @{ @"RequestBody": [NSNull null] }, @"Unexpected data received");
+			 XCTAssertNil(errorResponse, @"Unexpected error");
+		 }];
+
+		[session finishTasksAndInvalidate];
+	}
+	else
+	{
+		NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+	}
 }
 
 - (void)test_NSURLSessionDefaultConfig_notFollowingRedirects
