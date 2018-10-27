@@ -73,7 +73,7 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 * `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
 * `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
-* `OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3, 3.0, 3.1 and 4.2**.
+* `OHHTTPStubs` is **fully compatible with Swift version starting from 2.2 and up to 4.2**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
@@ -143,7 +143,7 @@ _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** feat
 
 ## Using the right Swift version for your project
 
-`OHHTTPStubs` supports Swift 2.2 (Xcode 7), Swift 2.3 (Xcode 8), Swift 3.0 (Xcode 8+) and Swift 3.1 (Xcode 8.3+) 🎉 
+`OHHTTPStubs` supports Swift versions from 2.2 (Xcode 7) to 4.2 (Xcode 10)🎉 
 
 Here are some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
 
@@ -158,10 +158,11 @@ For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/Cocoa
 <details>
 <summary><b>Carthage: choose the right version</b></summary>
 
-The project is set up with `SWIFT_VERSION=3.0` on `master`.
+The project is set up with `SWIFT_VERSION=4.2` on `master`.
 
 This means that the framework on `master` will build using:
 
+* Swift 4.0/4.2 on Xcode 10
 * Swift 3.1 on Xcode 8.3
 * Swift 3.0 on Xcode 8.2
 * Swift 2.2/2.3 on Xcode 7.x.
