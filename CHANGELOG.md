@@ -1,5 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
+* Example projects are now fully compatable with swift 4.2  
+[@hellensoloviy](https://github.com/hellensoloviy)
+
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
 * Updated deployment target for the pod to 7.0 to remove warning for old APIs.  
