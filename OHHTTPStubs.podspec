@@ -19,6 +19,8 @@ Pod::Spec.new do |s|
                     | * Compatible with Swift
                  DESC
 
+  s.swift_version = '4.2'
+
   s.homepage     = "https://github.com/AliSoftware/OHHTTPStubs"
   s.license      = "MIT"
   s.authors      = { 'Olivier Halligon' => 'olivier.halligon+ae@gmail.com' }
