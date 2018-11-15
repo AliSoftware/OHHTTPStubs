@@ -3,7 +3,7 @@
 ## [Future release]
 * Added `isMethodHEAD()` to the `Swift` helpers.  
   [@Simon-Kaz](https://github.com/Simon-Kaz)
-  [#TEMP](https://github.com/AliSoftware/OHHTTPStubs/pull/TEMP)
+  [#294](https://github.com/AliSoftware/OHHTTPStubs/pull/294)
 
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
