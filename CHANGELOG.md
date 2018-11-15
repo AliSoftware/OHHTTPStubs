@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## [Future release]
+* Added `isMethodHEAD()` to the `Swift` helpers.  
+  [@Simon-Kaz](https://github.com/Simon-Kaz)
+  [#TEMP](https://github.com/AliSoftware/OHHTTPStubs/pull/TEMP)
+
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
 * Updated deployment target for the pod to 7.0 to remove warning for old APIs.  
