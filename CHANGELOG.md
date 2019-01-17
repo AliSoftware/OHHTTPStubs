@@ -1,6 +1,16 @@
 # OHHTTPStubs — CHANGELOG
 
+## [Future Release]
+
+* Updating default Swift Version to 4.2, but keeping code compiling in Swift 2.3, 3.x, and 4.x.  
+  [@jeffctown](https://github.com/jeffctown)
+* Updating project settings for Xcode 10.1.  
+  [@jeffctown](https://github.com/jeffctown)
+* Updating example projects for new version.
+  [@jeffctown](https://github.com/jeffctown)
+
 ## [6.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.2.0)
+
 * Enabled application extension API only.  
   [@lightsprint09](https://github.com/lightsprint09)
 * Disabled a flaky redirect test and adding the known issue with redirects to the README.  

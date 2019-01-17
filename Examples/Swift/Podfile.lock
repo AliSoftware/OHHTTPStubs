@@ -1,18 +1,18 @@
 PODS:
-  - OHHTTPStubs (6.2.0):
-    - OHHTTPStubs/Default (= 6.2.0)
-  - OHHTTPStubs/Core (6.2.0)
-  - OHHTTPStubs/Default (6.2.0):
+  - OHHTTPStubs (7.0.0):
+    - OHHTTPStubs/Default (= 7.0.0)
+  - OHHTTPStubs/Core (7.0.0)
+  - OHHTTPStubs/Default (7.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (6.2.0):
+  - OHHTTPStubs/JSON (7.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (6.2.0):
+  - OHHTTPStubs/NSURLSession (7.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (6.2.0)
-  - OHHTTPStubs/Swift (6.2.0):
+  - OHHTTPStubs/OHPathHelpers (7.0.0)
+  - OHHTTPStubs/Swift (7.0.0):
     - OHHTTPStubs/Default
 
 DEPENDENCIES:
@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  OHHTTPStubs: 9cde8b5c0b8cc5c0f393b5e20c8efb6e05915c63
+  OHHTTPStubs: ef33a2c353110d306bb98f695435ec56ff5a26c3
 
 PODFILE CHECKSUM: 7da7c441ea9ff6f06b633c908b7a7294805f5602
 

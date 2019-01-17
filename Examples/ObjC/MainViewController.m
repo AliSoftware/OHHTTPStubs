@@ -35,13 +35,6 @@
         NSLog(@"[OHHTTPStubs] Request to %@ has been stubbed with %@", request.URL, stub.name);
     }];
 }
-- (void)viewDidUnload
-{
-    [self setTextView:nil];
-    [self setImageView:nil];
-    [self setDelaySwitch:nil];
-    [super viewDidUnload];
-}
 
 - (BOOL)shouldUseDelay {
   __block BOOL res = NO;
