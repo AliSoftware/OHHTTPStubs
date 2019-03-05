@@ -310,7 +310,7 @@
                 NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
                 NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
-                [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:statusCode
+                [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.1 redirectStatusCode:statusCode
                                        completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
                  {
                      XCTAssertEqualObjects(redirectedRequestMethod, method,
