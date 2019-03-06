@@ -3,6 +3,10 @@
 ## [Future release]
 * Enabled application extension API only.
   [@lightsprint09](https://github.com/lightsprint09)
+* Disabled a flaky redirect test and adding the known issue with redirects to the README.
+  [@jeffctown](https://github.com/jeffctown)
+  [#301](https://github.com/AliSoftware/OHHTTPStubs/pull/301)
+
 
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
