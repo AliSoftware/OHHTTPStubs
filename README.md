@@ -197,8 +197,9 @@ If you need to disable (and re-enable) `OHHTTPStubs` — globally or per `NSURLS
 
 * `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols` and are handled by the iOS Operating System itself.
 * `OHHTTPStubs` don't simulate data upload. The `NSURLProtocolClient` `@protocol` does not provide a way to signal the delegate that data has been **sent** (only that some has been loaded), so any data in the `HTTPBody` or `HTTPBodyStream` of an `NSURLRequest`, or data provided to `-[NSURLSession uploadTaskWithRequest:fromData:];` will be ignored, and more importantly, the `-URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:` delegate method will never be called when you stub the request using `OHHTTPStubs`.
+* `OHTTPStubs` **has a known issue with redirects** that we believe is an Apple bug.  It has been discussed [here](https://github.com/AliSoftware/OHHTTPStubs/issues/230) and [here](https://github.com/AliSoftware/OHHTTPStubs/issues/280).  The actual result of this bug is that redirects with a zero second delay may undeterministically end up with a null response.
 
-_As far as I know, there's nothing we can do about those two limitations. Please let me know if you know a solution that would make that possible anyway._
+_As far as I know, there's nothing we can do about those three limitations. Please let me know if you know a solution that would make that possible anyway._
 
 
 ## Submitting to the App Store
