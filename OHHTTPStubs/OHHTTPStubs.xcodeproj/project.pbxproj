@@ -266,6 +266,7 @@
 		1D0F8E811B6E31B00049A7D2 /* MocktailFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MocktailFolder; sourceTree = "<group>"; };
 		1D6DB84E1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs+Mocktail.h"; sourceTree = "<group>"; };
 		1D6DB84F1B763B7A00FCF855 /* OHHTTPStubs+Mocktail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+Mocktail.m"; sourceTree = "<group>"; };
+		1FE7BADB223157DB00FFF120 /* OHHTTPStubsProject.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OHHTTPStubsProject.xcconfig; sourceTree = "<group>"; };
 		221C34A41B0CCF0600FCA8FF /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		221C34A61B0CCF9D00FCA8FF /* empty.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = empty.bundle; sourceTree = "<group>"; };
 		451243C1FC2A423646391951 /* Pods-TestingPods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestingPods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestingPods-OHHTTPStubs iOS Fmk Tests/Pods-TestingPods-OHHTTPStubs iOS Fmk Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -368,6 +369,7 @@
 		09110A3819805F4800D175E4 = {
 			isa = PBXGroup;
 			children = (
+				1FE7BADB223157DB00FFF120 /* OHHTTPStubsProject.xcconfig */,
 				09110A4619805F4800D175E4 /* OHHTTPStubs */,
 				095981C519806A7900807DBE /* Supporting Files */,
 				09110A5A19805F4800D175E4 /* UnitTests */,
@@ -1280,6 +1282,7 @@
 /* Begin XCBuildConfiguration section */
 		09110A6219805F4800D175E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FE7BADB223157DB00FFF120 /* OHHTTPStubsProject.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1336,6 +1339,7 @@
 		};
 		09110A6319805F4800D175E4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FE7BADB223157DB00FFF120 /* OHHTTPStubsProject.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
