@@ -1,7 +1,7 @@
 # OHHTTPStubs — CHANGELOG
 
 ## [Future release]
-* Enabled application extension API only.
+* Enabled application extension API only.  
   [@lightsprint09](https://github.com/lightsprint09)
 * Disabled a flaky redirect test and adding the known issue with redirects to the README.
   [@jeffctown](https://github.com/jeffctown)
