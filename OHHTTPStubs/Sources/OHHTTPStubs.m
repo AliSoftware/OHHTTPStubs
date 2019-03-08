@@ -368,6 +368,24 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     return nil;
 }
 
+/** Drop certain headers in accordance with
+ * https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders
+ */
+- (NSMutableURLRequest *)clearAuthHeadersForRequest:(NSMutableURLRequest *)request {
+    NSArray* authHeadersToRemove = @[
+                                     @"Authorization",
+                                     @"Connection",
+                                     @"Host",
+                                     @"Proxy-Authenticate",
+                                     @"Proxy-Authorization",
+                                     @"WWW-Authenticate"
+                                     ];
+    for (NSString* header in authHeadersToRemove) {
+        [request setValue:nil forHTTPHeaderField:header];
+    }
+    return request;
+}
+
 - (void)startLoading
 {
     self.clientRunLoop = CFRunLoopGetCurrent();
@@ -446,17 +464,10 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                             //Preserve the original request method and body, and set the new location URL
                             mReq = [self.request mutableCopy];
                             [mReq setURL:redirectLocationURL];
-
-                            // Drop certain headers in accordance with
-                            // https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders
-                            [mReq setValue:nil forHTTPHeaderField:@"Authorization"];
-                            [mReq setValue:nil forHTTPHeaderField:@"Connection"];
-                            [mReq setValue:nil forHTTPHeaderField:@"Host"];
-                            [mReq setValue:nil forHTTPHeaderField:@"Proxy-Authenticate"];
-                            [mReq setValue:nil forHTTPHeaderField:@"Proxy-Authorization"];
-                            [mReq setValue:nil forHTTPHeaderField:@"WWW-Authenticate"];
+                            
+                            mReq = [self clearAuthHeadersForRequest:mReq];
+                            
                             redirectRequest = (NSURLRequest*)[mReq copy];
-
                             break;
                         }
                         default:
