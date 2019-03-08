@@ -360,6 +360,51 @@
         NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
+
+- (void)test_NSURLSessionDefaultConfig_HeaderRetentionPolicyOnRedirect {
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSArray<NSString*>* allMethods = @[@"GET", @"HEAD", @"POST", @"PATCH", @"PUT"];
+
+        /** 301, 302, 307, 308: GET, HEAD, POST, PATCH, PUT should all maintain most HTTP headers unchanged **/
+        for (NSNumber* redirectStatusCode in @[@301, @302, @307, @308]) {
+            int statusCode = redirectStatusCode.intValue;
+            for (NSString* method in allMethods) {
+
+                NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
+                NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
+
+                NSDictionary *headers = @{
+                                          @"Authorization": @"authorization",
+                                          @"Connection": @"connection",
+                                          @"Host": @"host",
+                                          @"Proxy-Authenticate": @"proxy-authenticate",
+                                          @"Proxy-Authorization": @"proxy-authorization",
+                                          @"WWW-Authenticate": @"www-authenticate",
+                                          @"Preserved": @"preserved"
+                                          };
+                [self _test_redirect_NSURLSession:session httpMethod:method headers:headers jsonBody:nil delays:0.0 redirectStatusCode:statusCode
+                                       completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+                 {
+                     XCTAssertNil(redirectedRequestHeaders[@"Authorization"], @"Authorization header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Connection"], @"Connection header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Host"], @"Host header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Proxy-Authenticate"], @"Proxy-Authenticate header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Proxy-Authorization"], @"Proxy-Authorization header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"WWW-Authenticate"], @"WWW-Authenticate header is preserved when following redirects");
+                     XCTAssertEqual(redirectedRequestHeaders[@"Preserved"], @"preserved", @"Regular header is not preserved when following redirects");
+                 }];
+
+                [session finishTasksAndInvalidate];
+            }
+        }
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
 #endif
 
 - (void)test_NSURLSessionEphemeralConfig
