@@ -357,6 +357,7 @@
     }
 }
 #endif
+
 - (void)test_NSURLSessionEphemeralConfig
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
