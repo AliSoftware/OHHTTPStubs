@@ -1,5 +1,9 @@
 language: objective-c
 
+branches:
+  only:
+    - master
+
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
