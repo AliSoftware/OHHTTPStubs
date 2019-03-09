@@ -378,11 +378,12 @@
                 NSDictionary *headers = @{
                                           @"Authorization": @"authorization",
                                           @"Connection": @"connection",
+                                          @"Preserved1": @"preserved"
                                           @"Host": @"host",
                                           @"Proxy-Authenticate": @"proxy-authenticate",
                                           @"Proxy-Authorization": @"proxy-authorization",
+                                          @"Preserved2": @"preserved",
                                           @"WWW-Authenticate": @"www-authenticate",
-                                          @"Preserved": @"preserved"
                                           };
                 [self _test_redirect_NSURLSession:session httpMethod:method headers:headers jsonBody:nil delays:0.0 redirectStatusCode:statusCode
                                        completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
@@ -393,7 +394,8 @@
                      XCTAssertNil(redirectedRequestHeaders[@"Proxy-Authenticate"], @"Proxy-Authenticate header is preserved when following redirects");
                      XCTAssertNil(redirectedRequestHeaders[@"Proxy-Authorization"], @"Proxy-Authorization header is preserved when following redirects");
                      XCTAssertNil(redirectedRequestHeaders[@"WWW-Authenticate"], @"WWW-Authenticate header is preserved when following redirects");
-                     XCTAssertEqual(redirectedRequestHeaders[@"Preserved"], @"preserved", @"Regular header is not preserved when following redirects");
+                     XCTAssertEqual(redirectedRequestHeaders[@"Preserved1"], @"preserved", @"Regular header is not preserved when following redirects");
+                     XCTAssertEqual(redirectedRequestHeaders[@"Preserved2"], @"preserved", @"Regular header is not preserved when following redirects");
                  }];
 
                 [session finishTasksAndInvalidate];
