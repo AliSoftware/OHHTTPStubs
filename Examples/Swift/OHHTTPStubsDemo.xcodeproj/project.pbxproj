@@ -127,7 +127,6 @@
 				099F74041AE2D049001108A5 /* Frameworks */,
 				099F74051AE2D049001108A5 /* Resources */,
 				9A5C20C1702511945337DFF2 /* [CP] Embed Pods Frameworks */,
-				1929414A503F55B7F896B24E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -189,21 +188,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1929414A503F55B7F896B24E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		39E0450680C8382CD8350B52 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -228,7 +212,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -237,7 +221,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
