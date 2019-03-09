@@ -5,7 +5,7 @@ OHHTTPStubs
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Carthage Swift 4.2](https://img.shields.io/badge/Carthage-Swift%204.2-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.svg?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
-[![Language: Swift-2.3/3.0/3.1/4.2](https://img.shields.io/badge/Swift-2.3%2F3.0%2F3.1%2F4.0%2F4.1%2F4.2-orange.svg)](https://swift.org)
+[![Language: Swift-2.3/3.0/3.1/3.2/4.0/4.1/4.2](https://img.shields.io/badge/Swift-2.3%2F3.0%2F3.1%2F3.2%2F4.0%2F4.1%2F4.2-orange.svg)](https://swift.org)
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
 
@@ -143,7 +143,7 @@ _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** feat
 
 ## Using the right Swift version for your project
 
-`OHHTTPStubs` supports Swift 2.2 (Xcode 7), Swift 2.3 (Xcode 8), Swift 3.0 (Xcode 8+) and Swift 3.1 (Xcode 8.3+) 🎉 
+`OHHTTPStubs` supports Swift 2.2 (Xcode 7), Swift 2.3 (Xcode 8), Swift 3.0 (Xcode 8+), Swift 3.1 (Xcode 8.3+), Swift 3.2 (Xcode 9.0+), Swift 4.0 (Xcode 9.0+), Swift 4.1 (Xcode 9.3+), and Swift 4.2 (Xcode 10+). 🎉 
 
 Here are some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
 
@@ -158,13 +158,12 @@ For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/Cocoa
 <details>
 <summary><b>Carthage: choose the right version</b></summary>
 
-The project is set up with `SWIFT_VERSION=3.0` on `master`.
+The project is set up with `SWIFT_VERSION=4.2` on `master`.
 
 This means that the framework on `master` will build using:
 
-* Swift 3.1 on Xcode 8.3
-* Swift 3.0 on Xcode 8.2
-* Swift 2.2/2.3 on Xcode 7.x.
+* Swift 4.2 on Xcode 10.1
+* Swift 4.0 on Xcode 9.1
 
 We stopped doing Swift-2.3-specific branches (too much maintenance work), so if you want Carthage to build the framework with Swift 2.3 you can:
 
@@ -172,6 +171,12 @@ We stopped doing Swift-2.3-specific branches (too much maintenance work), so if 
  * or use the previous version of `OHHTTPStubs` (5.2.3) — whose `master` branch uses `2.3`
  * or fork the repo just to change the `SWIFT_VERSION` build setting to `2.3`
  * or ask Carthage maintainers to [fix this issue](https://github.com/Carthage/Carthage/issues/1445) once and for all.
+
+We stopped doing Swift-3.x-specific branches (too much maintenance work), so if you want Carthage to build the framework with Swift 3.x you can:
+
+ * either use an older Xcode version
+ * or use the previous version of `OHHTTPStubs` (6.2.0) — whose `master` branch uses `3.0`
+ * or fork the repo just to change the `SWIFT_VERSION` build setting to `3.0`
 
 </details>
 
