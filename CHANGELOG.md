@@ -1,6 +1,6 @@
 # OHHTTPStubs — CHANGELOG
 
-## [Future release]
+## [6.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.2.0)
 * Enabled application extension API only.  
   [@lightsprint09](https://github.com/lightsprint09)
 * Disabled a flaky redirect test and adding the known issue with redirects to the README.  
