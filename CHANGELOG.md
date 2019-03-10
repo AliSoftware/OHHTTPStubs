@@ -1,13 +1,20 @@
 # OHHTTPStubs — CHANGELOG
 
-## [Future Release]
+## [7.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
 
-* Updating default Swift Version to 4.2, but keeping code compiling in Swift 2.3, 3.x, and 4.x.  
+* Updating default Swift Version to 4.2.  
   [@jeffctown](https://github.com/jeffctown)
-* Updating project settings for Xcode 10.1.  
+* Updating example projects to Swift 4.2 and Xcode 10.1.  
   [@jeffctown](https://github.com/jeffctown)
-* Updating example projects for new version.
+* Updating iOS Lib Tests to have a minimum iOS version of 8.0.  
   [@jeffctown](https://github.com/jeffctown)
+
+> Notes:  
+> * Bumping this version to 7.0.0 because it's now using the Swift 4 APIs.  
+> * This version is still compatible with Swift 3.x when integrating with CocoaPods, as CocoaPods uses the same `SWIFT_VERSION` as your app project does so it adapts automatically and it's transparent for users.
+> * If you're using Carthage and need Swift 3.x compatibility, you can follow the tips in the installation instructions of the `README.md`.
+> * CI is now only testing Swift 4.x on Xcode 9.1 and 10.1.  
+> * Thank you to [@hellensoloviy](https://github.com/hellensoloviy), [@robertoferraz](https://github.com/robertoferraz), [@rckoenes](https://github.com/rckoenes), [@NikSativa](https://github.com/NikSativa) for their pull requests updating Swift!   
 
 ## [6.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.2.0)
 
