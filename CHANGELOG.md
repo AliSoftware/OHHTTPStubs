@@ -1,5 +1,35 @@
 # OHHTTPStubs — CHANGELOG
 
+## [7.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
+
+* Updating default Swift Version to 4.2.  
+  [@jeffctown](https://github.com/jeffctown)
+* Updating example projects to Swift 4.2 and Xcode 10.1.  
+  [@jeffctown](https://github.com/jeffctown)
+* Updating iOS Lib Tests to have a minimum iOS version of 8.0.  
+  [@jeffctown](https://github.com/jeffctown)
+
+> Notes:  
+> * Bumping this version to 7.0.0 because it's now using the Swift 4 APIs.  
+> * This version is still compatible with Swift 3.x when integrating with CocoaPods, as CocoaPods uses the same `SWIFT_VERSION` as your app project does so it adapts automatically and it's transparent for users.
+> * If you're using Carthage and need Swift 3.x compatibility, you can follow the tips in the installation instructions of the `README.md`.
+> * CI is now only testing Swift 4.x on Xcode 9.1 and 10.1.  
+> * Thank you to [@hellensoloviy](https://github.com/hellensoloviy), [@robertoferraz](https://github.com/robertoferraz), [@rckoenes](https://github.com/rckoenes), [@NikSativa](https://github.com/NikSativa) for their pull requests updating Swift!   
+
+## [6.2.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.2.0)
+
+* Enabled application extension API only.  
+  [@lightsprint09](https://github.com/lightsprint09)
+* Disabled a flaky redirect test and adding the known issue with redirects to the README.  
+  [@jeffctown](https://github.com/jeffctown)
+  [#301](https://github.com/AliSoftware/OHHTTPStubs/pull/301)
+* Added `isMethodHEAD()` to the `Swift` helpers.  
+  [@Simon-Kaz](https://github.com/Simon-Kaz)
+  [#294](https://github.com/AliSoftware/OHHTTPStubs/pull/294)
+* Fixed issue with not preserving correct headers when following 3xx
+  redirects.  
+  [@sberrevoets](https://github.com/sberrevoets)
+
 ## [6.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/6.1.0)
 
 * Updated deployment target for the pod to 7.0 to remove warning for old APIs.  

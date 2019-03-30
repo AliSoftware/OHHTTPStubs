@@ -3,9 +3,9 @@ OHHTTPStubs
 
 [![Platform](http://cocoapod-badges.herokuapp.com/p/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
-[![Carthage Swift 3.0/3.1](https://img.shields.io/badge/Carthage-Swift%203.x-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Carthage Swift 4.2](https://img.shields.io/badge/Carthage-Swift%204.2-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.svg?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
-[![Language: Swift-2.3/3.0/3.1](https://img.shields.io/badge/Swift-2.3%2F3.0%2F3.1-orange.svg)](https://swift.org)
+[![Language: Swift-2.x/3.x/4.x](https://img.shields.io/badge/Swift-2.x%2F3.x%2F4.x-orange.svg)](https://swift.org)
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
 
@@ -73,24 +73,9 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 * `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
 * `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
-* `OHHTTPStubs` is **fully compatible with Swift 2.2, 2.3, 3.0 and 3.1**.
+* `OHHTTPStubs` is **fully compatible with Swift 3.x and 4.x**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
-
-<details>
-<summary>Swift 2.2 users</summary>
-
-If you're still building for Swift 2.2, you will have some `extraneous '_' in parameter` warnings. Those are normal: it's because the code has already done the transition to Swift 3 — which requires those `_` in parameters while Swift 2.2 didn't.  
-
-You can safely ignore those warnings in Swift 2.2. See [SE-0046](https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md) for more info.
-</details>
-
-<details>
-<summary>Carthage users using Swift 2.x</summary>
-
-If you're using Carthage, we don't do Swift-2.3-specific branches anymore (too much maintenance work and most people have migrated already anyway) but if you still need Swift 2.3 compatibility, you can follow the tips in [the installation instructions below](#using-the-right-swift-version-for-your-project) to force Carthage to build this library with Swift 2.3.
-
-</details>
 
 # Installing in your projects
 
@@ -143,7 +128,7 @@ _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** feat
 
 ## Using the right Swift version for your project
 
-`OHHTTPStubs` supports Swift 2.2 (Xcode 7), Swift 2.3 (Xcode 8), Swift 3.0 (Xcode 8+) and Swift 3.1 (Xcode 8.3+) 🎉 
+`OHHTTPStubs` supports Swift 3.0 (Xcode 8+), Swift 3.1 (Xcode 8.3+), Swift 3.2 (Xcode 9.0+), Swift 4.0 (Xcode 9.0+), Swift 4.1 (Xcode 9.3+), and Swift 4.2 (Xcode 10+), however we are only testing Swift 4.x (using Xcode 9.1 and 10.1) in CI.
 
 Here are some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
 
@@ -158,20 +143,18 @@ For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/Cocoa
 <details>
 <summary><b>Carthage: choose the right version</b></summary>
 
-The project is set up with `SWIFT_VERSION=3.0` on `master`.
+The project is set up with `SWIFT_VERSION=4.2` on `master`.
 
 This means that the framework on `master` will build using:
 
-* Swift 3.1 on Xcode 8.3
-* Swift 3.0 on Xcode 8.2
-* Swift 2.2/2.3 on Xcode 7.x.
+* Swift 4.2 on Xcode 10.1
+* Swift 4.0 on Xcode 9.1
 
-We stopped doing Swift-2.3-specific branches (too much maintenance work), so if you want Carthage to build the framework with Swift 2.3 you can:
+If you want Carthage to build the framework with Swift 3.x you can:
 
  * either use an older Xcode version
- * or use the previous version of `OHHTTPStubs` (5.2.3) — whose `master` branch uses `2.3`
- * or fork the repo just to change the `SWIFT_VERSION` build setting to `2.3`
- * or ask Carthage maintainers to [fix this issue](https://github.com/Carthage/Carthage/issues/1445) once and for all.
+ * or use the previous version of `OHHTTPStubs` (6.2.0) — whose `master` branch uses `3.0`
+ * or fork the repo just to change the `SWIFT_VERSION` build setting to `3.0`
 
 </details>
 
@@ -197,8 +180,9 @@ If you need to disable (and re-enable) `OHHTTPStubs` — globally or per `NSURLS
 
 * `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols` and are handled by the iOS Operating System itself.
 * `OHHTTPStubs` don't simulate data upload. The `NSURLProtocolClient` `@protocol` does not provide a way to signal the delegate that data has been **sent** (only that some has been loaded), so any data in the `HTTPBody` or `HTTPBodyStream` of an `NSURLRequest`, or data provided to `-[NSURLSession uploadTaskWithRequest:fromData:];` will be ignored, and more importantly, the `-URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:` delegate method will never be called when you stub the request using `OHHTTPStubs`.
+* `OHTTPStubs` **has a known issue with redirects** that we believe is an Apple bug.  It has been discussed [here](https://github.com/AliSoftware/OHHTTPStubs/issues/230) and [here](https://github.com/AliSoftware/OHHTTPStubs/issues/280).  The actual result of this bug is that redirects with a zero second delay may undeterministically end up with a null response.
 
-_As far as I know, there's nothing we can do about those two limitations. Please let me know if you know a solution that would make that possible anyway._
+_As far as I know, there's nothing we can do about those three limitations. Please let me know if you know a solution that would make that possible anyway._
 
 
 ## Submitting to the App Store

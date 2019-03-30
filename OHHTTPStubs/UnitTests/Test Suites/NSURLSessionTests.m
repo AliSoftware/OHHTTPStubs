@@ -105,10 +105,11 @@
 
 - (void)_test_redirect_NSURLSession:(NSURLSession*)session
                          httpMethod:(NSString *)requestHTTPMethod
+                            headers:(NSDictionary *)headers
                            jsonBody:(NSDictionary*)json
                              delays:(NSTimeInterval)delay
                  redirectStatusCode:(int)redirectStatusCode
-                         completion:(void(^)(NSString* redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse))completion
+                         completion:(void(^)(NSString* redirectedRequestMethod, NSDictionary * redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse))completion
 {
     if ([NSURLSession class])
     {
@@ -116,6 +117,7 @@
         const NSTimeInterval responseTime = delay;
 
         __block __strong NSString* capturedRedirectedRequestMethod = nil;
+        __block __strong NSDictionary* capturedRedirectedRequestHeaders = nil;
         __block __strong id capturedRedirectedRequestJSONBody = nil;
         __block __strong NSHTTPURLResponse* capturedRedirectHTTPResponse = nil;
         __block __strong id capturedResponseJSONBody = nil;
@@ -139,6 +141,7 @@
             return [[[request URL] path] isEqualToString:@"/newlocation"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *redirectedRequest) {
             capturedRedirectedRequestMethod = redirectedRequest.HTTPMethod;
+            capturedRedirectedRequestHeaders = redirectedRequest.allHTTPHeaderFields;
             if (redirectedRequest.OHHTTPStubs_HTTPBody) {
                 capturedRedirectedRequestJSONBody = [NSJSONSerialization JSONObjectWithData:redirectedRequest.OHHTTPStubs_HTTPBody options:0 error:NULL];
             } else {
@@ -155,6 +158,7 @@
         // Building the initial request.
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666/oldlocation"]];
         request.HTTPMethod = requestHTTPMethod;
+        request.allHTTPHeaderFields = headers;
         if (requestBody)
         {
             request.HTTPBody = requestBody;
@@ -193,7 +197,7 @@
         [task resume];
 
         [self waitForExpectationsWithTimeout:(requestTime+responseTime)*2+0.1 handler:nil];
-        completion(capturedRedirectedRequestMethod, capturedRedirectedRequestJSONBody,
+        completion(capturedRedirectedRequestMethod, capturedRedirectedRequestHeaders, capturedRedirectedRequestJSONBody,
                    capturedRedirectHTTPResponse,
                    capturedResponseJSONBody, capturedResponseError);
     }
@@ -214,8 +218,8 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
-                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" headers:nil jsonBody:nil delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
         {
             XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected redirected request to use GET method");
             XCTAssertNil(redirectedRequestJSONBody, @"Expected redirected request to have empty body");
@@ -245,8 +249,8 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
-                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" headers:nil jsonBody:nil delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
         {
             XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected redirected request to use GET method");
             XCTAssertNil(redirectedRequestJSONBody, @"Expected redirected request to have empty body");
@@ -272,8 +276,8 @@
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
-        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:nil delays:0.1 redirectStatusCode:301
-                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" headers:nil jsonBody:nil delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
         {
             XCTAssertNil(redirectedRequestMethod, @"Expected no redirected request to fire");
             XCTAssertNil(redirectedRequestJSONBody, @"Expected no redirected request to fire");
@@ -290,10 +294,13 @@
     }
 }
 
-/**
+/** https://github.com/AliSoftware/OHHTTPStubs/issues/230
  Verify that redirects of different methods and status codes are handled properly and
  that we retain the HTTP Method for specific HTTP status codes as well as the data payload.
  **/
+#if OHHTTPSTUBS_SKIP_REDIRECT_TESTS
+#warning Redirect Tests will be skipped for this run.
+#else
 - (void)test_NSURLSessionDefaultConfig_MethodAndDataRetentionOnRedirect
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
@@ -310,8 +317,8 @@
                 NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
                 NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
-                [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:statusCode
-                                       completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+                [self _test_redirect_NSURLSession:session httpMethod:method headers:nil jsonBody:json delays:0.0 redirectStatusCode:statusCode
+                                       completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
                  {
                      XCTAssertEqualObjects(redirectedRequestMethod, method,
                                            @"Expected the HTTP method to be unchanged after %d redirect", statusCode);
@@ -335,8 +342,8 @@
             NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
             NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
-            [self _test_redirect_NSURLSession:session httpMethod:method jsonBody:json delays:0.0 redirectStatusCode:303
-                                   completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+            [self _test_redirect_NSURLSession:session httpMethod:method headers:nil jsonBody:json delays:0.0 redirectStatusCode:303
+                                   completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
             {
                 XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected 303 redirected request HTTP method to be reset to GET");
                 XCTAssertNil(redirectedRequestJSONBody, @"Expected 303-redirected request to have empty body");
@@ -353,6 +360,55 @@
         NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
     }
 }
+
+- (void)test_NSURLSessionDefaultConfig_HeaderRetentionPolicyOnRedirect {
+    if ([NSURLSessionConfiguration class] && [NSURLSession class])
+    {
+        NSArray<NSString*>* allMethods = @[@"GET", @"HEAD", @"POST", @"PATCH", @"PUT"];
+
+        /** 301, 302, 307, 308: GET, HEAD, POST, PATCH, PUT should all maintain most HTTP headers unchanged **/
+        for (NSNumber* redirectStatusCode in @[@301, @302, @307, @308]) {
+            int statusCode = redirectStatusCode.intValue;
+            for (NSString* method in allMethods) {
+
+                NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+                NSURLSessionTestDelegate* delegate = [NSURLSessionTestDelegate delegateFollowingRedirects:YES fulfillOnCompletion:nil];
+                NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
+
+                NSDictionary *headers = @{
+                                          @"Authorization": @"authorization",
+                                          @"Connection": @"connection",
+                                          @"Preserved1": @"preserved"
+                                          @"Host": @"host",
+                                          @"Proxy-Authenticate": @"proxy-authenticate",
+                                          @"Proxy-Authorization": @"proxy-authorization",
+                                          @"Preserved2": @"preserved",
+                                          @"WWW-Authenticate": @"www-authenticate",
+                                          };
+                [self _test_redirect_NSURLSession:session httpMethod:method headers:headers jsonBody:nil delays:0.0 redirectStatusCode:statusCode
+                                       completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+                 {
+                     XCTAssertNil(redirectedRequestHeaders[@"Authorization"], @"Authorization header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Connection"], @"Connection header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Host"], @"Host header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Proxy-Authenticate"], @"Proxy-Authenticate header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"Proxy-Authorization"], @"Proxy-Authorization header is preserved when following redirects");
+                     XCTAssertNil(redirectedRequestHeaders[@"WWW-Authenticate"], @"WWW-Authenticate header is preserved when following redirects");
+                     XCTAssertEqual(redirectedRequestHeaders[@"Preserved1"], @"preserved", @"Regular header is not preserved when following redirects");
+                     XCTAssertEqual(redirectedRequestHeaders[@"Preserved2"], @"preserved", @"Regular header is not preserved when following redirects");
+                 }];
+
+                [session finishTasksAndInvalidate];
+            }
+        }
+    }
+    else
+    {
+        NSLog(@"/!\\ Test skipped because the NSURLSession class is not available on this OS version. Run the tests a target with a more recent OS.\n");
+    }
+}
+#endif
+
 - (void)test_NSURLSessionEphemeralConfig
 {
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
@@ -366,8 +422,8 @@
             XCTAssertEqualObjects(jsonResponse, json, @"Unexpected data received");
         }];
 
-        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:json delays:0.1 redirectStatusCode:301
-                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" headers:nil jsonBody:json delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *redirectHTTPResponse, id finalJSONResponse, NSError *errorResponse)
         {
             XCTAssertEqualObjects(redirectedRequestMethod, @"GET", @"Expected the HTTP method of redirected request to be GET");
             XCTAssertEqualObjects(redirectedRequestJSONBody, json, @"Expected redirected request to have the same body as the original request");
@@ -399,8 +455,8 @@
             XCTAssertNil(jsonResponse, @"Data should not have been received as stubs should be disabled");
         }];
 
-        [self _test_redirect_NSURLSession:session httpMethod:@"GET" jsonBody:json delays:0.1 redirectStatusCode:301
-                               completion:^(NSString *redirectedRequestMethod, id redirectedRequestJSONBody, NSHTTPURLResponse *finalHTTPResponse, id finalJSONResponse, NSError *errorResponse)
+        [self _test_redirect_NSURLSession:session httpMethod:@"GET" headers:nil jsonBody:json delays:0.1 redirectStatusCode:301
+                               completion:^(NSString *redirectedRequestMethod, NSDictionary *redirectedRequestHeaders, id redirectedRequestJSONBody, NSHTTPURLResponse *finalHTTPResponse, id finalJSONResponse, NSError *errorResponse)
         {
             // Stubs were disabled for this session, so we should get an error instead of the stubs data
             XCTAssertNotNil(errorResponse, @"Expected error but none found");

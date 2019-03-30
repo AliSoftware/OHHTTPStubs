@@ -164,6 +164,16 @@ public func isMethodDELETE() -> OHHTTPStubsTestBlock {
 }
 
 /**
+ * Matcher testing that the `NSURLRequest` is using the **HEAD** `HTTPMethod`
+ *
+ * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ *            is using the HEAD method
+ */
+public func isMethodHEAD() -> OHHTTPStubsTestBlock {
+    return { $0.httpMethod == "HEAD" }
+}
+
+/**
  * Matcher for testing an `NSURLRequest`'s **absolute url string**.
  *
 * e.g. the absolute url string is `https://api.example.com/signin?user=foo&password=123#anchor` in `https://api.example.com/signin?user=foo&password=123#anchor`

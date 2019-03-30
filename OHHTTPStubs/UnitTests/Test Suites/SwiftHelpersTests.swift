@@ -35,8 +35,8 @@ import XCTest
 class SwiftHelpersTests : XCTestCase {
 
   func testHTTPMethod() {
-    let methods = ["GET", "PUT", "PATCH", "POST", "DELETE", "FOO"]
-    let matchers = [isMethodGET(), isMethodPUT(), isMethodPATCH(), isMethodPOST(), isMethodDELETE()]
+    let methods = ["GET", "PUT", "PATCH", "POST", "DELETE", "HEAD", "FOO"]
+    let matchers = [isMethodGET(), isMethodPUT(), isMethodPATCH(), isMethodPOST(), isMethodDELETE(), isMethodHEAD()]
 
     for (idxMethod, method) in methods.enumerated() {
 #if swift(>=3.0)
