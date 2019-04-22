@@ -378,7 +378,7 @@
                 NSDictionary *headers = @{
                                           @"Authorization": @"authorization",
                                           @"Connection": @"connection",
-                                          @"Preserved1": @"preserved"
+                                          @"Preserved1": @"preserved",
                                           @"Host": @"host",
                                           @"Proxy-Authenticate": @"proxy-authenticate",
                                           @"Proxy-Authorization": @"proxy-authorization",

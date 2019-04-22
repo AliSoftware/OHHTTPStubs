@@ -43,7 +43,7 @@ class MainViewController: UIViewController {
         self.installImageStubSwitch.isEnabled = sender.isOn
         
         let state = sender.isOn ? "and enabled" : "but disabled"
-        print("Installed (\(state)) stubs: \(OHHTTPStubs.allStubs)")
+        print("Installed (\(state)) stubs: \(OHHTTPStubs.allStubs())")
     }
     
 

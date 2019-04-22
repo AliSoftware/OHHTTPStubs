@@ -34,7 +34,6 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
 
   s.default_subspec = 'Default'
-
   # Default subspec that includes the most commonly-used components
   s.subspec 'Default' do |default|
     default.dependency 'OHHTTPStubs/Core'

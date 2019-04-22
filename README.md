@@ -3,9 +3,9 @@ OHHTTPStubs
 
 [![Platform](http://cocoapod-badges.herokuapp.com/p/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
 [![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
-[![Carthage Swift 4.2](https://img.shields.io/badge/Carthage-Swift%204.2-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Carthage Swift 5.0](https://img.shields.io/badge/Carthage-Swift%205.0-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.svg?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
-[![Language: Swift-2.x/3.x/4.x](https://img.shields.io/badge/Swift-2.x%2F3.x%2F4.x-orange.svg)](https://swift.org)
+[![Language: Swift-2.x/3.x/4.x/5.0](https://img.shields.io/badge/Swift-2.x%2F3.x%2F4.x%2F5.0-orange.svg)](https://swift.org)
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
 
@@ -73,7 +73,7 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 * `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
 * `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
-* `OHHTTPStubs` is **fully compatible with Swift 3.x and 4.x**.
+* `OHHTTPStubs` is **fully compatible with Swift 3.x, 4.x and Swift 5.0**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
@@ -128,7 +128,7 @@ _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** feat
 
 ## Using the right Swift version for your project
 
-`OHHTTPStubs` supports Swift 3.0 (Xcode 8+), Swift 3.1 (Xcode 8.3+), Swift 3.2 (Xcode 9.0+), Swift 4.0 (Xcode 9.0+), Swift 4.1 (Xcode 9.3+), and Swift 4.2 (Xcode 10+), however we are only testing Swift 4.x (using Xcode 9.1 and 10.1) in CI.
+`OHHTTPStubs` supports Swift 3.0 (Xcode 8+), Swift 3.1 (Xcode 8.3+), Swift 3.2 (Xcode 9.0+), Swift 4.0 (Xcode 9.0+), Swift 4.1 (Xcode 9.3+), Swift 4.2 (Xcode 10+) and Swift 5.0 (Xcode 10.2), however we are only testing Swift 4.x (using Xcode 9.1 and 10.1)  and Swift 5.x (using Xcode 10.2) in CI.
 
 Here are some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
 
@@ -143,10 +143,11 @@ For more info, see [CocoaPods/CocoaPods#5540](https://github.com/CocoaPods/Cocoa
 <details>
 <summary><b>Carthage: choose the right version</b></summary>
 
-The project is set up with `SWIFT_VERSION=4.2` on `master`.
+The project is set up with `SWIFT_VERSION=5.0` on `master`.
 
 This means that the framework on `master` will build using:
 
+* Swift 5.0 on Xcode 10.2
 * Swift 4.2 on Xcode 10.1
 * Swift 4.0 on Xcode 9.1
 
