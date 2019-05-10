@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "7.0.0"
+  s.version      = "8.0.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -34,7 +34,6 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
 
   s.default_subspec = 'Default'
-
   # Default subspec that includes the most commonly-used components
   s.subspec 'Default' do |default|
     default.dependency 'OHHTTPStubs/Core'

@@ -1,5 +1,13 @@
 # OHHTTPStubs — CHANGELOG
 
+## [8.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
+
+* Update default Swift Version to 5.0
+[@croig](https://github.com/CRoig)
+
+>Notes:
+> * No code changes were required (except from a little missing comma which caused a compilation error). Only xcshemes and xcodeproj were changed.
+
 ## [7.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
 
 * Updating default Swift Version to 4.2.  
