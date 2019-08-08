@@ -22,6 +22,10 @@
  *
  ***********************************************************************************/
 
+#if SWIFT_PACKAGE
+#warning "Skipping AFNetworking tests, due to AFNetworking not supporting Swift Package Manager.
+#else
+
 #import <XCTest/XCTest.h>
 #import <Availability.h>
 
@@ -279,4 +283,5 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 #else
 #warning Unit Tests using NSURLSession were not compiled nor executed, because NSURLSession is only available since iOS7/OSX10.9 SDK. \
 -------- Compile using iOS7 or OSX10.9 SDK then launch the tests on the iOS7 simulator or an OSX10.9 target for them to be executed.
+#endif
 #endif
