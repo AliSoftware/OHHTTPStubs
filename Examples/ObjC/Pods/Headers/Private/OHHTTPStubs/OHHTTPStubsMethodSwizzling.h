@@ -1,1 +1,1 @@
-../../../../../../OHHTTPStubs/Sources/NSURLSession/OHHTTPStubsMethodSwizzling.h
+../../../../../../Sources/OHHTTPStubsCore/OHHTTPStubsMethodSwizzling.h

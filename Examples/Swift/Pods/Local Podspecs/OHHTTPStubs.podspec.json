@@ -1,6 +1,6 @@
 {
   "name": "OHHTTPStubs",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "summary": "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest.",
   "description": "A class to stub network requests easily:\n\n * Test your apps with fake network data (stubbed from file)\n * You can also customize your response headers and status code\n * Use customized stubs depending on the requests\n * Use custom response time to simulate slow network.\n * This works with any request (HTTP, HTTPS, or any protocol) sent using\n   the iOS URL Loading System (NSURLConnection, NSURLSession, AFNetworking, …)\n * This is really useful in unit testing, when you need to test network features\n   but don't want to hit the real network and fake some response data instead.\n * Has useful convenience methods to stub JSON content or fixture from a file\n * Compatible with Swift",
   "homepage": "https://github.com/AliSoftware/OHHTTPStubs",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/AliSoftware/OHHTTPStubs.git",
-    "tag": "8.0.0"
+    "tag": "8.1.0"
   },
   "frameworks": [
     "Foundation",
@@ -44,8 +44,10 @@
     },
     {
       "name": "Core",
-      "source_files": "OHHTTPStubs/Sources/*.{h,m}",
-      "public_header_files": "OHHTTPStubs/Sources/*.h"
+      "source_files": [
+        "Sources/OHHTTPStubsCore/**/OHHTTPStubs.{h,m}",
+        "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse.{h,m}"
+      ]
     },
     {
       "name": "NSURLSession",
@@ -54,8 +56,13 @@
 
         ]
       },
-      "source_files": "OHHTTPStubs/Sources/NSURLSession/*.{h,m}",
-      "private_header_files": "OHHTTPStubs/Sources/NSURLSession/OHHTTPStubsMethodSwizzling.h"
+      "source_files": [
+        "Sources/OHHTTPStubsCore/**/NSURLRequest+HTTPBodyTesting.{h,m}",
+        "Sources/OHHTTPStubsCore/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}",
+        "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.{h,m}",
+        "Sources/OHHTTPStubsCore/include/Compatibility.h"
+      ],
+      "private_header_files": "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.h"
     },
     {
       "name": "JSON",
@@ -64,8 +71,7 @@
 
         ]
       },
-      "source_files": "OHHTTPStubs/Sources/JSON/*.{h,m}",
-      "public_header_files": "OHHTTPStubs/Sources/JSON/*.h"
+      "source_files": "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse+JSON.{h,m}"
     },
     {
       "name": "HTTPMessage",
@@ -74,8 +80,7 @@
 
         ]
       },
-      "source_files": "OHHTTPStubs/Sources/HTTPMessage/*.{h,m}",
-      "public_header_files": "OHHTTPStubs/Sources/HTTPMessage/*.h"
+      "source_files": "Sources/HTTPMessage/**/*.{h,m}"
     },
     {
       "name": "Mocktail",
@@ -84,18 +89,13 @@
 
         ]
       },
-      "source_files": "OHHTTPStubs/Sources/Mocktail/*.{h,m}",
-      "public_header_files": "OHHTTPStubs/Sources/Mocktail/*.h"
+      "source_files": "Sources/Mocktail/**/*.{h,m}"
     },
     {
       "name": "OHPathHelpers",
       "source_files": [
-        "OHHTTPStubs/Sources/OHPathHelpers/*.{h,m}",
-        "OHHTTPStubs/Sources/Compatibility.h"
-      ],
-      "public_header_files": [
-        "OHHTTPStubs/Sources/OHPathHelpers/*.h",
-        "OHHTTPStubs/Sources/Compatibility.h"
+        "Sources/OHHTTPStubsCore/**/OHPathHelpers.{h,m}",
+        "Sources/OHHTTPStubsCore/include/Compatibility.h"
       ]
     },
     {
@@ -111,7 +111,7 @@
 
         ]
       },
-      "source_files": "OHHTTPStubs/Sources/Swift/*.swift"
+      "source_files": "Sources/OHHTTPStubsSwift/*.swift"
     }
   ]
 }

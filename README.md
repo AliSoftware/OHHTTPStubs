@@ -2,10 +2,13 @@ OHHTTPStubs
 ===========
 
 [![Platform](http://cocoapod-badges.herokuapp.com/p/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
-[![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
-[![Carthage Swift 5.0](https://img.shields.io/badge/Carthage-Swift%205.0-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Language: Swift-2.x/3.x/4.x/5.x](https://img.shields.io/badge/Swift-2.x%2F3.x%2F4.x%2F5.x-orange.svg)](https://swift.org)
 [![Build Status](https://travis-ci.org/AliSoftware/OHHTTPStubs.svg?branch=master)](https://travis-ci.org/AliSoftware/OHHTTPStubs)
-[![Language: Swift-2.x/3.x/4.x/5.0](https://img.shields.io/badge/Swift-2.x%2F3.x%2F4.x%2F5.0-orange.svg)](https://swift.org)
+
+[![Version](http://cocoapod-badges.herokuapp.com/v/OHHTTPStubs/badge.png)](http://cocoadocs.org/docsets/OHHTTPStubs)
+[![Carthage Supported](https://img.shields.io/badge/carthage-supported-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Swift Package Manager Supported](https://img.shields.io/badge/spm-supported-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
+
 
 `OHHTTPStubs` is a library designed to stub your network requests very easily. It can help you:
 
@@ -44,7 +47,7 @@ It works with `NSURLConnection`, `NSURLSession`, `AFNetworking`, `Alamofire` or 
 <details open=1>
 <summary>In Swift</summary>
 
-This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec.
+This example is using the Swift helpers found in `OHHTTPStubsSwift.swift` provided by the `OHHTTPStubs/Swift` subspec or `OHHTTPStubs` package.
  
 ```swift
 stub(condition: isHost("mywebservice.com")) { _ in
@@ -73,7 +76,7 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 * `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
 * `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
-* `OHHTTPStubs` is **fully compatible with Swift 3.x, 4.x and Swift 5.0**.
+* `OHHTTPStubs` is **fully compatible with Swift 3.x, 4.x and Swift 5.x**.
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
@@ -118,17 +121,24 @@ Here's a list of which subspecs are included for each of the different lines you
 
 </details>
 
+## Swift Package Manager
+
+`OHHTTPStubs` is compatible with Swift Package Manager, and provides 2 targets for consumption: `OHHTTPStubsCore` and `OHHTTPStubsSwift`.
+
+* `OHHTTPStubsCore` is equivalent to the `OHHTTPStubs` subspec.
+* `OHHTTPStubsSwift` is equivalent to the `OHHTTPStubs/Swift` subspec.
+
+_Note: We currently do not have support for the HTTPMessage or Mocktail subspecs in Swift Package Manager.  If you are interested in these, please open an issue to explain your needs._
+
 ## Carthage
 
 `OHHTTPStubs` is also be compatible with Carthage. Just add it to your `Cartfile`.
 
 _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** features of `OHHTTPStubs` turned on (in other words, all subspecs of the pod), including `NSURLSession` and `JSON` support, `OHPathHelpers`, `HTTPMessage` and `Mocktail` support, and the Swiftier API._
 
-> Be warned that I don't personally use Carthage, so I won't be able to guarantee much help/support for it.
-
 ## Using the right Swift version for your project
 
-`OHHTTPStubs` supports Swift 3.0 (Xcode 8+), Swift 3.1 (Xcode 8.3+), Swift 3.2 (Xcode 9.0+), Swift 4.0 (Xcode 9.0+), Swift 4.1 (Xcode 9.3+), Swift 4.2 (Xcode 10+) and Swift 5.0 (Xcode 10.2), however we are only testing Swift 4.x (using Xcode 9.1 and 10.1)  and Swift 5.x (using Xcode 10.2) in CI.
+`OHHTTPStubs` supports Swift 3.0 (Xcode 8+), Swift 3.1 (Xcode 8.3+), Swift 3.2 (Xcode 9.0+), Swift 4.0 (Xcode 9.0+), Swift 4.1 (Xcode 9.3+), Swift 4.2 (Xcode 10+), Swift 5.0 (Xcode 10.2), and Swift 5.1 (Xcode 11) however we are only testing Swift 4.x (using Xcode 9.1 and 10.1) and Swift 5.x (using Xcode 10.2 AND 11) in CI.
 
 Here are some details about the correct setup you need depending on how you integrated `OHHTTPStubs` into your project.
 
@@ -147,6 +157,7 @@ The project is set up with `SWIFT_VERSION=5.0` on `master`.
 
 This means that the framework on `master` will build using:
 
+* Swift 5.1 on Xcode 11
 * Swift 5.0 on Xcode 10.2
 * Swift 4.2 on Xcode 10.1
 * Swift 4.0 on Xcode 9.1
@@ -156,6 +167,7 @@ If you want Carthage to build the framework with Swift 3.x you can:
  * either use an older Xcode version
  * or use the previous version of `OHHTTPStubs` (6.2.0) — whose `master` branch uses `3.0`
  * or fork the repo just to change the `SWIFT_VERSION` build setting to `3.0`
+ * or build the framework passing a `SWIFT_VERSION` to carthage via `XCODE_XCCONFIG_FILE=<config file declaring SWIFT_VERSION> carthage build`
 
 </details>
 
@@ -181,7 +193,7 @@ If you need to disable (and re-enable) `OHHTTPStubs` — globally or per `NSURLS
 
 * `OHHTTPStubs` **can't work on background sessions** (sessions created using `[NSURLSessionConfiguration backgroundSessionConfiguration]`) because background sessions don't allow the use of custom `NSURLProtocols` and are handled by the iOS Operating System itself.
 * `OHHTTPStubs` don't simulate data upload. The `NSURLProtocolClient` `@protocol` does not provide a way to signal the delegate that data has been **sent** (only that some has been loaded), so any data in the `HTTPBody` or `HTTPBodyStream` of an `NSURLRequest`, or data provided to `-[NSURLSession uploadTaskWithRequest:fromData:];` will be ignored, and more importantly, the `-URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:` delegate method will never be called when you stub the request using `OHHTTPStubs`.
-* `OHTTPStubs` **has a known issue with redirects** that we believe is an Apple bug.  It has been discussed [here](https://github.com/AliSoftware/OHHTTPStubs/issues/230) and [here](https://github.com/AliSoftware/OHHTTPStubs/issues/280).  The actual result of this bug is that redirects with a zero second delay may undeterministically end up with a null response.
+* `OHTTPStubs` **has a known issue with redirects** that we believe is an Apple bug.  It has been discussed [here](https://github.com/AliSoftware/OHHTTPStubs/issues/230) and [here](https://github.com/AliSoftware/OHHTTPStubs/issues/280).  The actual result of this bug is that redirects with a zero second delay may nondeterministically end up with a null response.
 
 _As far as I know, there's nothing we can do about those three limitations. Please let me know if you know a solution that would make that possible anyway._
 

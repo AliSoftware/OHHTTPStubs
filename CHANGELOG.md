@@ -1,6 +1,13 @@
 # OHHTTPStubs — CHANGELOG
 
-## [8.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
+
+## [8.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/8.1.0)
+
+* Added support for Swift Package Manager and an example project.    
+  [@jeffctown](https://github.com/jeffctown)
+
+
+## [8.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/8.0.0)
 
 * Update default Swift Version to 5.0
 [@croig](https://github.com/CRoig)

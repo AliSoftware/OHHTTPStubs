@@ -10,11 +10,11 @@
 #endif
 #endif
 
-#import "Compatibility.h"
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse.h"
 #import "OHHTTPStubsResponse+JSON.h"
 #import "NSURLRequest+HTTPBodyTesting.h"
+#import "Compatibility.h"
 #import "OHPathHelpers.h"
 #import "Compatibility.h"
 

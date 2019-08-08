@@ -1,1 +1,1 @@
-../../../../../../OHHTTPStubs/Sources/Compatibility.h
+../../../../../../Sources/OHHTTPStubsCore/include/Compatibility.h

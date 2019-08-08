@@ -1,1 +1,1 @@
-../../../../../../OHHTTPStubs/Sources/OHPathHelpers/OHPathHelpers.h
+../../../../../../Sources/OHHTTPStubsCore/include/OHPathHelpers.h
