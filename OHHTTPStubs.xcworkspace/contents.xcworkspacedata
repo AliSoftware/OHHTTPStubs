@@ -25,7 +25,7 @@
       </FileRef>
    </Group>
    <FileRef
-      location = "group:../../../System/Volumes/Data/Users/jeff/OHHTTPStubs/Sources/OHHTTPStubsSwift">
+      location = "group:OHHTTPStubs.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
