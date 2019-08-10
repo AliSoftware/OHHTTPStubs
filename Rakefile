@@ -20,7 +20,7 @@ end
 
 desc 'Test Using Swift Package Manager'
 task :spm_test, [:additional_args] do |_,args|
-  sh 'swift test'
+  sh 'swift test -Xcc -DOHHTTPSTUBS_SKIP_REDIRECT_TESTS'
 end
 
 desc 'List installed simulators'
