@@ -5,20 +5,20 @@
       location = "container:"
       name = "Pod Metadata">
       <FileRef
-         location = "group:../OHHTTPStubs.podspec">
+         location = "group:OHHTTPStubs.podspec">
       </FileRef>
       <FileRef
-         location = "group:../CHANGELOG.md">
+         location = "group:CHANGELOG.md">
       </FileRef>
       <FileRef
-         location = "group:../README.md">
+         location = "group:README.md">
       </FileRef>
       <FileRef
-         location = "group:../Rakefile"
+         location = "group:Rakefile"
          assignedFileDataType = "public.ruby-script">
       </FileRef>
       <FileRef
-         location = "group:../.travis.yml">
+         location = "group:.travis.yml">
       </FileRef>
       <FileRef
          location = "group:LICENSE">
