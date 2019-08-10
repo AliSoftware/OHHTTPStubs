@@ -44,39 +44,33 @@ Pod::Spec.new do |s|
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "Sources/Core/*.{h,m}", "Sources/Core/include/*.h"
-    core.public_header_files = "Sources/Core/include/*.h"
+    core.source_files = "Sources/Core/**/*.{h,m}"
   end
 
   # Optional subspecs
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
-    urlsession.source_files = "Sources/NSURLSession/*.{h,m}", "Sources/NSURLSession/include/OHHTTPStubsMethodSwizzling.h"
-    urlsession.public_header_files = "Sources/NSURLSession/include"
+    urlsession.source_files = "Sources/NSURLSession/**/*.{h,m}"
     urlsession.private_header_files = "Sources/NSURLSession/include/OHHTTPStubsMethodSwizzling.h"
   end
 
   s.subspec 'JSON' do |json|
     json.dependency 'OHHTTPStubs/Core'
-    json.source_files = "Sources/JSON/*.{h,m}", "Sources/JSON/include/*.h"
-    json.public_header_files = "Sources/JSON/include/*.h"
+    json.source_files = "Sources/JSON/**/*.{h,m}"
   end
 
   s.subspec 'HTTPMessage' do |httpmessage|
     httpmessage.dependency 'OHHTTPStubs/Core'
-    httpmessage.source_files = "Sources/HTTPMessage/*.{h,m}", "Sources/HTTPMessage/include/*.h"
-    httpmessage.public_header_files = "Sources/HTTPMessage/include/*.h"
+    httpmessage.source_files = "Sources/HTTPMessage/**/*.{h,m}"
   end
 
   s.subspec 'Mocktail' do |mocktail|
     mocktail.dependency 'OHHTTPStubs/Core'
-    mocktail.source_files = "Sources/Mocktail/*.{h,m}", "Sources/Mocktail/include/*.h"
-    mocktail.public_header_files = "Sources/Mocktail/include/*.h"
+    mocktail.source_files = "Sources/Mocktail/**/*.{h,m}"
   end
 
   s.subspec 'OHPathHelpers' do |pathhelper|
-    pathhelper.source_files = "Sources/OHPathHelpers/*.{h,m}", "Sources/Core/include/Compatibility.h", "Sources/OHPathHelpers/include/*.h"
-    pathhelper.public_header_files = "Sources/OHPathHelpers/include/*.h", "Sources/Core/include/Compatibility.h"
+    pathhelper.source_files = "Sources/OHPathHelpers/**/*.{h,m}", "Sources/Core/include/Compatibility.h"
   end
 
   s.subspec 'Swift' do |swift|
