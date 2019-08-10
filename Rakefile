@@ -52,7 +52,7 @@ def build(scheme, sdk, destination, action, additional_args)
 
   cmd  = %W(
     xcodebuild
-    -workspace OHHTTPStubs/OHHTTPStubs.xcworkspace
+    -workspace OHHTTPStubs.xcworkspace
     -scheme "#{scheme}"
     -sdk #{sdk}
     -configuration Debug

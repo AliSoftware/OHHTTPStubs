@@ -44,38 +44,38 @@ Pod::Spec.new do |s|
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "OHHTTPStubs/Sources/*.{h,m}"
-    core.public_header_files = "OHHTTPStubs/Sources/*.h"
+    core.source_files = "Sources/Core/*.{h,m}", "Sources/Core/include/*.h"
+    core.public_header_files = "Sources/Core/include/*.h"
   end
 
   # Optional subspecs
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
-    urlsession.source_files = "OHHTTPStubs/Sources/NSURLSession/*.{h,m}"
-    urlsession.private_header_files = "OHHTTPStubs/Sources/NSURLSession/OHHTTPStubsMethodSwizzling.h"
+    urlsession.source_files = "Sources/NSURLSession/*.{h,m}", "Sources/NSURLSession/include/OHHTTPStubsMethodSwizzling.h"
+    urlsession.private_header_files = "Sources/NSURLSession/include/OHHTTPStubsMethodSwizzling.h"
   end
 
   s.subspec 'JSON' do |json|
     json.dependency 'OHHTTPStubs/Core'
-    json.source_files = "OHHTTPStubs/Sources/JSON/*.{h,m}"
-    json.public_header_files = "OHHTTPStubs/Sources/JSON/*.h"
+    json.source_files = "Sources/JSON/*.{h,m}", "Sources/JSON/include/*.h"
+    json.public_header_files = "Sources/JSON/include/*.h"
   end
 
   s.subspec 'HTTPMessage' do |httpmessage|
     httpmessage.dependency 'OHHTTPStubs/Core'
-    httpmessage.source_files = "OHHTTPStubs/Sources/HTTPMessage/*.{h,m}"
-    httpmessage.public_header_files = "OHHTTPStubs/Sources/HTTPMessage/*.h"
+    httpmessage.source_files = "Sources/HTTPMessage/*.{h,m}", "Sources/HTTPMessage/include/*.h"
+    httpmessage.public_header_files = "Sources/HTTPMessage/include/*.h"
   end
 
   s.subspec 'Mocktail' do |mocktail|
     mocktail.dependency 'OHHTTPStubs/Core'
-    mocktail.source_files = "OHHTTPStubs/Sources/Mocktail/*.{h,m}"
-    mocktail.public_header_files = "OHHTTPStubs/Sources/Mocktail/*.h"
+    mocktail.source_files = "Sources/Mocktail/*.{h,m}", "Sources/Mocktail/include/*.h"
+    mocktail.public_header_files = "Sources/Mocktail/include/*.h"
   end
 
   s.subspec 'OHPathHelpers' do |pathhelper|
-    pathhelper.source_files = "OHHTTPStubs/Sources/OHPathHelpers/*.{h,m}", "OHHTTPStubs/Sources/Compatibility.h"
-    pathhelper.public_header_files = "OHHTTPStubs/Sources/OHPathHelpers/*.h", "OHHTTPStubs/Sources/Compatibility.h"
+    pathhelper.source_files = "Sources/OHPathHelpers/*.{h,m}", "Sources/Core/include/Compatibility.h", "Sources/OHPathHelpers/include/*.h"
+    pathhelper.public_header_files = "Sources/OHPathHelpers/include/*.h", "Sources/Core/include/Compatibility.h"
   end
 
   s.subspec 'Swift' do |swift|
@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
     swift.tvos.deployment_target = '9.0'
 
     swift.dependency 'OHHTTPStubs/Default'
-    swift.source_files = "OHHTTPStubs/Sources/Swift/*.swift"
+    swift.source_files = "Sources/OHHTTPStubsSwift/*.swift"
   end
 
 end

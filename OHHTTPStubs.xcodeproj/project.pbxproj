@@ -34,6 +34,9 @@
 		1F462BBE22FD9A5E000B7253 /* OHHTTPStubsUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FCC5CD022FD95CC00472F5B /* OHHTTPStubsUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F462BBF22FD9B8F000B7253 /* OHHTTPStubsUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FCC5CD022FD95CC00472F5B /* OHHTTPStubsUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F462BC022FD9CC8000B7253 /* OHHTTPStubsUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FCC5CD022FD95CC00472F5B /* OHHTTPStubsUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1F51F12422FE4D48003463C1 /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F51F12322FE4C53003463C1 /* SwiftHelpersTests.swift */; };
+		1F51F12522FE52CA003463C1 /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F51F12322FE4C53003463C1 /* SwiftHelpersTests.swift */; };
+		1F51F12622FE52D0003463C1 /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F51F12322FE4C53003463C1 /* SwiftHelpersTests.swift */; };
 		1FCC5C8B22FD95C200472F5B /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5C6C22FD95C200472F5B /* OHHTTPStubs.m */; };
 		1FCC5C8C22FD95C200472F5B /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5C6C22FD95C200472F5B /* OHHTTPStubs.m */; };
 		1FCC5C8D22FD95C200472F5B /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5C6C22FD95C200472F5B /* OHHTTPStubs.m */; };
@@ -121,9 +124,6 @@
 		1FCC5D0E22FD95D700472F5B /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5CDF22FD95D700472F5B /* NilValuesTests.m */; };
 		1FCC5D0F22FD95D700472F5B /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5CDF22FD95D700472F5B /* NilValuesTests.m */; };
 		1FCC5D1022FD95D700472F5B /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5CDF22FD95D700472F5B /* NilValuesTests.m */; };
-		1FCC5D1222FD95D700472F5B /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5CE122FD95D700472F5B /* SwiftHelpersTests.swift */; };
-		1FCC5D1322FD95D700472F5B /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5CE122FD95D700472F5B /* SwiftHelpersTests.swift */; };
-		1FCC5D1422FD95D700472F5B /* SwiftHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC5CE122FD95D700472F5B /* SwiftHelpersTests.swift */; };
 		1FCC5D2122FD95D700472F5B /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FCC5CE722FD95D700472F5B /* emptyfile.json */; };
 		1FCC5D2222FD95D700472F5B /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FCC5CE722FD95D700472F5B /* emptyfile.json */; };
 		1FCC5D2322FD95D700472F5B /* emptyfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FCC5CE722FD95D700472F5B /* emptyfile.json */; };
@@ -216,6 +216,7 @@
 		095981C219806A7900807DBE /* OHHTTPStubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OHHTTPStubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		095981D219806A7900807DBE /* OHHTTPStubs Mac Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OHHTTPStubs Mac Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F462BB722FD96C6000B7253 /* MocktailFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MocktailFolder; sourceTree = "<group>"; };
+		1F51F12322FE4C53003463C1 /* SwiftHelpersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftHelpersTests.swift; sourceTree = "<group>"; };
 		1FCC5C6C22FD95C200472F5B /* OHHTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubs.m; sourceTree = "<group>"; };
 		1FCC5C6E22FD95C200472F5B /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
 		1FCC5C6F22FD95C200472F5B /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
@@ -248,7 +249,6 @@
 		1FCC5CDC22FD95D700472F5B /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		1FCC5CDE22FD95D700472F5B /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		1FCC5CDF22FD95D700472F5B /* NilValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NilValuesTests.m; sourceTree = "<group>"; };
-		1FCC5CE122FD95D700472F5B /* SwiftHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHelpersTests.swift; sourceTree = "<group>"; };
 		1FCC5CE722FD95D700472F5B /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
 		1FCC5CE822FD95D700472F5B /* empty.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = empty.bundle; sourceTree = "<group>"; };
 		1FCC5CE922FD95D700472F5B /* login.tail */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login.tail; sourceTree = "<group>"; };
@@ -413,16 +413,25 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		1F51F12222FE4C53003463C1 /* OHHTTPStubsSwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F51F12322FE4C53003463C1 /* SwiftHelpersTests.swift */,
+			);
+			name = OHHTTPStubsSwiftTests;
+			path = Tests/OHHTTPStubsSwiftTests;
+			sourceTree = SOURCE_ROOT;
+		};
 		1FCC5C6A22FD95C200472F5B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				1FCC5C6B22FD95C200472F5B /* Core */,
 				1FCC5C7222FD95C200472F5B /* HTTPMessage */,
-				1FCC5C7622FD95C200472F5B /* Mocktail */,
 				1FCC5C7A22FD95C200472F5B /* JSON */,
-				1FCC5C7E22FD95C200472F5B /* OHPathHelpers */,
-				1FCC5C8222FD95C200472F5B /* OHHTTPStubsSwift */,
+				1FCC5C7622FD95C200472F5B /* Mocktail */,
 				1FCC5C8422FD95C200472F5B /* NSURLSession */,
+				1FCC5C8222FD95C200472F5B /* OHHTTPStubsSwift */,
+				1FCC5C7E22FD95C200472F5B /* OHPathHelpers */,
 				1FCC5CCE22FD95CC00472F5B /* Supporting Files */,
 			);
 			path = Sources;
@@ -563,8 +572,8 @@
 				1FCC5CD522FD95D700472F5B /* JSONTests */,
 				1FCC5CED22FD95D700472F5B /* MocktailTests */,
 				1FCC5CEF22FD95D700472F5B /* NSURLSessionTests */,
+				1F51F12222FE4C53003463C1 /* OHHTTPStubsSwiftTests */,
 				1FCC5CDD22FD95D700472F5B /* OHPathHelpersTests */,
-				1FCC5CE022FD95D700472F5B /* SwiftTests */,
 				1F462BBD22FD9765000B7253 /* Supporting Files */,
 			);
 			path = Tests;
@@ -596,14 +605,6 @@
 				1FCC5CDF22FD95D700472F5B /* NilValuesTests.m */,
 			);
 			path = OHPathHelpersTests;
-			sourceTree = "<group>";
-		};
-		1FCC5CE022FD95D700472F5B /* SwiftTests */ = {
-			isa = PBXGroup;
-			children = (
-				1FCC5CE122FD95D700472F5B /* SwiftHelpersTests.swift */,
-			);
-			path = SwiftTests;
 			sourceTree = "<group>";
 		};
 		1FCC5CE222FD95D700472F5B /* Fixtures */ = {
@@ -1106,7 +1107,7 @@
 				1FCC5CFE22FD95D700472F5B /* TimingTests.m in Sources */,
 				1FCC5D0A22FD95D700472F5B /* OHPathHelpersTests.m in Sources */,
 				1FCC5D0622FD95D700472F5B /* NSURLConnectionDelegateTests.m in Sources */,
-				1FCC5D1222FD95D700472F5B /* SwiftHelpersTests.swift in Sources */,
+				1F51F12422FE4D48003463C1 /* SwiftHelpersTests.swift in Sources */,
 				1FCC5D0222FD95D700472F5B /* WithContentsOfURLTests.m in Sources */,
 				1FCC5CF622FD95D700472F5B /* AFNetworkingTests.m in Sources */,
 				1FCC5D3A22FD95D700472F5B /* MocktailTests.m in Sources */,
@@ -1140,7 +1141,7 @@
 				1FCC5CFB22FD95D700472F5B /* NSURLConnectionTests.m in Sources */,
 				1FCC5D3B22FD95D700472F5B /* MocktailTests.m in Sources */,
 				1FCC5CFF22FD95D700472F5B /* TimingTests.m in Sources */,
-				1FCC5D1322FD95D700472F5B /* SwiftHelpersTests.swift in Sources */,
+				1F51F12522FE52CA003463C1 /* SwiftHelpersTests.swift in Sources */,
 				1FCC5D0B22FD95D700472F5B /* OHPathHelpersTests.m in Sources */,
 				1FCC5D0322FD95D700472F5B /* WithContentsOfURLTests.m in Sources */,
 				1FCC5D0F22FD95D700472F5B /* NilValuesTests.m in Sources */,
@@ -1174,7 +1175,7 @@
 				1FCC5D1022FD95D700472F5B /* NilValuesTests.m in Sources */,
 				1FCC5D0422FD95D700472F5B /* WithContentsOfURLTests.m in Sources */,
 				1FCC5D4022FD95D700472F5B /* NSURLSessionTests.m in Sources */,
-				1FCC5D1422FD95D700472F5B /* SwiftHelpersTests.swift in Sources */,
+				1F51F12622FE52D0003463C1 /* SwiftHelpersTests.swift in Sources */,
 				1FCC5D0C22FD95D700472F5B /* OHPathHelpersTests.m in Sources */,
 				1FCC5D0022FD95D700472F5B /* TimingTests.m in Sources */,
 				1FCC5CFC22FD95D700472F5B /* NSURLConnectionTests.m in Sources */,

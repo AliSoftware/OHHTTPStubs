@@ -89,7 +89,11 @@ let package = Package(
             dependencies: ["OHPathHelpers"]),
         .target(
             name: "OHHTTPStubsSwift",
-            dependencies: ["Core", "NSURLSession", "JSON", "OHPathHelpers"])
+            dependencies: ["Core", "NSURLSession", "JSON", "OHPathHelpers"]),
+        .testTarget(
+            name: "OHHTTPStubsSwiftTests",
+            dependencies: ["OHHTTPStubsSwift", "Core"]
+        )
     ]
 )
 

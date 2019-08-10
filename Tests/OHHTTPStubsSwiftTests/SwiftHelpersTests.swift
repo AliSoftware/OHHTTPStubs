@@ -8,7 +8,12 @@
 
 import Foundation
 import XCTest
+#if SWIFT_PACKAGE
+@testable import OHHTTPStubsSwift
+@testable import Core
+#else
 @testable import OHHTTPStubs
+#endif
 
 #if swift(>=3.0)
 #else

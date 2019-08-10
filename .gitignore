@@ -19,3 +19,9 @@ IDEWorkspaceChecks.plist
 # Carthage
 Carthage/
 OHHTTPStubs.framework.zip
+
+# Rubymine
+.idea/
+
+# SPM
+.swiftpm/
