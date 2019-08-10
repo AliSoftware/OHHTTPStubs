@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "8.0.0"
+  s.version      = "8.1.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -52,6 +52,7 @@ Pod::Spec.new do |s|
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
     urlsession.source_files = "Sources/NSURLSession/*.{h,m}", "Sources/NSURLSession/include/OHHTTPStubsMethodSwizzling.h"
+    urlsession.public_header_files = "Sources/NSURLSession/include"
     urlsession.private_header_files = "Sources/NSURLSession/include/OHHTTPStubsMethodSwizzling.h"
   end
 
