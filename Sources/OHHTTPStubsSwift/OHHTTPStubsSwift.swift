@@ -26,7 +26,6 @@
  * Swift Helpers
  */
 #if SWIFT_PACKAGE
-import Foundation
 import Core
 import NSURLSession
 #endif

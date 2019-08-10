@@ -21,7 +21,7 @@
          location = "group:../.travis.yml">
       </FileRef>
       <FileRef
-         location = "group:../LICENSE">
+         location = "group:LICENSE">
       </FileRef>
       <FileRef
          location = "group:Package.swift">

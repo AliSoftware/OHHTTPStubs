@@ -18,6 +18,10 @@ task :tvos, [:scheme, :tvos_version, :action, :additional_args] do |_,args|
   build("OHHTTPStubs #{args.scheme}", "appletvsimulator", destination, args.action, args.additional_args)
 end
 
+desc 'Test Using Swift Package Manager'
+task :spm_test, [:additional_args] do |_,args|
+  sh 'swift test'
+end
 
 desc 'List installed simulators'
 task :simlist do
