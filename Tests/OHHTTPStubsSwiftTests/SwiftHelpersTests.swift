@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 #if SWIFT_PACKAGE
 @testable import OHHTTPStubsSwift
-@testable import Core
+@testable import OHHTTPStubsCore
 #else
 @testable import OHHTTPStubs
 #endif
