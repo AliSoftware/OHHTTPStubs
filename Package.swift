@@ -11,12 +11,6 @@ let package = Package(
             ]
         ),
         .library(
-            name: "OHHTTPStubsCore",
-            targets: [
-                "Core"
-            ]
-        ),
-        .library(
             name: "OHHTTPStubsHTTPMessage",
             targets: [
                 "Core",
