@@ -36,9 +36,9 @@ task :build_example_apps do
 end
 
 desc 'Build Carthage Frameworks'
-task :build_carthage_frameworks, [:platform] do |_,args|
+task :build_carthage_frameworks, [:platform, :swift_version] do |_,args|
   puts "Args were: #{args}"
-  carthage_build(args.platform)
+  carthage_build(args.platform, args.swift_version)
 end
 
 # Updates Local Pods, Then Builds
@@ -58,8 +58,10 @@ def build_project(dir)
 end
 
 # Builds platform using Carthage
-def carthage_build(platform)
-  sh "carthage build --platform #{platform} --no-skip-current --verbose"
+def carthage_build(platform, swift_version)
+  xcconfig = "/tmp/tmp.xcconfig"
+  config_contents = "SWIFT_VERSION=#{swift_version}"
+  sh "echo #{config_contents} > #{xcconfig} && XCODE_XCCONFIG_FILE=#{xcconfig} carthage build --platform #{platform} --no-skip-current --verbose"
 end
 
 desc 'Run all travis env tasks locally'
