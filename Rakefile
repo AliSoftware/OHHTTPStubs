@@ -59,7 +59,7 @@ end
 
 # Builds platform using Carthage
 def carthage_build(platform)
-  sh "carthage build --platform #{platform} --no-skip-current"
+  sh "carthage build --platform #{platform} --no-skip-current --verbose"
 end
 
 desc 'Run all travis env tasks locally'
