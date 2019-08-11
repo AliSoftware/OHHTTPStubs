@@ -32,18 +32,22 @@ desc 'Build Example Project'
 task :build_example_apps do
   build_pod_example("Examples/ObjC")
   build_pod_example("Examples/Swift")
-  build_example("Examples/SwiftPackageManager")
+  build_project("Examples/SwiftPackageManager")
 end
 
 # Updates Local Pods, Then Builds
 def build_pod_example(dir)
   sh "pod install --project-directory=#{dir}"
-  build_example(dir)
+  build_workspace(dir)
 end
 
 # Builds The Example Project
-def build_example(dir)
+def build_workspace(dir)
   sh "xcodebuild -workspace #{dir}/OHHTTPStubsDemo.xcworkspace -scheme OHHTTPStubsDemo build CODE_SIGNING_ALLOWED=NO"
+end
+
+def build_project(dir)
+  sh "xcodebuild -project #{dir}/OHHTTPStubsDemo.xcodeproj -scheme OHHTTPStubsDemo build CODE_SIGNING_ALLOWED=NO"
 end
 
 desc 'Run all travis env tasks locally'
