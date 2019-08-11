@@ -8,20 +8,12 @@ let package = Package(
             name: "OHHTTPStubs",
             targets: [
                 "Core",
-                "NSURLSession"
             ]
         ),
         .library(
             name: "OHHTTPStubsCore",
             targets: [
                 "Core"
-            ]
-        ),
-        .library(
-            name: "OHHTTPStubsNSURLSession",
-            targets: [
-                "Core",
-                "NSURLSession"
             ]
         ),
         .library(
@@ -35,7 +27,6 @@ let package = Package(
             name: "OHHTTPStubsSwift",
             targets: [
                 "Core",
-                "NSURLSession",
                 "OHHTTPStubsSwift"
             ]
         )
@@ -50,17 +41,11 @@ let package = Package(
             name: "CoreTests",
             dependencies: ["Core"]),
         .target(
-            name: "NSURLSession",
-            dependencies: ["Core"]),
-        .testTarget(
-            name: "NSURLSessionTests",
-            dependencies: ["NSURLSession"]),
-        .target(
             name: "HTTPMessage",
             dependencies: ["Core"]),
         .target(
             name: "OHHTTPStubsSwift",
-            dependencies: ["Core", "NSURLSession"]),
+            dependencies: ["Core"]),
         .testTarget(
             name: "OHHTTPStubsSwiftTests",
             dependencies: ["OHHTTPStubsSwift", "Core"]

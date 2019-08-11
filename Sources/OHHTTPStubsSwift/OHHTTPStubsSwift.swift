@@ -27,7 +27,6 @@
  */
 #if SWIFT_PACKAGE
 import Core
-import NSURLSession
 #endif
 
 #if !swift(>=3.0)
