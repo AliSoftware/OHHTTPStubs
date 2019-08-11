@@ -7,22 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07AB683325D5EF0AF2B667796E2C2E75 /* OHHTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 68307439F4495001B9BECC448018BC8C /* OHHTTPStubsMethodSwizzling.m */; };
-		19BEA380AFCC831E10D29D2B26F9E430 /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6224AF81757ED93EEDDEC4D5AE158324 /* NSURLRequest+HTTPBodyTesting.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		312B02F6ADE2AAECE2BD61EBE1D34217 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C16912074328ED543EDC2A0E025670BB /* OHHTTPStubsResponse.m */; };
-		33B17F37F3507258DC9FCCE7C32F6D8B /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0F0646B80512A16A4A072FE2247867 /* OHHTTPStubs.m */; };
-		37DE516D6381C4607E7C85E00959FE9D /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = EDCDFDA44936F9D4F37E24A04936324B /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		3C786CB6A0AC68A2014FBEE4F7385692 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4399445ADD9E5028C6FA1C754E7745D5 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
-		67B33491AB1E7AE438EC6FE5E7599E64 /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 003F10C90557D53265BE2E365CC9B6D9 /* OHPathHelpers.m */; };
-		6883E869EF47F0D532E7AB67B7E5DF53 /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 00D8C160BEC3269CFDB924AEB5C2BB65 /* Compatibility.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		734B77ACDE3FBB488B7163BA64B69FEA /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = FF07BA3C6AFEA976158141D5E0EF331C /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		015ABC521039DCA22A890DB2995E3829 /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E61E9DEDEF057368394B9CB704D5EFFE /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0B571E271D440AB0C4137C789602E24B /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = C2A09052012E08FCB65DAEF9EF9334DE /* NSURLRequest+HTTPBodyTesting.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3C809DE1061D4C3809EDE689C417AB0B /* OHHTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 185D54370E17EC29E0CE658A56F2FA52 /* OHHTTPStubsMethodSwizzling.m */; };
+		69685E320E601A16F58E27426D2E8B52 /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 673FD864C2F4AF02FC49F8BD176D127F /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6EF62610B3C6FCEE91E3B1C8F1AF085B /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = C7881EBE3BB9671A9EEAF7F84105ADF6 /* OHPathHelpers.m */; };
+		80526BA47D6A8D977C1A72C82C65960E /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EE71AE2792C2BCDEC86831544AF860D /* Compatibility.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		80FAF560A96DFB636A33D463A3417ECF /* Pods-OHHTTPStubsDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2169D273ACA9F35F68305A705EE988D5 /* Pods-OHHTTPStubsDemo-dummy.m */; };
-		882A2D8BBC9350C28C896B5C5C19D22B /* OHPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = C6293ACC462B1B3842C9A283658CB19F /* OHPathHelpers.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		A33F0438840AB10F32D039964D80C523 /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DE8798F52463A4E45F42F3FF1AA4F195 /* OHHTTPStubsResponse.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		B34F6506FC217E40A7D02E96CF5EAB66 /* OHHTTPStubsMethodSwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC424A41517A079FD6C62A2192B786 /* OHHTTPStubsMethodSwizzling.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		B86963503EAE455B1C05DE367CCE4369 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 595864DCF91FB5B23690CDE5526EE768 /* OHHTTPStubsResponse+JSON.m */; };
-		C4FCF956556638A71B94917B3504D374 /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A23CFE78569CFE13291871F3073CD0 /* NSURLRequest+HTTPBodyTesting.m */; };
-		E18C47ED96912B3746150408C5CD5251 /* OHHTTPStubs-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 772B84A26C6BEE6165550ADDE9702BC5 /* OHHTTPStubs-dummy.m */; };
+		8D1150CB0D4532B2110AC152BC5A0731 /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B6BD55751F0A3F960620936249383A /* OHHTTPStubsResponse.m */; };
+		C1F7C1AC5A2EE77E45913DC576CE22CE /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B63ACDD2C3F4D6F2197E7496F876D9C /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		C6F0322EC8308090CBF2838746542CE9 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 771DA04BA5EE660FB3B5E23DD9207B47 /* OHHTTPStubs+NSURLSessionConfiguration.m */; };
+		C9F004FC69C92A0E8325EC95107ACBF0 /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9DC5FD7DC544B327C392D5D2F7014C /* OHHTTPStubsResponse+JSON.m */; };
+		CA87656A3DCF6B361AAC868FC9A85EA9 /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = A64048E5C1B709695E8378A4BD04E776 /* NSURLRequest+HTTPBodyTesting.m */; };
+		EB5B58C58B14FAE3581963C50A89C100 /* OHHTTPStubsMethodSwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = D5D7A308E00946869FD41FBE46364A4D /* OHHTTPStubsMethodSwizzling.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EBD4ED99498753BD5D50919CF0E5434F /* OHHTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3379CBDE09EA9EB923CE94BDC30DAD55 /* OHHTTPStubs.m */; };
+		EE3354301B918994445D4A2B601421B9 /* OHHTTPStubs-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C6B95C41B64AD40F910DF2955A9C05 /* OHHTTPStubs-dummy.m */; };
+		F10F7BB0F65C10334416CD25E47C8325 /* OHPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BF0AE4E41DFA169BA6F6E7702AF384D /* OHPathHelpers.h */; settings = {ATTRIBUTES = (Project, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,34 +36,34 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		003F10C90557D53265BE2E365CC9B6D9 /* OHPathHelpers.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpers.m; sourceTree = "<group>"; };
-		00D8C160BEC3269CFDB924AEB5C2BB65 /* Compatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
+		00EF0B55C6C0A1F37D57E9BA7C5855FE /* OHHTTPStubs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OHHTTPStubs.xcconfig; sourceTree = "<group>"; };
+		0AA1D1F88F6299E7E5A1AE00A1BD636C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		17E33041B314FA837A3CAEB9DF3CDE9F /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libOHHTTPStubs.a; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		185D54370E17EC29E0CE658A56F2FA52 /* OHHTTPStubsMethodSwizzling.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubsMethodSwizzling.m; path = Sources/OHHTTPStubsCore/OHHTTPStubsMethodSwizzling.m; sourceTree = "<group>"; };
 		2169D273ACA9F35F68305A705EE988D5 /* Pods-OHHTTPStubsDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OHHTTPStubsDemo-dummy.m"; sourceTree = "<group>"; };
-		36D9085D3AFE3CD82618886359B53FD1 /* OHHTTPStubs.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = OHHTTPStubs.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		41B47DE2B6593844072334D80DFEC982 /* OHHTTPStubs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OHHTTPStubs.xcconfig; sourceTree = "<group>"; };
-		4399445ADD9E5028C6FA1C754E7745D5 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "OHHTTPStubs+NSURLSessionConfiguration.m"; path = "Sources/NSURLSession/OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
-		595864DCF91FB5B23690CDE5526EE768 /* OHHTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "OHHTTPStubsResponse+JSON.m"; path = "Sources/JSON/OHHTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
+		28B6BD55751F0A3F960620936249383A /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubsResponse.m; path = Sources/OHHTTPStubsCore/OHHTTPStubsResponse.m; sourceTree = "<group>"; };
+		3379CBDE09EA9EB923CE94BDC30DAD55 /* OHHTTPStubs.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubs.m; path = Sources/OHHTTPStubsCore/OHHTTPStubs.m; sourceTree = "<group>"; };
+		42FA0EF1B0E02E80A15887FDE55C1DF2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		4B63ACDD2C3F4D6F2197E7496F876D9C /* OHHTTPStubs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
 		5C6E57AA6EE3246CC7A70F569EC42B2C /* libPods-OHHTTPStubsDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-OHHTTPStubsDemo.a"; path = "libPods-OHHTTPStubsDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D9AF8F460FE8535FF82A1D42CD0114C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		6224AF81757ED93EEDDEC4D5AE158324 /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
-		68307439F4495001B9BECC448018BC8C /* OHHTTPStubsMethodSwizzling.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubsMethodSwizzling.m; path = Sources/NSURLSession/OHHTTPStubsMethodSwizzling.m; sourceTree = "<group>"; };
-		772B84A26C6BEE6165550ADDE9702BC5 /* OHHTTPStubs-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs-dummy.m"; sourceTree = "<group>"; };
-		98FC424A41517A079FD6C62A2192B786 /* OHHTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
-		9C0F0646B80512A16A4A072FE2247867 /* OHHTTPStubs.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubs.m; path = Sources/Core/OHHTTPStubs.m; sourceTree = "<group>"; };
+		673FD864C2F4AF02FC49F8BD176D127F /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
+		6EE71AE2792C2BCDEC86831544AF860D /* Compatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
+		771DA04BA5EE660FB3B5E23DD9207B47 /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "OHHTTPStubs+NSURLSessionConfiguration.m"; path = "Sources/OHHTTPStubsCore/OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
+		7B9DC5FD7DC544B327C392D5D2F7014C /* OHHTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "OHHTTPStubsResponse+JSON.m"; path = "Sources/OHHTTPStubsCore/OHHTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
+		8BF0AE4E41DFA169BA6F6E7702AF384D /* OHPathHelpers.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A7A23CFE78569CFE13291871F3073CD0 /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+HTTPBodyTesting.m"; path = "Sources/NSURLSession/NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
+		A64048E5C1B709695E8378A4BD04E776 /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+HTTPBodyTesting.m"; path = "Sources/OHHTTPStubsCore/NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
 		AAAAB884699C361A9CFDB6725B839D6C /* Pods-OHHTTPStubsDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OHHTTPStubsDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		AD936D2A49FC74FE62F4902EF24F3E88 /* Pods-OHHTTPStubsDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OHHTTPStubsDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		BED3B389C513208FB48004F765A53526 /* Pods-OHHTTPStubsDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OHHTTPStubsDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C16912074328ED543EDC2A0E025670BB /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubsResponse.m; path = Sources/Core/OHHTTPStubsResponse.m; sourceTree = "<group>"; };
-		C6293ACC462B1B3842C9A283658CB19F /* OHPathHelpers.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
-		CF166C0761855FE199E2A404E9F36559 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		DE8798F52463A4E45F42F3FF1AA4F195 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
-		EDCDFDA44936F9D4F37E24A04936324B /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
-		F10992BB629916082180523E971E70EB /* OHHTTPStubs-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs-prefix.pch"; sourceTree = "<group>"; };
+		C2A09052012E08FCB65DAEF9EF9334DE /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
+		C5C6B95C41B64AD40F910DF2955A9C05 /* OHHTTPStubs-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs-dummy.m"; sourceTree = "<group>"; };
+		C7881EBE3BB9671A9EEAF7F84105ADF6 /* OHPathHelpers.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHPathHelpers.m; path = Sources/OHHTTPStubsCore/OHPathHelpers.m; sourceTree = "<group>"; };
+		D5D7A308E00946869FD41FBE46364A4D /* OHHTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OHHTTPStubsMethodSwizzling.h; path = Sources/OHHTTPStubsCore/OHHTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
+		E61E9DEDEF057368394B9CB704D5EFFE /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
+		F3CFF2F57EBC43E25F4482E13115E75C /* OHHTTPStubs.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = OHHTTPStubs.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F6905472866F02BC4D2DE8BC0BF53907 /* OHHTTPStubs-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs-prefix.pch"; sourceTree = "<group>"; };
 		FC88D895104CA8ECC7CF0F5669A9A00B /* Pods-OHHTTPStubsDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OHHTTPStubsDemo.release.xcconfig"; sourceTree = "<group>"; };
-		FF07BA3C6AFEA976158141D5E0EF331C /* OHHTTPStubs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,83 +84,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2E01239497BE2D09F94AAA0E5D4ADDA6 /* include */ = {
+		25B5053D276F4EDA78FF81A3883E6032 /* OHPathHelpers */ = {
 			isa = PBXGroup;
 			children = (
-				6224AF81757ED93EEDDEC4D5AE158324 /* NSURLRequest+HTTPBodyTesting.h */,
-				98FC424A41517A079FD6C62A2192B786 /* OHHTTPStubsMethodSwizzling.h */,
+				C7881EBE3BB9671A9EEAF7F84105ADF6 /* OHPathHelpers.m */,
+				E1B2085AEC38EE805302DB924094F67F /* include */,
+			);
+			name = OHPathHelpers;
+			sourceTree = "<group>";
+		};
+		3D6DC0ABC694A9EA0B11E0716833936A /* include */ = {
+			isa = PBXGroup;
+			children = (
+				6EE71AE2792C2BCDEC86831544AF860D /* Compatibility.h */,
+				C2A09052012E08FCB65DAEF9EF9334DE /* NSURLRequest+HTTPBodyTesting.h */,
 			);
 			name = include;
-			path = Sources/NSURLSession/include;
+			path = Sources/OHHTTPStubsCore/include;
 			sourceTree = "<group>";
 		};
-		4E72F446B33DD2EF2086F81B93FD6FBB /* JSON */ = {
+		402DBE1AD06293E7AC53BEA137638C58 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				595864DCF91FB5B23690CDE5526EE768 /* OHHTTPStubsResponse+JSON.m */,
-				AF212A8B59D790783D6449BD89B7D024 /* include */,
-			);
-			name = JSON;
-			sourceTree = "<group>";
-		};
-		62EBA96B0B2D57EFF7645ACDBA7B1B42 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				00D8C160BEC3269CFDB924AEB5C2BB65 /* Compatibility.h */,
-				FF07BA3C6AFEA976158141D5E0EF331C /* OHHTTPStubs.h */,
-				DE8798F52463A4E45F42F3FF1AA4F195 /* OHHTTPStubsResponse.h */,
-			);
-			name = include;
-			path = Sources/Core/include;
-			sourceTree = "<group>";
-		};
-		64396415AE476D26929FAEEAB462629D /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				9C0F0646B80512A16A4A072FE2247867 /* OHHTTPStubs.m */,
-				C16912074328ED543EDC2A0E025670BB /* OHHTTPStubsResponse.m */,
-				62EBA96B0B2D57EFF7645ACDBA7B1B42 /* include */,
+				3379CBDE09EA9EB923CE94BDC30DAD55 /* OHHTTPStubs.m */,
+				28B6BD55751F0A3F960620936249383A /* OHHTTPStubsResponse.m */,
+				AEBF59298A58625D13CF7D10D38913E9 /* include */,
 			);
 			name = Core;
 			sourceTree = "<group>";
 		};
-		6DF6B1CC5686BF71541901E9F786C040 /* OHPathHelpers */ = {
+		46970D24D0331440FE93E26EE443612A /* include */ = {
 			isa = PBXGroup;
 			children = (
-				003F10C90557D53265BE2E365CC9B6D9 /* OHPathHelpers.m */,
-				BAB87AFF81CBFF3D59883F66AE060C53 /* include */,
+				E61E9DEDEF057368394B9CB704D5EFFE /* OHHTTPStubsResponse+JSON.h */,
 			);
-			name = OHPathHelpers;
-			path = Sources/OHPathHelpers;
+			name = include;
+			path = Sources/OHHTTPStubsCore/include;
 			sourceTree = "<group>";
 		};
-		712277BD05302851C04F969674370A65 /* NSURLSession */ = {
+		7D4C225DF5043E5E6E5B17FFE56AEDD6 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				A7A23CFE78569CFE13291871F3073CD0 /* NSURLRequest+HTTPBodyTesting.m */,
-				4399445ADD9E5028C6FA1C754E7745D5 /* OHHTTPStubs+NSURLSessionConfiguration.m */,
-				68307439F4495001B9BECC448018BC8C /* OHHTTPStubsMethodSwizzling.m */,
-				2E01239497BE2D09F94AAA0E5D4ADDA6 /* include */,
-			);
-			name = NSURLSession;
-			sourceTree = "<group>";
-		};
-		7984833295DA6C2CFE4A434569962DD4 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				CF166C0761855FE199E2A404E9F36559 /* LICENSE */,
-				36D9085D3AFE3CD82618886359B53FD1 /* OHHTTPStubs.podspec */,
-				5D9AF8F460FE8535FF82A1D42CD0114C /* README.md */,
+				0AA1D1F88F6299E7E5A1AE00A1BD636C /* LICENSE */,
+				F3CFF2F57EBC43E25F4482E13115E75C /* OHHTTPStubs.podspec */,
+				42FA0EF1B0E02E80A15887FDE55C1DF2 /* README.md */,
 			);
 			name = Pod;
 			sourceTree = "<group>";
 		};
-		8616D6B3BB0A3923EC9CE6DE32F81615 /* Support Files */ = {
+		82644D6A9BCEBFEE0BD227A1C7CE7047 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				41B47DE2B6593844072334D80DFEC982 /* OHHTTPStubs.xcconfig */,
-				772B84A26C6BEE6165550ADDE9702BC5 /* OHHTTPStubs-dummy.m */,
-				F10992BB629916082180523E971E70EB /* OHHTTPStubs-prefix.pch */,
+				00EF0B55C6C0A1F37D57E9BA7C5855FE /* OHHTTPStubs.xcconfig */,
+				C5C6B95C41B64AD40F910DF2955A9C05 /* OHHTTPStubs-dummy.m */,
+				F6905472866F02BC4D2DE8BC0BF53907 /* OHHTTPStubs-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "Examples/ObjC/Pods/Target Support Files/OHHTTPStubs";
@@ -175,30 +152,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A383A02B8CB4BA3E35EFA09B540FAB6F /* OHPathHelpers */ = {
+		AEBF59298A58625D13CF7D10D38913E9 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				6DF6B1CC5686BF71541901E9F786C040 /* OHPathHelpers */,
-			);
-			name = OHPathHelpers;
-			sourceTree = "<group>";
-		};
-		AF212A8B59D790783D6449BD89B7D024 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				EDCDFDA44936F9D4F37E24A04936324B /* OHHTTPStubsResponse+JSON.h */,
+				4B63ACDD2C3F4D6F2197E7496F876D9C /* OHHTTPStubs.h */,
+				673FD864C2F4AF02FC49F8BD176D127F /* OHHTTPStubsResponse.h */,
 			);
 			name = include;
-			path = Sources/JSON/include;
-			sourceTree = "<group>";
-		};
-		BAB87AFF81CBFF3D59883F66AE060C53 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				C6293ACC462B1B3842C9A283658CB19F /* OHPathHelpers.h */,
-			);
-			name = include;
-			path = include;
+			path = Sources/OHHTTPStubsCore/include;
 			sourceTree = "<group>";
 		};
 		BB2E615DD131B88A20456F3D3F9BCD5A /* Pods-OHHTTPStubsDemo */ = {
@@ -214,18 +175,13 @@
 			path = "Target Support Files/Pods-OHHTTPStubsDemo";
 			sourceTree = "<group>";
 		};
-		BC40B2DF775FC0E28350850D0C70132E /* OHHTTPStubs */ = {
+		C6310A0C7CA362FF9C0A932027CDF713 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				64396415AE476D26929FAEEAB462629D /* Core */,
-				4E72F446B33DD2EF2086F81B93FD6FBB /* JSON */,
-				712277BD05302851C04F969674370A65 /* NSURLSession */,
-				A383A02B8CB4BA3E35EFA09B540FAB6F /* OHPathHelpers */,
-				7984833295DA6C2CFE4A434569962DD4 /* Pod */,
-				8616D6B3BB0A3923EC9CE6DE32F81615 /* Support Files */,
+				7B9DC5FD7DC544B327C392D5D2F7014C /* OHHTTPStubsResponse+JSON.m */,
+				46970D24D0331440FE93E26EE443612A /* include */,
 			);
-			name = OHHTTPStubs;
-			path = ../../..;
+			name = JSON;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -239,11 +195,46 @@
 			);
 			sourceTree = "<group>";
 		};
+		D084A78E64DC966EA5F26388CEC83E58 /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				402DBE1AD06293E7AC53BEA137638C58 /* Core */,
+				C6310A0C7CA362FF9C0A932027CDF713 /* JSON */,
+				D69B0C63BC9996D4F782358BE954CC16 /* NSURLSession */,
+				25B5053D276F4EDA78FF81A3883E6032 /* OHPathHelpers */,
+				7D4C225DF5043E5E6E5B17FFE56AEDD6 /* Pod */,
+				82644D6A9BCEBFEE0BD227A1C7CE7047 /* Support Files */,
+			);
+			name = OHHTTPStubs;
+			path = ../../..;
+			sourceTree = "<group>";
+		};
+		D69B0C63BC9996D4F782358BE954CC16 /* NSURLSession */ = {
+			isa = PBXGroup;
+			children = (
+				A64048E5C1B709695E8378A4BD04E776 /* NSURLRequest+HTTPBodyTesting.m */,
+				771DA04BA5EE660FB3B5E23DD9207B47 /* OHHTTPStubs+NSURLSessionConfiguration.m */,
+				D5D7A308E00946869FD41FBE46364A4D /* OHHTTPStubsMethodSwizzling.h */,
+				185D54370E17EC29E0CE658A56F2FA52 /* OHHTTPStubsMethodSwizzling.m */,
+				3D6DC0ABC694A9EA0B11E0716833936A /* include */,
+			);
+			name = NSURLSession;
+			sourceTree = "<group>";
+		};
 		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1B2085AEC38EE805302DB924094F67F /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8BF0AE4E41DFA169BA6F6E7702AF384D /* OHPathHelpers.h */,
+			);
+			name = include;
+			path = Sources/OHHTTPStubsCore/include;
 			sourceTree = "<group>";
 		};
 		F148C1DA9D17D83001CBDD403442F240 /* Targets Support Files */ = {
@@ -257,7 +248,7 @@
 		F345DC827FF7C227A1272505063FBC70 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BC40B2DF775FC0E28350850D0C70132E /* OHHTTPStubs */,
+				D084A78E64DC966EA5F26388CEC83E58 /* OHHTTPStubs */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -265,24 +256,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		1B801CD416F618F643AEDD3852937969 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6883E869EF47F0D532E7AB67B7E5DF53 /* Compatibility.h in Headers */,
-				19BEA380AFCC831E10D29D2B26F9E430 /* NSURLRequest+HTTPBodyTesting.h in Headers */,
-				734B77ACDE3FBB488B7163BA64B69FEA /* OHHTTPStubs.h in Headers */,
-				B34F6506FC217E40A7D02E96CF5EAB66 /* OHHTTPStubsMethodSwizzling.h in Headers */,
-				37DE516D6381C4607E7C85E00959FE9D /* OHHTTPStubsResponse+JSON.h in Headers */,
-				A33F0438840AB10F32D039964D80C523 /* OHHTTPStubsResponse.h in Headers */,
-				882A2D8BBC9350C28C896B5C5C19D22B /* OHPathHelpers.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8D8888AEB3E2ED0D5193812C19F5F414 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF3D9A6D60F36868DCA792E3C331031E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80526BA47D6A8D977C1A72C82C65960E /* Compatibility.h in Headers */,
+				0B571E271D440AB0C4137C789602E24B /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				C1F7C1AC5A2EE77E45913DC576CE22CE /* OHHTTPStubs.h in Headers */,
+				EB5B58C58B14FAE3581963C50A89C100 /* OHHTTPStubsMethodSwizzling.h in Headers */,
+				015ABC521039DCA22A890DB2995E3829 /* OHHTTPStubsResponse+JSON.h in Headers */,
+				69685E320E601A16F58E27426D2E8B52 /* OHHTTPStubsResponse.h in Headers */,
+				F10F7BB0F65C10334416CD25E47C8325 /* OHPathHelpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,8 +284,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BBBE26D72775B28517E34991E51FABC8 /* Build configuration list for PBXNativeTarget "OHHTTPStubs" */;
 			buildPhases = (
-				1B801CD416F618F643AEDD3852937969 /* Headers */,
-				8220BCDDA79601A88941E574F33C7BD0 /* Sources */,
+				EF3D9A6D60F36868DCA792E3C331031E /* Headers */,
+				1FAC355D45C77BAE1513F5818DB1CBA5 /* Sources */,
 				68A287CF1529D3AF8B895CE99D3E0067 /* Frameworks */,
 			);
 			buildRules = (
@@ -352,18 +343,18 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8220BCDDA79601A88941E574F33C7BD0 /* Sources */ = {
+		1FAC355D45C77BAE1513F5818DB1CBA5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4FCF956556638A71B94917B3504D374 /* NSURLRequest+HTTPBodyTesting.m in Sources */,
-				3C786CB6A0AC68A2014FBEE4F7385692 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
-				E18C47ED96912B3746150408C5CD5251 /* OHHTTPStubs-dummy.m in Sources */,
-				33B17F37F3507258DC9FCCE7C32F6D8B /* OHHTTPStubs.m in Sources */,
-				07AB683325D5EF0AF2B667796E2C2E75 /* OHHTTPStubsMethodSwizzling.m in Sources */,
-				B86963503EAE455B1C05DE367CCE4369 /* OHHTTPStubsResponse+JSON.m in Sources */,
-				312B02F6ADE2AAECE2BD61EBE1D34217 /* OHHTTPStubsResponse.m in Sources */,
-				67B33491AB1E7AE438EC6FE5E7599E64 /* OHPathHelpers.m in Sources */,
+				CA87656A3DCF6B361AAC868FC9A85EA9 /* NSURLRequest+HTTPBodyTesting.m in Sources */,
+				C6F0322EC8308090CBF2838746542CE9 /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
+				EE3354301B918994445D4A2B601421B9 /* OHHTTPStubs-dummy.m in Sources */,
+				EBD4ED99498753BD5D50919CF0E5434F /* OHHTTPStubs.m in Sources */,
+				3C809DE1061D4C3809EDE689C417AB0B /* OHHTTPStubsMethodSwizzling.m in Sources */,
+				C9F004FC69C92A0E8325EC95107ACBF0 /* OHHTTPStubsResponse+JSON.m in Sources */,
+				8D1150CB0D4532B2110AC152BC5A0731 /* OHHTTPStubsResponse.m in Sources */,
+				6EF62610B3C6FCEE91E3B1C8F1AF085B /* OHPathHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,7 +401,7 @@
 		};
 		2C73D066DC949AE3B240550A2A017D3A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41B47DE2B6593844072334D80DFEC982 /* OHHTTPStubs.xcconfig */;
+			baseConfigurationReference = 00EF0B55C6C0A1F37D57E9BA7C5855FE /* OHHTTPStubs.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -433,7 +424,7 @@
 		};
 		2D0737B9FC1D1C9D28EC730859055CBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41B47DE2B6593844072334D80DFEC982 /* OHHTTPStubs.xcconfig */;
+			baseConfigurationReference = 00EF0B55C6C0A1F37D57E9BA7C5855FE /* OHHTTPStubs.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
