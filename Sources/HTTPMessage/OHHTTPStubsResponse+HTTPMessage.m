@@ -22,7 +22,7 @@
  *
  ***********************************************************************************/
 
-#if __has_include(<CFNetwork/CFNetwork.h>)
+#if __has_include(<CFNetwork/CFNetwork.h>) || SWIFT_PACKAGE
 #import <CFNetwork/CFNetwork.h>
 
 #import "OHHTTPStubsResponse+HTTPMessage.h"
