@@ -9,7 +9,6 @@ let package = Package(
             targets: [
                 "Core",
                 "NSURLSession",
-                "JSON",
                 "OHPathHelpers"
             ]
         ),
@@ -24,13 +23,6 @@ let package = Package(
             targets: [
                 "Core",
                 "NSURLSession"
-            ]
-        ),
-        .library(
-            name: "OHHTTPStubsJSON",
-            targets: [
-                "Core",
-                "JSON"
             ]
         ),
         .library(
@@ -51,7 +43,6 @@ let package = Package(
             targets: [
                 "Core",
                 "NSURLSession",
-                "JSON",
                 "OHPathHelpers",
                 "OHHTTPStubsSwift"
             ]
@@ -71,13 +62,7 @@ let package = Package(
             dependencies: ["Core"]),
         .testTarget(
             name: "NSURLSessionTests",
-            dependencies: ["NSURLSession", "JSON"]),
-        .target(
-            name: "JSON",
-            dependencies: ["Core"]),
-        .testTarget(
-            name: "JSONTests",
-            dependencies: ["JSON"]),
+            dependencies: ["NSURLSession"]),
         .target(
             name: "HTTPMessage",
             dependencies: ["Core"]),
@@ -89,15 +74,10 @@ let package = Package(
             dependencies: ["OHPathHelpers"]),
         .target(
             name: "OHHTTPStubsSwift",
-            dependencies: ["Core", "NSURLSession", "JSON", "OHPathHelpers"]),
+            dependencies: ["Core", "NSURLSession", "OHPathHelpers"]),
         .testTarget(
             name: "OHHTTPStubsSwiftTests",
             dependencies: ["OHHTTPStubsSwift", "Core"]
         )
     ]
 )
-
-
-
-
-
