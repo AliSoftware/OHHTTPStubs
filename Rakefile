@@ -19,7 +19,7 @@ task :tvos, [:scheme, :tvos_version, :action, :additional_args] do |_,args|
 end
 
 desc 'Test Using Swift Package Manager'
-task :spm_test, [:additional_args] do |_,args|
+task :spm_test do
   sh 'swift test -Xcc -DOHHTTPSTUBS_SKIP_REDIRECT_TESTS'
 end
 
@@ -35,19 +35,31 @@ task :build_example_apps do
   build_project("Examples/SwiftPackageManager")
 end
 
+desc 'Build Carthage Frameworks'
+task :build_carthage_frameworks, [:platform] do |_,args|
+  puts "Args were: #{args}"
+  carthage_build(args.platform)
+end
+
 # Updates Local Pods, Then Builds
 def build_pod_example(dir)
   sh "pod install --project-directory=#{dir}"
   build_workspace(dir)
 end
 
-# Builds The Example Project
+# Builds The Example Workspace
 def build_workspace(dir)
   sh "xcodebuild -workspace #{dir}/OHHTTPStubsDemo.xcworkspace -scheme OHHTTPStubsDemo build CODE_SIGNING_ALLOWED=NO"
 end
 
+# Builds the Example Project
 def build_project(dir)
   sh "xcodebuild -project #{dir}/OHHTTPStubsDemo.xcodeproj -scheme OHHTTPStubsDemo build CODE_SIGNING_ALLOWED=NO"
+end
+
+# Builds platform using Carthage
+def carthage_build(platform)
+  sh "carthage build --platform #{platform} --no-skip-current"
 end
 
 desc 'Run all travis env tasks locally'

@@ -17,6 +17,12 @@ matrix:
       env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1 SWIFT_VERSION=4.0]"
     - osx_image: xcode9.1
       env: RAKETASK="tvos[tvOS Framework,latest,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1 SWIFT_VERSION=4.0]"
+    - osx_image: xcode9.1
+      env: RAKETASK="build_carthage_frameworks[iOS]"
+    - osx_image: xcode9.1
+      env: RAKETASK="build_carthage_frameworks[tvOS]"
+    - osx_image: xcode9.1
+      env: RAKETASK="build_carthage_frameworks[MacOS]"
     - osx_image: xcode10.1
       env: RAKETASK="ios[iOS StaticLib,iPhone 7,latest,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1 SWIFT_VERSION=4.2]"
     - osx_image: xcode10.1
@@ -27,6 +33,12 @@ matrix:
       env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1 SWIFT_VERSION=4.2]"
     - osx_image: xcode10.1
       env: RAKETASK="spm_test"
+    - osx_image: xcode10.1
+      env: RAKETASK="build_carthage_frameworks[iOS]"
+    - osx_image: xcode10.1
+      env: RAKETASK="build_carthage_frameworks[tvOS]"
+    - osx_image: xcode10.1
+      env: RAKETASK="build_carthage_frameworks[MacOS]"
     - osx_image: xcode10.2
       env: RAKETASK="ios[iOS StaticLib,iPhone 7,latest,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1]"
     - osx_image: xcode10.2
@@ -37,6 +49,12 @@ matrix:
       env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1]"
     - osx_image: xcode10.2
       env: RAKETASK="spm_test"
+    - osx_image: xcode10.2
+      env: RAKETASK="build_carthage_frameworks[iOS]"
+    - osx_image: xcode10.2
+      env: RAKETASK="build_carthage_frameworks[tvOS]"
+    - osx_image: xcode10.2
+      env: RAKETASK="build_carthage_frameworks[MacOS]"
     - osx_image: xcode11
       env: RAKETASK="ios[iOS StaticLib,iPhone 8,latest,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1]"
     - osx_image: xcode11
@@ -47,6 +65,12 @@ matrix:
       env: RAKETASK="osx[Mac Framework,x86_64,build-for-testing test-without-building,OHHTTPSTUBS_SKIP_TIMING_TESTS=1 OHHTTPSTUBS_SKIP_REDIRECT_TESTS=1]"
     - osx_image: xcode11
       env: RAKETASK="spm_test"
+    - osx_image: xcode11
+      env: RAKETASK="build_carthage_frameworks[iOS]"
+    - osx_image: xcode11
+      env: RAKETASK="build_carthage_frameworks[tvOS]"
+    - osx_image: xcode11
+      env: RAKETASK="build_carthage_frameworks[MacOS]"
     - osx_image: xcode11
       env: RAKETASK="build_example_apps"
 
