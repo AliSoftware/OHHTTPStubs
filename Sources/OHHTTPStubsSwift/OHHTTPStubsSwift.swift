@@ -31,7 +31,7 @@ import OHHTTPStubsCore
 
 #if !swift(>=3.0)
   extension OHHTTPStubs {
-    private class func stubRequests(passingTest passingTest: OHHTTPStubsTestBlock, withStubResponse: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+    private class func stubRequests(passingTest: OHHTTPStubsTestBlock, withStubResponse: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
       return stubRequestsPassingTest(passingTest, withStubResponse: withStubResponse)
     }
   }
