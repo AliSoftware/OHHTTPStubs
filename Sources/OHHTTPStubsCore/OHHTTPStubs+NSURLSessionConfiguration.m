@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
-#import "OHHTTPStubs.h"
+#import "OHHTTPStubsBase.h"
 #import "OHHTTPStubsMethodSwizzling.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,14 +44,14 @@ static SessionConfigConstructor orig_ephemeralSessionConfiguration;
 static NSURLSessionConfiguration* OHHTTPStubs_defaultSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_defaultSessionConfiguration(self,_cmd); // call original method
-    [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    [OHHTTPStubsBase setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 
 static NSURLSessionConfiguration* OHHTTPStubs_ephemeralSessionConfiguration(id self, SEL _cmd)
 {
     NSURLSessionConfiguration* config = orig_ephemeralSessionConfiguration(self,_cmd); // call original method
-    [OHHTTPStubs setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
+    [OHHTTPStubsBase setEnabled:YES forSessionConfiguration:config]; //OHHTTPStubsAddProtocolClassToNSURLSessionConfiguration(config);
     return config;
 }
 

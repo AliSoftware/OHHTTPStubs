@@ -25,7 +25,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#import "OHHTTPStubs.h"
+#import "OHHTTPStubsBase.h"
 #import "Compatibility.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, OHHTTPStubsMocktailError) {
 
 extern NSString* const MocktailErrorDomain;
 
-@interface OHHTTPStubs (Mocktail)
+@interface OHHTTPStubsBase (Mocktail)
 
 /**
  * Add a stub given a file in the format of Mocktail as defined at https://github.com/square/objc-mocktail.

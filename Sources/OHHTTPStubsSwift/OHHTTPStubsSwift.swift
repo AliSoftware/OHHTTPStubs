@@ -103,7 +103,7 @@ import OHHTTPStubsCore
 #if swift(>=3.0)
   @discardableResult
   public func stub(condition: @escaping OHHTTPStubsTestBlock, response: @escaping OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
-    return OHHTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
+    return OHHTTPStubsBase.stubRequests(passingTest: condition, withStubResponse: response)
   }
 #else
   public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {

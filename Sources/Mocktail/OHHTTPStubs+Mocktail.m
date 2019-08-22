@@ -29,7 +29,7 @@
 
 NSString* const MocktailErrorDomain = @"Mocktail";
 
-@implementation OHHTTPStubs (Mocktail)
+@implementation OHHTTPStubsBase (Mocktail)
 
 
 +(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
@@ -220,7 +220,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     // Handle binary which is base64 encoded
     NSUInteger bodyOffset = [headerMatter dataUsingEncoding:NSUTF8StringEncoding].length + 2;
 
-    return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSString *absoluteURL = (request.URL).absoluteString;
         NSString *method = request.HTTPMethod;
 
