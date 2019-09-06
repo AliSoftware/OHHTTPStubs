@@ -32,6 +32,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.9'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
+  s.swift_versions = ['3.0', '3.1', '3.2', '4.0', '4.1', '4.2', '5.0', '5.1']
 
   s.default_subspec = 'Default'
   # Default subspec that includes the most commonly-used components
@@ -44,13 +45,14 @@ Pod::Spec.new do |s|
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "Sources/OHHTTPStubsCore/**/OHHTTPStubs.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse.{h,m}"
+    core.source_files = "Sources/OHHTTPStubsCore/**/OHHTTPStubsBase.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse.{h,m}",
+        "Sources/OHHTTPStubsCore/include/Compatibility.h"
   end
 
   # Optional subspecs
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
-    urlsession.source_files = "Sources/OHHTTPStubsCore/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.{h,m}", "Sources/OHHTTPStubsCore/include/Compatibility.h"
+    urlsession.source_files = "Sources/OHHTTPStubsCore/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.{h,m}"
     urlsession.private_header_files = "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.h"
   end
 
