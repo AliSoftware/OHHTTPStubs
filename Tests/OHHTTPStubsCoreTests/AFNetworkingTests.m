@@ -47,7 +47,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 -(void)setUp
 {
     [super setUp];
-    [OHHTTPStubs removeAllStubs];
+    [OHHTTPStubsBase removeAllStubs];
 }
 
 -(void)test_AFHTTPRequestOperation_success
@@ -55,7 +55,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kRequestTime = 0.05;
     static const NSTimeInterval kResponseTime = 0.1;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
@@ -87,7 +87,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kRequestTime = 0.05;
     static const NSTimeInterval kResponseTime = 0.1;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:300 headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
@@ -130,7 +130,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kResponseTime = 0.1;
 
     NSURL* redirectURL = [NSURL URLWithString:@"https://httpbin.org/get"];
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:302 headers:@{@"Location":redirectURL.absoluteString}]
@@ -241,7 +241,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         static const NSTimeInterval kResponseTime = 0.2;
         NSDictionary *expectedResponseDict = @{@"Success" : @"Yes"};
 
-        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [request.URL.scheme isEqualToString:@"stubs"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]

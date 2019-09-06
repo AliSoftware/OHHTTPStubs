@@ -44,7 +44,7 @@
 - (void)setUp
 {
     [super setUp];
-    [OHHTTPStubs removeAllStubs];
+    [OHHTTPStubsBase removeAllStubs];
 
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     self.session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
@@ -61,7 +61,7 @@
 {
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login" inBundle:bundle error: &error];
+    [OHHTTPStubsBase stubRequestsUsingMocktailNamed:@"login" inBundle:bundle error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login.tail':%@", [error localizedDescription]);
     [self runLogin];
 }
@@ -70,7 +70,7 @@
 {
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"MocktailFolder" inBundle:bundle error:&error];
+    [OHHTTPStubsBase stubRequestsUsingMocktailsAtPath:@"MocktailFolder" inBundle:bundle error:&error];
     XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
     [self runLogin];
     [self runGetCards];
@@ -80,7 +80,7 @@
 {
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login_headers" inBundle:bundle error: &error];
+    [OHHTTPStubsBase stubRequestsUsingMocktailNamed:@"login_headers" inBundle:bundle error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login_headers.tail':%@", [error localizedDescription]);
     NSHTTPURLResponse *response = [self runLogin];
     XCTAssertEqualObjects(response.allHeaderFields[@"Connection"], @"Close");
@@ -90,7 +90,7 @@
 {
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login_content_type" inBundle:bundle error: &error];
+    [OHHTTPStubsBase stubRequestsUsingMocktailNamed:@"login_content_type" inBundle:bundle error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login_content_type.tail':%@", [error localizedDescription]);
     [self runLogin];
 }
@@ -99,7 +99,7 @@
 {
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
-    [OHHTTPStubs stubRequestsUsingMocktailNamed:@"login_content_type_and_headers" inBundle:bundle error: &error];
+    [OHHTTPStubsBase stubRequestsUsingMocktailNamed:@"login_content_type_and_headers" inBundle:bundle error: &error];
     XCTAssertNil(error, @"Error while stubbing 'login_content_type_and_headers.tail':%@", [error localizedDescription]);
     NSHTTPURLResponse *response = [self runLogin];
     XCTAssertEqualObjects(response.allHeaderFields[@"Connection"], @"Close");

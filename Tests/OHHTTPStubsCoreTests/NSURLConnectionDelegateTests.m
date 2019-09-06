@@ -57,7 +57,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [super setUp];
     _data = [[NSMutableData alloc] init];
-    [OHHTTPStubs removeAllStubs];
+    [OHHTTPStubsBase removeAllStubs];
 }
 
 -(void)tearDown
@@ -125,7 +125,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kResponseTime = 0.5;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:testData
@@ -157,7 +157,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kResponseTime = 0.5;
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:testData
@@ -188,7 +188,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     static const NSTimeInterval kResponseTime = 0.5;
     NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         OHHTTPStubsResponse* resp = [OHHTTPStubsResponse responseWithError:expectedError];
@@ -221,7 +221,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 -(void)test_NSURLConnection_cancel
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
@@ -260,7 +260,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     NSString* const cookieName = @"SESSIONID";
     NSString* const cookieValue = [NSProcessInfo.processInfo globallyUniqueString];
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* cookie = [NSString stringWithFormat:@"%@=%@;", cookieName, cookieValue];
@@ -330,7 +330,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     NSString* endCookieValue = [NSProcessInfo.processInfo globallyUniqueString];
     NSURL *endURL = [NSURL URLWithString:@"http://www.google.com/"];
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         if ([request.URL isEqual:redirectURL]) {

@@ -44,12 +44,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 -(void)setUp
 {
     [super setUp];
-    [OHHTTPStubs removeAllStubs];
+    [OHHTTPStubsBase removeAllStubs];
 }
 
 - (void)test_NilData
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
@@ -76,7 +76,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 - (void)test_EmptyData
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:400 headers:nil]
@@ -101,7 +101,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 - (void)test_NilPath
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
@@ -129,7 +129,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 - (void)test_NilPathWithURL
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
@@ -180,7 +180,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 - (void)test_EmptyFile
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSString* emptyFile = OHPathForFile(@"emptyfile.json", self.class);
@@ -206,7 +206,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 - (void)test_EmptyFileWithURL
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSURL *fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"emptyfile" withExtension:@"json"];
@@ -234,7 +234,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:expectedResponse

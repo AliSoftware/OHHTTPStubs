@@ -247,7 +247,6 @@
 		1FCC5CCF22FD95CC00472F5B /* OHHTTPStubs Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OHHTTPStubs Mac-Info.plist"; sourceTree = "<group>"; };
 		1FCC5CD022FD95CC00472F5B /* OHHTTPStubs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
 		1FCC5CD122FD95CC00472F5B /* OHHTTPStubs iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OHHTTPStubs iOS-Info.plist"; sourceTree = "<group>"; };
-		1FCC5CD222FD95CC00472F5B /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		1FCC5CD422FD95D700472F5B /* UnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		1FCC5CDC22FD95D700472F5B /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		1FCC5CE722FD95D700472F5B /* emptyfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyfile.json; sourceTree = "<group>"; };
@@ -527,7 +526,6 @@
 				1FCC5CCF22FD95CC00472F5B /* OHHTTPStubs Mac-Info.plist */,
 				1FCC5CD022FD95CC00472F5B /* OHHTTPStubs.h */,
 				1FCC5CD122FD95CC00472F5B /* OHHTTPStubs iOS-Info.plist */,
-				1FCC5CD222FD95CC00472F5B /* module.modulemap */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1210,7 +1208,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "$(SRCROOT)/Sources/Supporting Files/module.modulemap";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1265,7 +1262,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "$(SRCROOT)/Sources/Supporting Files/module.modulemap";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

@@ -40,7 +40,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 -(void)setUp
 {
     [super setUp];
-    [OHHTTPStubs removeAllStubs];
+    [OHHTTPStubsBase removeAllStubs];
 }
 
 static const NSTimeInterval kRequestTime = 0.1;
@@ -54,7 +54,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 {
     NSString* testString = NSStringFromSelector(_cmd);
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
@@ -91,7 +91,7 @@ static const NSTimeInterval kResponseTime = 0.5;
 {
     NSData* testData = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:testData

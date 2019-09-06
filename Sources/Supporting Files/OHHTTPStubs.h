@@ -26,7 +26,6 @@
 #import "NSURLRequest+HTTPBodyTesting.h"
 #import "OHHTTPStubsBase.h"
 #import "OHHTTPStubsResponse.h"
-
 #import "OHHTTPStubsResponse+JSON.h"
 #import "OHHTTPStubsResponse+HTTPMessage.h"
 #import "OHHTTPStubs+Mocktail.h"

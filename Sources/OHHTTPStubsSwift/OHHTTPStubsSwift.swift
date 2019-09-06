@@ -25,6 +25,7 @@
 /**
  * Swift Helpers
  */
+import Foundation
 #if SWIFT_PACKAGE
 import OHHTTPStubsCore
 #endif
