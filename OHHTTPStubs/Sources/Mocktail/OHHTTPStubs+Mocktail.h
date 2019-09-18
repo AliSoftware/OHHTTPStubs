@@ -93,7 +93,7 @@ extern NSString* const MocktailErrorDomain;
  * @return an array of stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
  */
-+(nullable NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error;
++(nullable NSArray<id<OHHTTPStubsDescriptor>> *)stubRequestsUsingMocktailsAtPath:(NSString *)path inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error;
 
 @end
 
