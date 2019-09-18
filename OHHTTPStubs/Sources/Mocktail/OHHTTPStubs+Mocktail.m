@@ -32,7 +32,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
 @implementation OHHTTPStubs (Mocktail)
 
 
-+(NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
++(nullable NSArray *)stubRequestsUsingMocktailsAtPath:(NSString *)path inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
 {
     NSURL *dirURL = [bundleOrNil?:[NSBundle bundleForClass:self.class] URLForResource:path withExtension:nil];
     if (!dirURL)
@@ -90,7 +90,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     return descriptorArray;
 }
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
++(nullable id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
 {
     NSURL *responseURL = [bundleOrNil?:[NSBundle bundleForClass:self.class] URLForResource:fileName withExtension:@"tail"];
 

@@ -66,6 +66,17 @@
     [self runLogin];
 }
 
+- (void)testMocktailFailsWithInvalidInputFile
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    id<OHHTTPStubsDescriptor> descriptor = [OHHTTPStubs stubRequestsUsingMocktailNamed:@"invalid file name" inBundle:bundle error:&error];
+    XCTAssertNil(descriptor, @"Invalid input failed to produce nil result");
+    XCTAssertEqualObjects(error.domain, MocktailErrorDomain);
+    XCTAssertEqual(error.code, OHHTTPStubsMocktailErrorPathDoesNotExist);
+    XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"File 'invalid file name' does not exist.");
+}
+
 - (void)testMocktailsAtFolder
 {
     NSError *error = nil;
@@ -74,6 +85,28 @@
     XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
     [self runLogin];
     [self runGetCards];
+}
+
+- (void)testMocktailsFailWithNonexistentFolder
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    NSArray *descriptors = [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"invalid folder name" inBundle:bundle error:&error];
+    XCTAssertNil(descriptors, @"Invalid input failed to produce nil result");
+    XCTAssertEqualObjects(error.domain, MocktailErrorDomain);
+    XCTAssertEqual(error.code, OHHTTPStubsMocktailErrorPathDoesNotExist);
+    XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"Path 'invalid folder name' does not exist.");
+}
+
+- (void)testMocktailsFailWithNonFolderFile
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    NSArray *descriptors = [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"login.tail" inBundle:bundle error:&error];
+    XCTAssertNil(descriptors, @"Invalid input failed to produce nil result");
+    XCTAssertEqualObjects(error.domain, MocktailErrorDomain);
+    XCTAssertEqual(error.code, OHHTTPStubsMocktailErrorPathIsNotFolder);
+    XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"Path 'login.tail' is not a folder.");
 }
 
 - (void)testMocktailHeaders
