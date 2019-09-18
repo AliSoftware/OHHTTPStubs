@@ -6,7 +6,7 @@
 [@croig](https://github.com/CRoig)
 
 >Notes:
-> * No code changes were required (except from a little missing comma which caused a compilation error). Only xcshemes and xcodeproj were changed.
+> * No code changes were required (except from a little missing comma which caused a compilation error). Only xcschemes and xcodeproj were changed.
 
 ## [7.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
 
