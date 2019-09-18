@@ -200,12 +200,13 @@
         XCTAssertNil(error, @"Error while getting cards.");
 
         NSArray *json = nil;
-        if(!error && [@"application/json" isEqual:response.MIMEType])
+        NSError *jsonError = nil;
+        if([@"application/json" isEqualToString:response.MIMEType])
         {
-            json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
         }
 
-        XCTAssertNotNil(json, @"The response is not a json object");
+        XCTAssertNotNil(json, @"The response is not a json object: %@", jsonError);
         XCTAssertEqual(json.count, 2, @"The response does not contain 2 cards");
         XCTAssertEqualObjects([json firstObject][@"amount"], @"$25.28", @"The first card amount does not match");
 

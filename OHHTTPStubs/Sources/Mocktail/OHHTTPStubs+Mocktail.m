@@ -59,11 +59,10 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     }
 
     // Read the content of the directory
-    NSError *bError = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *fileURLs = [fileManager contentsOfDirectoryAtURL:dirURL includingPropertiesForKeys:nil options:0 error:&bError];
+    NSArray *fileURLs = [fileManager contentsOfDirectoryAtURL:dirURL includingPropertiesForKeys:nil options:0 error:nil];
 
-    if (bError)
+    if (!fileURLs)
     {
         if (error)
         {
@@ -80,8 +79,8 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         {
             continue;
         }
-        id<OHHTTPStubsDescriptor> descriptor = [[self class] stubRequestsUsingMocktail:fileURL error: &bError];
-        if (descriptor && !bError)
+        id<OHHTTPStubsDescriptor> descriptor = [[self class] stubRequestsUsingMocktail:fileURL error: nil];
+        if (descriptor)
         {
             [descriptorArray addObject:descriptor];
         }
@@ -114,7 +113,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     NSStringEncoding originalEncoding;
     NSString *contentsOfFile = [NSString stringWithContentsOfURL:fileURL usedEncoding:&originalEncoding error:&bError];
 
-    if (!contentsOfFile || bError)
+    if (!contentsOfFile)
     {
         if (error)
         {
@@ -138,9 +137,9 @@ NSString* const MocktailErrorDomain = @"Mocktail";
 
     /* Handle Mocktail format, adapted from Mocktail implementation
        For more details on the file format, check out: https://github.com/square/objc-Mocktail */
-    NSRegularExpression *methodRegex = [NSRegularExpression regularExpressionWithPattern:lines[0] options:NSRegularExpressionCaseInsensitive error:&bError];
+    NSRegularExpression *methodRegex = [NSRegularExpression regularExpressionWithPattern:lines[0] options:NSRegularExpressionCaseInsensitive error:nil];
 
-    if (bError)
+    if (!methodRegex)
     {
         if (error)
         {
@@ -149,9 +148,9 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         return nil;
     }
 
-    NSRegularExpression *absoluteURLRegex = [NSRegularExpression regularExpressionWithPattern:lines[1] options:NSRegularExpressionCaseInsensitive error:&bError];
+    NSRegularExpression *absoluteURLRegex = [NSRegularExpression regularExpressionWithPattern:lines[1] options:NSRegularExpressionCaseInsensitive error:nil];
 
-    if (bError)
+    if (!absoluteURLRegex)
     {
         if (error)
         {
@@ -165,8 +164,8 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     NSMutableDictionary *headers = @{@"Content-Type":lines[3]}.mutableCopy;
 
     // From line 4 to '\n\n', expect HTTP response headers.
-    NSRegularExpression *headerPattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\s+(.*)" options:0 error:&bError];
-    if (bError)
+    NSRegularExpression *headerPattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\s+(.*)" options:0 error:nil];
+    if (!headerPattern)
     {
         if (error)
         {
@@ -177,8 +176,8 @@ NSString* const MocktailErrorDomain = @"Mocktail";
 
 
     // Allow bare Content-Type header on line 4 before named HTTP response headers
-    NSRegularExpression *bareContentTypePattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+)+$" options:0 error:&bError];
-    if (bError)
+    NSRegularExpression *bareContentTypePattern = [NSRegularExpression regularExpressionWithPattern:@"^([^:]+)+$" options:0 error:nil];
+    if (!bareContentTypePattern)
     {
         if (error)
         {

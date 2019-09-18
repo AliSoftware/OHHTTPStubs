@@ -89,7 +89,7 @@
             {
                 NSError *jsonError = nil;
                 NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                XCTAssertNil(jsonError, @"Unexpected error deserializing JSON response");
+                XCTAssertNotNil(jsonObject, @"Unexpected error deserializing JSON response: %@", jsonError);
                 dataResponse = jsonObject;
             }
             [expectation fulfill];
