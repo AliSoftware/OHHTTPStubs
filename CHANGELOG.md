@@ -1,5 +1,7 @@
 # OHHTTPStubs — CHANGELOG
 
+<!-- Add new release notes above the latest release. The new version number will get added last before the new release. -->
+
 ## [8.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/8.0.0)
 
 * Update default Swift Version to 5.0
