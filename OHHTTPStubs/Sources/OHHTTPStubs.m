@@ -43,7 +43,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 @interface OHHTTPStubs()
 + (instancetype)sharedInstance;
-@property(atomic, copy) NSMutableArray* stubDescriptors;
+@property(atomic, readonly) NSMutableArray* stubDescriptors;
 @property(atomic, assign) BOOL enabledState;
 @property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
 @property(atomic, copy, nullable) void (^onStubRedirectBlock)(NSURLRequest*, NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);

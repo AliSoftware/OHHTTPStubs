@@ -66,6 +66,17 @@
     [self runLogin];
 }
 
+- (void)testMocktailFailsWithInvalidInputFile
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    id<OHHTTPStubsDescriptor> descriptor = [OHHTTPStubs stubRequestsUsingMocktailNamed:@"invalid file name" inBundle:bundle error:&error];
+    XCTAssertNil(descriptor, @"Invalid input failed to produce nil result");
+    XCTAssertEqualObjects(error.domain, MocktailErrorDomain);
+    XCTAssertEqual(error.code, OHHTTPStubsMocktailErrorPathDoesNotExist);
+    XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"File 'invalid file name' does not exist.");
+}
+
 - (void)testMocktailsAtFolder
 {
     NSError *error = nil;
@@ -74,6 +85,28 @@
     XCTAssertNil(error, @"Error while stubbing Mocktails at folder 'MocktailFolder': %@", [error localizedDescription]);
     [self runLogin];
     [self runGetCards];
+}
+
+- (void)testMocktailsFailWithNonexistentFolder
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    NSArray *descriptors = [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"invalid folder name" inBundle:bundle error:&error];
+    XCTAssertNil(descriptors, @"Invalid input failed to produce nil result");
+    XCTAssertEqualObjects(error.domain, MocktailErrorDomain);
+    XCTAssertEqual(error.code, OHHTTPStubsMocktailErrorPathDoesNotExist);
+    XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"Path 'invalid folder name' does not exist.");
+}
+
+- (void)testMocktailsFailWithNonFolderFile
+{
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass:self.class];
+    NSArray *descriptors = [OHHTTPStubs stubRequestsUsingMocktailsAtPath:@"login.tail" inBundle:bundle error:&error];
+    XCTAssertNil(descriptors, @"Invalid input failed to produce nil result");
+    XCTAssertEqualObjects(error.domain, MocktailErrorDomain);
+    XCTAssertEqual(error.code, OHHTTPStubsMocktailErrorPathIsNotFolder);
+    XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"Path 'login.tail' is not a folder.");
 }
 
 - (void)testMocktailHeaders
@@ -167,12 +200,13 @@
         XCTAssertNil(error, @"Error while getting cards.");
 
         NSArray *json = nil;
-        if(!error && [@"application/json" isEqual:response.MIMEType])
+        NSError *jsonError = nil;
+        if([@"application/json" isEqualToString:response.MIMEType])
         {
-            json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
         }
 
-        XCTAssertNotNil(json, @"The response is not a json object");
+        XCTAssertNotNil(json, @"The response is not a json object: %@", jsonError);
         XCTAssertEqual(json.count, 2, @"The response does not contain 2 cards");
         XCTAssertEqualObjects([json firstObject][@"amount"], @"$25.28", @"The first card amount does not match");
 
