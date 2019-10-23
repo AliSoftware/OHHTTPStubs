@@ -1,1 +1,1 @@
-../../../../../../Sources/OHHTTPStubsCore/include/NSURLRequest+HTTPBodyTesting.h
+../../../../../../Sources/OHHTTPStubs/include/NSURLRequest+HTTPBodyTesting.h

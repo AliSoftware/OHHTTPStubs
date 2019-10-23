@@ -1,1 +1,1 @@
-../../../../../../Sources/OHHTTPStubsCore/include/OHHTTPStubsResponse+JSON.h
+../../../../../../Sources/OHHTTPStubs/include/OHHTTPStubsResponse+JSON.h

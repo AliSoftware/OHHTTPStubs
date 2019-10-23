@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/HTTPStubs.h>
 #import <OHHTTPStubs/OHPathHelpers.h>
 
 
@@ -31,7 +31,7 @@
     
     [self installTextStub:self.installTextStubSwitch];
     [self installImageStub:self.installImageStubSwitch];
-    [OHHTTPStubs onStubActivation:^(NSURLRequest * _Nonnull request, id<OHHTTPStubsDescriptor>  _Nonnull stub, OHHTTPStubsResponse * _Nonnull responseStub) {
+    [HTTPStubs onStubActivation:^(NSURLRequest * _Nonnull request, id<OHHTTPStubsDescriptor>  _Nonnull stub, OHHTTPStubsResponse * _Nonnull responseStub) {
         NSLog(@"[OHHTTPStubs] Request to %@ has been stubbed with %@", request.URL, stub.name);
     }];
 }
@@ -49,12 +49,12 @@
 
 - (IBAction)toggleStubs:(UISwitch *)sender
 {
-    [OHHTTPStubs setEnabled:sender.on];
+    [HTTPStubs setEnabled:sender.on];
     self.delaySwitch.enabled = sender.on;
     self.installTextStubSwitch.enabled = sender.on;
     self.installImageStubSwitch.enabled = sender.on;
     
-    NSLog(@"Installed (%@) stubs: %@", (sender.on?@"and enabled":@"but disabled"), OHHTTPStubs.allStubs);
+    NSLog(@"Installed (%@) stubs: %@", (sender.on?@"and enabled":@"but disabled"), HTTPStubs.allStubs);
 }
 
 
@@ -92,7 +92,7 @@
     if (sender.on)
     {
         // Install
-        textStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        textStub = [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             // This stub will only configure stub requests for "*.txt" files
             return [request.URL.pathExtension isEqualToString:@"txt"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -108,7 +108,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeStub:textStub];
+        [HTTPStubs removeStub:textStub];
     }
 }
 
@@ -128,8 +128,10 @@
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
-         sender.enabled = YES;
-         self.imageView.image = [UIImage imageWithData:data];
+         dispatch_async(dispatch_get_main_queue(), ^{
+            sender.enabled = YES;
+            self.imageView.image = [UIImage imageWithData:data];
+         });
      }];
 }
 
@@ -139,7 +141,7 @@
     if (sender.on)
     {
         // Install
-        imageStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        imageStub = [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             // This stub will only configure stub requests for "*.png" files
             return [request.URL.pathExtension isEqualToString:@"png"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -155,7 +157,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeStub:imageStub];
+        [HTTPStubs removeStub:imageStub];
     }
 }
 
@@ -169,3 +171,4 @@
 }
 
 @end
+

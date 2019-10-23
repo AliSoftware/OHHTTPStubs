@@ -1,1 +1,1 @@
-../../../../../../Sources/OHHTTPStubsCore/OHHTTPStubsMethodSwizzling.h
+../../../../../../Sources/OHHTTPStubs/OHHTTPStubsMethodSwizzling.h
