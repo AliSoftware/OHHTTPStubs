@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
 
-#import "OHHTTPStubsBase.h"
+#import "HTTPStubs.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types & Constants
@@ -41,7 +41,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Interfaces
 
-@interface OHHTTPStubsBase()
+@interface HTTPStubs()
 + (instancetype)sharedInstance;
 @property(atomic, copy) NSMutableArray* stubDescriptors;
 @property(atomic, assign) BOOL enabledState;
@@ -83,16 +83,16 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - OHHTTPStubsBase Implementation
+#pragma mark - HTTPStubs Implementation
 
-@implementation OHHTTPStubsBase
+@implementation HTTPStubs
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Singleton methods
 
 + (instancetype)sharedInstance
 {
-    static OHHTTPStubsBase *sharedInstance = nil;
+    static HTTPStubs *sharedInstance = nil;
 
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
@@ -107,7 +107,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 + (void)initialize
 {
-    if (self == [OHHTTPStubsBase class])
+    if (self == [HTTPStubs class])
     {
         [self _setEnable:YES];
     }
@@ -138,18 +138,18 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:testBlock
                                                                        responseBlock:responseBlock];
-    [OHHTTPStubsBase.sharedInstance addStub:stub];
+    [HTTPStubs.sharedInstance addStub:stub];
     return stub;
 }
 
 +(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
 {
-    return [OHHTTPStubsBase.sharedInstance removeStub:stubDesc];
+    return [HTTPStubs.sharedInstance removeStub:stubDesc];
 }
 
 +(void)removeAllStubs
 {
-    [OHHTTPStubsBase.sharedInstance removeAllStubs];
+    [HTTPStubs.sharedInstance removeAllStubs];
 }
 
 #pragma mark > Disabling & Re-Enabling stubs
@@ -168,12 +168,12 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 +(void)setEnabled:(BOOL)enabled
 {
-    [OHHTTPStubsBase.sharedInstance setEnabled:enabled];
+    [HTTPStubs.sharedInstance setEnabled:enabled];
 }
 
 +(BOOL)isEnabled
 {
-    return OHHTTPStubsBase.sharedInstance.isEnabled;
+    return HTTPStubs.sharedInstance.isEnabled;
 }
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
@@ -227,27 +227,27 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 +(NSArray*)allStubs
 {
-    return [OHHTTPStubsBase.sharedInstance stubDescriptors];
+    return [HTTPStubs.sharedInstance stubDescriptors];
 }
 
 +(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block
 {
-    [OHHTTPStubsBase.sharedInstance setOnStubActivationBlock:block];
+    [HTTPStubs.sharedInstance setOnStubActivationBlock:block];
 }
 
 +(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block
 {
-    [OHHTTPStubsBase.sharedInstance setOnStubRedirectBlock:block];
+    [HTTPStubs.sharedInstance setOnStubRedirectBlock:block];
 }
 
 +(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError* error) )block
 {
-    [OHHTTPStubsBase.sharedInstance setAfterStubFinishBlock:block];
+    [HTTPStubs.sharedInstance setAfterStubFinishBlock:block];
 }
 
 +(void)onStubMissing:( nullable void(^)(NSURLRequest* request) )block
 {
-    [OHHTTPStubsBase.sharedInstance setOnStubMissingBlock:block];
+    [HTTPStubs.sharedInstance setOnStubMissingBlock:block];
 }
 
 
@@ -343,9 +343,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    BOOL found = ([OHHTTPStubsBase.sharedInstance firstStubPassingTestForRequest:request] != nil);
-    if (!found && OHHTTPStubsBase.sharedInstance.onStubMissingBlock) {
-        OHHTTPStubsBase.sharedInstance.onStubMissingBlock(request);
+    BOOL found = ([HTTPStubs.sharedInstance firstStubPassingTestForRequest:request] != nil);
+    if (!found && HTTPStubs.sharedInstance.onStubMissingBlock) {
+        HTTPStubs.sharedInstance.onStubMissingBlock(request);
     }
     return found;
 }
@@ -354,7 +354,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     // Make super sure that we never use a cached response.
     OHHTTPStubsProtocol* proto = [super initWithRequest:request cachedResponse:nil client:client];
-    proto.stub = [OHHTTPStubsBase.sharedInstance firstStubPassingTestForRequest:request];
+    proto.stub = [HTTPStubs.sharedInstance firstStubPassingTestForRequest:request];
     return proto;
 }
 
@@ -404,18 +404,18 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                                   nil];
         NSError* error = [NSError errorWithDomain:@"OHHTTPStubs" code:500 userInfo:userInfo];
         [client URLProtocol:self didFailWithError:error];
-        if (OHHTTPStubsBase.sharedInstance.afterStubFinishBlock)
+        if (HTTPStubs.sharedInstance.afterStubFinishBlock)
         {
-            OHHTTPStubsBase.sharedInstance.afterStubFinishBlock(request, self.stub, nil, error);
+            HTTPStubs.sharedInstance.afterStubFinishBlock(request, self.stub, nil, error);
         }
         return;
     }
 
     OHHTTPStubsResponse* responseStub = self.stub.responseBlock(request);
 
-    if (OHHTTPStubsBase.sharedInstance.onStubActivationBlock)
+    if (HTTPStubs.sharedInstance.onStubActivationBlock)
     {
-        OHHTTPStubsBase.sharedInstance.onStubActivationBlock(request, self.stub, responseStub);
+        HTTPStubs.sharedInstance.onStubActivationBlock(request, self.stub, responseStub);
     }
 
     if (responseStub.error == nil)
@@ -476,9 +476,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                     }
 
                     [client URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:urlResponse];
-                    if (OHHTTPStubsBase.sharedInstance.onStubRedirectBlock)
+                    if (HTTPStubs.sharedInstance.onStubRedirectBlock)
                     {
-                        OHHTTPStubsBase.sharedInstance.onStubRedirectBlock(request, redirectRequest, self.stub, responseStub);
+                        HTTPStubs.sharedInstance.onStubRedirectBlock(request, redirectRequest, self.stub, responseStub);
                     }
                 }
 
@@ -503,9 +503,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
                          [client URLProtocol:self didFailWithError:responseStub.error];
                          blockError = responseStub.error;
                      }
-                     if (OHHTTPStubsBase.sharedInstance.afterStubFinishBlock)
+                     if (HTTPStubs.sharedInstance.afterStubFinishBlock)
                      {
-                         OHHTTPStubsBase.sharedInstance.afterStubFinishBlock(request, self.stub, responseStub, blockError);
+                         HTTPStubs.sharedInstance.afterStubFinishBlock(request, self.stub, responseStub, blockError);
                      }
                  }];
             }
@@ -516,9 +516,9 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
             if (!self.stopped)
             {
                 [client URLProtocol:self didFailWithError:responseStub.error];
-                if (OHHTTPStubsBase.sharedInstance.afterStubFinishBlock)
+                if (HTTPStubs.sharedInstance.afterStubFinishBlock)
                 {
-                    OHHTTPStubsBase.sharedInstance.afterStubFinishBlock(request, self.stub, responseStub, responseStub.error);
+                    HTTPStubs.sharedInstance.afterStubFinishBlock(request, self.stub, responseStub, responseStub.error);
                 }
             }
         }];

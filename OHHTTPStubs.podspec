@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "Sources/OHHTTPStubsCore/**/OHHTTPStubsBase.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse.{h,m}",
+    core.source_files = "Sources/OHHTTPStubsCore/**/HTTPStubs.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse.{h,m}",
         "Sources/OHHTTPStubsCore/include/Compatibility.h"
   end
 

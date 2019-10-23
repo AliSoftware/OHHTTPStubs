@@ -66,7 +66,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
 /**
  * Stubs Manager. Use this class to add and remove stubs and stub your network requests.
  */
-@interface OHHTTPStubsBase : NSObject
+@interface HTTPStubs : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Adding & Removing stubs
@@ -84,7 +84,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *
  *  @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with `removeStub:`.
  *
- *  @note The returned stub descriptor is retained (`__strong` reference) by `OHHTTPStubsBase`
+ *  @note The returned stub descriptor is retained (`__strong` reference) by `HTTPStubs`
  *        until it is removed (with one of the `removeStub:` / `removeAllStubs`
  *        methods); it is thus recommended to keep it in a `__weak` storage (and not `__strong`)
  *        in your app code, to let the stub descriptor be destroyed and let the variable go
@@ -118,7 +118,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param enabled If `YES`, enables the stubs. If `NO`, disable all the
  *                 stubs and let all the requests hit the real world.
  *
- *  @note OHHTTPStubsBase are enabled by default, so there is no need to call
+ *  @note HTTPStubs are enabled by default, so there is no need to call
  *        this method with `YES` for stubs to work, except if you explicitely
  *        disabled the stubs before.
  *
@@ -143,7 +143,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *                 If `NO`, disable the stubs and let all the requests hit the real world
  *  @param sessionConfig The NSURLSessionConfiguration on which to enabled/disable the stubs
  *
- *  @note OHHTTPStubsBase are enabled by default on newly created `defaultSessionConfiguration`
+ *  @note HTTPStubs are enabled by default on newly created `defaultSessionConfiguration`
  *        and `ephemeralSessionConfiguration`, so there is no need to call this method with
  *        `YES` for stubs to work. You generally only use this if you want to disable
  *        `OHTTPStubs` per `NSURLSession` by calling it before building the `NSURLSession`

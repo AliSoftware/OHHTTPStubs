@@ -59,7 +59,7 @@
     _error = nil;
 //    _didReceiveResponseTS = nil;
     _didFinishLoadingTS = nil;
-    [OHHTTPStubsBase removeAllStubs];
+    [HTTPStubs removeAllStubs];
 }
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -95,7 +95,7 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
 
 -(void)_testWithData:(NSData*)stubData requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
 {
-    [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [[OHHTTPStubsResponse responseWithData:stubData

@@ -40,10 +40,10 @@
 		1FB9F00022FFBE670027737A /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEA22FFBE670027737A /* OHPathHelpers.m */; };
 		1FB9F00122FFBE670027737A /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEA22FFBE670027737A /* OHPathHelpers.m */; };
 		1FB9F00222FFBE670027737A /* OHPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEA22FFBE670027737A /* OHPathHelpers.m */; };
-		1FB9F00322FFBE670027737A /* OHHTTPStubsBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* OHHTTPStubsBase.m */; };
-		1FB9F00422FFBE670027737A /* OHHTTPStubsBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* OHHTTPStubsBase.m */; };
-		1FB9F00522FFBE670027737A /* OHHTTPStubsBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* OHHTTPStubsBase.m */; };
-		1FB9F00622FFBE670027737A /* OHHTTPStubsBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* OHHTTPStubsBase.m */; };
+		1FB9F00322FFBE670027737A /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* HTTPStubs.m */; };
+		1FB9F00422FFBE670027737A /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* HTTPStubs.m */; };
+		1FB9F00522FFBE670027737A /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* HTTPStubs.m */; };
+		1FB9F00622FFBE670027737A /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFEB22FFBE670027737A /* HTTPStubs.m */; };
 		1FB9F00722FFBE670027737A /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFED22FFBE670027737A /* Compatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F00822FFBE670027737A /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFED22FFBE670027737A /* Compatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F00922FFBE670027737A /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFED22FFBE670027737A /* Compatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -56,9 +56,9 @@
 		1FB9F01022FFBE670027737A /* OHPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF022FFBE670027737A /* OHPathHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F01122FFBE670027737A /* OHPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF022FFBE670027737A /* OHPathHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F01222FFBE670027737A /* OHPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF022FFBE670027737A /* OHPathHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1FB9F01322FFBE670027737A /* OHHTTPStubsBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF122FFBE670027737A /* OHHTTPStubsBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1FB9F01422FFBE670027737A /* OHHTTPStubsBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF122FFBE670027737A /* OHHTTPStubsBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1FB9F01522FFBE670027737A /* OHHTTPStubsBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF122FFBE670027737A /* OHHTTPStubsBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1FB9F01322FFBE670027737A /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF122FFBE670027737A /* HTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1FB9F01422FFBE670027737A /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF122FFBE670027737A /* HTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1FB9F01522FFBE670027737A /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF122FFBE670027737A /* HTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F01622FFBE670027737A /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF222FFBE670027737A /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F01722FFBE670027737A /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF222FFBE670027737A /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB9F01822FFBE670027737A /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FB9EFF222FFBE670027737A /* OHHTTPStubsResponse+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -220,12 +220,12 @@
 		1FB9EFE822FFBE670027737A /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
 		1FB9EFE922FFBE670027737A /* OHHTTPStubsMethodSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsMethodSwizzling.m; sourceTree = "<group>"; };
 		1FB9EFEA22FFBE670027737A /* OHPathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpers.m; sourceTree = "<group>"; };
-		1FB9EFEB22FFBE670027737A /* OHHTTPStubsBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsBase.m; sourceTree = "<group>"; };
+		1FB9EFEB22FFBE670027737A /* HTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
 		1FB9EFED22FFBE670027737A /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
 		1FB9EFEE22FFBE670027737A /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		1FB9EFEF22FFBE670027737A /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
 		1FB9EFF022FFBE670027737A /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
-		1FB9EFF122FFBE670027737A /* OHHTTPStubsBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsBase.h; sourceTree = "<group>"; };
+		1FB9EFF122FFBE670027737A /* HTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubs.h; sourceTree = "<group>"; };
 		1FB9EFF222FFBE670027737A /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		1FB9EFF322FFBE670027737A /* OHHTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
 		1FB9EFF422FFBE670027737A /* OHHTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OHHTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
@@ -427,7 +427,7 @@
 				1FB9EFE822FFBE670027737A /* NSURLRequest+HTTPBodyTesting.m */,
 				1FB9EFE922FFBE670027737A /* OHHTTPStubsMethodSwizzling.m */,
 				1FB9EFEA22FFBE670027737A /* OHPathHelpers.m */,
-				1FB9EFEB22FFBE670027737A /* OHHTTPStubsBase.m */,
+				1FB9EFEB22FFBE670027737A /* HTTPStubs.m */,
 				1FB9EFEC22FFBE670027737A /* include */,
 				1FB9EFF322FFBE670027737A /* OHHTTPStubsResponse+JSON.m */,
 				1FB9EFF422FFBE670027737A /* OHHTTPStubs+NSURLSessionConfiguration.m */,
@@ -445,7 +445,7 @@
 				1FB9EFEE22FFBE670027737A /* OHHTTPStubsResponse.h */,
 				1FB9EFEF22FFBE670027737A /* NSURLRequest+HTTPBodyTesting.h */,
 				1FB9EFF022FFBE670027737A /* OHPathHelpers.h */,
-				1FB9EFF122FFBE670027737A /* OHHTTPStubsBase.h */,
+				1FB9EFF122FFBE670027737A /* HTTPStubs.h */,
 				1FB9EFF222FFBE670027737A /* OHHTTPStubsResponse+JSON.h */,
 			);
 			path = include;
@@ -587,7 +587,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FB9F00822FFBE670027737A /* Compatibility.h in Headers */,
-				1FB9F01422FFBE670027737A /* OHHTTPStubsBase.h in Headers */,
+				1FB9F01422FFBE670027737A /* HTTPStubs.h in Headers */,
 				1FB9F00B22FFBE670027737A /* OHHTTPStubsResponse.h in Headers */,
 				1FB9F01722FFBE670027737A /* OHHTTPStubsResponse+JSON.h in Headers */,
 				1FCC5C9D22FD95C200472F5B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
@@ -604,7 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FB9F00722FFBE670027737A /* Compatibility.h in Headers */,
-				1FB9F01322FFBE670027737A /* OHHTTPStubsBase.h in Headers */,
+				1FB9F01322FFBE670027737A /* HTTPStubs.h in Headers */,
 				1FB9F00A22FFBE670027737A /* OHHTTPStubsResponse.h in Headers */,
 				1FB9F01622FFBE670027737A /* OHHTTPStubsResponse+JSON.h in Headers */,
 				1FCC5C9C22FD95C200472F5B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
@@ -621,7 +621,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FB9F00922FFBE670027737A /* Compatibility.h in Headers */,
-				1FB9F01522FFBE670027737A /* OHHTTPStubsBase.h in Headers */,
+				1FB9F01522FFBE670027737A /* HTTPStubs.h in Headers */,
 				1FB9F00C22FFBE670027737A /* OHHTTPStubsResponse.h in Headers */,
 				1FB9F01822FFBE670027737A /* OHHTTPStubsResponse+JSON.h in Headers */,
 				1FCC5C9E22FD95C200472F5B /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
@@ -1001,7 +1001,7 @@
 			files = (
 				1FB9EFF722FFBE670027737A /* NSURLRequest+HTTPBodyTesting.m in Sources */,
 				1FB9EFFB22FFBE670027737A /* OHHTTPStubsMethodSwizzling.m in Sources */,
-				1FB9F00322FFBE670027737A /* OHHTTPStubsBase.m in Sources */,
+				1FB9F00322FFBE670027737A /* HTTPStubs.m in Sources */,
 				1FB9F01D22FFBE670027737A /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				1FCC5CA622FD95C200472F5B /* OHHTTPStubs+Mocktail.m in Sources */,
 				1FB9F02422FFBE670027737A /* OHHTTPStubsResponse.m in Sources */,
@@ -1048,7 +1048,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FB9F00522FFBE670027737A /* OHHTTPStubsBase.m in Sources */,
+				1FB9F00522FFBE670027737A /* HTTPStubs.m in Sources */,
 				1FB9F01F22FFBE670027737A /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				1FCC5CA822FD95C200472F5B /* OHHTTPStubs+Mocktail.m in Sources */,
 				1FB9EFFD22FFBE670027737A /* OHHTTPStubsMethodSwizzling.m in Sources */,
@@ -1082,7 +1082,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FB9F00422FFBE670027737A /* OHHTTPStubsBase.m in Sources */,
+				1FB9F00422FFBE670027737A /* HTTPStubs.m in Sources */,
 				1FB9F01E22FFBE670027737A /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				1FCC5CA722FD95C200472F5B /* OHHTTPStubs+Mocktail.m in Sources */,
 				1FB9EFFC22FFBE670027737A /* OHHTTPStubsMethodSwizzling.m in Sources */,
@@ -1116,7 +1116,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FB9F00622FFBE670027737A /* OHHTTPStubsBase.m in Sources */,
+				1FB9F00622FFBE670027737A /* HTTPStubs.m in Sources */,
 				1FB9F02022FFBE670027737A /* OHHTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				1FCC5CA922FD95C200472F5B /* OHHTTPStubs+Mocktail.m in Sources */,
 				1FB9EFFE22FFBE670027737A /* OHHTTPStubsMethodSwizzling.m in Sources */,

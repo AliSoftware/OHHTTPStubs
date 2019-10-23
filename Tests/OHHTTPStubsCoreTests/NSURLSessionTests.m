@@ -53,7 +53,7 @@
 - (void)setUp
 {
     [super setUp];
-    [OHHTTPStubsBase removeAllStubs];
+    [HTTPStubs removeAllStubs];
 }
 
 - (void)_test_NSURLSession:(NSURLSession*)session
@@ -65,7 +65,7 @@
         static const NSTimeInterval kRequestTime = 0.0;
         static const NSTimeInterval kResponseTime = 0.2;
 
-        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return YES;
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
@@ -126,7 +126,7 @@
         NSData* requestBody = json ? [NSJSONSerialization dataWithJSONObject:json options:0 error:NULL] : nil;
 
         // First request: just return a redirect response (3xx, empty body)
-        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@"/oldlocation"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *originalRequest) {
             NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/newlocation" };
@@ -137,7 +137,7 @@
         }];
 
         // Second request = redirected location: capture method+body of the redirected request + return 200 with the finalJSONResponse
-        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@"/newlocation"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *redirectedRequest) {
             capturedRedirectedRequestMethod = redirectedRequest.HTTPMethod;
@@ -445,7 +445,7 @@
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSURLSessionConfiguration* config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        [OHHTTPStubsBase setEnabled:NO forSessionConfiguration:config]; // Disable stubs for this session
+        [HTTPStubs setEnabled:NO forSessionConfiguration:config]; // Disable stubs for this session
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
 
         NSDictionary* json = @{@"Success": @"Yes"};
@@ -477,7 +477,7 @@
     if ([NSURLSessionConfiguration class] && [NSURLSession class])
     {
         NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
-        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [request.URL.scheme isEqualToString:@"stub"];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
             return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
@@ -512,7 +512,7 @@
         NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
         NSString* expectedBodyString = @"body";
 
-        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             NSData* body = [request OHHTTPStubs_HTTPBody];
             return [[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] isEqualToString:expectedBodyString];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -560,7 +560,7 @@
         NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
         NSString* expectedBodyString = @"body";
 
-        [OHHTTPStubsBase stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             NSData* body = [request HTTPBody]; // this is not expected to work correctly
             return [[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] isEqualToString:expectedBodyString];
         } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {

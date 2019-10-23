@@ -31,7 +31,7 @@ import OHHTTPStubsCore
 #endif
 
 #if !swift(>=3.0)
-  extension OHHTTPStubs {
+  extension HTTPStubs {
     private class func stubRequests(passingTest: OHHTTPStubsTestBlock, withStubResponse: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
       return stubRequestsPassingTest(passingTest, withStubResponse: withStubResponse)
     }
@@ -104,11 +104,11 @@ import OHHTTPStubsCore
 #if swift(>=3.0)
   @discardableResult
   public func stub(condition: @escaping OHHTTPStubsTestBlock, response: @escaping OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
-    return OHHTTPStubsBase.stubRequests(passingTest: condition, withStubResponse: response)
+    return HTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
   }
 #else
   public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
-  return OHHTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
+  return HTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
   }
 #endif
 
