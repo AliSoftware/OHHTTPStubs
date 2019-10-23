@@ -421,7 +421,7 @@
 			path = Tests/OHHTTPStubsSwiftTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		1FB9EFE722FFBE670027737A /* OHHTTPStubsCore */ = {
+		1FB9EFE722FFBE670027737A /* OHHTTPStubs */ = {
 			isa = PBXGroup;
 			children = (
 				1FB9EFE822FFBE670027737A /* NSURLRequest+HTTPBodyTesting.m */,
@@ -434,8 +434,8 @@
 				1FB9EFF522FFBE670027737A /* OHHTTPStubsMethodSwizzling.h */,
 				1FB9EFF622FFBE670027737A /* OHHTTPStubsResponse.m */,
 			);
-			name = OHHTTPStubsCore;
-			path = Sources/OHHTTPStubsCore;
+			name = OHHTTPStubs;
+			path = Sources/OHHTTPStubs;
 			sourceTree = SOURCE_ROOT;
 		};
 		1FB9EFEC22FFBE670027737A /* include */ = {
@@ -451,7 +451,7 @@
 			path = include;
 			sourceTree = "<group>";
 		};
-		1FB9F02922FFC0CF0027737A /* OHHTTPStubsCoreTests */ = {
+		1FB9F02922FFC0CF0027737A /* OHHTTPStubsTests */ = {
 			isa = PBXGroup;
 			children = (
 				1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */,
@@ -463,7 +463,7 @@
 				1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */,
 				1FB9F03122FFC0CF0027737A /* NilValuesTests.m */,
 			);
-			path = OHHTTPStubsCoreTests;
+			path = OHHTTPStubsTests;
 			sourceTree = "<group>";
 		};
 		1FCC5C6A22FD95C200472F5B /* Sources */ = {
@@ -471,7 +471,7 @@
 			children = (
 				1FCC5C7222FD95C200472F5B /* HTTPMessage */,
 				1FCC5C7622FD95C200472F5B /* Mocktail */,
-				1FB9EFE722FFBE670027737A /* OHHTTPStubsCore */,
+				1FB9EFE722FFBE670027737A /* OHHTTPStubs */,
 				1FCC5C8222FD95C200472F5B /* OHHTTPStubsSwift */,
 				1FCC5CCE22FD95CC00472F5B /* Supporting Files */,
 			);
@@ -535,7 +535,7 @@
 			children = (
 				1FCC5CE222FD95D700472F5B /* Fixtures */,
 				1FCC5CED22FD95D700472F5B /* MocktailTests */,
-				1FB9F02922FFC0CF0027737A /* OHHTTPStubsCoreTests */,
+				1FB9F02922FFC0CF0027737A /* OHHTTPStubsTests */,
 				1F51F12222FE4C53003463C1 /* OHHTTPStubsSwiftTests */,
 				1F462BBD22FD9765000B7253 /* Supporting Files */,
 			);
@@ -1212,6 +1212,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -1266,6 +1267,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1506,7 +1508,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alisoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1527,7 +1528,6 @@
 				PRODUCT_NAME = OHHTTPStubs;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1547,6 +1547,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
 		};
@@ -1567,6 +1568,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
 		};
@@ -1587,6 +1589,7 @@
 				PRODUCT_NAME = OHHTTPStubs;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
 		};
@@ -1608,6 +1611,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
 		};

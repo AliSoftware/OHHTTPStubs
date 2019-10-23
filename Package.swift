@@ -7,13 +7,13 @@ let package = Package(
         .library(
             name: "OHHTTPStubs",
             targets: [
-                "OHHTTPStubsCore",
+                "OHHTTPStubs",
             ]
         ),
         .library(
             name: "OHHTTPStubsSwift",
             targets: [
-                "OHHTTPStubsCore",
+                "OHHTTPStubs",
                 "OHHTTPStubsSwift"
             ]
         )
@@ -22,17 +22,17 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "OHHTTPStubsCore",
+            name: "OHHTTPStubs",
             dependencies: []),
         .testTarget(
-            name: "OHHTTPStubsCoreTests",
-            dependencies: ["OHHTTPStubsCore"]),
+            name: "OHHTTPStubsTests",
+            dependencies: ["OHHTTPStubs"]),
         .target(
             name: "OHHTTPStubsSwift",
-            dependencies: ["OHHTTPStubsCore"]),
+            dependencies: ["OHHTTPStubs"]),
         .testTarget(
             name: "OHHTTPStubsSwiftTests",
-            dependencies: ["OHHTTPStubsSwift", "OHHTTPStubsCore"]
+            dependencies: ["OHHTTPStubsSwift", "OHHTTPStubs"]
         )
     ]
 )

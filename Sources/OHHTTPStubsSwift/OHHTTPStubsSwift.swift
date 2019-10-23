@@ -27,7 +27,7 @@
  */
 import Foundation
 #if SWIFT_PACKAGE
-import OHHTTPStubsCore
+import OHHTTPStubs
 #endif
 
 #if !swift(>=3.0)

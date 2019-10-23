@@ -45,20 +45,20 @@ Pod::Spec.new do |s|
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "Sources/OHHTTPStubsCore/**/HTTPStubs.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse.{h,m}",
-        "Sources/OHHTTPStubsCore/include/Compatibility.h"
+    core.source_files = "Sources/OHHTTPStubs/**/HTTPStubs.{h,m}", "Sources/OHHTTPStubs/**/OHHTTPStubsResponse.{h,m}",
+        "Sources/OHHTTPStubs/include/Compatibility.h"
   end
 
   # Optional subspecs
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
-    urlsession.source_files = "Sources/OHHTTPStubsCore/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.{h,m}"
-    urlsession.private_header_files = "Sources/OHHTTPStubsCore/**/OHHTTPStubsMethodSwizzling.h"
+    urlsession.source_files = "Sources/OHHTTPStubs/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubs/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubs/**/OHHTTPStubsMethodSwizzling.{h,m}"
+    urlsession.private_header_files = "Sources/OHHTTPStubs/**/OHHTTPStubsMethodSwizzling.h"
   end
 
   s.subspec 'JSON' do |json|
     json.dependency 'OHHTTPStubs/Core'
-    json.source_files = "Sources/OHHTTPStubsCore/**/OHHTTPStubsResponse+JSON.{h,m}"
+    json.source_files = "Sources/OHHTTPStubs/**/OHHTTPStubsResponse+JSON.{h,m}"
   end
 
   s.subspec 'HTTPMessage' do |httpmessage|
@@ -72,7 +72,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'OHPathHelpers' do |pathhelper|
-    pathhelper.source_files = "Sources/OHHTTPStubsCore/**/OHPathHelpers.{h,m}", "Sources/OHHTTPStubsCore/include/Compatibility.h"
+    pathhelper.source_files = "Sources/OHHTTPStubs/**/OHPathHelpers.{h,m}", "Sources/OHHTTPStubs/include/Compatibility.h"
   end
 
   s.subspec 'Swift' do |swift|

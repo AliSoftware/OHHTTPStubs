@@ -123,9 +123,9 @@ Here's a list of which subspecs are included for each of the different lines you
 
 ## Swift Package Manager
 
-`OHHTTPStubs` is compatible with Swift Package Manager, and provides 2 targets for consumption: `OHHTTPStubsCore` and `OHHTTPStubsSwift`.
+`OHHTTPStubs` is compatible with Swift Package Manager, and provides 2 targets for consumption: `OHHTTPStubs` and `OHHTTPStubsSwift`.
 
-* `OHHTTPStubsCore` is equivalent to the `OHHTTPStubs` subspec.
+* `OHHTTPStubs` is equivalent to the `OHHTTPStubs` subspec.
 * `OHHTTPStubsSwift` is equivalent to the `OHHTTPStubs/Swift` subspec.
 
 _Note: We currently do not have support for the HTTPMessage or Mocktail subspecs in Swift Package Manager.  If you are interested in these, please open an issue to explain your needs._
