@@ -132,7 +132,7 @@ _Note: We currently do not have support for the HTTPMessage or Mocktail subspecs
 
 ## Carthage
 
-`OHHTTPStubs` is also be compatible with Carthage. Just add it to your `Cartfile`.
+`OHHTTPStubs` is also compatible with Carthage. Just add it to your `Cartfile`.
 
 _Note: The `OHHTTPStubs.framework` built with Carthage will include **all** features of `OHHTTPStubs` turned on (in other words, all subspecs of the pod), including `NSURLSession` and `JSON` support, `OHPathHelpers`, `HTTPMessage` and `Mocktail` support, and the Swiftier API._
 
