@@ -32,7 +32,7 @@
 #import <XCTest/XCTest.h>
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY || SWIFT_PACKAGE
-#import "OHHTTPStubs.h"
+#import "HTTPStubs.h"
 #import "OHHTTPStubsResponse+JSON.h"
 #import "NSURLRequest+HTTPBodyTesting.h"
 #else
