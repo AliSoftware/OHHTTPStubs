@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
     default.dependency 'OHHTTPStubs/Core'
     default.dependency 'OHHTTPStubs/NSURLSession'
     default.dependency 'OHHTTPStubs/JSON'
-    default.dependency 'OHHTTPStubs/HTTPStubsPathHelpers'
+    default.dependency 'OHHTTPStubs/OHPathHelpers'
   end
 
   # The Core subspec, containing the library core needed in all cases

@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
 
         installTextStub(self.installTextStubSwitch)
         installImageStub(self.installImageStubSwitch)
-        HTTPStubs.onStubActivation { (request: URLRequest, stub: OHHTTPStubsDescriptor, response: OHHTTPStubsResponse) in
+        HTTPStubs.onStubActivation { (request: URLRequest, stub: HTTPStubsDescriptor, response: HTTPStubsResponse) in
             print("[OHHTTPStubs] Request to \(request.url!) has been stubbed with \(String(describing: stub.name))")
         }
     }
@@ -67,7 +67,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    weak var textStub: OHHTTPStubsDescriptor?
+    weak var textStub: HTTPStubsDescriptor?
     @IBAction func installTextStub(_ sender: UISwitch) {
         if sender.isOn {
             // Install
@@ -105,7 +105,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    weak var imageStub: OHHTTPStubsDescriptor?
+    weak var imageStub: HTTPStubsDescriptor?
     @IBAction func installImageStub(_ sender: UISwitch) {
         if sender.isOn {
             // Install

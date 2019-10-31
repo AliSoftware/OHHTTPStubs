@@ -56,7 +56,7 @@
       "name": "Core",
       "source_files": [
         "Sources/OHHTTPStubs/**/HTTPStubs.{h,m}",
-        "Sources/OHHTTPStubs/**/OHHTTPStubsResponse.{h,m}",
+        "Sources/OHHTTPStubs/**/HTTPStubsResponse.{h,m}",
         "Sources/OHHTTPStubs/include/Compatibility.h"
       ]
     },
@@ -69,10 +69,10 @@
       },
       "source_files": [
         "Sources/OHHTTPStubs/**/NSURLRequest+HTTPBodyTesting.{h,m}",
-        "Sources/OHHTTPStubs/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}",
-        "Sources/OHHTTPStubs/**/OHHTTPStubsMethodSwizzling.{h,m}"
+        "Sources/OHHTTPStubs/**/HTTPStubs+NSURLSessionConfiguration.{h,m}",
+        "Sources/OHHTTPStubs/**/HTTPStubsMethodSwizzling.{h,m}"
       ],
-      "private_header_files": "Sources/OHHTTPStubs/**/OHHTTPStubsMethodSwizzling.h"
+      "private_header_files": "Sources/OHHTTPStubs/**/HTTPStubsMethodSwizzling.h"
     },
     {
       "name": "JSON",
@@ -81,7 +81,7 @@
 
         ]
       },
-      "source_files": "Sources/OHHTTPStubs/**/OHHTTPStubsResponse+JSON.{h,m}"
+      "source_files": "Sources/OHHTTPStubs/**/HTTPStubsResponse+JSON.{h,m}"
     },
     {
       "name": "HTTPMessage",
@@ -104,7 +104,7 @@
     {
       "name": "OHPathHelpers",
       "source_files": [
-        "Sources/OHHTTPStubs/**/OHPathHelpers.{h,m}",
+        "Sources/OHHTTPStubs/**/HTTPStubsPathHelpers.{h,m}",
         "Sources/OHHTTPStubs/include/Compatibility.h"
       ]
     },
