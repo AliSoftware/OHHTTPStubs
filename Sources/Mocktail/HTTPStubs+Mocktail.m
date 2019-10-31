@@ -25,7 +25,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#import "OHHTTPStubs+Mocktail.h"
+#import "HTTPStubs+Mocktail.h"
 
 NSString* const MocktailErrorDomain = @"Mocktail";
 
@@ -80,7 +80,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         {
             continue;
         }
-        id<OHHTTPStubsDescriptor> descriptor = [[self class] stubRequestsUsingMocktail:fileURL error: &bError];
+        id<HTTPStubsDescriptor> descriptor = [[self class] stubRequestsUsingMocktail:fileURL error: &bError];
         if (descriptor && !bError)
         {
             [descriptorArray addObject:descriptor];
@@ -90,7 +90,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     return descriptorArray;
 }
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
++(id<HTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error
 {
     NSURL *responseURL = [bundleOrNil?:[NSBundle bundleForClass:self.class] URLForResource:fileName withExtension:@"tail"];
 
@@ -108,7 +108,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
     }
 }
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error
++(id<HTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error
 {
     NSError *bError = nil;
     NSStringEncoding originalEncoding;
@@ -233,7 +233,7 @@ NSString* const MocktailErrorDomain = @"Mocktail";
         }
 
         return NO;
-    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse*(NSURLRequest *request) {
         if([headers[@"Content-Type"] hasSuffix:@";base64"])
         {
             NSString *type = headers[@"Content-Type"];
@@ -244,13 +244,13 @@ NSString* const MocktailErrorDomain = @"Mocktail";
             body = [body subdataWithRange:NSMakeRange(bodyOffset, body.length - bodyOffset)];
             body = [[NSData alloc] initWithBase64EncodedData:body options:NSDataBase64DecodingIgnoreUnknownCharacters];
 
-            OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithData:body statusCode:(int)statusCode headers:headers];
+            HTTPStubsResponse *response = [HTTPStubsResponse responseWithData:body statusCode:(int)statusCode headers:headers];
             return response;
         }
         else
         {
-            OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithFileAtPath:fileURL.path
-                                                                             statusCode:(int)statusCode headers:headers];
+            HTTPStubsResponse *response = [HTTPStubsResponse responseWithFileAtPath:fileURL.path
+                                                                            statusCode:(int)statusCode headers:headers];
             [response.inputStream setProperty:@(bodyOffset) forKey:NSStreamFileCurrentOffsetKey];
             return response;
         }

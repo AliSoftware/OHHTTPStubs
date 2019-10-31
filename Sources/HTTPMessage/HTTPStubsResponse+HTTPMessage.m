@@ -25,9 +25,9 @@
 #if __has_include(<CFNetwork/CFNetwork.h>) || SWIFT_PACKAGE
 #import <CFNetwork/CFNetwork.h>
 
-#import "OHHTTPStubsResponse+HTTPMessage.h"
+#import "HTTPStubsResponse+HTTPMessage.h"
 
-@implementation OHHTTPStubsResponse (HTTPMessage)
+@implementation HTTPStubsResponse (HTTPMessage)
 
 #pragma mark Building response from HTTP Message Data (dump from "curl -is")
 

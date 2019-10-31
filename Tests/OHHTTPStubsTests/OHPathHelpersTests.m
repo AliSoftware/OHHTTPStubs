@@ -2,15 +2,15 @@
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY || SWIFT_PACKAGE
 #import "HTTPStubs.h"
-#import "OHPathHelpers.h"
+#import "HTTPStubsPathHelpers.h"
 #else
 @import OHHTTPStubs;
 #endif
 
-@interface OHPathHelpersTests : XCTestCase
+@interface HTTPStubsPathHelpersTests : XCTestCase
 @end
 
-@implementation OHPathHelpersTests
+@implementation HTTPStubsPathHelpersTests
 
 - (void)testOHResourceBundle {
     NSBundle *classBundle = [NSBundle bundleForClass:self.class];

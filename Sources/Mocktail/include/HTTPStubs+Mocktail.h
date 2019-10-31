@@ -65,7 +65,7 @@ extern NSString* const MocktailErrorDomain;
  * @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
  */
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error;
++(id<HTTPStubsDescriptor>)stubRequestsUsingMocktailNamed:(NSString *)fileName inBundle:(nullable NSBundle*)bundleOrNil error:(NSError **)error;
 
 /**
  * Add a stub given a file URL in the format of Mocktail as defined at https://github.com/square/objc-mocktail.
@@ -79,7 +79,7 @@ extern NSString* const MocktailErrorDomain;
  * @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with
  * `removeStub:`.
  */
-+(id<OHHTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error;
++(id<HTTPStubsDescriptor>)stubRequestsUsingMocktail:(NSURL *)fileURL error:(NSError **)error;
 
 /**
  * Add stubs using files under a folder in the format of Mocktail as defined at https://github.com/square/objc-mocktail.

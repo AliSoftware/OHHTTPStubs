@@ -40,25 +40,25 @@ Pod::Spec.new do |s|
     default.dependency 'OHHTTPStubs/Core'
     default.dependency 'OHHTTPStubs/NSURLSession'
     default.dependency 'OHHTTPStubs/JSON'
-    default.dependency 'OHHTTPStubs/OHPathHelpers'
+    default.dependency 'OHHTTPStubs/HTTPStubsPathHelpers'
   end
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "Sources/OHHTTPStubs/**/HTTPStubs.{h,m}", "Sources/OHHTTPStubs/**/OHHTTPStubsResponse.{h,m}",
+    core.source_files = "Sources/OHHTTPStubs/**/HTTPStubs.{h,m}", "Sources/OHHTTPStubs/**/HTTPStubsResponse.{h,m}",
         "Sources/OHHTTPStubs/include/Compatibility.h"
   end
 
   # Optional subspecs
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
-    urlsession.source_files = "Sources/OHHTTPStubs/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubs/**/OHHTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubs/**/OHHTTPStubsMethodSwizzling.{h,m}"
-    urlsession.private_header_files = "Sources/OHHTTPStubs/**/OHHTTPStubsMethodSwizzling.h"
+    urlsession.source_files = "Sources/OHHTTPStubs/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubs/**/HTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubs/**/HTTPStubsMethodSwizzling.{h,m}"
+    urlsession.private_header_files = "Sources/OHHTTPStubs/**/HTTPStubsMethodSwizzling.h"
   end
 
   s.subspec 'JSON' do |json|
     json.dependency 'OHHTTPStubs/Core'
-    json.source_files = "Sources/OHHTTPStubs/**/OHHTTPStubsResponse+JSON.{h,m}"
+    json.source_files = "Sources/OHHTTPStubs/**/HTTPStubsResponse+JSON.{h,m}"
   end
 
   s.subspec 'HTTPMessage' do |httpmessage|
@@ -72,7 +72,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'OHPathHelpers' do |pathhelper|
-    pathhelper.source_files = "Sources/OHHTTPStubs/**/OHPathHelpers.{h,m}", "Sources/OHHTTPStubs/include/Compatibility.h"
+    pathhelper.source_files = "Sources/OHHTTPStubs/**/HTTPStubsPathHelpers.{h,m}", "Sources/OHHTTPStubs/include/Compatibility.h"
   end
 
   s.subspec 'Swift' do |swift|

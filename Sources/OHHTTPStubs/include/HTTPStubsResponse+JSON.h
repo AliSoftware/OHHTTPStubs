@@ -23,7 +23,7 @@
  ***********************************************************************************/
 
 
-#import "OHHTTPStubsResponse.h"
+#import "HTTPStubsResponse.h"
 #import "Compatibility.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Adds convenience methods to manipulate JSON objects directly.
  *  Pass in an `NSDictionary` or `NSArray` to generate a corresponding JSON output.
  */
-@interface OHHTTPStubsResponse (JSON)
+@interface HTTPStubsResponse (JSON)
 
 /**
  *  Builds a response given a JSON object for the response body, status code, and headers.
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param httpHeaders The HTTP Headers to return in the response
  *                     If a "Content-Type" header is not included, "Content-Type: application/json" will be added.
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note This method typically calls `responseWithData:statusCode:headers:`, passing the serialized JSON
  *        object as the data parameter and adding the Content-Type header if necessary.

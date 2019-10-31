@@ -34,7 +34,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types & Constants
 
-@interface OHHTTPStubsProtocol : NSURLProtocol @end
+@interface HTTPStubsProtocol : NSURLProtocol @end
 
 static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chunk of the data from the stream each 'slotTime' seconds
 
@@ -45,28 +45,28 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 + (instancetype)sharedInstance;
 @property(atomic, copy) NSMutableArray* stubDescriptors;
 @property(atomic, assign) BOOL enabledState;
-@property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
-@property(atomic, copy, nullable) void (^onStubRedirectBlock)(NSURLRequest*, NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*);
-@property(atomic, copy, nullable) void (^afterStubFinishBlock)(NSURLRequest*, id<OHHTTPStubsDescriptor>, OHHTTPStubsResponse*, NSError*);
+@property(atomic, copy, nullable) void (^onStubActivationBlock)(NSURLRequest*, id<HTTPStubsDescriptor>, HTTPStubsResponse*);
+@property(atomic, copy, nullable) void (^onStubRedirectBlock)(NSURLRequest*, NSURLRequest*, id<HTTPStubsDescriptor>, HTTPStubsResponse*);
+@property(atomic, copy, nullable) void (^afterStubFinishBlock)(NSURLRequest*, id<HTTPStubsDescriptor>, HTTPStubsResponse*, NSError*);
 @property(atomic, copy, nullable) void (^onStubMissingBlock)(NSURLRequest*);
 @end
 
-@interface OHHTTPStubsDescriptor : NSObject <OHHTTPStubsDescriptor>
-@property(atomic, copy) OHHTTPStubsTestBlock testBlock;
-@property(atomic, copy) OHHTTPStubsResponseBlock responseBlock;
+@interface HTTPStubsDescriptor : NSObject <HTTPStubsDescriptor>
+@property(atomic, copy) HTTPStubsTestBlock testBlock;
+@property(atomic, copy) HTTPStubsResponseBlock responseBlock;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-#pragma mark - OHHTTPStubsDescriptor Implementation
+#pragma mark - HTTPStubsDescriptor Implementation
 
-@implementation OHHTTPStubsDescriptor
+@implementation HTTPStubsDescriptor
 
 @synthesize name = _name;
 
-+(instancetype)stubDescriptorWithTestBlock:(OHHTTPStubsTestBlock)testBlock
-                             responseBlock:(OHHTTPStubsResponseBlock)responseBlock
++(instancetype)stubDescriptorWithTestBlock:(HTTPStubsTestBlock)testBlock
+                             responseBlock:(HTTPStubsResponseBlock)responseBlock
 {
-    OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor new];
+    HTTPStubsDescriptor* stub = [HTTPStubsDescriptor new];
     stub.testBlock = testBlock;
     stub.responseBlock = responseBlock;
     return stub;
@@ -133,16 +133,16 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 
 #pragma mark > Adding & Removing stubs
 
-+(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
-                                   withStubResponse:(OHHTTPStubsResponseBlock)responseBlock
++(id<HTTPStubsDescriptor>)stubRequestsPassingTest:(HTTPStubsTestBlock)testBlock
+                                   withStubResponse:(HTTPStubsResponseBlock)responseBlock
 {
-    OHHTTPStubsDescriptor* stub = [OHHTTPStubsDescriptor stubDescriptorWithTestBlock:testBlock
-                                                                       responseBlock:responseBlock];
+    HTTPStubsDescriptor* stub = [HTTPStubsDescriptor stubDescriptorWithTestBlock:testBlock
+                                                                     responseBlock:responseBlock];
     [HTTPStubs.sharedInstance addStub:stub];
     return stub;
 }
 
-+(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
++(BOOL)removeStub:(id<HTTPStubsDescriptor>)stubDesc
 {
     return [HTTPStubs.sharedInstance removeStub:stubDesc];
 }
@@ -158,11 +158,11 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 {
     if (enable)
     {
-        [NSURLProtocol registerClass:OHHTTPStubsProtocol.class];
+        [NSURLProtocol registerClass:HTTPStubsProtocol.class];
     }
     else
     {
-        [NSURLProtocol unregisterClass:OHHTTPStubsProtocol.class];
+        [NSURLProtocol unregisterClass:HTTPStubsProtocol.class];
     }
 }
 
@@ -184,7 +184,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
     {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
-        Class protoCls = OHHTTPStubsProtocol.class;
+        Class protoCls = HTTPStubsProtocol.class;
         if (enable && ![urlProtocolClasses containsObject:protoCls])
         {
             [urlProtocolClasses insertObject:protoCls atIndex:0];
@@ -210,7 +210,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
     {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
-        Class protoCls = OHHTTPStubsProtocol.class;
+        Class protoCls = HTTPStubsProtocol.class;
         return [urlProtocolClasses containsObject:protoCls];
     }
     else
@@ -230,17 +230,17 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     return [HTTPStubs.sharedInstance stubDescriptors];
 }
 
-+(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block
++(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<HTTPStubsDescriptor> stub, HTTPStubsResponse* responseStub) )block
 {
     [HTTPStubs.sharedInstance setOnStubActivationBlock:block];
 }
 
-+(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block
++(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<HTTPStubsDescriptor> stub, HTTPStubsResponse* responseStub) )block
 {
     [HTTPStubs.sharedInstance setOnStubRedirectBlock:block];
 }
 
-+(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError* error) )block
++(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<HTTPStubsDescriptor> stub, HTTPStubsResponse* responseStub, NSError* error) )block
 {
     [HTTPStubs.sharedInstance setAfterStubFinishBlock:block];
 }
@@ -274,7 +274,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }
 }
 
--(void)addStub:(OHHTTPStubsDescriptor*)stubDesc
+-(void)addStub:(HTTPStubsDescriptor*)stubDesc
 {
     @synchronized(_stubDescriptors)
     {
@@ -282,7 +282,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }
 }
 
--(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc
+-(BOOL)removeStub:(id<HTTPStubsDescriptor>)stubDesc
 {
     BOOL handlerFound = NO;
     @synchronized(_stubDescriptors)
@@ -301,12 +301,12 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
     }
 }
 
-- (OHHTTPStubsDescriptor*)firstStubPassingTestForRequest:(NSURLRequest*)request
+- (HTTPStubsDescriptor*)firstStubPassingTestForRequest:(NSURLRequest*)request
 {
-    OHHTTPStubsDescriptor* foundStub = nil;
+    HTTPStubsDescriptor* foundStub = nil;
     @synchronized(_stubDescriptors)
     {
-        for(OHHTTPStubsDescriptor* stub in _stubDescriptors.reverseObjectEnumerator)
+        for(HTTPStubsDescriptor* stub in _stubDescriptors.reverseObjectEnumerator)
         {
             if (stub.testBlock(request))
             {
@@ -332,14 +332,14 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Protocol Class
 
-@interface OHHTTPStubsProtocol()
+@interface HTTPStubsProtocol()
 @property(assign) BOOL stopped;
-@property(strong) OHHTTPStubsDescriptor* stub;
+@property(strong) HTTPStubsDescriptor* stub;
 @property(assign) CFRunLoopRef clientRunLoop;
 - (void)executeOnClientRunLoopAfterDelay:(NSTimeInterval)delayInSeconds block:(dispatch_block_t)block;
 @end
 
-@implementation OHHTTPStubsProtocol
+@implementation HTTPStubsProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
@@ -353,7 +353,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)response client:(id<NSURLProtocolClient>)client
 {
     // Make super sure that we never use a cached response.
-    OHHTTPStubsProtocol* proto = [super initWithRequest:request cachedResponse:nil client:client];
+    HTTPStubsProtocol* proto = [super initWithRequest:request cachedResponse:nil client:client];
     proto.stub = [HTTPStubs.sharedInstance firstStubPassingTestForRequest:request];
     return proto;
 }
@@ -411,7 +411,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         return;
     }
 
-    OHHTTPStubsResponse* responseStub = self.stub.responseBlock(request);
+    HTTPStubsResponse* responseStub = self.stub.responseBlock(request);
 
     if (HTTPStubs.sharedInstance.onStubActivationBlock)
     {
@@ -534,10 +534,10 @@ typedef struct {
     NSTimeInterval slotTime;
     double chunkSizePerSlot;
     double cumulativeChunkSize;
-} OHHTTPStubsStreamTimingInfo;
+} HTTPStubsStreamTimingInfo;
 
 - (void)streamDataForClient:(id<NSURLProtocolClient>)client
-           withStubResponse:(OHHTTPStubsResponse*)stubResponse
+           withStubResponse:(HTTPStubsResponse*)stubResponse
                  completion:(void(^)(NSError * error))completion
 {
     if (!self.stopped)
@@ -546,7 +546,7 @@ typedef struct {
         {
             // Compute timing data once and for all for this stub
 
-            OHHTTPStubsStreamTimingInfo timingInfo = {
+            HTTPStubsStreamTimingInfo timingInfo = {
                 .slotTime = kSlotTime, // Must be >0. We will send a chunk of data from the stream each 'slotTime' seconds
                 .cumulativeChunkSize = 0
             };
@@ -587,7 +587,7 @@ typedef struct {
 
 - (void) streamDataForClient:(id<NSURLProtocolClient>)client
                   fromStream:(NSInputStream*)inputStream
-                  timingInfo:(OHHTTPStubsStreamTimingInfo)timingInfo
+                  timingInfo:(HTTPStubsStreamTimingInfo)timingInfo
                   completion:(void(^)(NSError * error))completion
 {
     NSParameterAssert(timingInfo.chunkSizePerSlot > 0);

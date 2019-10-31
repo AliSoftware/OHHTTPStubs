@@ -56,8 +56,8 @@ static const NSTimeInterval kResponseTime = 0.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:[testString dataUsingEncoding:NSUTF8StringEncoding]
                                            statusCode:200
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
@@ -93,8 +93,8 @@ static const NSTimeInterval kResponseTime = 0.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:testData
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:testData
                                            statusCode:200
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];

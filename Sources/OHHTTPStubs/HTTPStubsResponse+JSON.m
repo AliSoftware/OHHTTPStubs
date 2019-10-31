@@ -23,9 +23,9 @@
  ***********************************************************************************/
 
 
-#import "OHHTTPStubsResponse+JSON.h"
+#import "HTTPStubsResponse+JSON.h"
 
-@implementation OHHTTPStubsResponse (JSON)
+@implementation HTTPStubsResponse (JSON)
 
 /*! @name Building a response from JSON objects */
 

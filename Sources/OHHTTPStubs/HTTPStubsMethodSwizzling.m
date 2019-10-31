@@ -1,6 +1,6 @@
 /***********************************************************************************
  *
- * Copyright (c) 2012 Olivier Halligon
+ * Copyright (c) 2012 Olivier Halligon, 2016 Sebastian Hagedorn
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,26 @@
  *
  ***********************************************************************************/
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Imports
 
-#import "OHPathHelpers.h"
+#import "HTTPStubsMethodSwizzling.h"
 
-NSString* __nullable OHPathForFile(NSString* fileName, Class inBundleForClass)
+//////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Method Swizzling Helpers
+
+IMP HTTPStubsReplaceMethod(SEL selector,
+                             IMP newImpl,
+                             Class affectedClass,
+                             BOOL isClassMethod)
 {
-    NSBundle* bundle = [NSBundle bundleForClass:inBundleForClass];
-    return OHPathForFileInBundle(fileName, bundle);
-}
+    Method origMethod = isClassMethod ? class_getClassMethod(affectedClass, selector) : class_getInstanceMethod(affectedClass, selector);
+    IMP origImpl = method_getImplementation(origMethod);
 
-NSString* __nullable OHPathForFileInBundle(NSString* fileName, NSBundle* bundle)
-{
-    return [bundle pathForResource:[fileName stringByDeletingPathExtension]
-                            ofType:[fileName pathExtension]];
-}
+    if (!class_addMethod(isClassMethod ? object_getClass(affectedClass) : affectedClass, selector, newImpl, method_getTypeEncoding(origMethod)))
+    {
+        method_setImplementation(origMethod, newImpl);
+    }
 
-NSString* __nullable OHPathForFileInDocumentsDir(NSString* fileName)
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = (paths.count > 0) ? paths[0] : nil;
-    return [basePath stringByAppendingPathComponent:fileName];
-}
-
-NSBundle* __nullable OHResourceBundle(NSString* bundleBasename, Class inBundleForClass)
-{
-    NSBundle* classBundle = [NSBundle bundleForClass:inBundleForClass];
-    return [NSBundle bundleWithPath:[classBundle pathForResource:bundleBasename
-                                                         ofType:@"bundle"]];
+    return origImpl;
 }

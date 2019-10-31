@@ -28,9 +28,9 @@
 #import <XCTest/XCTest.h>
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY || SWIFT_PACKAGE
-#import "OHHTTPStubs.h"
-#import "OHHTTPStubs+Mocktail.h"
-#import "OHHTTPStubsResponse+JSON.h"
+#import "HTTPStubs.h"
+#import "HTTPStubs+Mocktail.h"
+#import "HTTPStubsResponse+JSON.h"
 #else
 @import OHHTTPStubs;
 #endif

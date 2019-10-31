@@ -29,15 +29,15 @@
 #import <Foundation/Foundation.h>
 
 #import "Compatibility.h"
-#import "OHHTTPStubsResponse.h"
+#import "HTTPStubsResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Types
 
-typedef BOOL(^OHHTTPStubsTestBlock)(NSURLRequest* request);
-typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest* request);
+typedef BOOL(^HTTPStubsTestBlock)(NSURLRequest* request);
+typedef HTTPStubsResponse* __nonnull (^HTTPStubsResponseBlock)( NSURLRequest* request);
 
 /**
  *  This opaque type represents an installed stub and is used to uniquely
@@ -49,7 +49,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  This type also let you add arbitrary metadata to a stub to differenciate it
  *  more easily when debugging.
  */
-@protocol OHHTTPStubsDescriptor <NSObject>
+@protocol HTTPStubsDescriptor <NSObject>
 /**
  *  An arbitrary name that you can set and get to describe your stub.
  *  Use it as your own convenience.
@@ -79,7 +79,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param testBlock Block that should return `YES` if the request passed as parameter
  *                   should be stubbed with the response block, and `NO` if it should
  *                   hit the real world (or be managed by another stub).
- *  @param responseBlock Block that will return the `OHHTTPStubsResponse` (response to
+ *  @param responseBlock Block that will return the `HTTPStubsResponse` (response to
  *                       use for stubbing) corresponding to the given request
  *
  *  @return a stub descriptor that uniquely identifies the stub and can be later used to remove it with `removeStub:`.
@@ -90,8 +90,8 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *        in your app code, to let the stub descriptor be destroyed and let the variable go
  *        back to `nil` automatically when the stub is removed.
  */
-+(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
-                                   withStubResponse:(OHHTTPStubsResponseBlock)responseBlock;
++(id<HTTPStubsDescriptor>)stubRequestsPassingTest:(HTTPStubsTestBlock)testBlock
+                                   withStubResponse:(HTTPStubsResponseBlock)responseBlock;
 
 /**
  *  Remove a stub from the list of stubs
@@ -102,7 +102,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @return `YES` if the stub has been successfully removed, `NO` if the parameter was
  *          not a valid stub identifier
  */
-+(BOOL)removeStub:(id<OHHTTPStubsDescriptor>)stubDesc;
++(BOOL)removeStub:(id<HTTPStubsDescriptor>)stubDesc;
 
 /**
  *  Remove all the stubs from the stubs list.
@@ -172,7 +172,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
 /**
  *  List all the installed stubs
  *
- *  @return An array of `id<OHHTTPStubsDescriptor>` objects currently installed. Useful for debug.
+ *  @return An array of `id<HTTPStubsDescriptor>` objects currently installed. Useful for debug.
  */
 +(NSArray*)allStubs;
 
@@ -185,7 +185,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a request is being stubbed by OHHTTPStubs.
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block;
++(void)onStubActivation:( nullable void(^)(NSURLRequest* request, id<HTTPStubsDescriptor> stub, HTTPStubsResponse* responseStub) )block;
 
 /**
  *  Setup a block to be called whenever OHHTTPStubs encounters a redirect request.
@@ -193,7 +193,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a redirect request is being stubbed by OHHTTPStubs. 
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub) )block;
++(void)onStubRedirectResponse:( nullable void(^)(NSURLRequest* request, NSURLRequest* redirectRequest, id<HTTPStubsDescriptor> stub, HTTPStubsResponse* responseStub) )block;
 
 /**
  *  Setup a block to be called each time a stub finishes. Useful if stubs take an insignificant amount
@@ -203,7 +203,7 @@ typedef OHHTTPStubsResponse* __nonnull (^OHHTTPStubsResponseBlock)( NSURLRequest
  *  @param block The block to call each time a request is finished being stubbed by OHHTTPStubs. 
  *               Set it to `nil` to do nothing. Defaults is `nil`.
  */
-+(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<OHHTTPStubsDescriptor> stub, OHHTTPStubsResponse* responseStub, NSError *error) )block;
++(void)afterStubFinish:( nullable void(^)(NSURLRequest* request, id<HTTPStubsDescriptor> stub, HTTPStubsResponse* responseStub, NSError *error) )block;
 
 /**
  *  Setup a block to be called whenever OHHTTPStubs encounters a missing stub.

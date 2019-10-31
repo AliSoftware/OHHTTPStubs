@@ -97,8 +97,8 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:stubData
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:stubData
                                            statusCode:200
                                               headers:nil]
                 requestTime:requestTime responseTime:responseTime];

@@ -127,8 +127,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:testData
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:testData
                                            statusCode:200
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
@@ -159,8 +159,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:testData
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:testData
                                            statusCode:300
                                               headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
                 requestTime:kRequestTime responseTime:kResponseTime];
@@ -190,8 +190,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        OHHTTPStubsResponse* resp = [OHHTTPStubsResponse responseWithError:expectedError];
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        HTTPStubsResponse* resp = [HTTPStubsResponse responseWithError:expectedError];
         resp.responseTime = kResponseTime;
         return resp;
     }];
@@ -223,8 +223,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:[@"<this data should never have time to arrive>" dataUsingEncoding:NSUTF8StringEncoding]
                                            statusCode:500
                                               headers:nil]
                 requestTime:0.0 responseTime:1.5];
@@ -262,10 +262,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     NSString* const cookieValue = [NSProcessInfo.processInfo globallyUniqueString];
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         NSString* cookie = [NSString stringWithFormat:@"%@=%@;", cookieName, cookieValue];
         NSDictionary* headers = @{@"Set-Cookie": cookie};
-        return [[OHHTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
+        return [[HTTPStubsResponse responseWithData:[@"Yummy cookies" dataUsingEncoding:NSUTF8StringEncoding]
                                            statusCode:200
                                               headers:headers]
                 requestTime:0.0 responseTime:0.1];
@@ -332,19 +332,19 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         if ([request.URL isEqual:redirectURL]) {
             NSString* redirectCookie = [NSString stringWithFormat:@"%@=%@;", redirectCookieName, redirectCookieValue];
             NSDictionary* headers = @{ @"Location": endURL.absoluteString,
                                        @"Set-Cookie": redirectCookie };
-            return [[OHHTTPStubsResponse responseWithData:redirectData
+            return [[HTTPStubsResponse responseWithData:redirectData
                                                statusCode:311 // any 300-level request will do
                                                   headers:headers]
                     requestTime:kRequestTime responseTime:kResponseTime];
         } else {
             NSString* endCookie = [NSString stringWithFormat:@"%@=%@;", endCookieName, endCookieValue];
             NSDictionary* headers = @{ @"Set-Cookie": endCookie };
-            return [[OHHTTPStubsResponse responseWithData:testData
+            return [[HTTPStubsResponse responseWithData:testData
                                                statusCode:200
                                                   headers:headers]
                     requestTime:kRequestTime responseTime:kResponseTime];

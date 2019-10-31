@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Stubs Response. This describes a stubbed response to be returned by the URL Loading System,
  *  including its HTTP headers, body, statusCode and response time.
  */
-@interface OHHTTPStubsResponse : NSObject
+@interface HTTPStubsResponse : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Properties
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param data The raw data to return in the response
  *  @param statusCode The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param statusCode The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note It is encouraged to use the OHPathHelpers functions & macros to build
  *        the filePath parameter easily
@@ -147,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param statusCode  The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note This method applies only to URLs that represent file system resources
  */
@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param error The error to use in the stubbed response.
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */
@@ -174,27 +174,27 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Commotidy Setters
 
 /**
- *  Set the `responseTime` of the `OHHTTPStubsResponse` and return `self`. Useful for chaining method calls.
+ *  Set the `responseTime` of the `HTTPStubsResponse` and return `self`. Useful for chaining method calls.
  *
  *  _Usage example:_
- *  <pre>return [[OHHTTPStubsResponse responseWithData:data statusCode:200 headers:nil] responseTime:5.0];</pre>
+ *  <pre>return [[HTTPStubsResponse responseWithData:data statusCode:200 headers:nil] responseTime:5.0];</pre>
  *
  *  @param responseTime If positive, the amount of time used to send the entire response.
  *                     If negative, the rate in KB/s at which to send the response data.
  *                     Useful to simulate slow networks for example. You may use the
  *                     _OHHTTPStubsDownloadSpeed…_ constants here.
  *
- *  @return `self` (= the same `OHHTTPStubsResponse` that was the target of this method).
+ *  @return `self` (= the same `HTTPStubsResponse` that was the target of this method).
  *          Returning `self` is useful for chaining method calls.
  */
 -(instancetype)responseTime:(NSTimeInterval)responseTime;
 
 /**
- *  Set both the `requestTime` and the `responseTime` of the `OHHTTPStubsResponse` at once.
+ *  Set both the `requestTime` and the `responseTime` of the `HTTPStubsResponse` at once.
  *  Useful for chaining method calls.
  *
  *  _Usage example:_
- *  <pre>return [[OHHTTPStubsResponse responseWithData:data statusCode:200 headers:nil]
+ *  <pre>return [[HTTPStubsResponse responseWithData:data statusCode:200 headers:nil]
  *            requestTime:1.0 responseTime:5.0];</pre>
  *
  *  @param requestTime The time to wait before the response begins to send. This value must be greater than or equal to zero.
@@ -203,7 +203,7 @@ NS_ASSUME_NONNULL_BEGIN
  *                      Useful to simulate slow networks for example. You may use the
  *                      _OHHTTPStubsDownloadSpeed…_ constants here.
  *
- *  @return `self` (= the same `OHHTTPStubsResponse` that was the target of this method). Useful for chaining method calls.
+ *  @return `self` (= the same `HTTPStubsResponse` that was the target of this method). Useful for chaining method calls.
  */
 -(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime;
 
@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Designated empty initializer
  *
- * @return An empty `OHHTTPStubsResponse` on which you need to set either an error or a statusCode, httpHeaders, inputStream and dataSize.
+ * @return An empty `HTTPStubsResponse` on which you need to set either an error or a statusCode, httpHeaders, inputStream and dataSize.
  *
  * @note This is not recommended to use this method directly. You should use `initWithInputStream:dataSize:statusCode:headers:` instead.
  */
@@ -230,7 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param statusCode The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note You will probably never need to call this method yourself. Prefer the other initializers (that will call this method eventually)
  */
@@ -247,7 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param statusCode The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note This method simply builds the NSInputStream, compute the file size, and then call `-initWithInputStream:dataSize:statusCode:headers:`
  */
@@ -263,7 +263,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param statusCode  The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note This method applies only to URLs that represent file system resources
  */
@@ -278,7 +278,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param statusCode The HTTP Status Code to use in the response
  *  @param httpHeaders The HTTP Headers to return in the response
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  */
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
@@ -290,7 +290,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param error The error to use in the stubbed response.
  *
- *  @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ *  @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  *
  *  @note For example you could use an error like `[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil]`
  */

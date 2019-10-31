@@ -30,7 +30,7 @@
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY || SWIFT_PACKAGE
 #import "HTTPStubs.h"
-#import "OHPathHelpers.h"
+#import "HTTPStubsPathHelpers.h"
 #else
 @import OHHTTPStubs;
 #endif
@@ -51,10 +51,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-        return [OHHTTPStubsResponse responseWithData:nil statusCode:400 headers:nil];
+        return [HTTPStubsResponse responseWithData:nil statusCode:400 headers:nil];
 #pragma clang diagnostic pop
     }];
 
@@ -78,8 +78,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:400 headers:nil]
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:[NSData data] statusCode:400 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
 
@@ -103,10 +103,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-        return [[OHHTTPStubsResponse responseWithFileAtPath:nil statusCode:501 headers:nil]
+        return [[HTTPStubsResponse responseWithFileAtPath:nil statusCode:501 headers:nil]
                 requestTime:0.01 responseTime:0.01];
 #pragma clang diagnostic pop
     }];
@@ -131,10 +131,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-        return [[OHHTTPStubsResponse responseWithFileURL:nil statusCode:501 headers:nil]
+        return [[HTTPStubsResponse responseWithFileURL:nil statusCode:501 headers:nil]
                 requestTime:0.01 responseTime:0.01];
 #pragma clang diagnostic pop
     }];
@@ -157,7 +157,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 - (void)test_InvalidPath
 {
-    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileAtPath:@"foo/bar" statusCode:501 headers:nil]
+    XCTAssertThrowsSpecificNamed([HTTPStubsResponse responseWithFileAtPath:@"foo/bar" statusCode:501 headers:nil]
                                  , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
@@ -165,7 +165,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     NSURL *httpURL = [NSURL fileURLWithPath:@"foo/bar"];
     NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
-    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
+    XCTAssertThrowsSpecificNamed([HTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
                                  , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
@@ -173,7 +173,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     NSURL *httpURL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
     NSAssert(httpURL, @"If the URL is nil an empty response is sent instead of an exception being thrown");
-    XCTAssertThrowsSpecificNamed([OHHTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
+    XCTAssertThrowsSpecificNamed([HTTPStubsResponse responseWithFileURL:httpURL statusCode:501 headers:nil]
                                  , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
@@ -182,9 +182,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         NSString* emptyFile = OHPathForFile(@"emptyfile.json", self.class);
-        return [[OHHTTPStubsResponse responseWithFileAtPath:emptyFile statusCode:500 headers:nil]
+        return [[HTTPStubsResponse responseWithFileAtPath:emptyFile statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
 
@@ -208,9 +208,9 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         NSURL *fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"emptyfile" withExtension:@"json"];
-        return [[OHHTTPStubsResponse responseWithFileURL:fileURL statusCode:500 headers:nil]
+        return [[HTTPStubsResponse responseWithFileURL:fileURL statusCode:500 headers:nil]
                 requestTime:0.01 responseTime:0.01];
     }];
 
@@ -236,8 +236,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:expectedResponse
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [HTTPStubsResponse responseWithData:expectedResponse
                                           statusCode:200
                                              headers:nil];
     }];

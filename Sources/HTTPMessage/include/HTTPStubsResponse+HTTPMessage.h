@@ -26,7 +26,7 @@
 /* This category is not available on watchOS because CFNetwork is needed for its implementation but isn't available on Nano */
 #if __has_include(<CFNetwork/CFNetwork.h>)
 
-#import "OHHTTPStubsResponse.h"
+#import "HTTPStubsResponse.h"
 #import "Compatibility.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @note This category is not available on watchOS
  */
-@interface OHHTTPStubsResponse (HTTPMessage)
+@interface HTTPStubsResponse (HTTPMessage)
 
 /*! @name Building a response from HTTP Message data */
 
@@ -46,11 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Builds a response given a message data as returned by `curl -is [url]`, that is containing both the headers and the body.
  *
- * This method will split the headers and the body and build a OHHTTPStubsResponse accordingly
+ * This method will split the headers and the body and build a HTTPStubsResponse accordingly
  *
  * @param responseData The NSData containing the whole HTTP response, including the headers and the body
  *
- * @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ * @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  */
 +(instancetype)responseWithHTTPMessageData:(NSData*)responseData;
 
@@ -58,14 +58,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Builds a response given the name of a `"*.response"` file containing both the headers and the body.
  *
  * The response file is expected to be in the specified bundle (or the application bundle if nil).
- * This method will split the headers and the body and build a OHHTTPStubsResponse accordingly
+ * This method will split the headers and the body and build a HTTPStubsResponse accordingly
  *
  * @param responseName The name of the `"*.response"` file (without extension) containing the whole
  *                     HTTP response (including the headers and the body)
  * @param bundleOrNil  The bundle in which the `"*.response"` file is located. If `nil`, the
  *                     `[NSBundle bundleForClass:self.class]` will be used.
  *
- * @return An `OHHTTPStubsResponse` describing the corresponding response to return by the stub
+ * @return An `HTTPStubsResponse` describing the corresponding response to return by the stub
  */
 
 +(instancetype)responseNamed:(NSString*)responseName

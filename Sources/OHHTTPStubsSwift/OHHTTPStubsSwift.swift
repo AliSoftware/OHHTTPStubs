@@ -32,7 +32,7 @@ import OHHTTPStubs
 
 #if !swift(>=3.0)
   extension HTTPStubs {
-    private class func stubRequests(passingTest: OHHTTPStubsTestBlock, withStubResponse: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+    private class func stubRequests(passingTest: HTTPStubsTestBlock, withStubResponse: HTTPStubsResponseBlock) -> HTTPStubsDescriptor {
       return stubRequestsPassingTest(passingTest, withStubResponse: withStubResponse)
     }
   }
@@ -73,22 +73,22 @@ import OHHTTPStubs
 // MARK: Syntaxic Sugar for OHHTTPStubs
 
 /**
- * Helper to return a `OHHTTPStubsResponse` given a fixture path, status code and optional headers.
+ * Helper to return a `HTTPStubsResponse` given a fixture path, status code and optional headers.
  *
  * - Parameter filePath: the path of the file fixture to use for the response
  * - Parameter status: the status code to use for the response
  * - Parameter headers: the HTTP headers to use for the response
  *
- * - Returns: The `OHHTTPStubsResponse` instance that will stub with the given status code
+ * - Returns: The `HTTPStubsResponse` instance that will stub with the given status code
  *            & headers, and use the file content as the response body.
  */
 #if swift(>=3.0)
-  public func fixture(filePath: String, status: Int32 = 200, headers: [AnyHashable: Any]?) -> OHHTTPStubsResponse {
-    return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
+  public func fixture(filePath: String, status: Int32 = 200, headers: [AnyHashable: Any]?) -> HTTPStubsResponse {
+    return HTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
   }
 #else
-  public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> OHHTTPStubsResponse {
-  return OHHTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
+  public func fixture(filePath: String, status: Int32 = 200, headers: [NSObject: AnyObject]?) -> HTTPStubsResponse {
+  return HTTPStubsResponse(fileAtPath: filePath, statusCode: status, headers: headers)
   }
 #endif
 
@@ -98,81 +98,81 @@ import OHHTTPStubs
  * - Parameter condition: the matcher block that determine if the request will be stubbed
  * - Parameter response: the stub reponse to use if the request is stubbed
  *
- * - Returns: The opaque `OHHTTPStubsDescriptor` that uniquely identifies the stub
+ * - Returns: The opaque `HTTPStubsDescriptor` that uniquely identifies the stub
  *            and can be later used to remove it with `removeStub:`
  */
 #if swift(>=3.0)
   @discardableResult
-  public func stub(condition: @escaping OHHTTPStubsTestBlock, response: @escaping OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+  public func stub(condition: @escaping HTTPStubsTestBlock, response: @escaping HTTPStubsResponseBlock) -> HTTPStubsDescriptor {
     return HTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
   }
 #else
-  public func stub(condition: OHHTTPStubsTestBlock, response: OHHTTPStubsResponseBlock) -> OHHTTPStubsDescriptor {
+  public func stub(condition: HTTPStubsTestBlock, response: HTTPStubsResponseBlock) -> HTTPStubsDescriptor {
   return HTTPStubs.stubRequests(passingTest: condition, withStubResponse: response)
   }
 #endif
 
 
 
-// MARK: Create OHHTTPStubsTestBlock matchers
+// MARK: Create HTTPStubsTestBlock matchers
 
 /**
  * Matcher testing that the `NSURLRequest` is using the **GET** `HTTPMethod`
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            is using the GET method
  */
-public func isMethodGET() -> OHHTTPStubsTestBlock {
+public func isMethodGET() -> HTTPStubsTestBlock {
   return { $0.httpMethod == "GET" }
 }
 
 /**
  * Matcher testing that the `NSURLRequest` is using the **POST** `HTTPMethod`
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            is using the POST method
  */
-public func isMethodPOST() -> OHHTTPStubsTestBlock {
+public func isMethodPOST() -> HTTPStubsTestBlock {
   return { $0.httpMethod == "POST" }
 }
 
 /**
  * Matcher testing that the `NSURLRequest` is using the **PUT** `HTTPMethod`
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            is using the PUT method
  */
-public func isMethodPUT() -> OHHTTPStubsTestBlock {
+public func isMethodPUT() -> HTTPStubsTestBlock {
   return { $0.httpMethod == "PUT" }
 }
 
 /**
  * Matcher testing that the `NSURLRequest` is using the **PATCH** `HTTPMethod`
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            is using the PATCH method
  */
-public func isMethodPATCH() -> OHHTTPStubsTestBlock {
+public func isMethodPATCH() -> HTTPStubsTestBlock {
   return { $0.httpMethod == "PATCH" }
 }
 
 /**
  * Matcher testing that the `NSURLRequest` is using the **DELETE** `HTTPMethod`
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            is using the DELETE method
  */
-public func isMethodDELETE() -> OHHTTPStubsTestBlock {
+public func isMethodDELETE() -> HTTPStubsTestBlock {
   return { $0.httpMethod == "DELETE" }
 }
 
 /**
  * Matcher testing that the `NSURLRequest` is using the **HEAD** `HTTPMethod`
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            is using the HEAD method
  */
-public func isMethodHEAD() -> OHHTTPStubsTestBlock {
+public func isMethodHEAD() -> HTTPStubsTestBlock {
     return { $0.httpMethod == "HEAD" }
 }
 
@@ -183,10 +183,10 @@ public func isMethodHEAD() -> OHHTTPStubsTestBlock {
  *
  * - Parameter url: The absolute url string to match
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            has the given absolute url
  */
-public func isAbsoluteURLString(_ url: String) -> OHHTTPStubsTestBlock {
+public func isAbsoluteURLString(_ url: String) -> HTTPStubsTestBlock {
   return { req in req.url?.absoluteString == url }
 }
 
@@ -197,10 +197,10 @@ public func isAbsoluteURLString(_ url: String) -> OHHTTPStubsTestBlock {
  *
  * - Parameter scheme: The scheme to match
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            has the given scheme
  */
-public func isScheme(_ scheme: String) -> OHHTTPStubsTestBlock {
+public func isScheme(_ scheme: String) -> HTTPStubsTestBlock {
   precondition(!scheme.contains("://"), "The scheme part of an URL never contains '://'. Only use strings like 'https' for this value, and not things like 'https://'")
   precondition(!scheme.contains("/"), "The scheme part of an URL never contains any slash. Only use strings like 'https' for this value, and not things like 'https://api.example.com/'")
   return { req in req.url?.scheme == scheme }
@@ -213,10 +213,10 @@ public func isScheme(_ scheme: String) -> OHHTTPStubsTestBlock {
  *
  * - Parameter host: The host to match (e.g. 'api.example.com')
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            has the given host
  */
-public func isHost(_ host: String) -> OHHTTPStubsTestBlock {
+public func isHost(_ host: String) -> HTTPStubsTestBlock {
   precondition(!host.contains("/"), "The host part of an URL never contains any slash. Only use strings like 'api.example.com' for this value, and not things like 'https://api.example.com/'")
   return { req in req.url?.host == host }
 }
@@ -228,13 +228,13 @@ public func isHost(_ host: String) -> OHHTTPStubsTestBlock {
  *
  * - Parameter path: The path to match
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request
  *            has exactly the given path
  *
  * - Note: URL paths are usually absolute and thus starts with a '/' (which you
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
-public func isPath(_ path: String) -> OHHTTPStubsTestBlock {
+public func isPath(_ path: String) -> HTTPStubsTestBlock {
   return { req in req.url?.path == path }
 }
 
@@ -250,13 +250,13 @@ private func getPath(_ req: URLRequest) -> String? {
  *
  * - Parameter path: The path to match
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request's
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request's
  *            path starts with the given string
  *
  * - Note: URL paths are usually absolute and thus starts with a '/' (which you
  *         should include in the `path` parameter unless you're testing relative URLs)
  */
-public func pathStartsWith(_ path: String) -> OHHTTPStubsTestBlock {
+public func pathStartsWith(_ path: String) -> HTTPStubsTestBlock {
   return { req in getPath(req)?.hasPrefix(path) ?? false }
 }
 
@@ -265,10 +265,10 @@ public func pathStartsWith(_ path: String) -> OHHTTPStubsTestBlock {
  *
  * - Parameter path: The path to match
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request's
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request's
  *            path ends with the given string
  */
-public func pathEndsWith(_ path: String) -> OHHTTPStubsTestBlock {
+public func pathEndsWith(_ path: String) -> HTTPStubsTestBlock {
   return { req in getPath(req)?.hasSuffix(path) ?? false }
 }
 
@@ -277,12 +277,12 @@ public func pathEndsWith(_ path: String) -> OHHTTPStubsTestBlock {
  *
  * - Parameter regex: The Regular Expression we want the path to match
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request's
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request's
  *            path matches the given regular expression
  *
  * - Note: URL paths are usually absolute and thus starts with a '/'
  */
-public func pathMatches(_ regex: NSRegularExpression) -> OHHTTPStubsTestBlock {
+public func pathMatches(_ regex: NSRegularExpression) -> HTTPStubsTestBlock {
   return { req in
     guard let path = getPath(req) else { return false }
     let range = NSRange(location: 0, length: path.utf16.count)
@@ -301,21 +301,21 @@ public func pathMatches(_ regex: NSRegularExpression) -> OHHTTPStubsTestBlock {
  * - Parameter options: The Regular Expression options to use.
  *                      Defaults to no option. Common option includes e.g. `.caseInsensitive`.
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request's
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request's
  *            path matches the given regular expression
  *
  * - Note: This is a convenience function building an NSRegularExpression
  *         and calling pathMatches(…) with it
  */
 #if swift(>=3.0)
-public func pathMatches(_ regexString: String, options: NSRegularExpression.Options = []) -> OHHTTPStubsTestBlock {
+public func pathMatches(_ regexString: String, options: NSRegularExpression.Options = []) -> HTTPStubsTestBlock {
   guard let regex = try? NSRegularExpression(pattern: regexString, options: options) else {
     return { _ in false }
   }
   return pathMatches(regex)
 }
 #else
-  public func pathMatches(_ regexString: String, options: NSRegularExpressionOptions = []) -> OHHTTPStubsTestBlock {
+  public func pathMatches(_ regexString: String, options: NSRegularExpressionOptions = []) -> HTTPStubsTestBlock {
     guard let regex = try? NSRegularExpression(pattern: regexString, options: options) else {
       return { _ in false }
     }
@@ -328,10 +328,10 @@ public func pathMatches(_ regexString: String, options: NSRegularExpression.Opti
  *
  * - Parameter ext: The file extension to match (without the dot)
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds only if the request path
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds only if the request path
  *            ends with the given extension
  */
-public func isExtension(_ ext: String) -> OHHTTPStubsTestBlock {
+public func isExtension(_ ext: String) -> HTTPStubsTestBlock {
   return { req in req.url?.pathExtension == ext }
 }
 
@@ -340,7 +340,7 @@ public func isExtension(_ ext: String) -> OHHTTPStubsTestBlock {
  *
  * - Parameter params: The dictionary of query parameters to check the presence for
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that succeeds if the request contains
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds if the request contains
  *            the given query parameters with the given value.
  *
  * - Note: There is a difference between:
@@ -348,7 +348,7 @@ public func isExtension(_ ext: String) -> OHHTTPStubsTestBlock {
  *          (2) using `[q:nil]`, which matches a query parameter "?q" without a value at all
  */
 @available(iOS 8.0, OSX 10.10, *)
-public func containsQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBlock {
+public func containsQueryParams(_ params: [String:String?]) -> HTTPStubsTestBlock {
   return { req in
     if let url = req.url {
       let comps = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
@@ -369,7 +369,7 @@ public func containsQueryParams(_ params: [String:String?]) -> OHHTTPStubsTestBl
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s headers contain a value for the key name
  */
-public func hasHeaderNamed(_ name: String) -> OHHTTPStubsTestBlock {
+public func hasHeaderNamed(_ name: String) -> HTTPStubsTestBlock {
   return { (req: URLRequest) -> Bool in
     return req.value(forHTTPHeaderField: name) != nil
   }
@@ -383,7 +383,7 @@ public func hasHeaderNamed(_ name: String) -> OHHTTPStubsTestBlock {
  * - Returns: a matcher that returns true if the `NSURLRequest`'s headers contain a value for the key name and it's value
  *            is equal to the parameter value
  */
-public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBlock {
+public func hasHeaderNamed(_ name: String, value: String) -> HTTPStubsTestBlock {
   return { (req: URLRequest) -> Bool in
     return req.value(forHTTPHeaderField: name) == value
   }
@@ -396,12 +396,12 @@ public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBloc
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body is exactly the same as the parameter value
  */
 #if swift(>=3.0)
-  public func hasBody(_ body: Data) -> OHHTTPStubsTestBlock {
+  public func hasBody(_ body: Data) -> HTTPStubsTestBlock {
     return { req in (req as NSURLRequest).ohhttpStubs_HTTPBody() == body }
   }
 #else
-  public func hasBody(_ body: NSData) -> OHHTTPStubsTestBlock {
-    return { req in req.OHHTTPStubs_HTTPBody() == body }
+  public func hasBody(_ body: NSData) -> HTTPStubsTestBlock {
+    return { req in req.OHOHHTTPStubs_HTTPBody() == body }
   }
 #endif
 
@@ -412,7 +412,7 @@ public func hasHeaderNamed(_ name: String, value: String) -> OHHTTPStubsTestBloc
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains a JSON object with the same keys and values as the parameter value
  */
 #if swift(>=3.0)
-public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> OHHTTPStubsTestBlock {
+public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock {
   return { req in
     guard
       let httpBody = req.ohhttpStubs_httpBody,
@@ -425,57 +425,57 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> OHHTTPStubsTestBlo
 }
 #endif
 
-// MARK: Operators on OHHTTPStubsTestBlock
+// MARK: Operators on HTTPStubsTestBlock
 
 /**
- * Combine different `OHHTTPStubsTestBlock` matchers with an 'OR' operation.
+ * Combine different `HTTPStubsTestBlock` matchers with an 'OR' operation.
  *
  * - Parameter lhs: the first matcher to test
  * - Parameter rhs: the second matcher to test
  *
- * - Returns: a matcher (`OHHTTPStubsTestBlock`) that succeeds if either of the given matchers succeeds
+ * - Returns: a matcher (`HTTPStubsTestBlock`) that succeeds if either of the given matchers succeeds
  */
 #if swift(>=3.0)
-  public func || (lhs: @escaping OHHTTPStubsTestBlock, rhs: @escaping OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+  public func || (lhs: @escaping HTTPStubsTestBlock, rhs: @escaping HTTPStubsTestBlock) -> HTTPStubsTestBlock {
     return { req in lhs(req) || rhs(req) }
   }
 #else
-  public func || (lhs: OHHTTPStubsTestBlock, rhs: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+  public func || (lhs: HTTPStubsTestBlock, rhs: HTTPStubsTestBlock) -> HTTPStubsTestBlock {
     return { req in lhs(req) || rhs(req) }
   }
 #endif
 
 /**
- * Combine different `OHHTTPStubsTestBlock` matchers with an 'AND' operation.
+ * Combine different `HTTPStubsTestBlock` matchers with an 'AND' operation.
  *
  * - Parameter lhs: the first matcher to test
  * - Parameter rhs: the second matcher to test
  *
- * - Returns: a matcher (`OHHTTPStubsTestBlock`) that only succeeds if both of the given matchers succeeds
+ * - Returns: a matcher (`HTTPStubsTestBlock`) that only succeeds if both of the given matchers succeeds
  */
 #if swift(>=3.0)
-  public func && (lhs: @escaping OHHTTPStubsTestBlock, rhs: @escaping OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+  public func && (lhs: @escaping HTTPStubsTestBlock, rhs: @escaping HTTPStubsTestBlock) -> HTTPStubsTestBlock {
     return { req in lhs(req) && rhs(req) }
   }
 #else
-  public func && (lhs: OHHTTPStubsTestBlock, rhs: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+  public func && (lhs: HTTPStubsTestBlock, rhs: HTTPStubsTestBlock) -> HTTPStubsTestBlock {
     return { req in lhs(req) && rhs(req) }
   }
 #endif
 
 /**
- * Create the opposite of a given `OHHTTPStubsTestBlock` matcher.
+ * Create the opposite of a given `HTTPStubsTestBlock` matcher.
  *
  * - Parameter expr: the matcher to negate
  *
- * - Returns: a matcher (OHHTTPStubsTestBlock) that only succeeds if the expr matcher fails
+ * - Returns: a matcher (HTTPStubsTestBlock) that only succeeds if the expr matcher fails
  */
 #if swift(>=3.0)
-  public prefix func ! (expr: @escaping OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+  public prefix func ! (expr: @escaping HTTPStubsTestBlock) -> HTTPStubsTestBlock {
     return { req in !expr(req) }
   }
 #else
-  public prefix func ! (expr: OHHTTPStubsTestBlock) -> OHHTTPStubsTestBlock {
+  public prefix func ! (expr: HTTPStubsTestBlock) -> HTTPStubsTestBlock {
     return { req in !expr(req) }
   }
 #endif

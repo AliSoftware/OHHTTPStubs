@@ -59,8 +59,8 @@ static const NSTimeInterval kResponseTime = 0.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:testData
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:testData
                                            statusCode:200
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
@@ -95,8 +95,8 @@ static const NSTimeInterval kResponseTime = 0.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:testData
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:testData
                                            statusCode:200
                                               headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
@@ -144,10 +144,10 @@ static const NSTimeInterval kResponseTime = 0.5;
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         NSData* retData = dataForRequest(request);
         NSTimeInterval responseTime = [request.URL.lastPathComponent doubleValue];
-        return [[OHHTTPStubsResponse responseWithData:retData
+        return [[HTTPStubsResponse responseWithData:retData
                                            statusCode:200
                                               headers:nil]
                 requestTime:responseTime*.1 responseTime:responseTime];

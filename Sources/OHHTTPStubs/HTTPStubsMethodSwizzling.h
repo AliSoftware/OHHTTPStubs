@@ -45,7 +45,7 @@
  *                       implementation and call it when overwriting
  *                       the selector.
  */
-__attribute__((warn_unused_result)) IMP OHHTTPStubsReplaceMethod(SEL selector,
-                                                                 IMP newImpl,
-                                                                 Class affectedClass,
-                                                                 BOOL isClassMethod);
+__attribute__((warn_unused_result)) IMP HTTPStubsReplaceMethod(SEL selector,
+                                                               IMP newImpl,
+                                                               Class affectedClass,
+                                                               BOOL isClassMethod);

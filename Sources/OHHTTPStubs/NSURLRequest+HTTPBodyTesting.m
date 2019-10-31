@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
 
-#import "OHHTTPStubsMethodSwizzling.h"
+#import "HTTPStubsMethodSwizzling.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSURLRequest+CustomHTTPBody
@@ -48,8 +48,8 @@ NSString * const OHHTTPStubs_HTTPBodyKey = @"HTTPBody";
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSMutableURLRequest+HTTPBodyTesting
 
-typedef void(*OHHHTTPStubsSetterIMP)(id, SEL, id);
-static OHHHTTPStubsSetterIMP orig_setHTTPBody;
+typedef void(*HTTPStubsSetterIMP)(id, SEL, id);
+static HTTPStubsSetterIMP orig_setHTTPBody;
 
 static void OHHTTPStubs_setHTTPBody(id self, SEL _cmd, NSData* HTTPBody)
 {
@@ -75,10 +75,10 @@ static void OHHTTPStubs_setHTTPBody(id self, SEL _cmd, NSData* HTTPBody)
 
 + (void)load
 {
-    orig_setHTTPBody = (OHHHTTPStubsSetterIMP)OHHTTPStubsReplaceMethod(@selector(setHTTPBody:),
-                                                                       (IMP)OHHTTPStubs_setHTTPBody,
-                                                                       [NSMutableURLRequest class],
-                                                                       NO);
+    orig_setHTTPBody = (HTTPStubsSetterIMP)HTTPStubsReplaceMethod(@selector(setHTTPBody:),
+                                                                     (IMP)OHHTTPStubs_setHTTPBody,
+                                                                     [NSMutableURLRequest class],
+                                                                     NO);
 }
 
 @end

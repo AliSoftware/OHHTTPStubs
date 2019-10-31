@@ -547,8 +547,8 @@ class SwiftHelpersTests : XCTestCase {
     "path;/foo/bar/baz"
   ]
 
-  let trueMatcher: OHHTTPStubsTestBlock = { _ in return true }
-  let falseMatcher: OHHTTPStubsTestBlock = { _ in return false }
+  let trueMatcher: HTTPStubsTestBlock = { _ in return true }
+  let falseMatcher: HTTPStubsTestBlock = { _ in return false }
 
   func testOrOperator() {
     for url in sampleURLs {

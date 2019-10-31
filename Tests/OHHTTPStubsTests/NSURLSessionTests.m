@@ -33,7 +33,7 @@
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY || SWIFT_PACKAGE
 #import "HTTPStubs.h"
-#import "OHHTTPStubsResponse+JSON.h"
+#import "HTTPStubsResponse+JSON.h"
 #import "NSURLRequest+HTTPBodyTesting.h"
 #else
 @import OHHTTPStubs;
@@ -67,8 +67,8 @@
 
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return YES;
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [[OHHTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+            return [[HTTPStubsResponse responseWithJSONObject:json statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
 
@@ -128,9 +128,9 @@
         // First request: just return a redirect response (3xx, empty body)
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@"/oldlocation"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *originalRequest) {
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *originalRequest) {
             NSDictionary *headers = @{ @"Location": @"foo://unknownhost:666/newlocation" };
-            return [[OHHTTPStubsResponse responseWithData:[NSData new]
+            return [[HTTPStubsResponse responseWithData:[NSData new]
                                                statusCode:redirectStatusCode
                                                   headers:headers]
                     requestTime:requestTime responseTime:responseTime];
@@ -139,7 +139,7 @@
         // Second request = redirected location: capture method+body of the redirected request + return 200 with the finalJSONResponse
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [[[request URL] path] isEqualToString:@"/newlocation"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *redirectedRequest) {
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *redirectedRequest) {
             capturedRedirectedRequestMethod = redirectedRequest.HTTPMethod;
             capturedRedirectedRequestHeaders = redirectedRequest.allHTTPHeaderFields;
             if (redirectedRequest.OHHTTPStubs_HTTPBody) {
@@ -147,7 +147,7 @@
             } else {
                 capturedRedirectedRequestJSONBody = nil;
             }
-            return [[OHHTTPStubsResponse responseWithJSONObject:@{ @"RequestBody": json ?: [NSNull null] }
+            return [[HTTPStubsResponse responseWithJSONObject:@{ @"RequestBody": json ?: [NSNull null] }
                                                      statusCode:200
                                                         headers:nil]
                     requestTime:requestTime responseTime:responseTime];
@@ -479,8 +479,8 @@
         NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [request.URL.scheme isEqualToString:@"stub"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+            return [[HTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
                     responseTime:0.5];
         }];
 
@@ -515,8 +515,8 @@
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             NSData* body = [request OHHTTPStubs_HTTPBody];
             return [[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] isEqualToString:expectedBodyString];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+            return [[HTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
                     responseTime:0.2];
         }];
 
@@ -563,8 +563,8 @@
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             NSData* body = [request HTTPBody]; // this is not expected to work correctly
             return [[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] isEqualToString:expectedBodyString];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+            return [[HTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
                     responseTime:0.2];
         }];
 

@@ -30,8 +30,8 @@
 #import <Availability.h>
 
 #if OHHTTPSTUBS_USE_STATIC_LIBRARY
-#import "OHHTTPStubs.h"
-#import "OHHTTPStubsResponse+JSON.h"
+#import "HTTPStubs.h"
+#import "HTTPStubsResponse+JSON.h"
 #else
 @import OHHTTPStubs;
 #endif
@@ -57,8 +57,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:expectedResponse statusCode:200 headers:nil]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
 
@@ -89,8 +89,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     NSData* expectedResponse = [NSStringFromSelector(_cmd) dataUsingEncoding:NSUTF8StringEncoding];
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:expectedResponse statusCode:300 headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:expectedResponse statusCode:300 headers:@{@"Location":@"http://www.iana.org/domains/another/example"}]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
 
@@ -132,8 +132,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     NSURL* redirectURL = [NSURL URLWithString:@"https://httpbin.org/get"];
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [[OHHTTPStubsResponse responseWithData:[NSData data] statusCode:302 headers:@{@"Location":redirectURL.absoluteString}]
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [[HTTPStubsResponse responseWithData:[NSData data] statusCode:302 headers:@{@"Location":redirectURL.absoluteString}]
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
 
@@ -243,8 +243,8 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
         [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             return [request.URL.scheme isEqualToString:@"stubs"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [[OHHTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+            return [[HTTPStubsResponse responseWithJSONObject:expectedResponseDict statusCode:200 headers:nil]
                     requestTime:kRequestTime responseTime:kResponseTime];
         }];
 
