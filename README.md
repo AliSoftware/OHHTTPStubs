@@ -32,7 +32,7 @@ It works with `NSURLConnection`, `NSURLSession`, `AFNetworking`, `Alamofire` or 
 <summary>In Objective-C</summary>
 
 ```objc
-[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+[HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
   return [request.URL.host isEqualToString:@"mywebservice.com"];
 } withStubResponse:^HTTPStubsResponse*(NSURLRequest *request) {
   // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
@@ -57,7 +57,7 @@ stub(condition: isHost("mywebservice.com")) { _ in
 }
 ```
 
-**Note**: if you're using `OHHTTPStubs`'s Swiftier API (`OHHTTPStubsSwift.swift` and the `Swift` subspec), you can also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
+**Note**: if you're using `OHHTTPStubs`'s Swiftier API (`OHHTTPStubsSwift.swift` and the `Swift` subspec or `OHTTPStubsSwift` package), you can also compose the matcher functions like this: `stub(isScheme("http") && isHost("myhost")) { … }`
 </details>
 
 ## More examples & Help Topics
@@ -177,7 +177,7 @@ If you want Carthage to build the framework with Swift 3.x you can:
 
 `OHHTTPStubs` is ideal to write unit tests that normally would perform network requests. But if you use it in your unit tests, don't forget to:
 
-* remove any stubs you installed after each test — to avoid those stubs to still be installed when executing the next Test Case — by calling `[OHHTTPStubs removeAllStubs]` in your `tearDown` method. [see this wiki page for more info](https://github.com/AliSoftware/OHHTTPStubs/wiki/Remove-stubs-after-each-test)
+* remove any stubs you installed after each test — to avoid those stubs to still be installed when executing the next Test Case — by calling `[HTTPStubs removeAllStubs]` in your `tearDown` method. [see this wiki page for more info](https://github.com/AliSoftware/OHHTTPStubs/wiki/Remove-stubs-after-each-test)
 * be sure to wait until the request has received its response before doing your assertions and letting the test case finish (like for any asynchronous test). [see this wiki page for more info](https://github.com/AliSoftware/OHHTTPStubs/wiki/OHHTTPStubs-and-asynchronous-tests)
 
 ## Automatic loading
@@ -185,9 +185,9 @@ If you want Carthage to build the framework with Swift 3.x you can:
 `OHHTTPStubs` is automatically loaded and installed (at the time the library is loaded in memory), both for:
 
 * requests made using `NSURLConnection` or `[NSURLSession sharedSession]` — [thanks to this code](https://github.com/AliSoftware/OHHTTPStubs/blob/master/OHHTTPStubs/Sources/OHHTTPStubs.m#L107-L113)
-* requests made using a `NSURLSession` that was created via `[NSURLSession sessionWithConfiguration:…]` and using either `[NSURLSessionConfiguration defaultSessionConfiguration]` or `[NSURLSessionConfiguration ephemeralSessionConfiguration]` configuration — thanks to [method swizzling](http://nshipster.com/method-swizzling/) done [here in the code](https://github.com/AliSoftware/OHHTTPStubs/blob/master/OHHTTPStubs/Sources/NSURLSession/OHHTTPStubs+NSURLSessionConfiguration.m).
+* requests made using a `NSURLSession` that was created via `[NSURLSession sessionWithConfiguration:…]` and using either `[NSURLSessionConfiguration defaultSessionConfiguration]` or `[NSURLSessionConfiguration ephemeralSessionConfiguration]` configuration — thanks to [method swizzling](http://nshipster.com/method-swizzling/) done [here in the code](https://github.com/AliSoftware/OHHTTPStubs/blob/master/OHHTTPStubs/Sources/NSURLSession/HTTPStubs+NSURLSessionConfiguration.m).
 
-If you need to disable (and re-enable) `OHHTTPStubs` — globally or per `NSURLSession` — you can use `[OHHTTPStubs setEnabled:]` / `[OHHTTPStubs setEnabled:forSessionConfiguration:]`.
+If you need to disable (and re-enable) `OHHTTPStubs` — globally or per `NSURLSession` — you can use `[HTTPStubs setEnabled:]` / `[HTTPStubs setEnabled:forSessionConfiguration:]`.
 
 ## Known limitations
 
