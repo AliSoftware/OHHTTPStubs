@@ -80,6 +80,15 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 _[Nullability annotations](https://developer.apple.com/swift/blog/?id=25) have also been added to the ObjC API to allow a cleaner API when used from Swift even if you don't use the dedicated Swift API wrapper provided by `OHHTTPStubsSwift.swift`._
 
+<details>
+<summary><b>Updating to Version 9.0+</b></summary>
+
+* All classes dropped the `OH` prefix (`OHHHTTPStubs` -> `HTTPStubs`, `OHHTTPStubsResponse` -> `HTTPStubsResponse`, etc).
+* The `OHPathHelpers` class was renamed `HTTPStubsPathHelpers`.
+* No method and module names were changed.
+</details>
+
+
 # Installing in your projects
 
 ## CocoaPods
