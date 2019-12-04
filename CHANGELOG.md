@@ -1,6 +1,11 @@
 # OHHTTPStubs — CHANGELOG
 
 
+## Master
+
+* Added `hasFormBody(_:)` matcher.  
+[@417-72KI](https://github.com/417-72KI)
+
 ## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
 * Added support for Swift Package Manager and dropped OH from all class names.    
