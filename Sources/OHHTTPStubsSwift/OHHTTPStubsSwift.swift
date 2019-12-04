@@ -433,6 +433,7 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
  */
+@available(iOS 8.0, OSX 10.10, *)
 public func hasFormBody(_ params: [String: String?]) -> HTTPStubsTestBlock {
     return hasFormBody(params.map(URLQueryItem.init))
 }
@@ -444,6 +445,7 @@ public func hasFormBody(_ params: [String: String?]) -> HTTPStubsTestBlock {
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
  */
+@available(iOS 8.0, OSX 10.10, *)
 public func hasFormBody(_ queryItems: [URLQueryItem]) -> HTTPStubsTestBlock {
     return { req in
         guard
@@ -467,6 +469,7 @@ public func hasFormBody(_ queryItems: [URLQueryItem]) -> HTTPStubsTestBlock {
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
  */
+@available(iOS 8.0, OSX 10.10, *)
 public func hasFormBody(_ queryItems: URLQueryItem...) -> HTTPStubsTestBlock {
     return hasFormBody(queryItems)
 }

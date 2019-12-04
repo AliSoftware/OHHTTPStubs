@@ -523,6 +523,7 @@ class SwiftHelpersTests : XCTestCase {
 #endif
 
 #if swift(>=3.0)
+  @available(iOS 8.0, OSX 10.10, *)
   func testHasFormBodyIsTrue() {
     func assertMatchesFormBody(_ formBody: String, _ expectedKeyValues: [String: String?], file: StaticString = #file, line: UInt = #line) {
         var req = URLRequest(url: URL(string: "foo://bar")!)
@@ -545,6 +546,7 @@ class SwiftHelpersTests : XCTestCase {
 #endif
 
 #if swift(>=3.0)
+  @available(iOS 8.0, OSX 10.10, *)
   func testHasFormBodyIsFalse() {
     func assertNotMatchesFormBody(_ formBody: String, _ expectedKeyValues: [String: String?], file: StaticString = #file, line: UInt = #line) {
         var req = URLRequest(url: URL(string: "foo://bar")!)
