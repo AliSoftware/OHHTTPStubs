@@ -447,7 +447,7 @@ public func hasFormBody(_ params: [String: String?]) -> HTTPStubsTestBlock {
 public func hasFormBody(_ queryItems: [URLQueryItem]) -> HTTPStubsTestBlock {
     return { req in
         guard
-            case "application/x-www-form-urlencoded" = req.value(forHTTPHeaderField: "Content-Type"),
+            case "application/x-www-form-urlencoded"? = req.value(forHTTPHeaderField: "Content-Type"),
             let httpBody = req.ohhttpStubs_httpBody,
             let query = String(data: httpBody, encoding: .utf8)
             else { return false }
