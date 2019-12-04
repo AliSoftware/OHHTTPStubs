@@ -429,6 +429,17 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
 /**
  * Matcher testing that the `NSURLRequest` content-type is `application/x-www-form-urlencoded` and body contains a query parameter
  *
+ * - Parameter params: The dictionary of query parameters to check the presence for
+ *
+ * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
+ */
+public func hasFormBody(_ params: [String: String?]) -> HTTPStubsTestBlock {
+    return hasFormBody(params.map(URLQueryItem.init))
+}
+
+/**
+ * Matcher testing that the `NSURLRequest` content-type is `application/x-www-form-urlencoded` and body contains a query parameter
+ *
  * - Parameter queryItems: The array of query parameters to check the presence for
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
