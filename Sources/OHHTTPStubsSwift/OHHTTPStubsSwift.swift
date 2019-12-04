@@ -425,6 +425,42 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
 }
 #endif
 
+/**
+ * Matcher testing that the `NSURLRequest` content-type is `application/x-www-form-urlencoded` and body contains a query parameter
+ *
+ * - Parameter queryItems: The array of query parameters to check the presence for
+ *
+ * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
+ */
+#if swift(>=3.0)
+public func hasFormBody(_ queryItems: [URLQueryItem]) -> HTTPStubsTestBlock {
+    return { req in
+        guard
+            case "application/x-www-form-urlencoded" = req.value(forHTTPHeaderField: "Content-Type"),
+            let httpBody = req.ohhttpStubs_httpBody,
+            let query = String(data: httpBody, encoding: .utf8)
+            else { return false }
+        let items: [URLQueryItem] = {
+            var comps = URLComponents()
+            comps.percentEncodedQuery = query
+            return comps.queryItems ?? []
+        }()
+        return items.sorted(by: { $0.name < $1.name }) == queryItems.sorted(by: { $0.name < $1.name })
+    }
+}
+
+/**
+ * Matcher testing that the `NSURLRequest` content-type is `application/x-www-form-urlencoded` and body contains a query parameter
+ *
+ * - Parameter queryItems: The variables of query parameters to check the presence for
+ *
+ * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
+ */
+public func hasFormBody(_ queryItems: URLQueryItem...) -> HTTPStubsTestBlock {
+    return hasFormBody(queryItems)
+}
+#endif
+
 // MARK: Operators on HTTPStubsTestBlock
 
 /**
