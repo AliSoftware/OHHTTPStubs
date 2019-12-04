@@ -425,6 +425,7 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
 }
 #endif
 
+#if swift(>=3.0)
 /**
  * Matcher testing that the `NSURLRequest` content-type is `application/x-www-form-urlencoded` and body contains a query parameter
  *
@@ -432,7 +433,6 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
  *
  * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains the same query items as the parameter value
  */
-#if swift(>=3.0)
 public func hasFormBody(_ queryItems: [URLQueryItem]) -> HTTPStubsTestBlock {
     return { req in
         guard
