@@ -1,5 +1,8 @@
 # OHHTTPStubs — CHANGELOG
 
+* Support building with Bazel
+ [@thii](https://github.com/thii)
+
 ## [8.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/7.0.0)
 
 * Update default Swift Version to 5.0
