@@ -1,4 +1,0 @@
-module OHHTTPStubs {
-    umbrella "/Users/jeff/OHHTTPStubs/Sources/OHHTTPStubs/include"
-    export *
-}
