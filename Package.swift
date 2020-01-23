@@ -1,8 +1,11 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
     name: "OHHTTPStubs",
+    platforms: [
+        .macOS(.v10_10), .iOS(.v8), .watchOS(.v2), .tvOS(.v9)
+    ],
     products: [
         .library(
             name: "OHHTTPStubs",
