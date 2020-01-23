@@ -43,7 +43,7 @@ end
 
 # Updates Local Pods, Then Builds
 def build_pod_example(dir)
-  sh "pod install --project-directory=#{dir}"
+  sh "pod install --project-directory=#{dir} --verbose"
   build_workspace(dir)
 end
 
