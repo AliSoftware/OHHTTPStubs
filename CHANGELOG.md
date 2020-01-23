@@ -1,9 +1,9 @@
 # OHHTTPStubs — CHANGELOG
 
 
-## [8.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/8.1.0)
+## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
-* Added support for Swift Package Manager and an example project.    
+* Added support for Swift Package Manager and dropped OH from all class names.    
   [@jeffctown](https://github.com/jeffctown)
 
 
