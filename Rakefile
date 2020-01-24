@@ -1,8 +1,8 @@
 # Build & test OHHTTPStubs lib from the CLI
 
 desc 'Build an iOS scheme'
-task :ios, [:scheme, :ios_version, :action, :additional_args] do |_,args|
-  destination = "name=iPhone 7,OS=#{args.ios_version}"
+task :ios, [:scheme, :device, :ios_version, :action, :additional_args] do |_,args|
+  destination = "name=#{args.device},OS=#{args.ios_version}"
   build("OHHTTPStubs #{args.scheme}", "iphonesimulator", destination, args.action, args.additional_args)
 end
 
@@ -18,10 +18,50 @@ task :tvos, [:scheme, :tvos_version, :action, :additional_args] do |_,args|
   build("OHHTTPStubs #{args.scheme}", "appletvsimulator", destination, args.action, args.additional_args)
 end
 
+desc 'Test Using Swift Package Manager'
+task :spm_test do
+  sh 'swift test -Xcc -DOHHTTPSTUBS_SKIP_REDIRECT_TESTS'
+end
 
 desc 'List installed simulators'
 task :simlist do
   sh 'xcrun simctl list'
+end
+
+desc 'Build Example Project'
+task :build_example_apps do
+  build_pod_example("Examples/ObjC")
+  build_pod_example("Examples/Swift")
+  build_project("Examples/SwiftPackageManager")
+end
+
+desc 'Build Carthage Frameworks'
+task :build_carthage_frameworks, [:platform, :swift_version] do |_,args|
+  puts "Args were: #{args}"
+  carthage_build(args.platform, args.swift_version)
+end
+
+# Updates Local Pods, Then Builds
+def build_pod_example(dir)
+  sh "pod install --project-directory=#{dir} --verbose"
+  build_workspace(dir)
+end
+
+# Builds The Example Workspace
+def build_workspace(dir)
+  sh "xcodebuild -workspace #{dir}/OHHTTPStubsDemo.xcworkspace -scheme OHHTTPStubsDemo build CODE_SIGNING_ALLOWED=NO"
+end
+
+# Builds the Example Project
+def build_project(dir)
+  sh "xcodebuild -project #{dir}/OHHTTPStubsDemo.xcodeproj -scheme OHHTTPStubsDemo build CODE_SIGNING_ALLOWED=NO"
+end
+
+# Builds platform using Carthage
+def carthage_build(platform, swift_version)
+  xcconfig = "/tmp/tmp.xcconfig"
+  config_contents = "SWIFT_VERSION=#{swift_version}"
+  sh "echo #{config_contents} > #{xcconfig} && XCODE_XCCONFIG_FILE=#{xcconfig} carthage build --platform #{platform} --no-skip-current"
 end
 
 desc 'Run all travis env tasks locally'
@@ -52,7 +92,7 @@ def build(scheme, sdk, destination, action, additional_args)
 
   cmd  = %W(
     xcodebuild
-    -workspace OHHTTPStubs/OHHTTPStubs.xcworkspace
+    -workspace OHHTTPStubs.xcworkspace
     -scheme "#{scheme}"
     -sdk #{sdk}
     -configuration Debug
