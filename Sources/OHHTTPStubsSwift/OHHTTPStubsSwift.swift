@@ -364,6 +364,40 @@ public func containsQueryParams(_ params: [String:String?]) -> HTTPStubsTestBloc
 }
 
 /**
+ * Matcher for testing an `NSURLRequest`'s **query parameters** that matches a RegEx.
+ *
+ * - Parameter params: The dictionary of the Regular Expressions matching the query parameters we want to check the presence for
+ *
+ * - Returns: a matcher (HTTPStubsTestBlock) that succeeds if the request contains
+ *            the given query parameters matching the given list of RegExs.
+ */
+@available(iOS 8.0, OSX 10.10, *)
+public func containsQueryParamsMatching(_ params: [String:String?]) -> HTTPStubsTestBlock {
+  return { req in
+    if let url = req.url {
+      let comps = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
+      if let queryItems = comps?.queryItems {
+        for (k,v) in params {
+          guard let regexString = v, let regex = try? NSRegularExpression(pattern: regexString, options: []) else { return false }
+          if queryItems.filter({ qi in
+            guard let paramValue = qi.value else { return false}
+            let range = NSRange(location: 0, length: paramValue.utf16.count)
+#if swift(>=3.0)
+            let paramMatchesRegex: Bool = regex.firstMatch(in: paramValue, options: [], range: range) != nil
+#else
+            let paramMatchesRegex: Bool = regex.firstMatchInString(paramValue, options: [], range: range) != nil
+#endif
+            return qi.name == k && paramMatchesRegex
+          }).count == 0 { return false }
+        }
+        return true
+      }
+    }
+    return false
+  }
+}
+
+/**
  * Matcher testing that the `NSURLRequest` headers contain a specific key
  * - Parameter name: the name of the key to search for in the `NSURLRequest`'s **allHTTPHeaderFields** property
  *
