@@ -522,6 +522,53 @@ class SwiftHelpersTests : XCTestCase {
   }
 #endif
 
+#if swift(>=3.0)
+  @available(iOS 8.0, OSX 10.10, *)
+  func testHasFormBodyIsTrue() {
+    func assertMatchesFormBody(_ formBody: String, _ expectedKeyValues: [String: String?], file: StaticString = #file, line: UInt = #line) {
+        var req = URLRequest(url: URL(string: "foo://bar")!)
+        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        req.httpBody = formBody.data(using: .utf8)
+        XCTAssertTrue(hasFormBody(expectedKeyValues)(req), file: file, line: line)
+    }
+
+    // Exact match
+    assertMatchesFormBody("foo=bar&baz=42&qux=true", ["foo": "bar", "baz": "42", "qux": "true"])
+    // Changed attribute order
+    assertMatchesFormBody("qux=true&foo=bar&baz=42", ["foo": "bar", "baz": "42", "qux": "true"])
+    // Contains key with no value
+    assertMatchesFormBody("foo=bar&baz&qux=42", ["foo": "bar", "baz": nil, "qux": "42"])
+    // Contains key with empty value
+    assertMatchesFormBody("foo=bar&baz=&qux=42", ["foo": "bar", "baz": "", "qux": "42"])
+    // Contains escaped character
+    assertMatchesFormBody("foo=bar%40baz", ["foo": "bar@baz"])
+  }
+#endif
+
+#if swift(>=3.0)
+  @available(iOS 8.0, OSX 10.10, *)
+  func testHasFormBodyIsFalse() {
+    func assertNotMatchesFormBody(_ formBody: String, _ expectedKeyValues: [String: String?], file: StaticString = #file, line: UInt = #line) {
+        var req = URLRequest(url: URL(string: "foo://bar")!)
+        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        req.httpBody = formBody.data(using: .utf8)
+        XCTAssertFalse(hasFormBody(expectedKeyValues)(req), file: file, line: line)
+    }
+    // Changed value
+    assertNotMatchesFormBody("foo=bar&baz=40", ["foo": "bar", "baz": "42"])
+    // Changed key
+    assertNotMatchesFormBody("foo=bar&qux=42", ["foo": "bar", "baz": "42"])
+    // Missing attribute
+    assertNotMatchesFormBody("foo=bar&baz=42&qux=true", ["foo": "bar", "baz": "42"])
+    // Extraneous attribute
+    assertNotMatchesFormBody("foo=bar&baz=42", ["foo": "bar", "baz": "42", "qux": "true"])
+    // Missing value
+    assertNotMatchesFormBody("foo=&bar=baz", ["foo": nil, "bar": "baz"])
+    // Extraneous value
+    assertNotMatchesFormBody("foo&bar=baz", ["foo": "", "baz": "42"])
+  }
+#endif
+
   let sampleURLs = [
     // Absolute URLs
     "scheme:",
