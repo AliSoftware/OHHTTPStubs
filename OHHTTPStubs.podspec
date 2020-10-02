@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "8.0.0"
+  s.version      = "9.0.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
@@ -32,6 +32,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.9'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
+  s.swift_versions = ['3.0', '3.1', '3.2', '4.0', '4.1', '4.2', '5.0', '5.1']
 
   s.default_subspec = 'Default'
   # Default subspec that includes the most commonly-used components
@@ -44,38 +45,34 @@ Pod::Spec.new do |s|
 
   # The Core subspec, containing the library core needed in all cases
   s.subspec 'Core' do |core|
-    core.source_files = "OHHTTPStubs/Sources/*.{h,m}"
-    core.public_header_files = "OHHTTPStubs/Sources/*.h"
+    core.source_files = "Sources/OHHTTPStubs/**/HTTPStubs.{h,m}", "Sources/OHHTTPStubs/**/HTTPStubsResponse.{h,m}",
+        "Sources/OHHTTPStubs/include/Compatibility.h"
   end
 
   # Optional subspecs
   s.subspec 'NSURLSession' do |urlsession|
     urlsession.dependency 'OHHTTPStubs/Core'
-    urlsession.source_files = "OHHTTPStubs/Sources/NSURLSession/*.{h,m}"
-    urlsession.private_header_files = "OHHTTPStubs/Sources/NSURLSession/OHHTTPStubsMethodSwizzling.h"
+    urlsession.source_files = "Sources/OHHTTPStubs/**/NSURLRequest+HTTPBodyTesting.{h,m}", "Sources/OHHTTPStubs/**/HTTPStubs+NSURLSessionConfiguration.{h,m}", "Sources/OHHTTPStubs/**/HTTPStubsMethodSwizzling.{h,m}"
+    urlsession.private_header_files = "Sources/OHHTTPStubs/**/HTTPStubsMethodSwizzling.h"
   end
 
   s.subspec 'JSON' do |json|
     json.dependency 'OHHTTPStubs/Core'
-    json.source_files = "OHHTTPStubs/Sources/JSON/*.{h,m}"
-    json.public_header_files = "OHHTTPStubs/Sources/JSON/*.h"
+    json.source_files = "Sources/OHHTTPStubs/**/HTTPStubsResponse+JSON.{h,m}"
   end
 
   s.subspec 'HTTPMessage' do |httpmessage|
     httpmessage.dependency 'OHHTTPStubs/Core'
-    httpmessage.source_files = "OHHTTPStubs/Sources/HTTPMessage/*.{h,m}"
-    httpmessage.public_header_files = "OHHTTPStubs/Sources/HTTPMessage/*.h"
+    httpmessage.source_files = "Sources/HTTPMessage/**/*.{h,m}"
   end
 
   s.subspec 'Mocktail' do |mocktail|
     mocktail.dependency 'OHHTTPStubs/Core'
-    mocktail.source_files = "OHHTTPStubs/Sources/Mocktail/*.{h,m}"
-    mocktail.public_header_files = "OHHTTPStubs/Sources/Mocktail/*.h"
+    mocktail.source_files = "Sources/Mocktail/**/*.{h,m}"
   end
 
   s.subspec 'OHPathHelpers' do |pathhelper|
-    pathhelper.source_files = "OHHTTPStubs/Sources/OHPathHelpers/*.{h,m}", "OHHTTPStubs/Sources/Compatibility.h"
-    pathhelper.public_header_files = "OHHTTPStubs/Sources/OHPathHelpers/*.h", "OHHTTPStubs/Sources/Compatibility.h"
+    pathhelper.source_files = "Sources/OHHTTPStubs/**/HTTPStubsPathHelpers.{h,m}", "Sources/OHHTTPStubs/include/Compatibility.h"
   end
 
   s.subspec 'Swift' do |swift|
@@ -85,7 +82,7 @@ Pod::Spec.new do |s|
     swift.tvos.deployment_target = '9.0'
 
     swift.dependency 'OHHTTPStubs/Default'
-    swift.source_files = "OHHTTPStubs/Sources/Swift/*.swift"
+    swift.source_files = "Sources/OHHTTPStubsSwift/*.swift"
   end
 
 end

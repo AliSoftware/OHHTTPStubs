@@ -14,9 +14,9 @@
 		098FBDE015D704E800623941 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 098FBDDF15D704E800623941 /* main.m */; };
 		098FBDED15D7056200623941 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 098FBDEB15D7056200623941 /* MainViewController.m */; };
 		098FBDEE15D7056200623941 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDEC15D7056200623941 /* MainViewController.xib */; };
-		098FBDF815D70E2600623941 /* stub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDF615D70E2600623941 /* stub.jpg */; };
-		098FBDF915D70E2600623941 /* stub.txt in Resources */ = {isa = PBXBuildFile; fileRef = 098FBDF715D70E2600623941 /* stub.txt */; };
 		099C7343169016D800239880 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 099C7342169016D800239880 /* Default-568h@2x.png */; };
+		1F9ADC8C230037EE00F87660 /* stub.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F9ADC8A230037EE00F87660 /* stub.txt */; };
+		1F9ADC8D230037EE00F87660 /* stub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F9ADC8B230037EE00F87660 /* stub.jpg */; };
 		E8C65A455EC5B63D1737AF29 /* libPods-OHHTTPStubsDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2958101F89CBC90FC44F99 /* libPods-OHHTTPStubsDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -32,9 +32,9 @@
 		098FBDEA15D7056200623941 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		098FBDEB15D7056200623941 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		098FBDEC15D7056200623941 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
-		098FBDF615D70E2600623941 /* stub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stub.jpg; sourceTree = "<group>"; };
-		098FBDF715D70E2600623941 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
 		099C7342169016D800239880 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1F9ADC8A230037EE00F87660 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
+		1F9ADC8B230037EE00F87660 /* stub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stub.jpg; sourceTree = "<group>"; };
 		48556A011AA6E9FD0074B154 /* libPods-OHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-OHHTTPStubs.a"; path = "Pods/../build/Debug-iphoneos/libPods-OHHTTPStubs.a"; sourceTree = "<group>"; };
 		6F2958101F89CBC90FC44F99 /* libPods-OHHTTPStubsDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OHHTTPStubsDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		801E977139BBDAC0CC11ECAC /* Pods-OHHTTPStubsDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubsDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 				098FBDEA15D7056200623941 /* MainViewController.h */,
 				098FBDEB15D7056200623941 /* MainViewController.m */,
 				098FBDEC15D7056200623941 /* MainViewController.xib */,
-				098FBDFA15D70E2F00623941 /* Stubs */,
+				1F9ADC89230037EE00F87660 /* Stubs */,
 				098FBDDA15D704E800623941 /* Supporting Files */,
 			);
 			name = OHHTTPStubsDemo;
@@ -111,15 +111,6 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		098FBDFA15D70E2F00623941 /* Stubs */ = {
-			isa = PBXGroup;
-			children = (
-				098FBDF615D70E2600623941 /* stub.jpg */,
-				098FBDF715D70E2600623941 /* stub.txt */,
-			);
-			path = Stubs;
-			sourceTree = "<group>";
-		};
 		1B8830D2F747CB6ADB7875D1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +118,16 @@
 				B6814E1693353E0AADB9895C /* Pods-OHHTTPStubsDemo.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		1F9ADC89230037EE00F87660 /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				1F9ADC8A230037EE00F87660 /* stub.txt */,
+				1F9ADC8B230037EE00F87660 /* stub.jpg */,
+			);
+			name = Stubs;
+			path = ../Stubs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,8 +189,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				098FBDEE15D7056200623941 /* MainViewController.xib in Resources */,
-				098FBDF815D70E2600623941 /* stub.jpg in Resources */,
-				098FBDF915D70E2600623941 /* stub.txt in Resources */,
+				1F9ADC8D230037EE00F87660 /* stub.jpg in Resources */,
+				1F9ADC8C230037EE00F87660 /* stub.txt in Resources */,
 				099C7343169016D800239880 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

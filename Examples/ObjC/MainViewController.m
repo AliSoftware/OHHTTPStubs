@@ -7,8 +7,8 @@
 //
 
 #import "MainViewController.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
-#import <OHHTTPStubs/OHPathHelpers.h>
+#import <OHHTTPStubs/HTTPStubs.h>
+#import <OHHTTPStubs/HTTPStubsPathHelpers.h>
 
 
 @interface MainViewController ()
@@ -31,7 +31,7 @@
     
     [self installTextStub:self.installTextStubSwitch];
     [self installImageStub:self.installImageStubSwitch];
-    [OHHTTPStubs onStubActivation:^(NSURLRequest * _Nonnull request, id<OHHTTPStubsDescriptor>  _Nonnull stub, OHHTTPStubsResponse * _Nonnull responseStub) {
+    [HTTPStubs onStubActivation:^(NSURLRequest * _Nonnull request, id<HTTPStubsDescriptor>  _Nonnull stub, HTTPStubsResponse * _Nonnull responseStub) {
         NSLog(@"[OHHTTPStubs] Request to %@ has been stubbed with %@", request.URL, stub.name);
     }];
 }
@@ -49,12 +49,12 @@
 
 - (IBAction)toggleStubs:(UISwitch *)sender
 {
-    [OHHTTPStubs setEnabled:sender.on];
+    [HTTPStubs setEnabled:sender.on];
     self.delaySwitch.enabled = sender.on;
     self.installTextStubSwitch.enabled = sender.on;
     self.installImageStubSwitch.enabled = sender.on;
     
-    NSLog(@"Installed (%@) stubs: %@", (sender.on?@"and enabled":@"but disabled"), OHHTTPStubs.allStubs);
+    NSLog(@"Installed (%@) stubs: %@", (sender.on?@"and enabled":@"but disabled"), HTTPStubs.allStubs);
 }
 
 
@@ -88,16 +88,16 @@
 
 - (IBAction)installTextStub:(UISwitch *)sender
 {
-    static id<OHHTTPStubsDescriptor> textStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already
+    static id<HTTPStubsDescriptor> textStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already
     if (sender.on)
     {
         // Install
-        textStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        textStub = [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             // This stub will only configure stub requests for "*.txt" files
             return [request.URL.pathExtension isEqualToString:@"txt"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
             // Stub txt files with this
-            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.txt", self.class)
+            return [[HTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.txt", self.class)
                                                      statusCode:200
                                                         headers:@{@"Content-Type":@"text/plain"}]
                     requestTime:[self shouldUseDelay] ? 2.f: 0.f
@@ -108,7 +108,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeStub:textStub];
+        [HTTPStubs removeStub:textStub];
     }
 }
 
@@ -128,23 +128,25 @@
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
      {
-         sender.enabled = YES;
-         self.imageView.image = [UIImage imageWithData:data];
+         dispatch_async(dispatch_get_main_queue(), ^{
+            sender.enabled = YES;
+            self.imageView.image = [UIImage imageWithData:data];
+         });
      }];
 }
 
 - (IBAction)installImageStub:(UISwitch *)sender
 {
-    static id<OHHTTPStubsDescriptor> imageStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
+    static id<HTTPStubsDescriptor> imageStub = nil; // Note: no need to retain this value, it is retained by the OHHTTPStubs itself already :)
     if (sender.on)
     {
         // Install
-        imageStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        imageStub = [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             // This stub will only configure stub requests for "*.png" files
             return [request.URL.pathExtension isEqualToString:@"png"];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
             // Stub jpg files with this
-            return [[OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.jpg", self.class)
+            return [[HTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"stub.jpg", self.class)
                                                      statusCode:200
                                                         headers:@{@"Content-Type":@"image/jpeg"}]
                     requestTime:[self shouldUseDelay] ? 2.f: 0.f
@@ -155,7 +157,7 @@
     else
     {
         // Uninstall
-        [OHHTTPStubs removeStub:imageStub];
+        [HTTPStubs removeStub:imageStub];
     }
 }
 
@@ -169,3 +171,4 @@
 }
 
 @end
+

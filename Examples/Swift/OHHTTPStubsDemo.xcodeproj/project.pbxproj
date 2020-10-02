@@ -10,11 +10,11 @@
 		099F74141AE2D049001108A5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099F74131AE2D049001108A5 /* Images.xcassets */; };
 		099F742F1AE2D572001108A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099F742D1AE2D572001108A5 /* Main.storyboard */; };
 		099F74351AE2D5EB001108A5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 099F74341AE2D5EB001108A5 /* LaunchScreen.xib */; };
-		099F74391AE2D5FF001108A5 /* stub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 099F74371AE2D5FF001108A5 /* stub.jpg */; };
-		099F743A1AE2D5FF001108A5 /* stub.txt in Resources */ = {isa = PBXBuildFile; fileRef = 099F74381AE2D5FF001108A5 /* stub.txt */; };
 		099F743C1AE2D632001108A5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 099F743B1AE2D632001108A5 /* Default-568h@2x.png */; };
 		099F74401AE2D703001108A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F740E1AE2D049001108A5 /* MainViewController.swift */; };
 		099F74421AE2D7E0001108A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F74411AE2D7E0001108A5 /* AppDelegate.swift */; };
+		1F9ADC912300383700F87660 /* stub.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F9ADC8F2300383700F87660 /* stub.txt */; };
+		1F9ADC922300383700F87660 /* stub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F9ADC902300383700F87660 /* stub.jpg */; };
 		D03D1F718E78AB9B9E2B5FEB /* Pods_OHHTTPStubsDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B08422DAA265AAF936725B6E /* Pods_OHHTTPStubsDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,11 +25,11 @@
 		099F74131AE2D049001108A5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		099F742D1AE2D572001108A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099F74341AE2D5EB001108A5 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		099F74371AE2D5FF001108A5 /* stub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stub.jpg; sourceTree = "<group>"; };
-		099F74381AE2D5FF001108A5 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
 		099F743B1AE2D632001108A5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Supporting Files/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
 		099F74411AE2D7E0001108A5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BFB1DB3496791F522727353 /* Pods-OHHTTPStubsDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubsDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo.release.xcconfig"; sourceTree = "<group>"; };
+		1F9ADC8F2300383700F87660 /* stub.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stub.txt; sourceTree = "<group>"; };
+		1F9ADC902300383700F87660 /* stub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stub.jpg; sourceTree = "<group>"; };
 		B08422DAA265AAF936725B6E /* Pods_OHHTTPStubsDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OHHTTPStubsDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C6334E088CD830EF8D38DB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE789C901264C7AF3BDF48CB /* Pods-OHHTTPStubsDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OHHTTPStubsDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OHHTTPStubsDemo/Pods-OHHTTPStubsDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 				099F74411AE2D7E0001108A5 /* AppDelegate.swift */,
 				099F740E1AE2D049001108A5 /* MainViewController.swift */,
 				099F742D1AE2D572001108A5 /* Main.storyboard */,
-				099F74361AE2D5FF001108A5 /* Stubs */,
+				1F9ADC8E2300383700F87660 /* Stubs */,
 				099F740A1AE2D049001108A5 /* Supporting Files */,
 			);
 			name = OHHTTPStubsDemo;
@@ -97,13 +97,14 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		099F74361AE2D5FF001108A5 /* Stubs */ = {
+		1F9ADC8E2300383700F87660 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
-				099F74371AE2D5FF001108A5 /* stub.jpg */,
-				099F74381AE2D5FF001108A5 /* stub.txt */,
+				1F9ADC8F2300383700F87660 /* stub.txt */,
+				1F9ADC902300383700F87660 /* stub.jpg */,
 			);
-			path = Stubs;
+			name = Stubs;
+			path = ../Stubs;
 			sourceTree = "<group>";
 		};
 		3116686BFC89EEC0587776C7 /* Frameworks */ = {
@@ -178,11 +179,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				099F74351AE2D5EB001108A5 /* LaunchScreen.xib in Resources */,
-				099F74391AE2D5FF001108A5 /* stub.jpg in Resources */,
+				1F9ADC922300383700F87660 /* stub.jpg in Resources */,
 				099F742F1AE2D572001108A5 /* Main.storyboard in Resources */,
 				099F74141AE2D049001108A5 /* Images.xcassets in Resources */,
-				099F743A1AE2D5FF001108A5 /* stub.txt in Resources */,
 				099F743C1AE2D632001108A5 /* Default-568h@2x.png in Resources */,
+				1F9ADC912300383700F87660 /* stub.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
