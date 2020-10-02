@@ -1,5 +1,10 @@
 # OHHTTPStubs — CHANGELOG
 
+## [Future release]
+
+* Added `containsQueryParamsMatching(...)` matcher.
+  [@mcarti](https://github.com/mcarti)
+  [#309](https://github.com/AliSoftware/OHHTTPStubs/issues/309)
 
 ## Master
 

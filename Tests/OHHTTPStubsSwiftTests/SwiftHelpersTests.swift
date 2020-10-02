@@ -381,6 +381,35 @@ class SwiftHelpersTests : XCTestCase {
       XCTAssert(matcher(req) == result, "containsQueryParams(\"\(params)\") matcher failed when testing url \(url)")
     }
   }
+    
+  @available(iOS 8.0, OSX 10.10, *)
+  func testContainsQueryParamsMatching() {
+    let regEx1: String = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    let regEx2: String = "en|fr|ru"
+    let params: [String: String?] = ["q":regEx1, "lang": regEx2]
+    let matcher = containsQueryParamsMatching(params)
+        
+    let urls = [
+      "foo://bar": false,
+      "foo://bar?q=1994-11-05T08:15:30.000Z": false,
+      "foo://bar?lang=en": false,
+      "foo://bar?q=1994-11-05T08:15:30.000Z&lang=en": true,
+      "foo://bar?q=2019-05-21T13:22:45.000Z&lang=fr": true,
+      "foo://bar?q=9999-99-99T99:99:99.999Z&lang=ru": true,
+      "foo://bar?q=1994-11-05T08:15:30.000Z&lang=ro": false,
+      "foo://bar?q=1994-11-05T08:15:30.000&lang=en": false
+    ]
+        
+    for (url, result) in urls {
+#if swift(>=3.0)
+      let req = URLRequest(url: URL(string: url)!)
+#else
+      let req = NSURLRequest(URL: NSURL(string: url)!)
+#endif
+            
+      XCTAssert(matcher(req) == result, "containsQueryParamsMatching(\"\(params)\") matcher failed when testing url \(url)")
+    }
+  }
 
   func testHasHeaderNamedIsTrue() {
 #if swift(>=3.0)
