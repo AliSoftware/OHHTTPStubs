@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "OHHTTPStubs"
-  s.version      = "9.0.0"
+  s.version      = "9.1.0"
 
   s.summary      = "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest."
   s.description  = <<-DESC.gsub(/^ +\|/,'')
