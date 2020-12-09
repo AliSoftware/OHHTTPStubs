@@ -2,6 +2,8 @@
 
 ## Master
 
+* Add a setting for Module Stability (BUILD_LIBRARY_FOR_DISTRIBUTION).
+  Fixes that it failed to compile using Carthage on Xcode12. [@soranoba](https://github.com/soranoba)
 * Added `hasFormBody(_:)` matcher.  
 [@417-72KI](https://github.com/417-72KI)
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328
