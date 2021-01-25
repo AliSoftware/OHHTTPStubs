@@ -43,6 +43,15 @@
 		0595A68A25BF206300EC26A2 /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5B725BF1FD000EC26A2 /* HTTPStubs.m */; };
 		0595A68B25BF206300EC26A2 /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5B825BF1FD000EC26A2 /* NSURLRequest+HTTPBodyTesting.m */; };
 		0595A68C25BF206300EC26A2 /* HTTPStubsPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5BD25BF1FD000EC26A2 /* HTTPStubsPathHelpers.m */; };
+		05F728B525BF81B000549B1D /* HTTPStubsResponse+HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5B325BF1FD000EC26A2 /* HTTPStubsResponse+HTTPMessage.m */; };
+		05F728BE25BF81B900549B1D /* HTTPStubs+Mocktail.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5B525BF1FD000EC26A2 /* HTTPStubs+Mocktail.m */; };
+		05F728C725BF81C300549B1D /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5B725BF1FD000EC26A2 /* HTTPStubs.m */; };
+		05F728C825BF81C300549B1D /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5B825BF1FD000EC26A2 /* NSURLRequest+HTTPBodyTesting.m */; };
+		05F728D125BF81C800549B1D /* HTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5BA25BF1FD000EC26A2 /* HTTPStubsResponse+JSON.m */; };
+		05F728D225BF81C800549B1D /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5BC25BF1FD000EC26A2 /* HTTPStubsResponse.m */; };
+		05F728D325BF81C800549B1D /* HTTPStubsPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5BD25BF1FD000EC26A2 /* HTTPStubsPathHelpers.m */; };
+		05F728D425BF81C800549B1D /* HTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5BE25BF1FD000EC26A2 /* HTTPStubs+NSURLSessionConfiguration.m */; };
+		05F728D525BF81C800549B1D /* HTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A5BB25BF1FD000EC26A2 /* HTTPStubsMethodSwizzling.m */; };
 		09110A4519805F4800D175E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A4419805F4800D175E4 /* Foundation.framework */; };
 		09110A5319805F4800D175E4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A5219805F4800D175E4 /* XCTest.framework */; };
 		09110A5419805F4800D175E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09110A4419805F4800D175E4 /* Foundation.framework */; };
@@ -982,6 +991,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05F728D225BF81C800549B1D /* HTTPStubsResponse.m in Sources */,
+				05F728B525BF81B000549B1D /* HTTPStubsResponse+HTTPMessage.m in Sources */,
+				05F728D125BF81C800549B1D /* HTTPStubsResponse+JSON.m in Sources */,
+				05F728D325BF81C800549B1D /* HTTPStubsPathHelpers.m in Sources */,
+				05F728D425BF81C800549B1D /* HTTPStubs+NSURLSessionConfiguration.m in Sources */,
+				05F728D525BF81C800549B1D /* HTTPStubsMethodSwizzling.m in Sources */,
+				05F728C825BF81C300549B1D /* NSURLRequest+HTTPBodyTesting.m in Sources */,
+				05F728BE25BF81B900549B1D /* HTTPStubs+Mocktail.m in Sources */,
+				05F728C725BF81C300549B1D /* HTTPStubs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
