@@ -380,21 +380,6 @@
 			path = OHHTTPStubs;
 			sourceTree = "<group>";
 		};
-		05F728E625BF83A600549B1D /* OHHTTPStubsTests */ = {
-			isa = PBXGroup;
-			children = (
-				1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */,
-				1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */,
-				1FB9F02C22FFC0CF0027737A /* TimingTests.m */,
-				1FB9F02D22FFC0CF0027737A /* OHPathHelpersTests.m */,
-				1FB9F02E22FFC0CF0027737A /* AFNetworkingTests.m */,
-				1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */,
-				1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */,
-				1FB9F03122FFC0CF0027737A /* NilValuesTests.m */,
-			);
-			path = OHHTTPStubsTests;
-			sourceTree = "<group>";
-		};
 		09110A3819805F4800D175E4 = {
 			isa = PBXGroup;
 			children = (
@@ -497,8 +482,14 @@
 		1FB9F02922FFC0CF0027737A /* OHHTTPStubsTests */ = {
 			isa = PBXGroup;
 			children = (
-				1FCC5CED22FD95D700472F5B /* MocktailTests */,
-				05F728E625BF83A600549B1D /* OHHTTPStubsTests */,
+				1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */,
+				1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */,
+				1FB9F02C22FFC0CF0027737A /* TimingTests.m */,
+				1FB9F02D22FFC0CF0027737A /* OHPathHelpersTests.m */,
+				1FB9F02E22FFC0CF0027737A /* AFNetworkingTests.m */,
+				1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */,
+				1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */,
+				1FB9F03122FFC0CF0027737A /* NilValuesTests.m */,
 			);
 			path = OHHTTPStubsTests;
 			sourceTree = "<group>";
@@ -535,6 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				1FCC5CE222FD95D700472F5B /* Fixtures */,
+				1FCC5CED22FD95D700472F5B /* MocktailTests */,
 				1FB9F02922FFC0CF0027737A /* OHHTTPStubsTests */,
 				1F51F12222FE4C53003463C1 /* OHHTTPStubsSwiftTests */,
 				1F462BBD22FD9765000B7253 /* Supporting Files */,
