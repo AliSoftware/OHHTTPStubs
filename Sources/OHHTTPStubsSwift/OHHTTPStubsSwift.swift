@@ -426,6 +426,26 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
 }
 #endif
 
+/**
+ * Matcher testing that the `NSURLRequest` body contains a JSON array with the same values on same order
+ * - Parameter jsonArray: the JSON array to expect
+ *
+ * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains a JSON array with the same values on same order as the parameter value
+ */
+#if swift(>=3.0)
+public func hasJsonBody(_ jsonArray: [Any]) -> HTTPStubsTestBlock {
+  return { req in
+    guard
+      let httpBody = req.ohhttpStubs_httpBody,
+      let jsonBody = (try? JSONSerialization.jsonObject(with: httpBody, options: [])) as? [Any]
+    else {
+      return false
+    }
+    return NSArray(array: jsonBody).isEqual(to: jsonArray)
+  }
+}
+#endif
+
 #if swift(>=3.0)
 /**
  * Matcher testing that the `NSURLRequest` content-type is `application/x-www-form-urlencoded` and body contains a query parameter
