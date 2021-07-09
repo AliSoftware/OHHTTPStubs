@@ -427,10 +427,10 @@ public func hasJsonBody(_ jsonObject: [AnyHashable : Any]) -> HTTPStubsTestBlock
 #endif
 
 /**
- * Matcher testing that the `NSURLRequest` body contains a JSON array with the same values
+ * Matcher testing that the `NSURLRequest` body contains a JSON array with the same values on same order
  * - Parameter jsonArray: the JSON array to expect
  *
- * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains a JSON array with the values as the parameter value
+ * - Returns: a matcher that returns true if the `NSURLRequest`'s body contains a JSON array with the same values on same order as the parameter value
  */
 #if swift(>=3.0)
 public func hasJsonBody(_ jsonArray: [Any]) -> HTTPStubsTestBlock {
