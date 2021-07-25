@@ -40,12 +40,8 @@
 
 @interface TimingTests : XCTestCase
 {
-    NSMutableData* _data;
     NSError* _error;
     XCTestExpectation* _connectionFinishedExpectation;
-
-//    NSDate* _didReceiveResponseTS;
-    NSDate* _didFinishLoadingTS;
 }
 @end
 
@@ -55,38 +51,9 @@
 {
     [super setUp];
 
-    _data = [NSMutableData new];
     _error = nil;
-//    _didReceiveResponseTS = nil;
-    _didFinishLoadingTS = nil;
     [HTTPStubs removeAllStubs];
 }
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    _data.length = 0U;
-    // NOTE: This timing info is not reliable as Cocoa always calls the connection:didReceiveResponse: delegate method just before
-    // calling the first "connection:didReceiveData:", even if the [id<NSURLProtocolClient> URLProtocol:didReceiveResponse:…] method was called way before. So we are not testing this
-//    _didReceiveResponseTS = [NSDate date];
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [_data appendData:data];
-}
-
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    _error = error; // keep strong reference
-    _didFinishLoadingTS = [NSDate date];
-    [_connectionFinishedExpectation fulfill];
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    _didFinishLoadingTS = [NSDate date];
-    [_connectionFinishedExpectation fulfill];
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,15 +76,24 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startTS = [NSDate date];
 
-    [NSURLConnection connectionWithRequest:req delegate:self];
+    NSTimeInterval requestTimeout = requestTime+responseTime+kResponseTimeMaxDelay+kSecurityTimeout;
 
-    [self waitForExpectationsWithTimeout:requestTime+responseTime+kResponseTimeMaxDelay+kSecurityTimeout handler:nil];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session configuration] setTimeoutIntervalForRequest:requestTimeout];
 
-    XCTAssertEqualObjects(_data, stubData, @"Invalid data response");
-
-    XCTAssertGreaterThan([_didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime, @"Invalid response time");
-
-    [NSThread sleepForTimeInterval:0.01]; // Time for the test to wrap it all (otherwise we may have "Test did not finish" warning)
+    [[session dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        self->_error = error; // keep strong reference
+        NSDate* didFinishLoadingTS = [NSDate date];
+        
+        XCTAssertEqualObjects(data, stubData, @"Invalid data response");
+        
+        XCTAssertGreaterThan([didFinishLoadingTS timeIntervalSinceDate:startTS], requestTime + responseTime, @"Invalid response time");
+        
+        [self->_connectionFinishedExpectation fulfill];
+    }] resume];
+    
+    NSTimeInterval testTimeout = requestTimeout+10.0;
+    [self waitForExpectationsWithTimeout:testTimeout handler:nil];
 }
 
 

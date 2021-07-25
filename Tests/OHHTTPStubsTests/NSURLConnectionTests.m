@@ -69,7 +69,10 @@ static const NSTimeInterval kResponseTime = 0.5;
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
 
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
+    #pragma clang diagnostic pop
 
     XCTAssertEqualObjects(data, testData, @"Invalid data response");
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
@@ -107,13 +110,12 @@ static const NSTimeInterval kResponseTime = 0.5;
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
 
-    [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
-     {
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
          XCTAssertEqualObjects(data, testData, @"Invalid data response");
          XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
 }
@@ -163,14 +165,14 @@ static const NSTimeInterval kResponseTime = 0.5;
         NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 //        [SenTestLog testLogWithFormat:@"== Sending request %@\n", req];
         NSDate* startDate = [NSDate date];
-        [NSURLConnection sendAsynchronousRequest:req queue:queue completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+        [[[NSURLSession sharedSession] dataTaskWithRequest:req completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
          {
 //             [SenTestLog testLogWithFormat:@"== Received response for request %@\n", req];
              XCTAssertEqualObjects(data, dataForRequest(req), @"Invalid data response");
              XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], (responseTime*.1)+responseTime, @"Invalid response time");
 
              if (!testFinished) [expectation fulfill];
-         }];
+        }] resume];
     };
 
     static NSTimeInterval time3 = 1.5, time2 = 1.0, time1 = 0.5;
