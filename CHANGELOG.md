@@ -2,6 +2,11 @@
 
 ## Master
 
+* Added fix for Xcode 12 - Warnings related to iOS 8 support (Cocoapods) #345
+[@runyonkj](https://github.com/runyonkj)
+
+## [9.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.1.0)
+
 * Added `hasFormBody(_:)` matcher.  
 [@417-72KI](https://github.com/417-72KI)
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328
