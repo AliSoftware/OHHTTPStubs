@@ -74,7 +74,7 @@ _(There are also other ways to perform a similar task, including using `curl -is
 
 # Compatibility
 
-* `OHHTTPStubs` is compatible with **iOS5+**, **OS X 10.7+**, **tvOS**.
+* `OHHTTPStubs` is compatible with **iOS9+**, **OS X 10.10+**, **tvOS**.
 * `OHHTTPStubs` also works with `NSURLSession` as well as any network library wrapping them.
 * `OHHTTPStubs` is **fully compatible with Swift 3.x, 4.x and Swift 5.x**.
 

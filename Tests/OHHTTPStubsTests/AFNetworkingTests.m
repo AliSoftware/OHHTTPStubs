@@ -69,7 +69,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     __block __strong id response = nil;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+	[manager GET:URL.absoluteString parameters:nil headers:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         response = responseObject; // keep strong reference
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -111,7 +111,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return nil;
     }];
 
-    [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+	[manager GET:URL.absoluteString parameters:nil headers:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         response = responseObject; // keep strong reference
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -156,7 +156,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return nil;
     }];
 
-    [manager GET:req.URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+	[manager GET:req.URL.absoluteString parameters:nil headers:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         // Expect the 302 response when the redirection block returns nil (don't follow redirects)
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -199,7 +199,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return nil;
     }];
 
-    [manager GET:req.URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+	[manager GET:req.URL.absoluteString parameters:nil headers:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         // Expect the 302 response when the redirection block returns nil (don't follow redirects)
         [expectation fulfill];
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -258,6 +258,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         __block __strong id response = nil;
         [sessionManager GET:@"foo"
                  parameters:nil
+					headers:nil
                    progress:nil
                     success:^(NSURLSessionDataTask *task, id responseObject) {
                         response = responseObject; // keep strong reference

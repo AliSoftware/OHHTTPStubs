@@ -1,5 +1,5 @@
 // UIImageView+AFNetworking.m
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -48,15 +48,11 @@
 @implementation UIImageView (AFNetworking)
 
 + (AFImageDownloader *)sharedImageDownloader {
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(sharedImageDownloader)) ?: [AFImageDownloader defaultInstance];
-#pragma clang diagnostic pop
+    return objc_getAssociatedObject([UIImageView class], @selector(sharedImageDownloader)) ?: [AFImageDownloader defaultInstance];
 }
 
 + (void)setSharedImageDownloader:(AFImageDownloader *)imageDownloader {
-    objc_setAssociatedObject(self, @selector(sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject([UIImageView class], @selector(sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
@@ -79,17 +75,19 @@
                        success:(void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, UIImage *image))success
                        failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, NSError *error))failure
 {
-
     if ([urlRequest URL] == nil) {
-        [self cancelImageDownloadTask];
         self.image = placeholderImage;
+        if (failure) {
+            NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadURL userInfo:nil];
+            failure(urlRequest, nil, error);
+        }
         return;
     }
-
-    if ([self isActiveTaskURLEqualToURLRequest:urlRequest]){
+    
+    if ([self isActiveTaskURLEqualToURLRequest:urlRequest]) {
         return;
     }
-
+    
     [self cancelImageDownloadTask];
 
     AFImageDownloader *downloader = [[self class] sharedImageDownloader];
@@ -120,7 +118,7 @@
                        if ([strongSelf.af_activeImageDownloadReceipt.receiptID isEqual:downloadID]) {
                            if (success) {
                                success(request, response, responseObject);
-                           } else if(responseObject) {
+                           } else if (responseObject) {
                                strongSelf.image = responseObject;
                            }
                            [strongSelf clearActiveDownloadInformation];
