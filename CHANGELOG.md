@@ -5,7 +5,9 @@
 * Added `hasFormBody(_:)` matcher.  
 [@417-72KI](https://github.com/417-72KI)
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328
-[@kikeenrique](https://github.com/kikeenrique)
+[@kikeenrique](https://github.com/kikeenrique) 
+* Removed all references of `UIWebView`
+[@arnold-plakolli](https://github.com/arnold-plakolli)
 
 ## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
