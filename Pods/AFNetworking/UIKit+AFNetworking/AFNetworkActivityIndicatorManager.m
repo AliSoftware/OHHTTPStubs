@@ -1,5 +1,5 @@
 // AFNetworkActivityIndicatorManager.m
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -109,11 +109,9 @@ typedef void (^AFNetworkActivityActionBlock)(BOOL networkActivityIndicatorVisibl
 
 - (void)setNetworkActivityIndicatorVisible:(BOOL)networkActivityIndicatorVisible {
     if (_networkActivityIndicatorVisible != networkActivityIndicatorVisible) {
-        [self willChangeValueForKey:@"networkActivityIndicatorVisible"];
         @synchronized(self) {
-             _networkActivityIndicatorVisible = networkActivityIndicatorVisible;
+            _networkActivityIndicatorVisible = networkActivityIndicatorVisible;
         }
-        [self didChangeValueForKey:@"networkActivityIndicatorVisible"];
         if (self.networkActivityActionBlock) {
             self.networkActivityActionBlock(networkActivityIndicatorVisible);
         } else {
@@ -122,38 +120,20 @@ typedef void (^AFNetworkActivityActionBlock)(BOOL networkActivityIndicatorVisibl
     }
 }
 
-- (void)setActivityCount:(NSInteger)activityCount {
-	@synchronized(self) {
-		_activityCount = activityCount;
-	}
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateCurrentStateForNetworkActivityChange];
-    });
-}
 
 - (void)incrementActivityCount {
-    [self willChangeValueForKey:@"activityCount"];
-	@synchronized(self) {
-		_activityCount++;
-	}
-    [self didChangeValueForKey:@"activityCount"];
-
+    @synchronized(self) {
+        self.activityCount++;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateCurrentStateForNetworkActivityChange];
     });
 }
 
 - (void)decrementActivityCount {
-    [self willChangeValueForKey:@"activityCount"];
-	@synchronized(self) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
-		_activityCount = MAX(_activityCount - 1, 0);
-#pragma clang diagnostic pop
-	}
-    [self didChangeValueForKey:@"activityCount"];
-
+    @synchronized(self) {
+        self.activityCount = MAX(_activityCount - 1, 0);
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateCurrentStateForNetworkActivityChange];
     });
@@ -175,7 +155,6 @@ typedef void (^AFNetworkActivityActionBlock)(BOOL networkActivityIndicatorVisibl
 - (void)setCurrentState:(AFNetworkActivityManagerState)currentState {
     @synchronized(self) {
         if (_currentState != currentState) {
-            [self willChangeValueForKey:@"currentState"];
             _currentState = currentState;
             switch (currentState) {
                 case AFNetworkActivityManagerStateNotActive:
@@ -195,7 +174,6 @@ typedef void (^AFNetworkActivityActionBlock)(BOOL networkActivityIndicatorVisibl
                     break;
             }
         }
-        [self didChangeValueForKey:@"currentState"];
     }
 }
 

@@ -1,5 +1,5 @@
 // AFAutoPurgingImageCache.m
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@
 @interface AFCachedImage : NSObject
 
 @property (nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, assign) UInt64 totalBytes;
 @property (nonatomic, strong) NSDate *lastAccessDate;
 @property (nonatomic, assign) UInt64 currentMemoryUsage;
@@ -37,21 +37,21 @@
 
 @implementation AFCachedImage
 
--(instancetype)initWithImage:(UIImage *)image identifier:(NSString *)identifier {
+- (instancetype)initWithImage:(UIImage *)image identifier:(NSString *)identifier {
     if (self = [self init]) {
         self.image = image;
         self.identifier = identifier;
 
         CGSize imageSize = CGSizeMake(image.size.width * image.scale, image.size.height * image.scale);
         CGFloat bytesPerPixel = 4.0;
-        CGFloat bytesPerRow = imageSize.width * bytesPerPixel;
-        self.totalBytes = (UInt64)bytesPerPixel * (UInt64)bytesPerRow;
+        CGFloat bytesPerSize = imageSize.width * imageSize.height;
+        self.totalBytes = (UInt64)bytesPerPixel * (UInt64)bytesPerSize;
         self.lastAccessDate = [NSDate date];
     }
     return self;
 }
 
-- (UIImage*)accessImage {
+- (UIImage *)accessImage {
     self.lastAccessDate = [NSDate date];
     return self.image;
 }
@@ -134,7 +134,7 @@
                 [self.cachedImages removeObjectForKey:cachedImage.identifier];
                 bytesPurged += cachedImage.totalBytes;
                 if (bytesPurged >= bytesToPurge) {
-                    break ;
+                    break;
                 }
             }
             self.currentMemoryUsage -= bytesPurged;
@@ -194,6 +194,10 @@
         key = [key stringByAppendingString:additionalIdentifier];
     }
     return key;
+}
+
+- (BOOL)shouldCacheImage:(UIImage *)image forRequest:(NSURLRequest *)request withAdditionalIdentifier:(nullable NSString *)identifier {
+    return YES;
 }
 
 @end

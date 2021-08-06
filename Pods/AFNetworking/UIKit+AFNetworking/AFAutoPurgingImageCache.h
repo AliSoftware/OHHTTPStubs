@@ -1,5 +1,5 @@
 // AFAutoPurgingImageCache.h
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -73,6 +73,17 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol AFImageRequestCache <AFImageCache>
 
 /**
+ Asks if the image should be cached using an identifier created from the request and additional identifier.
+ 
+ @param image The image to be cached.
+ @param request The unique URL request identifing the image asset.
+ @param identifier The additional identifier to apply to the URL request to identify the image.
+ 
+ @return A BOOL indicating whether or not the image should be added to the cache. YES will cache, NO will prevent caching.
+ */
+- (BOOL)shouldCacheImage:(UIImage *)image forRequest:(NSURLRequest *)request withAdditionalIdentifier:(nullable NSString *)identifier;
+
+/**
  Adds the image to the cache using an identifier created from the request and additional identifier.
 
  @param image The image to cache.
@@ -135,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
  after purge limit.
 
  @param memoryCapacity The total memory capacity of the cache in bytes.
- @param preferredMemoryUsageAfterPurge The preferred memory usage after purge in bytes.
+ @param preferredMemoryCapacity The preferred memory usage after purge in bytes.
 
  @return The new `AutoPurgingImageCache` instance.
  */
