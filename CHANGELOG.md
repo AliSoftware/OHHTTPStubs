@@ -6,6 +6,8 @@
 [@417-72KI](https://github.com/417-72KI)
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328
 [@kikeenrique](https://github.com/kikeenrique)
+* OHHTPStubs frameworks: Put Headers phase before Sources phase.
+  [@byohay](https://github.com/byohay)
 
 ## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
