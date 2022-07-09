@@ -1,11 +1,15 @@
 // swift-tools-version:5.0
 import PackageDescription
 
+#if swift(>=5.7)
+let platforms: [PackageDescription.SupportedPlatform] = [.macOS(.v10_13), .iOS(.v11), .watchOS(.v4), .tvOS(.v11)]
+#elseif swift(>=5.0)
+let platforms: [PackageDescription.SupportedPlatform] = [.macOS(.v10_10), .iOS(.v9), .watchOS(.v2), .tvOS(.v9)]
+#endif
+
 let package = Package(
     name: "OHHTTPStubs",
-    platforms: [
-        .macOS(.v10_10), .iOS(.v9), .watchOS(.v2), .tvOS(.v9)
-    ],
+    platforms: platforms,
     products: [
         .library(
             name: "OHHTTPStubs",
