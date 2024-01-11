@@ -695,9 +695,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 095981E019806A7900807DBE /* Build configuration list for PBXNativeTarget "OHHTTPStubs Mac Framework" */;
 			buildPhases = (
+				095981BF19806A7900807DBE /* Headers */,
 				095981BD19806A7900807DBE /* Sources */,
 				095981BE19806A7900807DBE /* Frameworks */,
-				095981BF19806A7900807DBE /* Headers */,
 				095981C019806A7900807DBE /* Resources */,
 			);
 			buildRules = (
@@ -732,9 +732,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 725CD9B21A9EB65200F84C8B /* Build configuration list for PBXNativeTarget "OHHTTPStubs iOS Framework" */;
 			buildPhases = (
+				725CD9981A9EB65100F84C8B /* Headers */,
 				725CD9961A9EB65100F84C8B /* Sources */,
 				725CD9971A9EB65100F84C8B /* Frameworks */,
-				725CD9981A9EB65100F84C8B /* Headers */,
 				725CD9991A9EB65100F84C8B /* Resources */,
 			);
 			buildRules = (
@@ -769,9 +769,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EAA436A21BE1598D000E9E99 /* Build configuration list for PBXNativeTarget "OHHTTPStubs tvOS Framework" */;
 			buildPhases = (
+				EAA436981BE1598D000E9E99 /* Headers */,
 				EAA4368E1BE1598D000E9E99 /* Sources */,
 				EAA436971BE1598D000E9E99 /* Frameworks */,
-				EAA436981BE1598D000E9E99 /* Headers */,
 				EAA436A11BE1598D000E9E99 /* Resources */,
 			);
 			buildRules = (
