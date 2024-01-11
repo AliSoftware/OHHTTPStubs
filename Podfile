@@ -7,11 +7,11 @@ abstract_target 'TestingPods' do
   pod 'AFNetworking', '~> 3.0'
 
   target 'OHHTTPStubs iOS Lib Tests' do
-    platform :ios, '8.0'
+    platform :ios, '11.0'
   end
 
   target 'OHHTTPStubs iOS Fmk Tests' do
-    platform :ios, '8.0'
+    platform :ios, '11.0'
   end
 
   target 'OHHTTPStubs Mac Tests' do

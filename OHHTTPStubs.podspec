@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.frameworks = 'Foundation', 'CFNetwork'
 
   s.requires_arc = true
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '11.0'
   s.osx.deployment_target = '10.9'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
@@ -76,7 +76,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Swift' do |swift|
-    swift.ios.deployment_target = '8.0'
+    swift.ios.deployment_target = '11.0'
     swift.osx.deployment_target = '10.9'
     swift.watchos.deployment_target = '2.0'
     swift.tvos.deployment_target = '9.0'
