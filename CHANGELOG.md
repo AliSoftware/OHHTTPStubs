@@ -8,6 +8,7 @@
 [@kikeenrique](https://github.com/kikeenrique)
 * OHHTPStubs frameworks: Put Headers phase before Sources phase.
   [@byohay](https://github.com/byohay)
+* Export OHHTTPStubs from OHHTTPStubsSwift so that SwiftPM users don't need to import both of them #353 [@manicmaniac](https://github.com/manicmaniac)
 
 ## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
