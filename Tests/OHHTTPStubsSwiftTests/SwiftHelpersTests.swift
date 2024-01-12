@@ -522,6 +522,54 @@ class SwiftHelpersTests : XCTestCase {
 #endif
 
 #if swift(>=3.0)
+  func testHasJsonArrayBodyIsTrue() {
+    let jsonStringsAndObjects = [
+      // Exact match
+      ("[\"foo\", \"bar\", \"baz\", 42, \"qux\", true]",
+       ["foo", "bar", "baz", 42, "qux", true]),
+      // Newlines and indentations
+      ("[\"foo\", \"bar\", \n\"baz\", 42,       \"qux\", true]",
+       ["foo", "bar", "baz", 42, "qux", true]),
+      // Nested objects
+      ("[[ \"foo\", \"bar\", \"baz\" ], { \"qux\": true, \"quux\": [\"spam\", \"ham\", \"eggs\"] }]",
+       [["foo", "bar", "baz"], ["qux": true, "quux": ["spam", "ham", "eggs"]]]),
+    ]
+
+    for (jsonString, expectedJsonObject) in jsonStringsAndObjects {
+      var req = URLRequest(url: URL(string: "foo://bar")!)
+      req.httpBody = jsonString.data(using: .utf8)
+      let matchesJsonBody = hasJsonBody(expectedJsonObject)(req)
+
+      XCTAssertTrue(matchesJsonBody)
+    }
+  }
+#endif
+
+#if swift(>=3.0)
+  func testHasJsonArrayBodyIsFalse() {
+    let jsonStringsAndObjects = [
+      // Changed value
+      ("[ \"foo\", \"bar\" ]",
+       ["foo", "qux"]),
+      // Changed order
+      ("[ \"foo\", \"bar\" ]",
+       ["bar", "foo"]),
+      // Nested objects with changed order
+      ("[ { \"foo\": \"bar\", \"baz\": { \"qux\": true } }, { \"quux\": [ \"spam\", \"ham\", \"eggs\" ] } ]",
+       [["quux": ["spam", "ham", "eggs"]], ["foo": "bar", "baz": ["qux": true]]])
+    ] as [(String, [Any])]
+
+    for (jsonString, expectedJsonObject) in jsonStringsAndObjects {
+      var req = URLRequest(url: URL(string: "foo://bar")!)
+      req.httpBody = jsonString.data(using: .utf8)
+      let matchesJsonBody = hasJsonBody(expectedJsonObject)(req)
+
+      XCTAssertFalse(matchesJsonBody)
+    }
+  }
+#endif
+
+#if swift(>=3.0)
   @available(iOS 8.0, OSX 10.10, *)
   func testHasFormBodyIsTrue() {
     func assertMatchesFormBody(_ formBody: String, _ expectedKeyValues: [String: String?], file: StaticString = #file, line: UInt = #line) {

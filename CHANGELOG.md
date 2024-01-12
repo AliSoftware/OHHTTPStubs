@@ -2,7 +2,12 @@
 
 ## Master
 
-* Added `hasFormBody(_:)` matcher.  
+* Added `hasJsonBody(_:)` matcher for array.
+[@417-72KI](https://github.com/417-72KI)
+
+## [9.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.1.0)
+
+* Added `hasFormBody(_:)` matcher.
 [@417-72KI](https://github.com/417-72KI)
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328
 [@kikeenrique](https://github.com/kikeenrique)
