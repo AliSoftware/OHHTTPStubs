@@ -1,0 +1,73 @@
+name: project
+
+on: ["push", "workflow_dispatch"]
+
+jobs:
+  build-app:
+    name: Build App
+    strategy:
+        fail-fast: false
+        matrix:
+            os: [macos-13]
+            build_type: ['release']
+            run-config:
+                - { xcode_version: '13.4.1', simulator: 'name=iPhone 13 Pro' }
+                - { xcode_version: '14.0.1', simulator: 'name=iPhone 14 Pro' }
+                - { xcode_version: '14.3.1', simulator: 'name=iPhone 14 Pro' }
+                - { xcode_version: '15.0.1', simulator: 'name=iPhone 15 Pro' }
+
+    runs-on: ${{ matrix.os }}
+    env:
+        DEVELOPER_DIR: /Applications/Xcode_${{ matrix.run-config['xcode_version'] }}.app/Contents/Developer
+        DESTINATION: platform=iOS Simulator,${{ matrix.run-config['simulator'] }}
+    steps:
+        - uses: actions/checkout@v3
+        - name: Brew Update
+          run: |
+            brew update
+        - name: Install xcbeautify
+          run: |
+            brew install xcbeautify
+        - name: List Simulators
+          run: |
+            xcrun simctl list
+        - name: Prepare shell
+          run: |
+            set -o pipefail
+        - name: Build
+          run: |
+           env NSUnbufferedIO=YES xcodebuild -project "Ruka.xcodeproj" -scheme "Ruka" -destination "${DESTINATION}" clean build | xcbeautify
+    
+  test-App:
+    name: Test App
+    strategy:
+        fail-fast: false
+        matrix:
+            os: [macos-13]
+            build_type: ['release']
+            run-config:
+                - { xcode_version: '13.4.1', simulator: 'name=iPhone 13 Pro' }
+                - { xcode_version: '14.0.1', simulator: 'name=iPhone 14 Pro' }
+                - { xcode_version: '14.3.1', simulator: 'name=iPhone 14 Pro' }
+                - { xcode_version: '15.0.1', simulator: 'name=iPhone 15 Pro' }
+    runs-on: ${{ matrix.os }}
+    env:
+        DEVELOPER_DIR: /Applications/Xcode_${{ matrix.run-config['xcode_version'] }}.app/Contents/Developer
+        DESTINATION: "platform=iOS Simulator,${{ matrix.run-config['simulator'] }}"
+    steps:
+        - uses: actions/checkout@v3
+        - name: Brew Update
+          run: |
+            brew update
+        - name: Install xcbeautify
+          run: |
+            brew install xcbeautify
+        - name: List Simulators
+          run: |
+            xcrun simctl list
+        - name: Prepare shell
+          run: |
+            set -o pipefail
+        - name: Test
+          run: |
+            env NSUnbufferedIO=YES xcodebuild -project "Ruka.xcodeproj" -scheme "Ruka" -destination "${DESTINATION}" clean test | xcbeautify
