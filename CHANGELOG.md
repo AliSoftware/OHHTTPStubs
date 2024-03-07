@@ -2,6 +2,11 @@
 
 ## Master
 
+* Set minimum iOS deployment version to 11.0 to fix [Xcode 14.3 compilation issue #358](https://github.com/AliSoftware/OHHTTPStubs/issues/358)  
+[@adamsousa](https://github.com/adamsousa)
+
+## [9.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.1.0)
+
 * Added `hasFormBody(_:)` matcher.  
 [@417-72KI](https://github.com/417-72KI)
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328

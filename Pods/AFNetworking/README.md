@@ -49,7 +49,7 @@ To integrate AFNetworking into your Xcode project using CocoaPods, specify it in
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '11.0'
 
 pod 'AFNetworking', '~> 3.0'
 ```
