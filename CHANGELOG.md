@@ -1,6 +1,6 @@
 # OHHTTPStubs — CHANGELOG
 
-## Master
+## [10.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/10.0.0)
 
 * OHHTPStubs frameworks: Put Headers phase before Sources phase.  
   [@byohay](https://github.com/byohay)
