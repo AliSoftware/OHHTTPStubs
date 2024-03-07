@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "OHHTTPStubs",
     platforms: [
-        .macOS(.v10_10), .iOS(.v11), .watchOS(.v2), .tvOS(.v9)
+        .macOS(.v10_10), .iOS(.v11), .watchOS(.v2), .tvOS(.v11)
     ],
     products: [
         .library(
