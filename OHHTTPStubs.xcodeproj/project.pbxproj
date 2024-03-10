@@ -78,10 +78,6 @@
 		1FB9F02622FFBE670027737A /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFF622FFBE670027737A /* HTTPStubsResponse.m */; };
 		1FB9F02722FFBE670027737A /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9EFF622FFBE670027737A /* HTTPStubsResponse.m */; };
 		1FB9F02822FFBFB00027737A /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FCC5CD022FD95CC00472F5B /* OHHTTPStubs.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1FB9F03222FFC0CF0027737A /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */; };
-		1FB9F03322FFC0CF0027737A /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */; };
-		1FB9F03422FFC0CF0027737A /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */; };
-		1FB9F03522FFC0CF0027737A /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */; };
 		1FB9F03622FFC0CF0027737A /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */; };
 		1FB9F03722FFC0CF0027737A /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */; };
 		1FB9F03822FFC0CF0027737A /* NSURLSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */; };
@@ -102,10 +98,10 @@
 		1FB9F04722FFC0CF0027737A /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */; };
 		1FB9F04822FFC0CF0027737A /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */; };
 		1FB9F04922FFC0CF0027737A /* WithContentsOfURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */; };
-		1FB9F04A22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */; };
-		1FB9F04B22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */; };
-		1FB9F04C22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */; };
-		1FB9F04D22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */; };
+		1FB9F04A22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLSessionDelegateTests.m */; };
+		1FB9F04B22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLSessionDelegateTests.m */; };
+		1FB9F04C22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLSessionDelegateTests.m */; };
+		1FB9F04D22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03022FFC0CF0027737A /* NSURLSessionDelegateTests.m */; };
 		1FB9F04E22FFC0CF0027737A /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03122FFC0CF0027737A /* NilValuesTests.m */; };
 		1FB9F04F22FFC0CF0027737A /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03122FFC0CF0027737A /* NilValuesTests.m */; };
 		1FB9F05022FFC0CF0027737A /* NilValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F03122FFC0CF0027737A /* NilValuesTests.m */; };
@@ -231,13 +227,12 @@
 		1FB9EFF422FFBE670027737A /* HTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		1FB9EFF522FFBE670027737A /* HTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
 		1FB9EFF622FFBE670027737A /* HTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsResponse.m; sourceTree = "<group>"; };
-		1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionTests.m; sourceTree = "<group>"; };
 		1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLSessionTests.m; sourceTree = "<group>"; };
 		1FB9F02C22FFC0CF0027737A /* TimingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimingTests.m; sourceTree = "<group>"; };
 		1FB9F02D22FFC0CF0027737A /* OHPathHelpersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHPathHelpersTests.m; sourceTree = "<group>"; };
 		1FB9F02E22FFC0CF0027737A /* AFNetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTests.m; sourceTree = "<group>"; };
 		1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithContentsOfURLTests.m; sourceTree = "<group>"; };
-		1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionDelegateTests.m; sourceTree = "<group>"; };
+		1FB9F03022FFC0CF0027737A /* NSURLSessionDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLSessionDelegateTests.m; sourceTree = "<group>"; };
 		1FB9F03122FFC0CF0027737A /* NilValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NilValuesTests.m; sourceTree = "<group>"; };
 		1FCC5C7422FD95C200472F5B /* HTTPStubsResponse+HTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTTPStubsResponse+HTTPMessage.h"; sourceTree = "<group>"; };
 		1FCC5C7522FD95C200472F5B /* HTTPStubsResponse+HTTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubsResponse+HTTPMessage.m"; sourceTree = "<group>"; };
@@ -454,13 +449,12 @@
 		1FB9F02922FFC0CF0027737A /* OHHTTPStubsTests */ = {
 			isa = PBXGroup;
 			children = (
-				1FB9F02A22FFC0CF0027737A /* NSURLConnectionTests.m */,
 				1FB9F02B22FFC0CF0027737A /* NSURLSessionTests.m */,
+				1FB9F03022FFC0CF0027737A /* NSURLSessionDelegateTests.m */,
 				1FB9F02C22FFC0CF0027737A /* TimingTests.m */,
 				1FB9F02D22FFC0CF0027737A /* OHPathHelpersTests.m */,
 				1FB9F02E22FFC0CF0027737A /* AFNetworkingTests.m */,
 				1FB9F02F22FFC0CF0027737A /* WithContentsOfURLTests.m */,
-				1FB9F03022FFC0CF0027737A /* NSURLConnectionDelegateTests.m */,
 				1FB9F03122FFC0CF0027737A /* NilValuesTests.m */,
 			);
 			path = OHHTTPStubsTests;
@@ -1018,12 +1012,11 @@
 			files = (
 				1FB9F03A22FFC0CF0027737A /* TimingTests.m in Sources */,
 				1FB9F03E22FFC0CF0027737A /* OHPathHelpersTests.m in Sources */,
-				1FB9F04A22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */,
+				1FB9F04A22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */,
 				1FB9F04622FFC0CF0027737A /* WithContentsOfURLTests.m in Sources */,
 				1FB9F04222FFC0CF0027737A /* AFNetworkingTests.m in Sources */,
 				1F462BB322FD9671000B7253 /* MocktailTests.m in Sources */,
 				1FB9F03622FFC0CF0027737A /* NSURLSessionTests.m in Sources */,
-				1FB9F03222FFC0CF0027737A /* NSURLConnectionTests.m in Sources */,
 				1FB9F04E22FFC0CF0027737A /* NilValuesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1034,13 +1027,12 @@
 			files = (
 				1FB9F03B22FFC0CF0027737A /* TimingTests.m in Sources */,
 				1FB9F03F22FFC0CF0027737A /* OHPathHelpersTests.m in Sources */,
-				1FB9F04B22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */,
+				1FB9F04B22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */,
 				1F51F12422FE4D48003463C1 /* SwiftHelpersTests.swift in Sources */,
 				1FB9F04722FFC0CF0027737A /* WithContentsOfURLTests.m in Sources */,
 				1FB9F04322FFC0CF0027737A /* AFNetworkingTests.m in Sources */,
 				1FCC5D3A22FD95D700472F5B /* MocktailTests.m in Sources */,
 				1FB9F03722FFC0CF0027737A /* NSURLSessionTests.m in Sources */,
-				1FB9F03322FFC0CF0027737A /* NSURLConnectionTests.m in Sources */,
 				1FB9F04F22FFC0CF0027737A /* NilValuesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1066,7 +1058,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FB9F03422FFC0CF0027737A /* NSURLConnectionTests.m in Sources */,
 				1FCC5D3B22FD95D700472F5B /* MocktailTests.m in Sources */,
 				1FB9F03C22FFC0CF0027737A /* TimingTests.m in Sources */,
 				1F51F12522FE52CA003463C1 /* SwiftHelpersTests.swift in Sources */,
@@ -1075,7 +1066,7 @@
 				1FB9F05022FFC0CF0027737A /* NilValuesTests.m in Sources */,
 				1FB9F04422FFC0CF0027737A /* AFNetworkingTests.m in Sources */,
 				1FB9F03822FFC0CF0027737A /* NSURLSessionTests.m in Sources */,
-				1FB9F04C22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */,
+				1FB9F04C22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,10 +1097,9 @@
 				1F51F12622FE52D0003463C1 /* SwiftHelpersTests.swift in Sources */,
 				1FB9F04122FFC0CF0027737A /* OHPathHelpersTests.m in Sources */,
 				1FB9F03D22FFC0CF0027737A /* TimingTests.m in Sources */,
-				1FB9F04D22FFC0CF0027737A /* NSURLConnectionDelegateTests.m in Sources */,
+				1FB9F04D22FFC0CF0027737A /* NSURLSessionDelegateTests.m in Sources */,
 				1FB9F04522FFC0CF0027737A /* AFNetworkingTests.m in Sources */,
 				1FCC5D3C22FD95D700472F5B /* MocktailTests.m in Sources */,
-				1FB9F03522FFC0CF0027737A /* NSURLConnectionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

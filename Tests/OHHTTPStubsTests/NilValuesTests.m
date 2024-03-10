@@ -23,8 +23,6 @@
  ***********************************************************************************/
 
 #import <Availability.h>
-// tvOS & watchOS deprecate use of NSURLConnection but these tests are based on it
-#if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
 
@@ -62,14 +60,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
@@ -87,14 +83,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
-     {
-         XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-
-         [expectation fulfill];
-     }];
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
+      {
+        XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
+        [expectation fulfill];
+    }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
@@ -115,14 +109,13 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
 
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
@@ -143,14 +136,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
@@ -169,6 +160,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                                  , NSException, NSInternalInconsistencyException, @"An exception should be thrown if a non-file URL is given");
 }
 
+// Note: This will show an Assertion failure in the console (from HTTPStubsResponse.m:166)
 - (void)test_NonFileURL
 {
     NSURL *httpURL = [NSURL URLWithString:@"http://www.iana.org/domains/example/"];
@@ -192,14 +184,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
@@ -218,14 +208,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
      {
          XCTAssertEqual(data.length, (NSUInteger)0, @"Data should be empty");
-
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 }
@@ -252,29 +240,28 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     __block NSData* response = nil;
 
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData* data, NSURLResponse* resp, NSError* error)
      {
          response = data;
          [expectation fulfill];
-     }];
+     }] resume];
 
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:nil];
 
     XCTAssertEqualObjects(response, expectedResponse, @"Unexpected data received");
 }
 
+// Note: This will trigger an "API MISUSE: Resuming an NSURLSessionTask with nil URL" red message in the console
 - (void)test_NilURLAndCookieHandlingEnabled
 {
     [self _test_NilURLAndCookieHandlingEnabled:YES];
 }
 
+// Note: This will trigger an "API MISUSE: Resuming an NSURLSessionTask with nil URL" red message in the console
 - (void)test_NilURLAndCookieHandlingDisabled
 {
     [self _test_NilURLAndCookieHandlingEnabled:NO];
 }
 
 @end
-
-#endif
