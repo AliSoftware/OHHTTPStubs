@@ -1,4 +1,4 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 
 project 'OHHTTPStubs.xcodeproj'
 inhibit_all_warnings!
