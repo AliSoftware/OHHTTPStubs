@@ -59,12 +59,14 @@ class MainViewController: UIViewController {
         let urlString = "http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?txt"
         let req = URLRequest(url: URL(string: urlString)!)
 
-        NSURLConnection.sendAsynchronousRequest(req, queue: OperationQueue.main) { (_, data, _) in
-            sender.isEnabled = true
-            if let receivedData = data, let receivedText = NSString(data: receivedData, encoding: String.Encoding.ascii.rawValue) {
-                self.textView.text = receivedText as String
+        URLSession.shared.dataTask(with: req) { data, _, _ in
+            DispatchQueue.main.async {
+                sender.isEnabled = true
+                if let receivedData = data, let receivedText = NSString(data: receivedData, encoding: String.Encoding.ascii.rawValue) {
+                    self.textView.text = receivedText as String
+                }
             }
-        }
+        }.resume()
     }
 
     weak var textStub: HTTPStubsDescriptor?
@@ -95,14 +97,16 @@ class MainViewController: UIViewController {
         let urlString = "http://images.apple.com/support/assets/images/products/iphone/hero_iphone4-5_wide.png"
         let req = URLRequest(url: URL(string: urlString)!)
 
-        NSURLConnection.sendAsynchronousRequest(req, queue: OperationQueue.main) { (_, data, _) in
-            sender.isEnabled = true
-            if let receivedData = data {
-                DispatchQueue.main.async {
-                    self.imageView.image = UIImage(data: receivedData)
+        URLSession.shared.dataTask(with: req) { data, _, _ in
+            DispatchQueue.main.async {
+                sender.isEnabled = true
+                if let receivedData = data {
+                    DispatchQueue.main.async {
+                        self.imageView.image = UIImage(data: receivedData)
+                    }
                 }
             }
-        }
+        }.resume()
     }
     
     weak var imageStub: HTTPStubsDescriptor?
