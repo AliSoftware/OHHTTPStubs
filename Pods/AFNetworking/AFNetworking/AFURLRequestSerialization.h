@@ -1,5 +1,5 @@
 // AFURLRequestSerialization.h
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,31 @@
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ Returns a percent-escaped string following RFC 3986 for a query string key or value.
+ RFC 3986 states that the following characters are "reserved" characters.
+ - General Delimiters: ":", "#", "[", "]", "@", "?", "/"
+ - Sub-Delimiters: "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "="
+
+ In RFC 3986 - Section 3.4, it states that the "?" and "/" characters should not be escaped to allow
+ query strings to include a URL. Therefore, all "reserved" characters with the exception of "?" and "/"
+ should be percent-escaped in the query string.
+ 
+ @param string The string to be percent-escaped.
+ 
+ @return The percent-escaped string.
+ */
+FOUNDATION_EXPORT NSString * AFPercentEscapedStringFromString(NSString *string);
+
+/**
+ A helper method to generate encoded url query parameters for appending to the end of a URL.
+
+ @param parameters A dictionary of key/values to be encoded.
+
+ @return A url encoded query string
+ */
+FOUNDATION_EXPORT NSString * AFQueryStringFromParameters(NSDictionary *parameters);
 
 /**
  The `AFURLRequestSerialization` protocol is adopted by an object that encodes parameters for a specified HTTP requests. Request serializers may encode parameters as query strings, HTTP bodies, setting the appropriate HTTP header fields as necessary.

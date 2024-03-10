@@ -1,5 +1,5 @@
 // AFNetworkActivityIndicatorManager.m
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -147,10 +147,7 @@ typedef void (^AFNetworkActivityActionBlock)(BOOL networkActivityIndicatorVisibl
 - (void)decrementActivityCount {
     [self willChangeValueForKey:@"activityCount"];
 	@synchronized(self) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
 		_activityCount = MAX(_activityCount - 1, 0);
-#pragma clang diagnostic pop
 	}
     [self didChangeValueForKey:@"activityCount"];
 
@@ -194,8 +191,9 @@ typedef void (^AFNetworkActivityActionBlock)(BOOL networkActivityIndicatorVisibl
                     [self startCompletionDelayTimer];
                     break;
             }
+            [self didChangeValueForKey:@"currentState"];
         }
-        [self didChangeValueForKey:@"currentState"];
+        
     }
 }
 

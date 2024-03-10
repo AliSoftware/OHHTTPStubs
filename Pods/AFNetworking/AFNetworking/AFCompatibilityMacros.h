@@ -1,5 +1,4 @@
-// UIRefreshControl+AFNetworking.m
-//
+// AFCompatibilityMacros.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,34 +19,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#ifndef AFCompatibilityMacros_h
+#define AFCompatibilityMacros_h
 
-#import <TargetConditionals.h>
+#ifdef API_UNAVAILABLE
+    #define AF_API_UNAVAILABLE(x) API_UNAVAILABLE(x)
+#else
+    #define AF_API_UNAVAILABLE(x)
+#endif // API_UNAVAILABLE
 
-#if TARGET_OS_IOS
-
-#import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-/**
- This category adds methods to the UIKit framework's `UIRefreshControl` class. The methods in this category provide support for automatically beginning and ending refreshing depending on the loading state of a session task.
- */
-@interface UIRefreshControl (AFNetworking)
-
-///-----------------------------------
-/// @name Refreshing for Session Tasks
-///-----------------------------------
-
-/**
- Binds the refreshing state to the state of the specified task.
- 
- @param task The task. If `nil`, automatic updating from any previously specified operation will be disabled.
- */
-- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task;
-
-@end
-
-NS_ASSUME_NONNULL_END
-
+#if __has_warning("-Wunguarded-availability-new")
+    #define AF_CAN_USE_AT_AVAILABLE 1
+#else
+    #define AF_CAN_USE_AT_AVAILABLE 0
 #endif
+
+#endif /* AFCompatibilityMacros_h */

@@ -1,5 +1,5 @@
 // AFImageDownloader.h
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -82,11 +82,25 @@ typedef NS_ENUM(NSInteger, AFImageDownloadPrioritization) {
 + (NSURLCache *)defaultURLCache;
 
 /**
+ The default `NSURLSessionConfiguration` with common usage parameter values.
+ */
++ (NSURLSessionConfiguration *)defaultURLSessionConfiguration;
+
+/**
  Default initializer
 
  @return An instance of `AFImageDownloader` initialized with default values.
  */
 - (instancetype)init;
+
+/**
+ Initializer with specific `URLSessionConfiguration`
+ 
+ @param configuration The `NSURLSessionConfiguration` to be be used
+ 
+ @return An instance of `AFImageDownloader` initialized with default values and custom `NSURLSessionConfiguration`
+ */
+- (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration;
 
 /**
  Initializes the `AFImageDownloader` instance with the given session manager, download prioritization, maximum active download count and image cache.
@@ -129,7 +143,7 @@ typedef NS_ENUM(NSInteger, AFImageDownloadPrioritization) {
  task are executed in the order they were added.
 
  @param request The URL request.
- @param request The identifier to use for the download receipt that will be created for this request. This must be a unique identifier that does not represent any other request.
+ @param receiptID The identifier to use for the download receipt that will be created for this request. This must be a unique identifier that does not represent any other request.
  @param success A block to be executed when the image data task finishes successfully. This block has no return value and takes three arguments: the request sent from the client, the response received from the server, and the image created from the response data of request. If the image was returned from cache, the response parameter will be `nil`.
  @param failure A block object to be executed when the image data task finishes unsuccessfully, or that finishes successfully. This block has no return value and takes three arguments: the request sent from the client, the response received from the server, and the error object describing the network or parsing error that occurred.
 

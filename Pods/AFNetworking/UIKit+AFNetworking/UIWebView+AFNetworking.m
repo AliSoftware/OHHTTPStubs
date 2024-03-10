@@ -1,5 +1,5 @@
 // UIWebView+AFNetworking.m
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -58,10 +58,7 @@
         _af_defaultHTTPSessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
     });
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
     return objc_getAssociatedObject(self, @selector(sessionManager)) ?: _af_defaultHTTPSessionManager;
-#pragma clang diagnostic pop
 }
 
 - (void)setSessionManager:(AFHTTPSessionManager *)sessionManager {
@@ -75,10 +72,7 @@
         _af_defaultResponseSerializer = [AFHTTPResponseSerializer serializer];
     });
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
     return objc_getAssociatedObject(self, @selector(responseSerializer)) ?: _af_defaultResponseSerializer;
-#pragma clang diagnostic pop
 }
 
 - (void)setResponseSerializer:(AFHTTPResponseSerializer<AFURLResponseSerialization> *)responseSerializer {
@@ -125,29 +119,32 @@
     self.af_URLSessionTask = nil;
 
     __weak __typeof(self)weakSelf = self;
-    NSURLSessionDataTask *dataTask;
+    __block NSURLSessionDataTask *dataTask;
     dataTask = [self.sessionManager
-            GET:request.URL.absoluteString
-            parameters:nil
-            progress:nil
-            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                __strong __typeof(weakSelf) strongSelf = weakSelf;
-                if (success) {
-                    success((NSHTTPURLResponse *)task.response, responseObject);
-                }
-                [strongSelf loadData:responseObject MIMEType:MIMEType textEncodingName:textEncodingName baseURL:[task.currentRequest URL]];
+                dataTaskWithRequest:request
+                uploadProgress:nil
+                downloadProgress:nil
+                completionHandler:^(NSURLResponse * _Nonnull response, id  _Nonnull responseObject, NSError * _Nullable error) {
+                    __strong __typeof(weakSelf) strongSelf = weakSelf;
+                    if (error) {
+                        if (failure) {
+                            failure(error);
+                        }
+                    } else {
+                        if (success) {
+                            success((NSHTTPURLResponse *)response, responseObject);
+                        }
+                        [strongSelf loadData:responseObject MIMEType:MIMEType textEncodingName:textEncodingName baseURL:[dataTask.currentRequest URL]];
 
-                if ([strongSelf.delegate respondsToSelector:@selector(webViewDidStartLoad:)]) {
-                    [strongSelf.delegate webViewDidFinishLoad:strongSelf];
-                }
-            }
-            failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                if (failure) {
-                    failure(error);
-                }
-            }];
+                        if ([strongSelf.delegate respondsToSelector:@selector(webViewDidFinishLoad:)]) {
+                            [strongSelf.delegate webViewDidFinishLoad:strongSelf];
+                        }
+                    }
+                }];
     self.af_URLSessionTask = dataTask;
-    *progress = [self.sessionManager downloadProgressForTask:dataTask];
+    if (progress != nil) {
+        *progress = [self.sessionManager downloadProgressForTask:dataTask];
+    }
     [self.af_URLSessionTask resume];
 
     if ([self.delegate respondsToSelector:@selector(webViewDidStartLoad:)]) {
