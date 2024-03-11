@@ -4,6 +4,12 @@
 
 * Set minimum iOS deployment version to 11.0 to fix [Xcode 14.3 compilation issue #358](https://github.com/AliSoftware/OHHTTPStubs/issues/358)  
 [@adamsousa](https://github.com/adamsousa)
+* Update minimum deployment versions (iOS: 12.0, osx: 10.13, tvos: 12.0, watchos: 4.0).  
+  [@AliSoftware](https://github.com/AliSoftware)
+  [#368](https://github.com/AliSoftware/OHHTTPStubs/pull/368)
+* [Internal] Remove deprecated `NSURLSession` code from Unit Tests and Example projects.  
+  [@AliSoftware](https://github.com/AliSoftware)
+  [#368](https://github.com/AliSoftware/OHHTTPStubs/pull/368)
 
 ## [9.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.1.0)
 
