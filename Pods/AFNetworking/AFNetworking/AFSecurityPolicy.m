@@ -1,5 +1,5 @@
 // AFSecurityPolicy.m
-// Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
+// Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -51,8 +51,6 @@ static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 static id AFPublicKeyForCertificate(NSData *certificate) {
     id allowedPublicKey = nil;
     SecCertificateRef allowedCertificate;
-    SecCertificateRef allowedCertificates[1];
-    CFArrayRef tempCertificates = nil;
     SecPolicyRef policy = nil;
     SecTrustRef allowedTrust = nil;
     SecTrustResultType result;
@@ -60,11 +58,8 @@ static id AFPublicKeyForCertificate(NSData *certificate) {
     allowedCertificate = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificate);
     __Require_Quiet(allowedCertificate != NULL, _out);
 
-    allowedCertificates[0] = allowedCertificate;
-    tempCertificates = CFArrayCreate(NULL, (const void **)allowedCertificates, 1, NULL);
-
     policy = SecPolicyCreateBasicX509();
-    __Require_noErr_Quiet(SecTrustCreateWithCertificates(tempCertificates, policy, &allowedTrust), _out);
+    __Require_noErr_Quiet(SecTrustCreateWithCertificates(allowedCertificate, policy, &allowedTrust), _out);
     __Require_noErr_Quiet(SecTrustEvaluate(allowedTrust, &result), _out);
 
     allowedPublicKey = (__bridge_transfer id)SecTrustCopyPublicKey(allowedTrust);
@@ -76,10 +71,6 @@ _out:
 
     if (policy) {
         CFRelease(policy);
-    }
-
-    if (tempCertificates) {
-        CFRelease(tempCertificates);
     }
 
     if (allowedCertificate) {

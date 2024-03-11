@@ -27,8 +27,6 @@
 #else
 
 #import <Availability.h>
-// tvOS & watchOS deprecate use of NSURLConnection but these tests are based on it
-#if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
 
@@ -38,7 +36,7 @@
 @import OHHTTPStubs;
 #endif
 
-@interface TimingTests : XCTestCase
+@interface TimingTests : XCTestCase <NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 {
     NSMutableData* _data;
     NSError* _error;
@@ -61,32 +59,36 @@
     _didFinishLoadingTS = nil;
     [HTTPStubs removeAllStubs];
 }
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (NS_SWIFT_SENDABLE ^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
-    _data.length = 0U;
+    _data.length = 0L;
     // NOTE: This timing info is not reliable as Cocoa always calls the connection:didReceiveResponse: delegate method just before
-    // calling the first "connection:didReceiveData:", even if the [id<NSURLProtocolClient> URLProtocol:didReceiveResponse:…] method was called way before. So we are not testing this
+    // calling the first "…didReceiveData:", even if the [id<NSURLProtocolClient> URLProtocol:didReceiveResponse:…] method
+    // was called way before. So we are not testing this
 //    _didReceiveResponseTS = [NSDate date];
+
+    completionHandler(NSURLSessionResponseAllow);
 }
 
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data
 {
     [_data appendData:data];
 }
 
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error
 {
-    _error = error; // keep strong reference
+    _error = error;
     _didFinishLoadingTS = [NSDate date];
     [_connectionFinishedExpectation fulfill];
 }
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    _didFinishLoadingTS = [NSDate date];
-    [_connectionFinishedExpectation fulfill];
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,12 +106,16 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
                 requestTime:requestTime responseTime:responseTime];
     }];
 
-    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLSession did finish (with error or success)"];
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startTS = [NSDate date];
 
-    [NSURLConnection connectionWithRequest:req delegate:self];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
 
     [self waitForExpectationsWithTimeout:requestTime+responseTime+kResponseTimeMaxDelay+kSecurityTimeout handler:nil];
 
@@ -169,7 +175,5 @@ static NSTimeInterval const kSecurityTimeout = 5.0;
 }
 
 @end
-
-#endif
 
 #endif

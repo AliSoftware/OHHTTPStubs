@@ -4,12 +4,12 @@
 
 [![Build Status](https://travis-ci.org/AFNetworking/AFNetworking.svg)](https://travis-ci.org/AFNetworking/AFNetworking)
 [![codecov.io](https://codecov.io/github/AFNetworking/AFNetworking/coverage.svg?branch=master)](https://codecov.io/github/AFNetworking/AFNetworking?branch=master)
-[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/AFNetworking.svg)](https://img.shields.io/cocoapods/v/AFNetworking.svg)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/AFNetworking.svg)](https://img.shields.io/cocoapods/v/AFNetworking.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/cocoapods/p/AFNetworking.svg?style=flat)](http://cocoadocs.org/docsets/AFNetworking)
 [![Twitter](https://img.shields.io/badge/twitter-@AFNetworking-blue.svg?style=flat)](http://twitter.com/AFNetworking)
 
-AFNetworking is a delightful networking library for iOS and Mac OS X. It's built on top of the [Foundation URL Loading System](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html), extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
+AFNetworking is a delightful networking library for iOS, macOS, watchOS, and tvOS. It's built on top of the [Foundation URL Loading System](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html), extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
 
 Perhaps the most important feature of all, however, is the amazing community of developers who use and contribute to AFNetworking every day. AFNetworking powers some of the most popular and critically-acclaimed apps on the iPhone, iPad, and Mac.
 
@@ -49,9 +49,11 @@ To integrate AFNetworking into your Xcode project using CocoaPods, specify it in
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '11.0'
+platform :ios, '8.0'
 
+target 'TargetName' do
 pod 'AFNetworking', '~> 3.0'
+end
 ```
 
 Then, run the following command:
@@ -81,7 +83,7 @@ Run `carthage` to build the framework and drag the built `AFNetworking.framework
 
 ## Requirements
 
-| AFNetworking Version | Minimum iOS Target  | Minimum OS X Target  | Minimum watchOS Target  | Minimum tvOS Target  |                                   Notes                                   |
+| AFNetworking Version | Minimum iOS Target  | Minimum macOS Target  | Minimum watchOS Target  | Minimum tvOS Target  |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:----------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
 | 3.x | iOS 7 | OS X 10.9 | watchOS 2.0 | tvOS 9.0 | Xcode 7+ is required. `NSURLConnectionOperation` support has been removed. |
 | 2.6 -> 2.6.3 | iOS 7 | OS X 10.9 | watchOS 2.0 | n/a | Xcode 7+ is required. |
@@ -89,7 +91,7 @@ Run `carthage` to build the framework and drag the built `AFNetworking.framework
 | 1.x | iOS 5 | Mac OS X 10.7 | n/a | n/a |
 | 0.10.x | iOS 4 | Mac OS X 10.6 | n/a | n/a |
 
-(OS X projects must support [64-bit with modern Cocoa runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html)).
+(macOS projects must support [64-bit with modern Cocoa runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html)).
 
 > Programming in Swift? Try [Alamofire](https://github.com/Alamofire/Alamofire) for a more conventional set of APIs.
 
@@ -110,7 +112,7 @@ Run `carthage` to build the framework and drag the built `AFNetworking.framework
   - `AFHTTPResponseSerializer`
   - `AFJSONResponseSerializer`
   - `AFXMLParserResponseSerializer`
-  - `AFXMLDocumentResponseSerializer` _(Mac OS X)_
+  - `AFXMLDocumentResponseSerializer` _(macOS)_
   - `AFPropertyListResponseSerializer`
   - `AFImageResponseSerializer`
   - `AFCompoundResponseSerializer`
@@ -201,7 +203,7 @@ uploadTask = [manager
 NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
 AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
 
-NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
+NSURL *URL = [NSURL URLWithString:@"http://httpbin.org/get"];
 NSURLRequest *request = [NSURLRequest requestWithURL:URL];
 
 NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
@@ -236,7 +238,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 #### URL Form Parameter Encoding
 
 ```objective-c
-[[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
+[[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];
 ```
 
     POST http://example.com/
@@ -247,7 +249,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 #### JSON Parameter Encoding
 
 ```objective-c
-[[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
+[[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];
 ```
 
     POST http://example.com/
@@ -317,4 +319,4 @@ If you believe you have identified a security vulnerability with AFNetworking, y
 
 ## License
 
-AFNetworking is released under the MIT license. See LICENSE for details.
+AFNetworking is released under the MIT license. See [LICENSE](https://github.com/AFNetworking/AFNetworking/blob/master/LICENSE) for details.

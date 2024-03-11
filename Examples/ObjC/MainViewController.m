@@ -73,14 +73,14 @@
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
-     {
-         sender.enabled = YES;
-         NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-         self.textView.text = receivedText;
-     }];
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            sender.enabled = YES;
+            NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+            self.textView.text = receivedText;
+        });
+    }] resume];
 }
 
 
@@ -124,15 +124,13 @@
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
-     {
-         dispatch_async(dispatch_get_main_queue(), ^{
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             sender.enabled = YES;
             self.imageView.image = [UIImage imageWithData:data];
-         });
-     }];
+        });
+    }] resume];
 }
 
 - (IBAction)installImageStub:(UISwitch *)sender

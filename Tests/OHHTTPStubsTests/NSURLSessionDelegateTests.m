@@ -23,8 +23,6 @@
  ***********************************************************************************/
 
 #import <Availability.h>
-// tvOS & watchOS deprecate use of NSURLConnection but these tests are based on it
-#if (!defined(__TV_OS_VERSION_MIN_REQUIRED) && !defined(__WATCH_OS_VERSION_MIN_REQUIRED))
 
 #import <XCTest/XCTest.h>
 
@@ -34,11 +32,11 @@
 @import OHHTTPStubs;
 #endif
 
-@interface NSURLConnectionDelegateTests : XCTestCase <NSURLConnectionDataDelegate> @end
+@interface NSURLSessionDelegateTests : XCTestCase <NSURLSessionTaskDelegate, NSURLSessionDataDelegate> @end
 
 static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
-@implementation NSURLConnectionDelegateTests
+@implementation NSURLSessionDelegateTests
 {
     NSMutableData* _data;
     NSError* _error;
@@ -50,7 +48,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
-#pragma mark Global Setup + NSURLConnectionDelegate implementation
+#pragma mark Global Setup + NSURLSessionDelegate implementation
 ///////////////////////////////////////////////////////////////////////////////////
 
 -(void)setUp
@@ -62,7 +60,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
 -(void)tearDown
 {
-    // in case the test timed out and finished before a running NSURLConnection ended,
+    // in case the test timed out and finished before a running NSURLSessionTask ended,
     // we may continue receive delegate messages anyway if we forgot to cancel.
     // So avoid sending messages to deallocated object in this case by ensuring we reset it to nil
     _data = nil;
@@ -71,7 +69,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     [super tearDown];
 }
 
-- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+                     willPerformHTTPRedirection:(NSHTTPURLResponse *)response
+                                     newRequest:(NSURLRequest *)request
+                              completionHandler:(void (NS_SWIFT_SENDABLE ^)(NSURLRequest * _Nullable))completionHandler
 {
     _redirectRequestURL = request.URL;
     if (response)
@@ -85,41 +86,38 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
             _redirectResponseStatusCode = 0;
         }
     }
-    else
-    {
-        // we get a nil response when NSURLConnection canonicalizes the URL, we don't care about that.
-    }
-    return request;
+    completionHandler(request);
 }
 
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (NS_SWIFT_SENDABLE ^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
-    _data.length = 0U;
+    _data.length = 0L;
+    completionHandler(NSURLSessionResponseAllow);
 }
 
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data
 {
     [_data appendData:data];
 }
 
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error
 {
-    _error = error; // keep strong reference
+    _error = error;
     [_connectionFinishedExpectation fulfill];
 }
 
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [_connectionFinishedExpectation fulfill];
-}
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////
-#pragma mark NSURLConnection + Delegate
+#pragma mark NSURLSession + Delegate
 ///////////////////////////////////////////////////////////////////////////////////
 
--(void)test_NSURLConnectionDelegate_success
+-(void)test_NSURLSessionDelegate_success
 {
     static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 0.5;
@@ -134,12 +132,16 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
 
-    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLSession did finish (with error or success)"];
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
 
-    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
 
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
 
@@ -148,10 +150,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
-    [cxn cancel];
+    [task cancel];
 }
 
--(void)test_NSURLConnectionDelegate_multiple_choices
+-(void)test_NSURLSessionDelegate_multiple_choices
 {
     static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 0.5;
@@ -166,12 +168,16 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                 requestTime:kRequestTime responseTime:kResponseTime];
     }];
 
-    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLSession did finish (with error or success)"];
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
 
-    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
 
     [self waitForExpectationsWithTimeout:kRequestTime+kResponseTime+kResponseTimeMaxDelay handler:nil];
 
@@ -180,10 +186,10 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kRequestTime+kResponseTime, @"Invalid response time");
 
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
-    [cxn cancel];
+    [task cancel];
 }
 
--(void)test_NSURLConnectionDelegate_error
+-(void)test_NSURLSessionDelegate_error
 {
     static const NSTimeInterval kResponseTime = 0.5;
     NSError* expectedError = [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil];
@@ -196,12 +202,16 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         return resp;
     }];
 
-    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLSession did finish (with error or success)"];
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
     NSDate* startDate = [NSDate date];
 
-    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
 
     [self waitForExpectationsWithTimeout:kResponseTime+kResponseTimeMaxDelay handler:nil];
 
@@ -211,7 +221,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     XCTAssertGreaterThan(-[startDate timeIntervalSinceNow], kResponseTime, @"Invalid response time");
 
     // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
-    [cxn cancel];
+    [task cancel];
 }
 
 
@@ -219,7 +229,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 #pragma mark Cancelling requests
 ///////////////////////////////////////////////////////////////////////////////////
 
--(void)test_NSURLConnection_cancel
+-(void)test_NSURLSession_cancel
 {
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
@@ -231,11 +241,16 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
     }];
 
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
 
     XCTestExpectation* waitExpectation = [self expectationWithDescription:@"Waiting 2s, after cancelling in the middle"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [cxn cancel];
+        [task cancel];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [waitExpectation fulfill];
         });
@@ -243,12 +258,12 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
         // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
-        [cxn cancel];
+        [task cancel];
     }];
 
     XCTAssertEqual(_data.length, (NSUInteger)0, @"Received unexpected data but the request should have been cancelled");
-    XCTAssertNil(_error, @"Received unexpected network error but the request should have been cancelled");
-
+    XCTAssertEqual(_error.domain, NSURLErrorDomain, @"Received unexpected network error but the request should have been cancelled");
+    XCTAssertEqual(_error.code, NSURLErrorCancelled, @"Received unexpected network error but the request should have been cancelled");
 }
 
 
@@ -256,7 +271,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 #pragma mark Cancelling requests
 ///////////////////////////////////////////////////////////////////////////////////
 
--(void)test_NSURLConnection_cookies
+-(void)test_NSURLSession_cookies
 {
     NSString* const cookieName = @"SESSIONID";
     NSString* const cookieValue = [NSProcessInfo.processInfo globallyUniqueString];
@@ -271,7 +286,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
                 requestTime:0.0 responseTime:0.1];
     }];
 
-    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLSession did finish (with error or success)"];
 
     // Set the cookie accept policy to accept all cookies from the main document domain
     // (especially in case the previous policy was "NSHTTPCookieAcceptPolicyNever")
@@ -281,9 +296,15 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     // Send the request and wait for the response containing the Set-Cookie headers
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.iana.org/domains/example/"]];
-    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
+
     [self waitForExpectationsWithTimeout:kResponseTimeMaxDelay handler:^(NSError *error) {
-        [cxn cancel]; // In case we timed out (test failed), cancel the request to avoid further delegate method calls
+        [task cancel]; // In case we timed out (test failed), cancel the request to avoid further delegate method calls
     }];
 
     /* Check that the cookie has been properly stored */
@@ -302,7 +323,6 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 
     // As a courtesy, restore previous policy before leaving
     cookieStorage.cookieAcceptPolicy = previousAcceptPolicy;
-
 }
 
 
@@ -310,7 +330,7 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 #pragma mark Redirected requests
 ///////////////////////////////////////////////////////////////////////////////////
 
-- (void)test_NSURLConnection_redirected
+- (void)test_NSURLSession_redirected
 {
     static const NSTimeInterval kRequestTime = 0.1;
     static const NSTimeInterval kResponseTime = 0.5;
@@ -351,16 +371,20 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
         }
     }];
 
-    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLConnection did finish (with error or success)"];
+    _connectionFinishedExpectation = [self expectationWithDescription:@"NSURLSession did finish (with error or success)"];
 
     NSURLRequest* req = [NSURLRequest requestWithURL:redirectURL];
     NSDate* startDate = [NSDate date];
 
-    NSURLConnection* cxn = [NSURLConnection connectionWithRequest:req delegate:self];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                          delegate:self
+                                                     delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:req];
+    [task resume];
 
     [self waitForExpectationsWithTimeout:2 * (kRequestTime+kResponseTime+kResponseTimeMaxDelay) handler:^(NSError *error) {
         // in case we timed out before the end of the request (test failed), cancel the request to avoid further delegate method calls
-        [cxn cancel];
+        [task cancel];
     }];
 
     XCTAssertEqualObjects(_redirectRequestURL, endURL, @"Invalid redirect request URL");
@@ -401,5 +425,3 @@ static const NSTimeInterval kResponseTimeMaxDelay = 2.5;
 }
 
 @end
-
-#endif

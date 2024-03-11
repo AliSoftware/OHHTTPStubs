@@ -156,7 +156,7 @@
         XCTestExpectation* expectation = [self expectationWithDescription:@"NSURLSessionDataTask completed"];
 
         // Building the initial request.
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"foo://unknownhost:666/oldlocation"]];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://unknownhost:666/oldlocation"]];
         request.HTTPMethod = requestHTTPMethod;
         request.allHTTPHeaderFields = headers;
         if (requestBody)
@@ -527,7 +527,7 @@
         NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:nil];
 
         // setup for positive check
-        NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"stub://foo"]];
+        NSMutableURLRequest* requestWithBody = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://example.com/stub/foo"]];
         requestWithBody.HTTPBody = [expectedBodyString dataUsingEncoding:NSUTF8StringEncoding];
         [[session dataTaskWithRequest:requestWithBody] resume];
 
