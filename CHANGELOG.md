@@ -3,7 +3,7 @@
 ## Master
 
 * Set minimum iOS deployment version to 11.0 to fix [Xcode 14.3 compilation issue #358](https://github.com/AliSoftware/OHHTTPStubs/issues/358)  
-[@adamsousa](https://github.com/adamsousa)
+  [@adamsousa](https://github.com/adamsousa)
 * Update minimum deployment versions (iOS: 12.0, osx: 10.13, tvos: 12.0, watchos: 4.0).  
   [@AliSoftware](https://github.com/AliSoftware)
   [#368](https://github.com/AliSoftware/OHHTTPStubs/pull/368)
@@ -14,18 +14,20 @@
 ## [9.1.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.1.0)
 
 * Added `hasFormBody(_:)` matcher.  
-[@417-72KI](https://github.com/417-72KI)
-* Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager) #328
-[@kikeenrique](https://github.com/kikeenrique)
-* OHHTPStubs frameworks: Put Headers phase before Sources phase.
+  [@417-72KI](https://github.com/417-72KI)
+* Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager).  
+  [@kikeenrique](https://github.com/kikeenrique)
+  [#328](https://github.com/AliSoftware/OHHTTPStubs/pull/328)
+* OHHTPStubs frameworks: Put Headers phase before Sources phase.  
   [@byohay](https://github.com/byohay)
-* Export OHHTTPStubs from OHHTTPStubsSwift so that SwiftPM users don't need to import both of them #353 [@manicmaniac](https://github.com/manicmaniac)
+* Export OHHTTPStubs from OHHTTPStubsSwift so that SwiftPM users don't need to import both of them.  
+  [@manicmaniac](https://github.com/manicmaniac)
+  [#353](https://github.com/AliSoftware/OHHTTPStubs/pull/353)
 
 ## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
-* Added support for Swift Package Manager and dropped OH from all class names.    
+* Added support for Swift Package Manager and dropped OH from all class names.  
   [@jeffctown](https://github.com/jeffctown)
-
 
 ## [8.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/8.0.0)
 
