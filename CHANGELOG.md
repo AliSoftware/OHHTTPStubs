@@ -4,6 +4,12 @@
 
 * Set minimum iOS deployment version to 11.0 to fix [Xcode 14.3 compilation issue #358](https://github.com/AliSoftware/OHHTTPStubs/issues/358)  
   [@adamsousa](https://github.com/adamsousa)
+* OHHTTPStubs frameworks: Put Headers phase before Sources phase.  
+  [@byohay](https://github.com/byohay)
+  [#350](https://github.com/AliSoftware/OHHTTPStubs/pull/350)
+* Export OHHTTPStubs from OHHTTPStubsSwift so that SwiftPM users don't need to import both of them.  
+  [@manicmaniac](https://github.com/manicmaniac)
+  [#353](https://github.com/AliSoftware/OHHTTPStubs/pull/353)
 * Update minimum deployment versions (iOS: 12.0, osx: 10.13, tvos: 12.0, watchos: 4.0).  
   [@AliSoftware](https://github.com/AliSoftware)
   [#368](https://github.com/AliSoftware/OHHTTPStubs/pull/368)
@@ -18,11 +24,6 @@
 * Added fix for Xcode 12 - Warnings related to iOS 8 support (Swift Package Manager).  
   [@kikeenrique](https://github.com/kikeenrique)
   [#328](https://github.com/AliSoftware/OHHTTPStubs/pull/328)
-* OHHTPStubs frameworks: Put Headers phase before Sources phase.  
-  [@byohay](https://github.com/byohay)
-* Export OHHTTPStubs from OHHTTPStubsSwift so that SwiftPM users don't need to import both of them.  
-  [@manicmaniac](https://github.com/manicmaniac)
-  [#353](https://github.com/AliSoftware/OHHTTPStubs/pull/353)
 
 ## [9.0.0](https://github.com/AliSoftware/OHHTTPStubs/releases/tag/9.0.0)
 
